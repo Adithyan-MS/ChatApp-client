@@ -1,0 +1,22 @@
+.nav{
+    display: flex;
+    height: 80px;
+    background-color: rgb(72, 104, 50);
+    flex-wrap: wrap;
+}
+.left{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.right{
+    flex: 2;
+    height: 100%;
+}
+.nav-title{
+    color: white;
+    font-size: 40px;
+    text-align: center;
+}
