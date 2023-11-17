@@ -1,1 +1,20 @@
-<p>login works!</p>
+<div class="login">
+    <div class="container">
+        <div class="login-title">
+            <span>Login</span>
+        </div>
+        <hr style="width: 80%; color:gray">
+        <form action="" class="login-form">
+            <div class="form-item">
+                <label class="" for="username">Username:</label>
+                <input type="text" class="login-input" id="username">
+            </div>
+            <div class="form-item">
+                <label class="" for="password">Password:</label>
+                <input type="password" class="login-input" id="password">
+            </div>
+            <p>Create Account?<a [routerLink]="'/register'" href="">Register</a></p>
+            <button>login</button>
+        </form>
+    </div>
+</div>

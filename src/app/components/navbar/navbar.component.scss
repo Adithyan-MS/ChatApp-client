@@ -1,7 +1,7 @@
 .nav{
     display: flex;
     height: 80px;
-    background-color: rgb(72, 104, 50);
+    background-color: rgb(147, 122, 167);
     flex-wrap: wrap;
 }
 .left{
@@ -14,9 +14,22 @@
 .right{
     flex: 2;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }
 .nav-title{
     color: white;
     font-size: 40px;
     text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+}
+.nav-items{
+    color: white;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: flex;
+    gap: 25px;
+    margin-right: 20px;
 }
