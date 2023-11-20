@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./components/navbar/navbar.component";
@@ -10,6 +10,6 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
     styleUrls: ['./app.component.scss'],
     imports: [CommonModule, RouterOutlet, NavbarComponent]
 })
-export class AppComponent {
-  title = 'chatApp-client';
+export class AppComponent{
+  
 }

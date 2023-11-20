@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,Input,EventEmitter,Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -10,5 +10,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-
+  
 }
