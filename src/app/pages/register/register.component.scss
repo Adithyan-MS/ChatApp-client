@@ -6,7 +6,7 @@
     justify-content: center;
 }
 .container{
-    height: 92%;
+    height: 90%;
     width: 45%;
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);
     display: flex;
@@ -27,7 +27,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     height: 75%;
     margin: 10px;
 }
@@ -49,7 +49,7 @@ input{
     border: none;
     font-size: 20px;
     width: 300px;
-    height: 40px;
+    height: 35px;
     border: 1px solid rgb(179, 174, 174);
 }
 p{
@@ -71,4 +71,11 @@ button{
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);
     cursor: pointer;
     color: white;
+}
+.form-bottom{
+    margin-top: -20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center
 }

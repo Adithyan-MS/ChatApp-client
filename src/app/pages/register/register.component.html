@@ -4,25 +4,31 @@
             <span>Register</span>
         </div>
         <hr style="width: 80%; color:gray">
-        <form action="" class="register-form">
+        <form action="" class="register-form" [formGroup]="registerForm" (ngSubmit)="onFormSubmit(registerForm)">
             <div class="form-item">
                 <label class="" for="username">Username:</label>
-                <input type="text" class="register-input" id="username">
+                <input type="text" class="register-input" id="username" formControlName="username">
             </div>
             <div class="form-item">
                 <label class="" for="email">Email:</label>
-                <input type="email" class="register-input" id="email">
+                <input type="email" class="register-input" id="email" formControlName="email">
             </div>
             <div class="form-item">
                 <label class="" for="phoneNumber">PhoneNumber:</label>
-                <input type="number" class="register-input" id="phoneNumber">
+                <input type="text" class="register-input" id="phoneNumber" formControlName="phonenumber">
             </div>
             <div class="form-item">
                 <label class="" for="password">Password:</label>
-                <input type="password" class="register-input" id="password">
+                <input type="password" class="register-input" id="password" formControlName="password">
             </div>
-            <p>Already have an account?<a [routerLink]="'/login'" href="">Login</a></p>
-            <button>Register</button>
+            <div class="form-item">
+                <label class="" for="confirmPassword">Confirm Password:</label>
+                <input type="password" class="register-input" id="confirmPassword" formControlName="confirmPassword">
+            </div>
+            <div class="form-bottom">
+                <p>Already have an account?<a [routerLink]="'/login'" href="">Login</a></p>
+                <button type="submit">Register</button>
+            </div>
         </form>
     </div>
 </div>
