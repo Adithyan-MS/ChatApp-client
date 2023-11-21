@@ -19,15 +19,14 @@ export class RegisterComponent implements OnInit{
     this.registerForm = this.fb.group({
       username:['',[Validators.required,Validators.maxLength(15),Validators.minLength(3)]],
       email:['',[Validators.required,Validators.email]],
-      phonenumber:['',[Validators.required,Validators.pattern]],
-      password:['',[Validators.required,Validators.minLength(4)]],
-      confirmPassword:['',[Validators.required,Validators.minLength(4)]]
+      phonenumber:['',[Validators.required,Validators.pattern("^[0-9]{10}$")]],
+      password:['',[Validators.required,Validators.pattern("(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}")]],
+      confirmPassword:['',[Validators.required]]
     })
   }
 
   onFormSubmit(form:FormGroup){
     console.log(form);
-
   }
 
 }
