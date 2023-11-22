@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ApiService } from '../../api.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class LoginComponent implements OnInit{
   loginForm:FormGroup;
 
-  constructor(private fb: FormBuilder){}
+  constructor(private fb: FormBuilder,private api:ApiService){}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -22,7 +23,25 @@ export class LoginComponent implements OnInit{
     })
   }
 
-  onFormSubmit(form:FormGroup){
-    console.log(form);
+  onFormSubmit(){
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const formValues = this.loginForm.getRawValue();
+
+    const userData={
+      username:formValues.username,
+      password:formValues.password
+    }
+    
+    const apiUrl = "http://localhost:8080/chatApi/v1/auth/login"
+    
+    this.api.postReturn(apiUrl,userData).subscribe((data)=>{
+      console.log(data);
+    },(error)=>{
+      console.log(error["error"]);
+    })
   }
 }
+

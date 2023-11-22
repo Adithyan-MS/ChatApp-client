@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ApiService } from '../../api.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class RegisterComponent implements OnInit{
   registerForm:FormGroup;
 
-  constructor(private fb: FormBuilder){}
+  submitted:boolean = false;
+
+  constructor(private fb: FormBuilder,private api:ApiService){}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -25,8 +28,34 @@ export class RegisterComponent implements OnInit{
     })
   }
 
-  onFormSubmit(form:FormGroup){
-    console.log(form);
+  onFormSubmit(){
+
+    this.submitted = true;
+
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched;
+      return;
+    }
+
+    const formValues = this.registerForm.getRawValue();
+
+    const userData={
+      name:formValues.username,
+      password:formValues.password,
+      email:formValues.email,
+      phone_number:formValues.phonenumber
+    }
+
+    const apiUrl = "http://localhost:8080/chatApi/v1/auth/register"
+    
+    this.api.postReturn(apiUrl,userData).subscribe((data)=>{
+      console.log(data);
+    },(error)=>{
+      console.log(error["error"]);
+    })
+
+    this.submitted = false;
+
   }
 
 }

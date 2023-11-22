@@ -4,12 +4,12 @@
             <span>Register</span>
         </div>
         <hr style="width: 80%; color:gray">
-        <form action="" class="register-form" [formGroup]="registerForm" (ngSubmit)="onFormSubmit(registerForm)">
+        <form action="" class="register-form" [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
             <div class="form-items">
                 <label class="" for="username">Username:</label>
                 <div class="item">
                     <input type="text" class="register-input" id="username" formControlName="username">
-                    @if(registerForm.controls["username"].invalid && registerForm.controls["username"].dirty || registerForm.controls["username"].touched){
+                    @if(submitted && registerForm.controls["username"].invalid && registerForm.controls["username"].dirty || registerForm.controls["username"].touched){
                         <div class="item-error">
                             @if(registerForm.controls["username"].errors?.['required']){
                                 This field is required.
