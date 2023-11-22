@@ -1,5 +1,5 @@
 .register{
-    height:87%;
+    height:88%;
     background-color: azure;
     display: flex;
     align-items: center;
@@ -25,20 +25,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     gap: 10px;
     height: 100%;
+    margin: 10px;
 }
-.form-item{
+.form-items{
+    height: 50px;
     width: 80%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: start;
     justify-content: space-between;
 }
 .item{
     display: flex;
-    width: 100%;
-    justify-content: space-between;
+    flex-direction: column;
 }
 .item-error{
     display: flex;
@@ -82,6 +84,7 @@ button{
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);
     cursor: pointer;
     color: white;
+    margin-top: -10px;
 }
 .form-bottom{
     margin-top: -10px;
@@ -89,4 +92,60 @@ button{
     display: flex;
     flex-direction: column;
     align-items: center
+}
+.password-error{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    align-items: end;
+    height: 15px;
+}
+.password-error-items{
+    display: flex;
+    gap: 5px;
+}
+
+@media screen and (max-width: 1200px) {
+    .form-items{
+        flex-direction: column;
+    }
+    .item{
+        width: 100%;
+    }
+    input{
+        width: 100%;
+    }
+    .container{
+        height: 90%;
+    }
+}
+@media screen and (max-width: 900px) {
+    .container{
+        width: 60%;
+    }
+    .form-items{
+        flex-direction: column;
+    }
+    .item{
+        width: 100%;
+    }
+    input{
+        width: 100%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .container{
+        width: 100%;
+        height: 100%;
+    }
+    .form-items{
+        flex-direction: column;
+    }
+    .item{
+        width: 100%;
+    }
+    input{
+        width: 100%;
+    }
 }

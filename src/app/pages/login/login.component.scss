@@ -7,7 +7,7 @@
 }
 .container{
     height: 65%;
-    width: 45%;
+    width: 40%;
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);
     display: flex;
     flex-direction: column;
@@ -31,10 +31,25 @@
     height: 70%;
     margin: 10px;
 }
-.form-item{
+.form-items{
+    height: 50px;
     width: 75%;
     display: flex;
+    flex-direction: row;
+    align-items: start;
     justify-content: space-between;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.item-error{
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    color: rgb(240, 43, 17);
+    font-size: small;
 }
 label{
     font-size: 18px;
@@ -71,11 +86,67 @@ button{
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);
     cursor: pointer;
     color: white;
+    margin-top: -10px;
 }
 .form-bottom{
-    margin-top: -20px;
+    margin-top: -10px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center
+}
+.password-error{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    align-items: end;
+    height: 15px;
+}
+.password-error-items{
+    display: flex;
+    gap: 5px;
+}
+@media screen and (max-width: 1200px) {
+    .form-items{
+        flex-direction: column;
+    }
+    .item{
+        width: 100%;
+    }
+    input{
+        width: 100%;
+    }
+    .container{
+        height: 70%;
+    }
+}
+@media screen and (max-width: 900px) {
+    .container{
+        width: 60%;
+    }
+    .form-items{
+        flex-direction: column;
+    }
+    .item{
+        width: 100%;
+    }
+    input{
+        width: 100%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .container{
+        width: 100%;
+        height: 100%;
+    }
+    .form-items{
+        flex-direction: column;
+    }
+    .item{
+        width: 100%;
+    }
+    input{
+        width: 100%;
+    }
 }

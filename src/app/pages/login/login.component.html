@@ -4,14 +4,45 @@
             <span>Login</span>
         </div>
         <hr style="width: 80%; color:gray">
-        <form action="" class="login-form">
-            <div class="form-item">
+        <form [formGroup]="loginForm" action="" class="login-form" (ngSubmit)="onFormSubmit(loginForm)">
+            <div class="form-items">
                 <label class="" for="username">Username:</label>
-                <input type="text" class="login-input" id="username">
+                <div class="item">
+                <input type="text" class="login-input" id="username" formControlName="username">
+                @if(loginForm.controls["username"].invalid && loginForm.controls["username"].dirty || loginForm.controls["username"].touched){
+                    <div class="item-error">
+                        @if(loginForm.controls["username"].errors?.['required']){
+                            This field is required.
+                        }@else if (loginForm.controls["username"].errors?.['minlength']) {
+                            Minimum length must be > 3.
+                        }@else if (loginForm.controls["username"].errors?.['maxlength']) {
+                            Maximum length must be < 15.
+                        }
+                    </div>
+                }
+                </div>
             </div>
-            <div class="form-item">
+            <div class="form-items">
                 <label class="" for="password">Password:</label>
-                <input type="password" class="login-input" id="password">
+                <div class="item">
+                    <input type="password" class="login-input" id="password" formControlName="password">
+                    @if(loginForm.controls["password"].invalid && loginForm.controls["password"].dirty || loginForm.controls["password"].touched){
+                        <div class="item-error alert">
+                            @if(loginForm.controls["password"].errors?.['required']){
+                                This field is required.
+                            }@else if (loginForm.controls["password"].errors?.['pattern']) {
+                                <div class="password-error">
+                                    <span>PLEASE FOLLOW THE PATTERN:</span><hr>
+                                    <div class="password-error-items">
+                                        <span>length > 8,</span>
+                                        <span>Capital Letters,</span>
+                                        <span>Special Charaters</span>
+                                    </div>
+                                </div>                            
+                            }
+                        </div>
+                    }
+                </div>
             </div>
             <div class="form-bottom">
                 <p>Create Account?<a [routerLink]="'/register'" href="">Register</a></p>
