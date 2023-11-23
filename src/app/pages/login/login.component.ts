@@ -49,8 +49,7 @@ export class LoginComponent implements OnInit{
       this.loginSuccess = true;
       this.loginForm.reset();
     },(error)=>{
-      // this.errorMessage = error["error"].message;
-      this.errorMessage = "Invalid Username or Password!";
+      this.errorMessage = error["error"].message;
       this.loginSuccess = false;
     })
 
