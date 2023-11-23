@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit{
     this.submitted = true;
 
     if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched;
+      this.registerForm.markAllAsTouched();
       return;
     }
 

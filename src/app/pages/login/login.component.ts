@@ -14,6 +14,8 @@ import { ApiService } from '../../api.service';
 export class LoginComponent implements OnInit{
   loginForm:FormGroup;
 
+  submitted:boolean = false;
+
   constructor(private fb: FormBuilder,private api:ApiService){}
 
   ngOnInit(): void {
@@ -24,7 +26,11 @@ export class LoginComponent implements OnInit{
   }
 
   onFormSubmit(){
+
+    this.submitted = true;
+
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
