@@ -1,24 +1,36 @@
 <div class="register">
     <div class="container">
-        <div class="register-title">
+        <!-- <div class="register-title">
             <span>Register</span>
+        </div> -->
+        <div class="register-top">
+            <span class="register-title">Register</span>
+            <div class="register-status">
+                @if(!registerSuccess){
+                    @if (errorMessage) {
+                        {{errorMessage}}
+                    }
+                }
+                </div>
         </div>
-        <hr style="width: 80%; color:gray">
+        <hr style="width: 80%; color:gray" class="register-hline">
         <form action="" class="register-form" [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
             <div class="form-items">
                 <label class="" for="username">Username:</label>
                 <div class="item">
                     <input type="text" class="register-input" id="username" formControlName="username">
-                    @if(submitted && registerForm.controls["username"].invalid && registerForm.controls["username"].dirty || registerForm.controls["username"].touched){
-                        <div class="item-error">
-                            @if(registerForm.controls["username"].errors?.['required']){
-                                This field is required.
-                            }@else if (registerForm.controls["username"].errors?.['minlength']) {
-                                Minimum length must be > 3
-                            }@else if (registerForm.controls["username"].errors?.['maxlength']) {
-                                Maximum length must be < 15
-                            }
-                        </div>
+                    @if(submitted){
+                        @if(registerForm.controls["username"].invalid && registerForm.controls["username"].dirty || registerForm.controls["username"].touched){
+                            <div class="item-error">
+                                @if(registerForm.controls["username"].errors?.['required']){
+                                    This field is required.
+                                }@else if (registerForm.controls["username"].errors?.['minlength']) {
+                                    Minimum length must be > 3
+                                }@else if (registerForm.controls["username"].errors?.['maxlength']) {
+                                    Maximum length must be < 15
+                                }
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -26,14 +38,16 @@
                 <label class="" for="email">Email:</label>
                 <div class="item">
                     <input type="email" class="register-input" id="email" formControlName="email">
-                    @if(registerForm.controls["email"].invalid && registerForm.controls["email"].dirty || registerForm.controls["email"].touched){
-                        <div class="item-error">
-                            @if(registerForm.controls["email"].errors?.['required']){
-                                This field is required.
-                            }@else if (registerForm.controls["email"].errors?.['email']) {
-                                Enter a valid Email!
-                            }
-                        </div>
+                    @if(submitted){
+                        @if(registerForm.controls["email"].invalid && registerForm.controls["email"].dirty || registerForm.controls["email"].touched){
+                            <div class="item-error">
+                                @if(registerForm.controls["email"].errors?.['required']){
+                                    This field is required.
+                                }@else if (registerForm.controls["email"].errors?.['email']) {
+                                    Enter a valid Email!
+                                }
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -41,14 +55,16 @@
                 <label class="" for="phoneNumber">PhoneNumber:</label>
                 <div class="item">
                     <input type="text" class="register-input" id="phoneNumber" formControlName="phonenumber">
-                    @if(registerForm.controls["phonenumber"].invalid && registerForm.controls["phonenumber"].dirty || registerForm.controls["phonenumber"].touched){
-                        <div class="item-error">
-                            @if(registerForm.controls["phonenumber"].errors?.['required']){
-                                This field is required.
-                            }@else if (registerForm.controls["phonenumber"].errors?.['pattern']) {
-                                Enter a valid Phonenumber!
-                            }
-                        </div>
+                    @if(submitted){
+                        @if(registerForm.controls["phonenumber"].invalid && registerForm.controls["phonenumber"].dirty || registerForm.controls["phonenumber"].touched){
+                            <div class="item-error">
+                                @if(registerForm.controls["phonenumber"].errors?.['required']){
+                                    This field is required.
+                                }@else if (registerForm.controls["phonenumber"].errors?.['pattern']) {
+                                    Enter a valid Phonenumber!
+                                }
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -56,21 +72,23 @@
                 <label class="" for="password">Password:</label>
                 <div class="item">
                     <input type="password" class="register-input" id="password" formControlName="password">
-                    @if(registerForm.controls["password"].invalid && registerForm.controls["password"].dirty || registerForm.controls["password"].touched){
-                        <div class="item-error">
-                            @if(registerForm.controls["password"].errors?.['required']){
-                                This field is required.
-                            }@else if (registerForm.controls["password"].errors?.['pattern']) {
-                                <div class="password-error">
-                                    <span>PLEASE FOLLOW THE PATTERN:</span><hr>
-                                    <div class="password-error-items">
-                                        <span>length > 8,</span>
-                                        <span>Capital Letters,</span>
-                                        <span>Special Charaters</span>
+                    @if(submitted){
+                        @if(registerForm.controls["password"].invalid && registerForm.controls["password"].dirty || registerForm.controls["password"].touched){
+                            <div class="item-error">
+                                @if(registerForm.controls["password"].errors?.['required']){
+                                    This field is required.
+                                }@else if (registerForm.controls["password"].errors?.['pattern']) {
+                                    <div class="password-error">
+                                        <span>PLEASE FOLLOW THE PATTERN:</span><hr>
+                                        <div class="password-error-items">
+                                            <span>length > 8,</span>
+                                            <span>Capital Letters,</span>
+                                            <span>Special Charaters</span>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        </div>
+                                }
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -78,14 +96,16 @@
                 <label class="" for="confirmPassword">Confirm Password:</label>
                 <div class="item">
                     <input type="password" class="register-input" id="confirmPassword" formControlName="confirmPassword">
-                    @if(registerForm.controls["confirmPassword"].invalid && registerForm.controls["confirmPassword"].dirty || registerForm.controls["confirmPassword"].touched){
-                        <div class="item-error">
-                            @if(registerForm.controls["confirmPassword"].errors?.['required']){
-                                This field is required.
-                            }@else if (registerForm.controls["confirmPassword"].value != registerForm.controls["password"].value) {
-                                Password does'nt Match!
-                            }
-                        </div>
+                    @if(submitted){
+                        @if(registerForm.controls["confirmPassword"].invalid && registerForm.controls["confirmPassword"].dirty || registerForm.controls["confirmPassword"].touched){
+                            <div class="item-error">
+                                @if(registerForm.controls["confirmPassword"].errors?.['required']){
+                                    This field is required.
+                                }@else if (registerForm.controls["confirmPassword"].value != registerForm.controls["password"].value) {
+                                    Password does'nt Match!
+                                }
+                            </div>
+                        }
                     }
                 </div>
             </div>
