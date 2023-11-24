@@ -15,7 +15,7 @@ export const routes: Routes = [
         title:"Register | ChatApp"
     },
     {
-        path:"",
+        path:"home",
         component:HomeComponent,
         title:"Home | ChatApp"
     }

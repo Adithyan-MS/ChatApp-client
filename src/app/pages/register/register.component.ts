@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../api.service';
+import { RegisterData } from './register-data';
  
 @Component({
   selector: 'app-register',
@@ -18,7 +19,7 @@ export class RegisterComponent implements OnInit{
   registerSuccess:boolean;
   errorMessage:string;
  
-  constructor(private fb: FormBuilder,private api:ApiService){}
+  constructor(private fb: FormBuilder,private api:ApiService,private router: Router){}
  
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -41,7 +42,7 @@ export class RegisterComponent implements OnInit{
  
     const formValues = this.registerForm.getRawValue();
  
-    const userData={
+    const userData: RegisterData={
       name:formValues.username,
       password:formValues.password,
       email:formValues.email,
@@ -54,6 +55,7 @@ export class RegisterComponent implements OnInit{
       console.log(data);
       this.registerSuccess = true;
       this.registerForm.reset();
+      this.router.navigate(['login'])
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.registerSuccess = false;

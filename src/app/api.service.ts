@@ -9,7 +9,11 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   postReturn(apiUrl: string, requestBody: any | null, options?: any){
-    return this.http.post(apiUrl,requestBody)
+    return this.http.post<any>(apiUrl,requestBody)
   }
 
+  getReturn(apiUrl: string, options?: any){
+    return this.http.get<any>(apiUrl)
+  }
+ 
 }

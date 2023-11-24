@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../api.service';
+import { LoginData } from './login-data';
+import { AuthResponse } from '../../models/auth-response';
  
 @Component({
   selector: 'app-login',
@@ -18,7 +20,7 @@ export class LoginComponent implements OnInit{
   loginSuccess:boolean;
   errorMessage:string;
   
-  constructor(private fb: FormBuilder,private api:ApiService){}
+  constructor(private fb: FormBuilder,private api:ApiService,private router:Router){}
  
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -37,17 +39,20 @@ export class LoginComponent implements OnInit{
  
     const formValues = this.loginForm.getRawValue();
  
-    const userData={
+    const userData: LoginData={
       username:formValues.username,
       password:formValues.password
     }
    
     const apiUrl = "http://localhost:8080/chatApi/v1/auth/login"
    
-    this.api.postReturn(apiUrl,userData).subscribe((data)=>{
-      console.log(data);
+    this.api.postReturn(apiUrl,userData).subscribe((data: AuthResponse)=>{
+      const jwtToken:string = data.token;
+      localStorage.setItem("token",jwtToken)
       this.loginSuccess = true;
       this.loginForm.reset();
+      console.log("Login Success:)");
+      this.router.navigate(['home'])
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.loginSuccess = false;
