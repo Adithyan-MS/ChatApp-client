@@ -1,9 +1,19 @@
 <div class="register">
     <div class="container">
-        <div class="register-title">
+        <!-- <div class="register-title">
             <span>Register</span>
+        </div> -->
+        <div class="register-top">
+            <span class="register-title">Register</span>
+            <div class="register-status">
+                @if(!registerSuccess){
+                    @if (errorMessage) {
+                        {{errorMessage}}
+                    }
+                }
+                </div>
         </div>
-        <hr style="width: 80%; color:gray">
+        <hr style="width: 80%; color:gray" class="register-hline">
         <form action="" class="register-form" [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
             <div class="form-items">
                 <label class="" for="username">Username:</label>
@@ -86,17 +96,14 @@
                 <label class="" for="confirmPassword">Confirm Password:</label>
                 <div class="item">
                     <input type="password" class="register-input" id="confirmPassword" formControlName="confirmPassword">
-                    @if(submitted){
-                        @if(registerForm.controls["confirmPassword"].invalid && registerForm.controls["confirmPassword"].dirty || registerForm.controls["confirmPassword"].touched){
-                            <div class="item-error">
-                                @if(registerForm.controls["confirmPassword"].errors?.['required']){
-                                    This field is required.
-                                }@else if (registerForm.controls["confirmPassword"].value != registerForm.controls["password"].value) {
-                                    Password does'nt Match!
-                                }
-                            </div>
-
-                        }
+                    @if(registerForm.controls["confirmPassword"].invalid && registerForm.controls["confirmPassword"].dirty || registerForm.controls["confirmPassword"].touched){
+                        <div class="item-error">
+                            @if(registerForm.controls["confirmPassword"].errors?.['required']){
+                                This field is required.
+                            }@else if (registerForm.controls["confirmPassword"].value != registerForm.controls["password"].value) {
+                                Password does'nt Match!
+                            }
+                        </div>
                     }
                 </div>
             </div>

@@ -1,9 +1,16 @@
 <div class="login">
     <div class="container">
-        <div class="login-title">
-            <span>Login</span>
+        <div class="login-top">
+            <span class="login-title">Login</span>
+            <div class="login-status">
+                @if(!loginSuccess){
+                    @if (errorMessage) {
+                        {{errorMessage}}
+                    }
+                }
+            </div>
         </div>
-        <hr style="width: 80%; color:gray">
+        <hr style="width: 80%; color:gray" class="login-hline">
         <form [formGroup]="loginForm" action="" class="login-form" (ngSubmit)="onFormSubmit()">
             <div class="form-items">
                 <label class="" for="username">Username:</label>
@@ -18,7 +25,8 @@
                                 Minimum length must be > 3.
                             }@else if (loginForm.controls["username"].errors?.['maxlength']) {
                                 Maximum length must be < 15.
-                            }
+
+                            }   
                         </div>
                     }
                 }
