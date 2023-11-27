@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../services/api.service';
 import { LoginData } from './login-data';
 import { AuthResponse } from '../../models/auth-response';
+import { parse } from 'path';
+import { environment } from '../../../environments/environment.development';
  
 @Component({
   selector: 'app-login',
@@ -44,20 +46,19 @@ export class LoginComponent implements OnInit{
       password:formValues.password
     }
    
-    const apiUrl = "http://localhost:8080/chatApi/v1/auth/login"
-   
-    this.api.postReturn(apiUrl,userData).subscribe((data: AuthResponse)=>{
-      const jwtToken:string = data.token;
-      localStorage.setItem("token",jwtToken)
+    this.api.postReturn(`${environment.BASE_API_URL}/auth/login`,userData).subscribe((data: AuthResponse)=>{
       this.loginSuccess = true;
       this.loginForm.reset();
-      console.log("Login Success:)");
+      const jwtToken:string = data.token;
+      localStorage.setItem("token",jwtToken)
+      this.api.getReturn(`${environment.BASE_API_URL}/user/${userData.username}`).subscribe((data)=>{
+        localStorage.setItem("user",JSON.stringify(data))
+      })
       this.router.navigate(['home'])
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.loginSuccess = false;
     })
-
     this.submitted = false;
   }
 }

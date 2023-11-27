@@ -29,6 +29,28 @@
     color: white;
     font-size: 20px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 25px;
-    margin-right: 20px;
+    margin-right: 100px;
+}
+.nav-item{
+    cursor: pointer;
+}
+.nav-user{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.nav-user > img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+.logout-button{
+    border-radius: 5%;
+    border: none;
+    height: 30px;
+    cursor: pointer;
 }
