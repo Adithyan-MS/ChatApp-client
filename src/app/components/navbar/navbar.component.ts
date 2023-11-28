@@ -4,8 +4,6 @@ import { Router, RouterModule } from '@angular/router';
 import { User } from '../../models/user';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment.development';
-import { error } from 'console';
-import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -17,7 +15,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class NavbarComponent implements OnInit{
   username:string|null
-  profilePic:string
+  profilePic:string|null
   user:User | any
   constructor(private router: Router,private api:ApiService){
     
@@ -25,15 +23,14 @@ export class NavbarComponent implements OnInit{
   
   ngOnInit(): void {
     this.router.events.subscribe((value: any)=>{
-      if(value.url){
-        console.log(value.url);
-        
+      if(value.url){        
         if(localStorage.getItem("user")){
-          this.user = localStorage.getItem("user");    
+          this.user = localStorage.getItem("user");
           this.username = JSON.parse(this.user).name;
-          this.profilePic = JSON.parse(this.user).profilePic
+          this.profilePic = `${environment.BASE_API_URL}/user/image/${JSON.parse(this.user).profilePic}`;
         }else{
           this.username=null
+          this.profilePic=null
         }
       }
     })
