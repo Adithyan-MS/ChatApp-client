@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiService } from '../../api.service';
-import { RegisterData } from '../../models/register-data';
+import { ApiService } from '../../services/api.service';
+import { User } from '../../models/user';
+import { environment } from '../../../environments/environment.development';
  
 @Component({
   selector: 'app-register',
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit{
   registerSuccess:boolean;
   errorMessage:string;
  
-  constructor(private fb: FormBuilder,private api:ApiService){}
+  constructor(private fb: FormBuilder,private api:ApiService,private router: Router){}
  
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -42,19 +43,18 @@ export class RegisterComponent implements OnInit{
  
     const formValues = this.registerForm.getRawValue();
  
-    const userData :RegisterData={
-      name:formValues.username,
-      password:formValues.password,
-      email:formValues.email,
-      phone_number:formValues.phonenumber
+    const userData: User={
+      name: formValues.username,
+      password: formValues.password,
+      email: formValues.email,
+      phone_number: formValues.phonenumber
     }
- 
-    const apiUrl = "http://localhost:8080/chatApi/v1/auth/register"
    
-    this.api.postReturn(apiUrl,userData).subscribe((data)=>{
+    this.api.postReturn(`${environment.BASE_API_URL}/auth/register`,userData).subscribe((data)=>{
       console.log(data);
       this.registerSuccess = true;
       this.registerForm.reset();
+      this.router.navigate(['login'])
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.registerSuccess = false;

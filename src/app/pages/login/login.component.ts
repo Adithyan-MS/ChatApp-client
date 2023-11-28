@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiService } from '../../api.service';
-import { LoginData } from '../../models/login-data';
+import { ApiService } from '../../services/api.service';
+import { LoginData } from './login-data';
+import { AuthResponse } from '../../models/auth-response';
+import { parse } from 'path';
+import { environment } from '../../../environments/environment.development';
  
 @Component({
   selector: 'app-login',
@@ -19,7 +22,7 @@ export class LoginComponent implements OnInit{
   loginSuccess:boolean;
   errorMessage:string;
   
-  constructor(private fb: FormBuilder,private api:ApiService){}
+  constructor(private fb: FormBuilder,private api:ApiService,private router:Router){}
  
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -45,15 +48,23 @@ export class LoginComponent implements OnInit{
    
     const apiUrl = "http://localhost:8080/chatApi/v1/auth/login"
    
-    this.api.postReturn(apiUrl,userData).subscribe((data)=>{
-      console.log(data);      
+    this.api.postReturn(apiUrl,userData).subscribe((data: any)=>{
+      console.log(data);
       this.loginSuccess = true;
       this.loginForm.reset();
+      const jwtToken:string = data.token;
+      localStorage.setItem("token",jwtToken)
+      this.api.getReturn(`${environment.BASE_API_URL}/user/${userData.username}`).subscribe((data)=>{
+        localStorage.setItem("user",JSON.stringify(data))        
+        this.router.navigate(['home'])
+      },(error)=>{
+        this.errorMessage = error["error"].message;
+        this.loginSuccess = false;
+      })
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.loginSuccess = false;
     })
-
     this.submitted = false;
   }
 }

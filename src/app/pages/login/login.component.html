@@ -15,9 +15,10 @@
             <div class="form-items">
                 <label class="" for="username">Username:</label>
                 <div class="item">
-                <input type="text" class="login-input" id="username" formControlName="username">
-                @if(submitted){
-                    @if(loginForm.controls["username"].invalid && loginForm.controls["username"].dirty || loginForm.controls["username"].touched){
+                    <input type="text" class="login-input" id="username" formControlName="username">
+                    @if(submitted){
+                        @if(loginForm.controls["username"].invalid && loginForm.controls["username"].dirty ||
+                        loginForm.controls["username"].touched){
                         <div class="item-error">
                             @if(loginForm.controls["username"].errors?.['required']){
                                 This field is required.
@@ -25,7 +26,6 @@
                                 Minimum length must be > 3.
                             }@else if (loginForm.controls["username"].errors?.['maxlength']) {
                                 Maximum length must be < 15.
-
                             }   
                         </div>
                     }
@@ -43,23 +43,24 @@
                                     This field is required.
                                 }@else if (loginForm.controls["password"].errors?.['pattern']) {
                                     <div class="password-error">
-                                        <span>PLEASE FOLLOW THE PATTERN:</span><hr>
+                                        <span>PLEASE FOLLOW THE PATTERN:</span>
+                                        <hr>
                                         <div class="password-error-items">
                                             <span>length > 8,</span>
                                             <span>Capital Letters,</span>
                                             <span>Special Charaters</span>
                                         </div>
-                                    </div>                            
+                                    </div>
                                 }
                             </div>
+                            }
                         }
-                    }
+                    </div>
                 </div>
-            </div>
-            <div class="form-bottom">
-                <p>Create Account?<a [routerLink]="'/register'" href="">Register</a></p>
-                <button>login</button>
-            </div>
+                <div class="form-bottom">
+                    <p>Create Account?<a [routerLink]="'/register'" href="">Register</a></p>
+                    <button>login</button>
+                </div>
         </form>
     </div>
 </div>

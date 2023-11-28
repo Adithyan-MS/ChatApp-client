@@ -1,5 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
+import { error } from 'console';
+import { Observable } from 'rxjs';
 
 @Component({
     selector:"app-home",
@@ -9,6 +12,12 @@ import { FormsModule } from '@angular/forms';
     styleUrl:'./home.component.scss'
 })
 
-export class HomeComponent{
-    posts:Array<string> = ["p1,p2,p3,p4,p5"]
+export class HomeComponent implements OnInit{
+
+    constructor(private api: ApiService){
+    }
+
+    ngOnInit(): void {
+
+    }
 }
