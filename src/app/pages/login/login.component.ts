@@ -46,15 +46,18 @@ export class LoginComponent implements OnInit{
       password:formValues.password
     }
    
-    this.api.postReturn(`${environment.BASE_API_URL}/auth/login`,userData).subscribe((data: AuthResponse)=>{
+    this.api.postReturn(`${environment.BASE_API_URL}/auth/login`,userData).subscribe((data:any)=>{
       this.loginSuccess = true;
       this.loginForm.reset();
       const jwtToken:string = data.token;
       localStorage.setItem("token",jwtToken)
       this.api.getReturn(`${environment.BASE_API_URL}/user/${userData.username}`).subscribe((data)=>{
-        localStorage.setItem("user",JSON.stringify(data))
+        localStorage.setItem("user",JSON.stringify(data))        
+        this.router.navigate(['home'])
+      },(error)=>{
+        this.errorMessage = error["error"].message;
+        this.loginSuccess = false;
       })
-      this.router.navigate(['home'])
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.loginSuccess = false;

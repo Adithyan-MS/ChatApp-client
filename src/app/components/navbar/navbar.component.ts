@@ -5,6 +5,8 @@ import { User } from '../../models/user';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment.development';
 import { error } from 'console';
+import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +16,7 @@ import { error } from 'console';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit{
-  username:string
+  username:string|null
   profilePic:string
   user:User | any
   constructor(private router: Router,private api:ApiService){
@@ -22,20 +24,30 @@ export class NavbarComponent implements OnInit{
   }
   
   ngOnInit(): void {
-    this.user = localStorage.getItem("user");
-    console.log(this.user);
+    this.router.events.subscribe((value: any)=>{
+      if(value.url){
+        console.log(value.url);
+        
+        if(localStorage.getItem("user")){
+          this.user = localStorage.getItem("user");    
+          this.username = JSON.parse(this.user).name;
+          this.profilePic = JSON.parse(this.user).profilePic
+        }else{
+          this.username=null
+        }
+      }
+    })
     
-    this.username = JSON.parse(this.user).name;
   }
   userLogout(){
-    this.api.postReturn(`${environment.BASE_API_URL}/auth/logout`,null).subscribe((data)=>{
+    const headers = new HttpHeaders().set('ResponseType', 'text');
+    this.api.postReturn(`${environment.BASE_API_URL}/auth/logout`,null,{headers}).subscribe((data:any)=>{
       console.log(data);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       this.router.navigate(["login"])
     },(error)=>{
-      console.log(error);
-      
+      console.log(error);      
     })
   }
   

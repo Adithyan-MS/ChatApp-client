@@ -3,10 +3,12 @@ import { CanActivateFn } from '@angular/router';
 import { Router } from 'express';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  if(localStorage.getItem("token")){
+
+  if(localStorage.getItem("token") && localStorage.getItem("token")){
+    console.log("in guard");
     return true;
-  }else{
-    const router = inject(Router)
-    return router.navigate(['login'])
   }
+    const router = inject(Router)
+    return router.navigate(['/']);
+  
 };

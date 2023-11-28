@@ -18,6 +18,7 @@ export const routes: Routes = [
     {
         path:"home",
         component:HomeComponent,
-        title:"Home | ChatApp"
+        title:"Home | ChatApp",
+        canActivate:[authGuard]
     }
 ];
