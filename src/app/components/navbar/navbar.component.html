@@ -5,11 +5,9 @@
         </div>
         <div class="right">
             <div class="nav-items">
-                <!-- <span class="nav-item">About</span>
-                <span class="nav-item">Settings</span> -->
                 @if(username){
                     <div class="nav-item nav-user">
-                        <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" alt="">
+                        <img [src]="profilePic!=null ? profilePic : 'https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI='" alt="">
                         <span>{{username}}</span>
                     </div>
                     <span class="nav-item" (click)="userLogout()">Logout</span>
