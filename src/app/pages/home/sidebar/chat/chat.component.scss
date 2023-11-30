@@ -1,0 +1,55 @@
+
+.items{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 70px;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.1);
+    border-radius: 5px;
+  }
+  .left{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding-left:10px;
+  }
+  .chat-image{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: contain;
+  }
+  .chat-name{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    height: 60%;
+  }
+  .name{
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .name-space{
+    flex: 1;
+  }
+  .last-message{
+    font-size: 14px;
+  }
+  .right{
+    display: flex;
+    flex-direction: column;
+    gap:7px;
+    padding-right: 10px;
+    font-size: 12px;
+    height: 60%;
+  }
+  .time{
+    flex: 1;
+}
+.count{
+    flex: 1;
+  }
