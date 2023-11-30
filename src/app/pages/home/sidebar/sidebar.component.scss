@@ -1,0 +1,65 @@
+.container{
+    height: 100%;
+    border: 0.5px solid rgb(68, 66, 66);
+    position: relative;
+    width: 100%;
+    background-color:#bdd9bf;
+    overflow: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    position: fixed;
+    background-color: #bdd9bf;
+    z-index: 999;
+    width: 30%;
+    
+}
+.top{
+    display: flex;
+    justify-content: space-between;
+    flex:2;
+    align-items: center;
+
+    padding: 10px;
+    
+}
+.chats{
+    font-size: 26px;
+    font-weight: 800;
+}
+.new{
+    font-size: 16px;
+    cursor: pointer;
+}
+.bottom{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 5px;   
+}
+.bottom > input{
+    width: 80%;
+    border: 0.5px solid gray;
+    font-size: 15px;
+    border-radius: 5px;
+}
+.chat{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    align-items: center;
+    top: 100px;
+    gap: 7px;
+}
+app-chat{
+    width: 98%;
+}
