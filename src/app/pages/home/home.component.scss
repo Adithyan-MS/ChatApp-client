@@ -1,10 +1,9 @@
-.form-area,
-.preview.area
-{
-    margin-top: 50px;
-    text-align: center;
+.home{
+    display: flex; 
 }
-
-.add-background{
-    background-color: aqua;
+app-sidebar{
+    flex: 1;
+}
+app-show-chat{
+    flex:2;
 }
