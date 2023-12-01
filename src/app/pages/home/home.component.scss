@@ -1,10 +1,11 @@
 .home{
     display: flex; 
-    height: 665px;
+    height: 590px;
 }
 app-sidebar{
-    width: 30%;
+    width: 25%;
+    border-right: 1px solid rgb(170, 168, 168);
 }
 app-show-chat{
-    width: 70%;
+    width: 75%;
 }

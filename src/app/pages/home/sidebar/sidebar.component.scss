@@ -1,12 +1,12 @@
 .container{
     height: 100%;
-    border: 0.5px solid rgb(68, 66, 66);
     position: relative;
     width: 100%;
     background-color:#bdd9bf;
     overflow: scroll;
     -ms-overflow-style: none; 
     scrollbar-width: none;
+    
 }
 .container::-webkit-scrollbar {
     display: none;
@@ -15,41 +15,47 @@
 .header{
     display: flex;
     flex-direction: column;
-    height: 100px;
-    position: fixed;
+    height: 85px;
     background-color: #bdd9bf;
+    align-items: center;
+    width: 100%;
     z-index: 999;
-    width: 30%;
-    
+    position: sticky;
+    border-right: 1px solid rgb(170, 168, 168);
+    top: 0;
 }
 .top{
     display: flex;
     justify-content: space-between;
-    flex:2;
+    width: 100%;
+    flex: 2;
     align-items: center;
-
-    padding: 10px;
+    border-bottom: 1px solid rgb(170, 168, 168);
     
 }
 .chats{
     font-size: 26px;
     font-weight: 800;
+    padding-left: 20px;
 }
 .new{
     font-size: 16px;
     cursor: pointer;
+    padding-right: 20px;
 }
 .bottom{
-    flex: 1;
     display: flex;
     justify-content: center;
     padding: 5px;   
+    width: 90%;
+    flex: 1;
 }
 .bottom > input{
     width: 80%;
     border: 0.5px solid gray;
     font-size: 15px;
     border-radius: 5px;
+    border: none;
 }
 .chat{
     display: flex;
@@ -58,8 +64,8 @@
     width: 100%;
     align-items: center;
     top: 100px;
-    gap: 7px;
+    gap: 5px;
 }
 app-chat{
-    width: 98%;
+    width: 95%;
 }
