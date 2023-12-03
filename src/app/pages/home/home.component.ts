@@ -1,8 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
-import { error } from 'console';
-import { Observable } from 'rxjs';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ShowChatComponent } from './show-chat/show-chat.component';
 
@@ -14,12 +11,5 @@ import { ShowChatComponent } from './show-chat/show-chat.component';
     styleUrl:'./home.component.scss'
 })
 
-export class HomeComponent implements OnInit{
-
-    constructor(private api: ApiService){
-    }
-
-    ngOnInit(): void {
-
-    }
+export class HomeComponent{
 }

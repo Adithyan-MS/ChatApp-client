@@ -5,14 +5,13 @@
     width: 100%;
     background-color:#bdd9bf;
     flex-direction: column;
-    
 }
 .header{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 50px;
+    height: 9%;
     position: sticky;
     background-color: #bdd9bf;
     border-bottom: 1px solid rgb(170, 168, 168);
@@ -30,10 +29,10 @@
     flex: 2;
   }
   .chat-image{
-    width: 45px;
-    height: 45px;
+    width: 47px;
+    height: 47px;
     border-radius: 50%;
-    object-fit: contain;
+    object-fit: cover;
     cursor: pointer;
 }
 .chat-name{
@@ -43,7 +42,7 @@
 }
 .name{
      cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 800;
   }
   .name-space{
@@ -68,14 +67,39 @@
   .view{
     background-color: rgb(223, 220, 220);
     width: 100%;
-    height: 500px;
+    height: 88%;
     box-shadow: inset 0 0 10px gray;
-  }
+    overflow: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.view::-webkit-scrollbar {
+  display: none;
+}
+.message-area{
+    width: 97%;
+    height: 97%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: scroll;
+    
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+.message-area::-webkit-scrollbar {
+  display: none;
+}
   .send-container{
-    height: 40px;
+    height: 7%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: sticky;
+    bottom: 0;
   }
   .send{
     width: 60%;
@@ -105,4 +129,12 @@
     border-radius: 5px;
     cursor: pointer;
     width: 70px;
+  }
+  .startChat{
+    text-align: center;
+    font-size: 25px;
+    position: absolute;
+    top: 45%;
+    left: 40%;
+    color: #49416d;
   }

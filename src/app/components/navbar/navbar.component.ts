@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { User } from '../../models/user';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
+import { User } from '../../models/data-types';
+import { AppService } from '../../services/app.service';
  
 @Component({
   selector: 'app-navbar',
@@ -17,7 +18,7 @@ export class NavbarComponent implements OnInit{
   username:string|null
   profilePic:string|null
   user:User | any
-  constructor(private router: Router,private api:ApiService){
+  constructor(private router: Router,private api:ApiService,private appService: AppService){
    
   }
  
@@ -27,7 +28,7 @@ export class NavbarComponent implements OnInit{
         if(localStorage.getItem("user")){
           this.user = localStorage.getItem("user");
           this.username = JSON.parse(this.user).name;
-          this.profilePic = `${environment.BASE_API_URL}/user/image/${JSON.parse(this.user).profilePic}`;
+          this.profilePic = this.appService.getImageUrl(JSON.parse(this.user).profilePic,"user");
         }else{
           this.username=null
           this.profilePic=null

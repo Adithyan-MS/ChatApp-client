@@ -1,0 +1,11 @@
+<div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}">
+    <div class="name">
+        <span>{{message.sender_name}}</span>
+    </div>
+    <div class="content">
+        <span>{{message.content}}</span>
+    </div>
+    <div class="time">
+        <span>{{sendTime}}</span>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+.container{
+    width:fit-content;
+    max-width: 50%;
+    background-color: rgb(112 82 136);
+    height: auto;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    position: relative;
+    color: white;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
+}
+.right{
+    background-color: #49416d;
+    float: right;
+}
+.right .name{
+    display: none;
+}
+.right .time{
+    left: 2px;
+}
+.name{
+    width: auto;
+    margin-bottom: -5px;
+    // color: #89b68c;
+}
+.name span{
+    font-size: 14px;
+    font-weight: 700;
+}
+.content span{
+    font-size: 14px;
+}
+.content{
+    min-height: 15px;
+    min-width: 50px;
+    width: auto;
+    margin-bottom: 5px;
+}
+.time{
+    position: absolute;
+    right: 2px;
+    bottom: 0px;
+}
+.time span{
+    font-size: 7px;
+}

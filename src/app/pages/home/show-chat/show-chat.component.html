@@ -1,24 +1,39 @@
 <div class="container">
-    <div class="header">
-        <div class="left">
-            <img src="https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg" class="chat-image">
-            <div class="chat-name">
-                <span class="name name-space">Adithyan</span>
-                <span class="last-message name-space">sdfew</span>
+    @if(showChat){
+        <div class="header">
+            <div class="left">
+                <img [src]="currentChatPic ? currentChatPic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
+                <div class="chat-name">
+                    <span class="name name-space">
+                        @if(currentChat){
+                            {{currentChat.name}}
+                        }
+                    </span>
+                    <span class="last-message name-space">sdfew</span>
+                </div>
+            </div>
+            <div class="right">
+                <i class="fa-solid fa-ellipsis-vertical more"></i>
             </div>
         </div>
-        <div class="right">
-            <i class="fa-solid fa-ellipsis-vertical more"></i>
-        </div>
-    </div>
-    <div class="view">
-    </div>
-    <div class="send-container">
-        <div class="send">
-            <div class="input">
-                <input type="text">
-                <button>Send</button>
+        <div class="view">
+            <div class="message-area">
+                @for(message of messageList; track message.id){
+                    <app-message class="" [message]="message"></app-message>
+                }
             </div>
         </div>
-    </div>
+        <div class="send-container">
+            <div class="send">
+                <div class="input">
+                    <input type="text">
+                    <button>Send</button>
+                </div>
+            </div>
+        </div>
+    }@else {
+        <div class="startChat">
+            <span>Start a new chat</span>
+        </div>
+    }
 </div>

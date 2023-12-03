@@ -10,6 +10,9 @@
     background-color: #49416d;
     color: white;
   }
+  .items:hover{
+    background-color: rgb(112 82 136);
+  }
   .left{
     display: flex;
     height: 100%;
@@ -22,7 +25,7 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    object-fit: contain;
+    object-fit: cover;
   }
   .chat-name{
     display: flex;
@@ -44,10 +47,11 @@
     flex-direction: column;
     gap:7px;
     padding-right: 10px;
-    font-size: 12px;
+    font-size: 10px;
     height: 60%;
   }
   .time{
+
     flex: 1;
 }
 .count{

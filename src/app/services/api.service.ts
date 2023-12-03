@@ -9,7 +9,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  postReturn(apiUrl: string, requestBody: any | null, options?: any){
+  postReturn(apiUrl: string, requestBody: any | null, options?: any):Observable<any>{
     return this.http.post<any>(apiUrl,requestBody,options)
   }
 

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-import { User } from '../../models/user';
 import { environment } from '../../../environments/environment.development';
+import { AuthResponse, User } from '../../models/data-types';
  
 @Component({
   selector: 'app-register',
@@ -50,8 +50,7 @@ export class RegisterComponent implements OnInit{
       phone_number: formValues.phonenumber
     }
    
-    this.api.postReturn(`${environment.BASE_API_URL}/auth/register`,userData).subscribe((data)=>{
-      console.log(data);
+    this.api.postReturn(`${environment.BASE_API_URL}/auth/register`,userData).subscribe((data:AuthResponse)=>{
       this.registerSuccess = true;
       this.registerForm.reset();
       this.router.navigate(['login'])

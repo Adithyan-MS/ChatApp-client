@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-import { LoginData } from './login-data';
-import { AuthResponse } from '../../models/auth-response';
-import { parse } from 'path';
 import { environment } from '../../../environments/environment.development';
+import { AuthResponse, LoginData, User } from '../../models/data-types';
  
 @Component({
   selector: 'app-login',
@@ -48,13 +46,13 @@ export class LoginComponent implements OnInit{
    
     const apiUrl = "http://localhost:8080/chatApi/v1/auth/login"
    
-    this.api.postReturn(apiUrl,userData).subscribe((data: any)=>{
+    this.api.postReturn(apiUrl,userData).subscribe((data:AuthResponse)=>{
       console.log(data);
       this.loginSuccess = true;
       this.loginForm.reset();
       const jwtToken:string = data.token;
       localStorage.setItem("token",jwtToken)
-      this.api.getReturn(`${environment.BASE_API_URL}/user/${userData.username}`).subscribe((data)=>{
+      this.api.getReturn(`${environment.BASE_API_URL}/user/${userData.username}`).subscribe((data:User[])=>{
         localStorage.setItem("user",JSON.stringify(data))        
         this.router.navigate(['home'])
       },(error)=>{
