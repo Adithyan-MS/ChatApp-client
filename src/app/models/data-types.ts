@@ -38,3 +38,14 @@ export interface message{
     modified_at:string
 }
 
+export interface sendMessage{
+    message:{
+        content:string,
+        parentMessage:string|null
+    },
+    receiver:{
+        type:string,
+        id:number
+    }
+}
+

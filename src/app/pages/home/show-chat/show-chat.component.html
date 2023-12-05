@@ -25,10 +25,10 @@
         </div>
         <div class="send-container">
             <div class="send">
-                <div class="input">
-                    <input type="text">
+                <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
+                    <input formControlName="content" type="text">
                     <button>Send</button>
-                </div>
+                </form>
             </div>
         </div>
     }@else {

@@ -30,7 +30,7 @@ export class SidebarComponent implements OnInit{
   })
   }
   showChat(chat:userChats){
-    this.dataService.notifyOther({chat})
+    this.dataService.notifyOther(chat)
   }
 
 }
