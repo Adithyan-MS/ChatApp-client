@@ -12,7 +12,7 @@ export const routes: Routes = [
         component:LoginComponent,
         title:"Login | ChatApp",
         canActivate:[()=>{
-            if(localStorage.getItem("token") && localStorage.getItem("user")){
+            if(typeof localStorage !== 'undefined' && localStorage.getItem("token") && localStorage.getItem("user")){
                 const router = inject(Router)
                 return router.navigate(['home']);
               }else{
@@ -25,7 +25,7 @@ export const routes: Routes = [
         component:RegisterComponent,
         title:"Register | ChatApp",
         canActivate:[()=>{
-            if(localStorage.getItem("token") && localStorage.getItem("user")){
+            if(typeof localStorage !== 'undefined' && localStorage.getItem("token") && localStorage.getItem("user")){
                 const router = inject(Router)
                 return router.navigate(['home']);
               }else{

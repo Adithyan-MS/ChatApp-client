@@ -24,15 +24,17 @@ export class NavbarComponent implements OnInit{
  
   ngOnInit(): void {
     this.router.events.subscribe((value: any)=>{
-      if(value.url){        
-        if(localStorage.getItem("user")){
-          this.user = localStorage.getItem("user");
-          this.username = JSON.parse(this.user).name;
-          this.profilePic = this.appService.getImageUrl(JSON.parse(this.user).profilePic,"user");
-        }else{
-          this.username=null
-          this.profilePic=null
-        }
+      if(value.url){  
+        if (typeof localStorage !== 'undefined') {
+          if(localStorage.getItem("user")){
+            this.user = localStorage.getItem("user");
+            this.username = JSON.parse(this.user).name;
+            this.profilePic = this.appService.getImageUrl(JSON.parse(this.user).profilePic,"user");
+          }else{
+            this.username=null
+            this.profilePic=null
+          }
+        }       
       }
     })
    

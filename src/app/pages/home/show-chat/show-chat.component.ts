@@ -5,9 +5,9 @@ import { DataService } from '../../../services/data.service';
 import { message, sendMessage, userChats } from '../../../models/data-types';
 import { ApiService } from '../../../services/api.service';
 import { environment } from '../../../../environments/environment.development';
-import { error } from 'console';
 import { AppService } from '../../../services/app.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-show-chat',
@@ -24,7 +24,6 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   showChat:boolean
   messageList:message[]
   messageForm:FormGroup
-  messageData:sendMessage
   
   constructor(private fb: FormBuilder,private dataService:DataService,private api: ApiService,private appService: AppService){}
 
@@ -38,7 +37,7 @@ export class ShowChatComponent implements OnInit,OnDestroy{
         }else{
           this.currentChatPic=null
         }
-        if(this.currentChat.type="user"){
+        if(this.currentChat.type==="user"){
           this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
             this.messageList=data
           },(error)=>{
@@ -64,6 +63,9 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   }
 
   sendMessage(){
+    if (this.messageForm.invalid) {
+      return;
+    }
 
     const formValue = this.messageForm.getRawValue();
     const messageData: sendMessage={
@@ -75,8 +77,13 @@ export class ShowChatComponent implements OnInit,OnDestroy{
         type:this.currentChat.type,
         id:this.currentChat.id
       }
-    }
-    console.log(this.messageData);
+    }    
+    const headers = new HttpHeaders().set('ResponseType','text')
+    this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
+      this.messageForm.reset()
+    },(error)=>{
+      console.log(error);
+    })
     
   }
 
