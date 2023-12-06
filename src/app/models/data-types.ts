@@ -9,7 +9,7 @@ export interface LoginData {
 
 export interface User {
     id?:number,
-    name:string,
+    name:string, 
     password:string,
     email:string,
     phone_number:string,
