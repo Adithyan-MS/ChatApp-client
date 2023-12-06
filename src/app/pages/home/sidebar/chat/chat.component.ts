@@ -15,14 +15,17 @@ export class ChatComponent implements OnInit{
 
   @Input() chat:userChats
   profilePic:string|null
-  lastMessageTime:string
+  lastMessageTime:string|null
 
   constructor(private appService: AppService){}
 
   ngOnInit(): void {
 
-    
-    this.lastMessageTime = this.appService.timestampFormatter(this.chat.max_modified_at);    
+    if(this.chat.max_modified_at){
+      this.lastMessageTime = this.appService.timestampFormatter(this.chat.max_modified_at);    
+    }else{
+      this.lastMessageTime = null
+    }
 
     if (this.chat.profile_pic!=null) {
       this.profilePic=this.appService.getImageUrl(this.chat.profile_pic,this.chat.type);

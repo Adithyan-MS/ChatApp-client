@@ -5,7 +5,7 @@
             <i class="fa-sharp fa-regular fa-pen-to-square new"></i>
         </div>
         <div class="bottom">
-            <input type="text" placeholder="Search or start a new chat">
+            <input type="text" placeholder="Search or start a new chat" (input)="onSearchChange($event)">
         </div>
     </div>
     <div class="chats">

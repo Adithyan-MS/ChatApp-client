@@ -8,6 +8,7 @@ import { environment } from '../../../../environments/environment.development';
 import { AppService } from '../../../services/app.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-chat',
@@ -25,7 +26,7 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   messageList:message[]
   messageForm:FormGroup
   
-  constructor(private fb: FormBuilder,private dataService:DataService,private api: ApiService,private appService: AppService){}
+  constructor(private fb: FormBuilder,private dataService:DataService,private api: ApiService,private appService: AppService,private router:Router){}
 
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe(res=>{
@@ -63,9 +64,6 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   }
 
   sendMessage(){
-    if (this.messageForm.invalid) {
-      return;
-    }
 
     const formValue = this.messageForm.getRawValue();
     const messageData: sendMessage={
