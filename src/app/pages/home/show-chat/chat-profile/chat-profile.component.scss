@@ -1,0 +1,31 @@
+.container{
+    background-color: #bdd9bf;
+    height: 100%;
+    overflow: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+.container::-webkit-scrollbar {
+    display: none;
+  }
+.scroll-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.items{
+    display: flex;
+    margin-top: 10px;
+    width: 80%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.item{
+    display: flex;
+    background-color: #49416d;
+    width: 100%;
+    border-radius: 7px;
+}

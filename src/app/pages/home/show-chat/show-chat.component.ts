@@ -9,11 +9,12 @@ import { AppService } from '../../../services/app.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ChatProfileComponent } from './chat-profile/chat-profile.component';
 
 @Component({
   selector: 'app-show-chat',
   standalone: true,
-  imports: [CommonModule,MessageComponent,ReactiveFormsModule],
+  imports: [CommonModule,MessageComponent,ReactiveFormsModule,ChatProfileComponent],
   templateUrl: './show-chat.component.html',
   styleUrl: './show-chat.component.scss'
 })
@@ -22,16 +23,17 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   currentChat: userChats
   currentChatPic: string|null
   name:string
-  showChat:boolean
+  shatWhat:string
   messageList:message[]
   messageForm:FormGroup
+  showProfile:boolean
   
   constructor(private fb: FormBuilder,private dataService:DataService,private api: ApiService,private appService: AppService,private router:Router){}
 
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe(res=>{
       if(res){
-        this.showChat=true       
+        this.shatWhat="chat"       
         this.currentChat = res;
         if (this.currentChat.profile_pic) {
           this.currentChatPic = this.appService.getImageUrl(this.currentChat.profile_pic,this.currentChat.type);
@@ -51,8 +53,6 @@ export class ShowChatComponent implements OnInit,OnDestroy{
             console.log(error);
           })
         }
-      }else{
-        this.showChat=false
       }
     })
     this.messageForm = this.fb.group({
@@ -82,6 +82,10 @@ export class ShowChatComponent implements OnInit,OnDestroy{
     },(error)=>{
       console.log(error);
     })
+  }
+
+  viewProfile(currentChat:userChats){
+    this.shatWhat="profile"
   }
 
 
