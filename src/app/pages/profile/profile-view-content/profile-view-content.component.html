@@ -1,0 +1,28 @@
+<div class="container">
+    @switch (menu) {
+        @case ("general") {
+            <app-general></app-general>
+        }
+        @case ("account") {
+            <app-account></app-account>
+        }
+        @case ("chats") {
+            <app-chats></app-chats>
+        }
+        @case ("notifications") {
+            <app-notifications></app-notifications>
+        }
+        @case ("personalization") {
+            <app-personalization></app-personalization>
+        }
+        @case ("storage") {
+            <app-storage></app-storage>
+        }
+        @case ("help") {
+            <app-help-content></app-help-content>
+        }
+        @default {
+            <app-general></app-general>
+        }
+    }
+</div>

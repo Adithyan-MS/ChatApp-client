@@ -4,11 +4,13 @@ import { ApiService } from '../../services/api.service';
 import { type } from 'os';
 import { User } from '../../models/data-types';
 import { AppService } from '../../services/app.service';
+import { ProfileSidebarComponent } from './profile-sidebar/profile-sidebar.component';
+import { ProfileViewContentComponent } from './profile-view-content/profile-view-content.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,ProfileSidebarComponent,ProfileViewContentComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })

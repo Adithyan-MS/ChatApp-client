@@ -4,8 +4,15 @@
             <img [src]="memberPic" alt="">
         </div>
     </div>
-    <div class="group-item">
-        <span>{{member.name}}</span>
-        <span>{{member.bio}}</span>
+    <div class="group-items">
+        <div class="item">
+            <span>{{member.name}}</span>
+            <span>{{member.bio}}</span>
+        </div>
+        <div class="item">
+            @if(member.is_admin){
+                <span class="group-admin">Admin</span>
+            }
+        </div>
     </div>
 </div>

@@ -10,14 +10,14 @@
                         <img [src]="chatPicture" alt="">
                     </div>
                     <div class="name">
-                        <span>{{chatDetails.name}}</span>
+                        <span>{{chatDetails?.name}}</span>
                     </div>
                 </div>
                 <div class="options">
                     <div class="option">
                         <i class="fa-solid fa-phone"></i>
                     </div>
-                    @if(chatDetails.email){
+                    @if(chatDetails?.email){
                         <div class="option">
                             <i class="fa-regular fa-envelope"></i>
                         </div>
@@ -31,20 +31,22 @@
                 </div>
             </div>
             <div class="item">
+                @if (chatDetails?.bio || chatDetails?.description) {
                     <div class="bio">
                         <span class="bio-title">About</span>
                         <span class="bio-content">{{chatDetails.bio ? chatDetails.bio : chatDetails.description }}</span>
                     </div>
-                @if(chatDetails.email){
+                }
+                @if(chatDetails?.email){
                     <div class="bio">
                         <span class="bio-title">Email</span>
-                        <span class="bio-content">{{chatDetails.email}}</span>
+                        <span class="bio-content">{{chatDetails?.email}}</span>
                     </div>
                 }
-                @if(chatDetails.phone_number){
+                @if(chatDetails?.phone_number){
                     <div class="bio">
                         <span class="bio-title">Phone</span>
-                        <span class="bio-content">{{chatDetails.phone_number}}</span>
+                        <span class="bio-content">{{chatDetails?.phone_number}}</span>
                     </div>
                 }
                 <div class="bio">
@@ -67,25 +69,25 @@
                             </div>
                             <span>Starred messages</span>
                         </div>
-                        @if(chatDetails.email){
+                        @if(chatDetails?.email){
                             <div class="meta">
                                 <div class="icon prio1">
                                     <i class="fa-solid fa-ban"></i>
                                 </div>
-                                <span>Block {{chatDetails.name}}</span>
+                                <span>Block {{chatDetails?.name}}</span>
                             </div>
                         }@else{
                             <div class="meta">
                                 <div class="icon prio1">
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i>                                </div>
-                                <span>Exit {{chatDetails.name}}</span>
+                                <span>Exit {{chatDetails?.name}}</span>
                             </div>
                         }
                         <div class="meta">
                             <div class="icon prio1">
                                 <i class="fa-solid fa-thumbs-down"></i>
                             </div>
-                            <span>Report {{chatDetails.name}}</span>
+                            <span>Report {{chatDetails?.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -93,16 +95,26 @@
             <div class="item">
                 @if(members){
                     <div class="group-count">
-                        <span>participants</span>
+                        <span>{{members?.length}} participants</span>
                     </div>
                     <div class="group-container">
                         @for(member of members; track member.id){
                           <app-participant [member]="member"></app-participant> 
-                        }
+                        }                
                     </div>
+                    @if(pastMembers?.length!=0){
+                        <div class="group-count">
+                            <span>Past participants</span>
+                        </div>
+                        <div class="group-container">
+                            @for(pastMember of pastMembers; track pastMember.id){
+                                <app-participant [member]="pastMember"></app-participant> 
+                            }
+                        </div>
+                    }
                 }@else{
                     <div class="group-count">
-                        <span>Groups in common</span>
+                        <span>{{userCommonRooms?.length}} Room in common</span>
                     </div>
                     <div class="group-container">
                         <div class="group">
@@ -112,10 +124,12 @@
                                 </div>
                             </div>
                             <div class="group-item">
-                                <span>Create group with {{chatDetails.name}}</span>
+                                <span>Create room with {{chatDetails?.name}}</span>
                             </div>
                         </div>
-                        <app-common-group></app-common-group>
+                        @for (room of userCommonRooms; track room.id) {
+                            <app-common-group [room]="room"></app-common-group>
+                        }
                     </div>
                 }
             </div>

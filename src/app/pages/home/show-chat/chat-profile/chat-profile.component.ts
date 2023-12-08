@@ -23,6 +23,8 @@ export class ChatProfileComponent implements OnInit{
   chatPicture:string|null
   createdAt:string
   members:Participant[]
+  pastMembers:Participant[]|null=null
+  userCommonRooms:Room[]
 
   constructor(private api:ApiService,private appService : AppService){}
 
@@ -36,6 +38,13 @@ export class ChatProfileComponent implements OnInit{
           this.chatPicture = environment.USER_IMAGE
         }
         this.createdAt = this.appService.DMonthYFormatter(this.chatDetails.createdAt)
+      },(error)=>{
+        console.log(error);        
+      })
+      this.api.getReturn(`${environment.BASE_API_URL}/user/${this.currentChat.name}/commonRooms`).subscribe((data:Room[])=>{
+        this.userCommonRooms=data        
+      },(error)=>{
+        console.log(error);        
       })
     }else{
       this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.name}`).subscribe((data:Room)=>{
@@ -51,6 +60,11 @@ export class ChatProfileComponent implements OnInit{
       })
       this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/participants`).subscribe((data: Participant[])=>{
         this.members = data
+      },(error)=>{
+        console.log(error);        
+      })
+      this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/pastParticipants`).subscribe((data: Participant[])=>{
+        this.pastMembers = data
       },(error)=>{
         console.log(error);        
       })

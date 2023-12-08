@@ -28,6 +28,9 @@
     align-items: center;
 }
 .other{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .left{
     display: flex;
@@ -141,5 +144,18 @@ hr{
 .item:nth-child(2) span:nth-child(2){
     font-size: 15px;
     color: white;
+}
+.other-items{
+    display: flex;
+    width: 95%;
+    margin: 10px;
+}
+app-profile-sidebar{
+    display: flex;
+    flex: 1;
+}
+app-profile-view-content{
+    display: flex;
+    flex: 3;
 }
 
