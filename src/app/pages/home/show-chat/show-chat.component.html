@@ -1,5 +1,5 @@
 <div class="container">
-    @switch (shatWhat) {
+    @switch (showWhat) {
         @case ("chat") {
             <div class="header">
                 <div class="left" (click)="viewProfile(currentChat)">
@@ -34,7 +34,7 @@
             </div>
         }
         @case ("profile") {
-            <app-chat-profile></app-chat-profile>
+            <app-chat-profile [currentChat]="currentChat" (eventEmitter)="viewEvent($event)"></app-chat-profile>
         }
         @default {
             <div class="startChat">

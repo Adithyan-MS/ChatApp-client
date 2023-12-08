@@ -28,8 +28,12 @@ export class NavbarComponent implements OnInit{
         if (typeof localStorage !== 'undefined') {
           if(localStorage.getItem("user")){
             this.user = localStorage.getItem("user");
-            this.username = JSON.parse(this.user).name;
-            this.profilePic = this.appService.getImageUrl(JSON.parse(this.user).profilePic,"user");
+            this.username = JSON.parse(this.user).name;            
+            if(JSON.parse(this.user).profilePic!=null){
+              this.profilePic = this.appService.getImageUrl(JSON.parse(this.user).profilePic,"user");
+            }else{
+              this.profilePic = environment.USER_IMAGE
+            }
           }else{
             this.username=null
             this.profilePic=null

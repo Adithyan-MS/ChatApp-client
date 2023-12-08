@@ -22,16 +22,25 @@ export class ChatComponent implements OnInit{
   ngOnInit(): void {
 
     if(this.chat.max_modified_at){
-      this.lastMessageTime = this.appService.timestampFormatter(this.chat.max_modified_at);    
+      this.lastMessageTime = this.appService.HHMMFormatter(this.chat.max_modified_at);    
     }else{
       this.lastMessageTime = null
     }
-
-    if (this.chat.profile_pic!=null) {
-      this.profilePic=this.appService.getImageUrl(this.chat.profile_pic,this.chat.type);
+    if(this.chat.type=="user"){
+      if (this.chat.profile_pic!=null) {
+        this.profilePic=this.appService.getImageUrl(this.chat.profile_pic,this.chat.type);
+      }else{
+        this.profilePic = environment.USER_IMAGE
+      }
     }else{
-      this.profilePic = null
+      if (this.chat.profile_pic!=null) {
+        this.profilePic=this.appService.getImageUrl(this.chat.profile_pic,this.chat.type);
+      }else{
+        this.profilePic = environment.ROOM_IMAGE
+      }
     }
+
+
 
   }
 

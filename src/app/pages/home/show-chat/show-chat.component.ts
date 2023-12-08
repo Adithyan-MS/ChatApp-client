@@ -23,7 +23,7 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   currentChat: userChats
   currentChatPic: string|null
   name:string
-  shatWhat:string
+  showWhat:string
   messageList:message[]
   messageForm:FormGroup
   showProfile:boolean
@@ -33,12 +33,16 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe(res=>{
       if(res){
-        this.shatWhat="chat"       
+        this.showWhat="chat"       
         this.currentChat = res;
         if (this.currentChat.profile_pic) {
           this.currentChatPic = this.appService.getImageUrl(this.currentChat.profile_pic,this.currentChat.type);
         }else{
-          this.currentChatPic=null
+          if(this.currentChat.type=="user"){
+            this.currentChatPic= environment.USER_IMAGE            
+          }else{
+            this.currentChatPic= environment.ROOM_IMAGE
+          }
         }
         if(this.currentChat.type==="user"){
           this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
@@ -85,7 +89,11 @@ export class ShowChatComponent implements OnInit,OnDestroy{
   }
 
   viewProfile(currentChat:userChats){
-    this.shatWhat="profile"
+    this.showWhat="profile"
+  }
+
+  viewEvent($event:string){
+    this.showWhat="chat"
   }
 
 

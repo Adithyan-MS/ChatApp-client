@@ -24,7 +24,7 @@ export class MessageComponent implements OnInit{
     this.user = localStorage.getItem("user");
     this.currentUserId = JSON.parse(this.user).id;
     this.chatMessage=this.message;
-    this.sendTime = this.appService.timestampFormatter(this.message.modified_at);
+    this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
   }
 
 }

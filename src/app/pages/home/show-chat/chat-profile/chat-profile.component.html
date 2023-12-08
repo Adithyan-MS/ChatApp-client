@@ -1,71 +1,125 @@
 <div class="container">
+    <div class="back">
+        <i class="fa-solid fa-arrow-left" (click)="backToChat()"></i>
+    </div>
     <div class="scroll-container">
         <div class="items">
             <div class="item">
                 <div class="chat-basic">
                     <div class="image">
-                        <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg" alt="">
+                        <img [src]="chatPicture" alt="">
                     </div>
                     <div class="name">
-                        <span>Adithyan</span>
-                    </div>
-                    <div class="phone">
-                        <span>adithyangmail.com</span>
+                        <span>{{chatDetails.name}}</span>
                     </div>
                 </div>
                 <div class="options">
                     <div class="option">
                         <i class="fa-solid fa-phone"></i>
                     </div>
-                    <div class="option">
-                        <i class="fa-regular fa-envelope"></i>
-                    </div>
+                    @if(chatDetails.email){
+                        <div class="option">
+                            <i class="fa-regular fa-envelope"></i>
+                        </div>
+                    }
                     <div class="option">
                         <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="option">
+                        <i class="fa-solid fa-share"></i>
                     </div>
                 </div>
             </div>
             <div class="item">
+                    <div class="bio">
+                        <span class="bio-title">About</span>
+                        <span class="bio-content">{{chatDetails.bio ? chatDetails.bio : chatDetails.description }}</span>
+                    </div>
+                @if(chatDetails.email){
+                    <div class="bio">
+                        <span class="bio-title">Email</span>
+                        <span class="bio-content">{{chatDetails.email}}</span>
+                    </div>
+                }
+                @if(chatDetails.phone_number){
+                    <div class="bio">
+                        <span class="bio-title">Phone</span>
+                        <span class="bio-content">{{chatDetails.phone_number}}</span>
+                    </div>
+                }
                 <div class="bio">
-                    <span class="bio-title">Bio</span>
-                    <span class="bio-content">Hey! there, I am using ChatApp</span>
+                    <span class="bio-title">Created At</span>
+                    <span class="bio-content">{{createdAt}}</span>
                 </div>
             </div>
             <div class="item">
                 <div class="chat-meta">
                     <div class="metas">
                         <div class="meta">
-                            <div class="icon">
+                            <div class="icon prio2">
                                 <i class="fa-solid fa-bell-slash"></i>
                             </div>
                             <span>Mute notifications</span>
                         </div>
                         <div class="meta">
-                            <div class="icon">
-                                <i class="fa-solid fa-ban"></i>
+                            <div class="icon prio2">
+                                <i class="fa-solid fa-star"></i>
                             </div>
-                            <span>Block Adithyan</span>
+                            <span>Starred messages</span>
                         </div>
+                        @if(chatDetails.email){
+                            <div class="meta">
+                                <div class="icon prio1">
+                                    <i class="fa-solid fa-ban"></i>
+                                </div>
+                                <span>Block {{chatDetails.name}}</span>
+                            </div>
+                        }@else{
+                            <div class="meta">
+                                <div class="icon prio1">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>                                </div>
+                                <span>Exit {{chatDetails.name}}</span>
+                            </div>
+                        }
                         <div class="meta">
-                            <div class="icon">
+                            <div class="icon prio1">
                                 <i class="fa-solid fa-thumbs-down"></i>
                             </div>
-                            <span>Report Adithyan</span>
+                            <span>Report {{chatDetails.name}}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="item">
-                <div class="group-count">
-
-                </div>
-                <div class="group-container">
-                    
-                </div>
+                @if(members){
+                    <div class="group-count">
+                        <span>participants</span>
+                    </div>
+                    <div class="group-container">
+                        @for(member of members; track member.id){
+                          <app-participant [member]="member"></app-participant> 
+                        }
+                    </div>
+                }@else{
+                    <div class="group-count">
+                        <span>Groups in common</span>
+                    </div>
+                    <div class="group-container">
+                        <div class="group">
+                            <div class="group-icon">
+                                <div class="icon-area">
+                                    <i class="fa-solid fa-user-group"></i>
+                                </div>
+                            </div>
+                            <div class="group-item">
+                                <span>Create group with {{chatDetails.name}}</span>
+                            </div>
+                        </div>
+                        <app-common-group></app-common-group>
+                    </div>
+                }
             </div>
         </div>
     </div>
-    <div class="back">
-        <i class="fa-solid fa-arrow-left"></i>
-    </div>
 </div>
+

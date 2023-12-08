@@ -6,8 +6,8 @@
     scrollbar-width: none;
     position: relative;
 }
-.container .back{
-    position: absolute;
+.back{
+    position: sticky;
     top: 0;
     width: 50px;
     height: 50px;
@@ -17,6 +17,7 @@
     left: 30px;
     font-size: 25px;
     color: #49416d;
+    z-index: 99;
 }
 .back i{
     cursor: pointer;
@@ -29,6 +30,9 @@
     display: none;
   }
 .scroll-container{
+    position: absolute;
+    top: 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,6 +48,7 @@
     gap: 5px;
 }
 .item{
+    color: white;
     display: flex;
     background-color: #49416d;
     width: 100%;
@@ -151,20 +156,18 @@
     color: #49416d;
 }
 .meta i{
-    font-size: 30px;
+    font-size: 25px;
 }
-.meta:nth-child(1) i{
+.meta .prio2 i{
     color: #bdd9bf;
 }
 
-.meta:nth-child(2) i{
-    color: rgb(149, 45, 45);
-}
-.meta:nth-child(3) i{
+.meta .prio1 i{
     color: rgb(149, 45, 45);
 }
 .meta span{
     color: white;
+    font-size: 13px;
 }
 .icon{
     width: 50px;
@@ -172,4 +175,94 @@
     align-items: center;
     justify-content: center;
     height: 50px;
+    
+}
+.group-count{
+    margin-top: 10px;
+    width: 90%;
+    align-self: center;
+    font-size: 15px;
+    color: rgb(224, 222, 222);
+}
+.group-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.group{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 5px;
+}
+.group:hover{
+    background-color: #bdd9bf;
+    color: #49416d;
+}
+.group:hover .icon-area{
+    background-color: #49416d;
+    color: #bdd9bf;
+}
+.group:hover i{
+    color: #bdd9bf;
+}
+.group-icon{
+    flex: 1;
+}
+.group-icon{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.group-icon i{
+    color: #49416d;
+}
+.group-icon img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.icon-area{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #bdd9bf;
+}
+.group-item{
+    flex: 9;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 5px;
+}
+.group-item span:nth-child(1){
+    font-size: 17px;
+}
+.group-item span:nth-child(2){
+    font-size: 10px;
+}
+app-participant{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+}
+app-common-group{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
 }

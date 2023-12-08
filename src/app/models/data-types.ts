@@ -27,6 +27,23 @@ export interface userChats{
     max_modified_at:string
 }
 
+export interface Room{
+    id:number,
+    name:string,
+    description:string|null,
+    room_pic:string|null,
+    createdAt:string,
+    modifiedAt:string
+}
+
+export interface Participant{
+    id:number,
+    name:string,
+    bio:string|null,
+    profile_pic:string|null,
+    is_admin:boolean;
+}
+
 export interface message{
     id:number,
     content:string,
