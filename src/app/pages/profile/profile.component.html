@@ -4,7 +4,10 @@
             <div class="left">
                 <div class="image">
                     <img [src]="profilePic ? profilePic : 'https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg'" alt="" class="profilePic">
-                    <i class="fa-solid fa-camera"></i>            
+                    <label class="upload-icon">
+                        <i class="fa-solid fa-camera"></i>     
+                        <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+                    </label>
                 </div>
             </div>    
             <div class="right">
@@ -16,19 +19,24 @@
                             <span>name</span>
                             <span>{{currentUser.name}}</span>
                         </div>
-                        <span class="item"></span>
                     </div>
                     <div class="items">
                         <span class="item"><i class="fa-solid fa-circle-exclamation"></i></span>
                         <div class="item">
                             <span>bio</span>
-                            @if(currentUser.bio){
-                                <span>{{currentUser.bio}}</span>
+                            @if(editBioFlag){
+                                <form class="bioForm" [formGroup]="bioForm" action="" (ngSubmit)="updateBio()">
+                                    <input type="text" class="bioInput" value={{userBio}} formControlName="bio">
+                                    <button type="submit" class="biosubmitButton"><i class="fa-solid fa-check"></i></button>
+                                    <span class="cancelIcon"><i class="fa-solid fa-xmark" (click)="cancelBioEdit()"></i></span>
+                                </form>
                             }@else {
-                                <span>Hey! I am using ChatApp</span>   
+                                <div class="biocontent">
+                                    <span class="bio">{{userBio}}</span>
+                                    <span class="editIcon"><i class="fa-solid fa-pen" (click)="viewBioEdit()"></i></span>
+                                </div>
                             }
                         </div>
-                        <span class="item"><i class="fa-solid fa-pen"></i></span>
                     </div>
                     <div class="items">
                         <span class="item"><i class="fa-solid fa-phone"></i></span>
@@ -36,7 +44,6 @@
                             <span>phone</span>
                             <span>{{currentUser.phone_number}}</span>
                         </div>
-                        <span class="item"></span>
                     </div>
                     <div class="items">
                         <span class="item"><i class="fa-solid fa-envelope"></i></span>
@@ -44,7 +51,6 @@
                             <span>email</span>
                             <span>{{currentUser.email}}</span>
                         </div>
-                        <span class="item"></span>
                     </div>
                 </div>
             </div>

@@ -6,11 +6,12 @@ import { ApiService } from '../../../services/api.service';
 import { userChats } from '../../../models/data-types';
 import { DataService } from '../../../services/data.service';
 import { HttpParams } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule,ChatComponent],
+  imports: [CommonModule,ChatComponent,RouterModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
@@ -28,8 +29,24 @@ export class SidebarComponent implements OnInit{
     })
   }
 
+
   showChat(chat:userChats){
-    this.dataService.notifyOther(chat)
+    this.dataService.notifyOther({
+      view:"chat",
+      data:chat
+    })
+  }
+  showCreateRoom(){
+    this.dataService.notifyOther({
+      view:"createRoom",
+      data:null
+    })
+  }
+  showJoinRoom(){
+    this.dataService.notifyOther({
+      view:"joinRoom",
+      data:null
+    })
   }
 
   onSearchChange(event:any){

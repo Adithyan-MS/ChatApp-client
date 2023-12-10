@@ -1,8 +1,18 @@
 <div class="container">
     <div class="header">
         <div class="top">
-            <span class="title">Chats</span>
-            <i class="fa-sharp fa-regular fa-pen-to-square new"></i>
+            <div class="top-left">
+                <span class="title">Chats</span>
+            </div>
+            <div class="dropdown">
+                <i class="fa-sharp fa-regular fa-pen-to-square new"></i>
+                <div class="dropdown-content">
+                    <p (click)="showCreateRoom()">Create room</p>
+                    <p (click)="showJoinRoom()">Join room</p>
+                    <p>Starred messsages</p>
+                    <p [routerLink]="'/profile'">Settings</p>
+                </div>
+              </div>
         </div>
         <div class="bottom">
             <input type="text" placeholder="Search or start a new chat" (input)="onSearchChange($event)">
