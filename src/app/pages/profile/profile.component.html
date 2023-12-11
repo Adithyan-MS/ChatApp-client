@@ -1,4 +1,7 @@
 <div class="container">
+    <div class="back">
+        <i class="fa-solid fa-arrow-left" [routerLink]="'/home'"></i>
+    </div>
     <div class="scroll-container">
         <div class="header container-items">
             <div class="left">
@@ -14,24 +17,38 @@
                 <hr>
                 <div class="details">
                     <div class="items">
-                        <span class="item"><i class="fa-solid fa-user"></i></span>
-                        <div class="item center">
-                            <span>name</span>
-                            <span>{{currentUser.name}}</span>
+                        <div class="item">
+                            <div class="item-icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">
+                                <span>name</span>
+                            </div>
+                            <div class="item-content">
+                                <span>{{currentUser.name}}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="items">
-                        <span class="item"><i class="fa-solid fa-circle-exclamation"></i></span>
                         <div class="item">
-                            <span>bio</span>
+                            <div class="item-icon">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">
+                                <span>bio</span>
+                            </div>
                             @if(editBioFlag){
-                                <form class="bioForm" [formGroup]="bioForm" action="" (ngSubmit)="updateBio()">
+                                <form class="item-content" [formGroup]="bioForm" action="" (ngSubmit)="updateBio()">
                                     <input type="text" class="bioInput" value={{userBio}} formControlName="bio">
                                     <button type="submit" class="biosubmitButton"><i class="fa-solid fa-check"></i></button>
                                     <span class="cancelIcon"><i class="fa-solid fa-xmark" (click)="cancelBioEdit()"></i></span>
                                 </form>
                             }@else {
-                                <div class="biocontent">
+                                <div class="item-content">
                                     <span class="bio">{{userBio}}</span>
                                     <span class="editIcon"><i class="fa-solid fa-pen" (click)="viewBioEdit()"></i></span>
                                 </div>
@@ -39,17 +56,33 @@
                         </div>
                     </div>
                     <div class="items">
-                        <span class="item"><i class="fa-solid fa-phone"></i></span>
                         <div class="item">
-                            <span>phone</span>
-                            <span>{{currentUser.phone_number}}</span>
+                            <div class="item-icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">
+                                <span>phone</span>
+                            </div>
+                            <div class="item-content">
+                                <span>{{currentUser.phone_number}}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="items">
-                        <span class="item"><i class="fa-solid fa-envelope"></i></span>
                         <div class="item">
-                            <span>email</span>
-                            <span>{{currentUser.email}}</span>
+                            <div class="item-icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">
+                                <span>email</span>
+                            </div>
+                            <div class="item-content">
+                                <span>{{currentUser.email}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

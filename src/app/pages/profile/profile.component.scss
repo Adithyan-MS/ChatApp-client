@@ -4,11 +4,35 @@
     overflow: scroll;
     -ms-overflow-style: none; 
     scrollbar-width: none;
+    position: relative;
 }
 .container::-webkit-scrollbar {
   display: none;
 }
+.back{
+    position: sticky;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 40px;
+    font-size: 25px;
+    color: #49416d;
+    z-index: 99;
+}
+.back i{
+    cursor: pointer;
+    font-weight: 600;
+}
+.back i:hover{
+    color: white;
+}
 .scroll-container{
+    position: absolute;
+    top: 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,18 +116,23 @@
     align-items: center;
     justify-content: center;
 }
+hr{
+    height: 80%;
+    border: 3px solid #bdd9bf;
+    border-radius: 50%;
+    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+}
 .details{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80%;
     height: 80%;
     flex-direction: column;
     border-radius: 10px;
     gap: 8px;
+    width: 85%;
 }
 .items{
-    flex: 1;
     width: 80%;
     border-radius: 10px;
     display: flex;  
@@ -111,65 +140,54 @@
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
     color: white;
     justify-content: start;
+    padding: 5px;
+    gap: 3px;
 }
-.item{
+.item:first-child{
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.item .bio{
-    height: 20px;
-    width: 450px;
-    white-space:nowrap;
-    overflow: hidden;
-    display: block;
-    text-overflow: ellipsis;
+.item:last-child{
+    flex: 9;
 }
-.item:nth-child(1){
-    width: 10%;
+.item-icon{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30%;
     background-color: #49416d;
-    margin: 5px;
-    border-radius: 40%;
-    font-size: 20px;
-    color:#bdd9bf;
-    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
 }
-.item:nth-child(2){
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: start;
+.item-title{
+    font-size: 14px;
+    color: rgb(199, 197, 197);
 }
-.biocontent{
+.item-content{
+    height: 20px;
+    color: white;
     display: flex;
-    width: 100%;
+    justify-content: space-between;
+    gap: 5px;
     align-items: center;
 }
-.bioForm{
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    width: 100%;
-    gap: 10px;
-}
-.bioForm input{
+.item-content input{
     width: 90%;
     background-color:  rgb(147, 122, 167);
     border: none;
     border-bottom: 1px solid #49416d;
     color: white;
 }
-.bioForm input:focus{
+.item-content input:focus{
     outline: none;
 }
-hr{
-    height: 80%;
-    margin: 40px;
-    border: 3px solid #bdd9bf;
-    border-radius: 50%;
-    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
-
+.item-content .bio{
+    width: 90%;
+}
+.item-content .edit-icon{
+    width: 10%;
 }
 .editIcon{
     cursor: pointer;

@@ -6,6 +6,9 @@
     scrollbar-width: none;
     position: relative;
 }
+.container::-webkit-scrollbar {
+    display: none;
+  }
 .back{
     position: sticky;
     top: 0;
@@ -26,9 +29,7 @@
 .back i:hover{
     color: white;
 }
-.container::-webkit-scrollbar {
-    display: none;
-  }
+
 .scroll-container{
     position: absolute;
     top: 0;

@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
-import { type } from 'os';
 import { User } from '../../models/data-types';
 import { AppService } from '../../services/app.service';
 import { ProfileSidebarComponent } from './profile-sidebar/profile-sidebar.component';
 import { ProfileViewContentComponent } from './profile-view-content/profile-view-content.component';
 import { environment } from '../../../environments/environment.development';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule,ProfileSidebarComponent,ProfileViewContentComponent,ReactiveFormsModule],
+  imports: [CommonModule,RouterModule,ProfileSidebarComponent,ProfileViewContentComponent,ReactiveFormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
