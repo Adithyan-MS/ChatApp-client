@@ -7,16 +7,16 @@
         </div>
         <div class="item">
             <div class="create-form">
-                <form action="" class="roomCreateForm">
+                <form [formGroup]="createRoomForm" action="" class="roomCreateForm" (ngSubmit)="OnSubmit()">
                     <div class="form-top">
                         <div class="left">
                             <div class="name-input">
                                 <label for="">Room name:</label>
-                                <input type="text">
+                                <input type="text" formControlName="name">
                             </div>
                             <div class="desc-input">
                                 <label for="">Room description:</label>
-                                <input type="text">
+                                <input type="text" formControlName="desc">
                             </div>
                         </div>
                         <div class="right">
@@ -32,12 +32,11 @@
                     </div>
                     <div class="form-bottom">
                         <div class="add-member">
-                            <label for="">Add room members:</label>
-                            <input type="text">
+                            <app-search-users></app-search-users>
                         </div>
                         <div class="form-buttons">
-                            <button class="create"></button>
-                            <button class="cancel"></button>
+                            <button class="cancel">cancel</button>
+                            <button class="create">create</button>
                         </div>
                     </div>
                 </form>

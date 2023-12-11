@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="search">
+        <input type="text" placeholder="search users" (input)="searchUsers($event)">
+    </div>
+    <div class="search-results">
+        <div class="result-container">
+            @for (user of searchResult; track user.id) {
+                <app-user-result [user]="user"></app-user-result>
+            }
+        </div>
+    </div>
+</div>
