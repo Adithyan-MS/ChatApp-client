@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { User } from '../../../../../../models/data-types';
+import { User, userSearch } from '../../../../../../models/data-types';
 import { AppService } from '../../../../../../services/app.service';
 import { environment } from '../../../../../../../environments/environment.development';
 
@@ -12,7 +12,7 @@ import { environment } from '../../../../../../../environments/environment.devel
   styleUrl: './user-result.component.scss'
 })
 export class UserResultComponent implements OnInit{
-  @Input() user:any
+  @Input() user:userSearch
   @Output() eventEmitter = new EventEmitter<any>()
 
   userPic:string
@@ -28,7 +28,7 @@ export class UserResultComponent implements OnInit{
     }
   }
 
-  selectedUser(user: any){
+  selectedUser(user: userSearch){
       this.eventEmitter.emit(user)
   }
 

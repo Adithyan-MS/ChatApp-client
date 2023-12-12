@@ -66,3 +66,8 @@ export interface sendMessage{
     }
 }
 
+export interface userSearch{
+    name:string,
+    id:number,
+    profile_pic?:string
+}

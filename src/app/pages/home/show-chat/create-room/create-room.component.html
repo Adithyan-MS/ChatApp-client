@@ -32,11 +32,11 @@
                     </div>
                     <div class="form-bottom">
                         <div class="add-member">
-                            <app-search-users ></app-search-users>
+                            <app-search-users (itemsChanged)="onItemsChanged($event)"></app-search-users>
                         </div>
                         <div class="form-buttons">
                             <button class="cancel">cancel</button>
-                            <button class="create">create</button>
+                            <button class="create" [disabled]="createRoomForm.invalid">create</button>
                         </div>
                     </div>
                 </form>

@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UserResultComponent } from './search-users/user-result/user-result.component';
 import { ApiService } from '../../../../services/api.service';
 import { environment } from '../../../../../environments/environment.development';
+import { userSearch } from '../../../../models/data-types';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-room',
@@ -16,6 +18,7 @@ import { environment } from '../../../../../environments/environment.development
 export class CreateRoomComponent implements OnInit{
 
   createRoomForm: FormGroup
+  members:number[]
 
   constructor(private fb:FormBuilder,private api: ApiService){}
 
@@ -26,14 +29,24 @@ export class CreateRoomComponent implements OnInit{
     })
   }
 
+  onItemsChanged(value:userSearch[]){
+    this.members=value.map(obj => obj.id)
+  }
+
   OnSubmit(){
+    if(this.createRoomForm.invalid){
+      return
+    }
     const formdata = this.createRoomForm.getRawValue()
     const requestBody = {
       name:formdata.name,
       desc:formdata.desc,
-      participants:[]
+      participants:this.members
     }
-    this.api.postReturn(`${environment.BASE_API_URL}/room/createRoom`,requestBody).subscribe((data)=>{
+    console.log(requestBody);
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.postReturn(`${environment.BASE_API_URL}/room/createRoom`,requestBody,{headers}).subscribe((data)=>{
+      //image upload
       console.log(data);      
     },(error)=>{
       console.log(error);      

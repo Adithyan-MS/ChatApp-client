@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
-import { User } from '../../../../../models/data-types';
+import { User, userSearch } from '../../../../../models/data-types';
 import { HttpParams } from '@angular/common/http';
 import { UserResultComponent } from './user-result/user-result.component';
 
@@ -15,8 +15,10 @@ import { UserResultComponent } from './user-result/user-result.component';
 })
 export class SearchUsersComponent {
 
-  searchResult:User[]|null
-  selectedUsers:any[]=[]
+  @Output() itemsChanged = new EventEmitter<any[]>()
+
+  searchResult:userSearch[]|null
+  selectedUsers:userSearch[]=[]
 
   constructor(private api:ApiService){}
 
@@ -31,28 +33,28 @@ export class SearchUsersComponent {
         console.log(error);
       })
     }else{
-      this.selectedUsers =this.selectedUsers
       this.searchResult=null
     }
   }
 
-  getSelectedUser(user:any) {
+  getSelectedUser(user:userSearch) {
     this.selectedUsers.push(user)
-    console.log(this.selectedUsers);    
+    this.itemsChanged.emit(this.selectedUsers)   
   }
-
-  isUserSelected(user:any){
+  
+  isUserSelected(user:userSearch){
     if(this.selectedUsers.includes(user)){
       return false;
     }else{
       return true;
     }
   }
-
-  removeUser(user:any){
+  
+  removeUser(user:userSearch){
     this.selectedUsers = this.selectedUsers.filter(obj => {
       return obj !== user
     });
+    this.itemsChanged.emit(this.selectedUsers)   
   }
 
 }
