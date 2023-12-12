@@ -1,11 +1,33 @@
 <div class="container">
-    <div class="search">
-        <input type="text" placeholder="search users" (input)="searchUsers($event)">
+    <div class="left">
+        <span class="title">Add Participants</span>
+        <div class="search">
+            <input type="text" placeholder="search users" (input)="searchUsers($event)">
+        </div>
+        <div class="search-results">
+            <div class="result-container">
+                @for (user of searchResult; track user.id) {
+                    @if(isUserSelected(user)){
+                        <app-user-result [user]="user" (eventEmitter)="getSelectedUser($event)"></app-user-result>
+                    }
+                }
+            </div>
+        </div>
     </div>
-    <div class="search-results">
-        <div class="result-container">
-            @for (user of searchResult; track user.id) {
-                <app-user-result [user]="user"></app-user-result>
+    <div class="right">
+        <span class="title">Selected Users:</span>
+        <div class="selectedUsers-container">
+            @if(selectedUsers.length>0){
+                @for(user of selectedUsers; track user.id){
+                    <div class="selected-user">
+                        <div class="name"><span>{{user.name}}</span></div>
+                        <div class="deselect">
+                            <i class="fa-solid fa-xmark" (click)="removeUser(user)"></i>                        
+                        </div>
+                    </div>
+                }
+            }@else {
+                <span class="no-user-title">No users selected</span>
             }
         </div>
     </div>

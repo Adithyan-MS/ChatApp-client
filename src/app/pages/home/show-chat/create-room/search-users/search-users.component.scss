@@ -3,41 +3,113 @@
     width: 100%;
     height: 100%;
     align-items: center;
-    flex-direction: column;
+    padding-left: 10px;
+}
+.left{
+    flex: 60%;
+    height: 100%;
+}
+.right{
+    height: 100%;
+    flex: 40%;
+}
+.title{
+    align-self: flex-start;
+    color: #49416d;
+    font-weight: 800;
 }
 .search{
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: start;
-    width: 98%;
+    width: 97%;
 }
 .search input{
-    border: none;
+    border: 1px solid black;
     width: 60%;
-    height: 30px;
+    height: 20px;
     font-size: 15px;
     border-radius: 5px;
-    box-shadow: 0px 0px 19px 5px rgba(122, 122, 122, 0.1);
+}
+input:focus{
+    outline: none;
 }
 .search-results{
     flex: 6;
-    width: 100%;
+    width: 95%;
     display: flex;
-    align-items: center;
-    height: 100px;
+    align-items: start;
+    height: 150px;
 }
 .result-container{
-    height: 150px;
-    flex-wrap: wrap;
+    padding-top: 10px;
+    max-height: 140px;
     overflow: scroll;
     display: flex;
     align-items: start;
     justify-content: start;
-    gap: 35px;
+    flex-wrap: wrap;
+    gap: 15px;
     -ms-overflow-style: none; 
     scrollbar-width: none;
+
 }
 .result-container::-webkit-scrollbar {
   display: none;
+}
+app-user-result{
+    cursor: pointer;
+}
+.selectedUsers-container{
+    overflow: scroll;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-wrap: wrap;
+    max-height: 150px;
+    gap: 10px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+.selectedUsers-container::-webkit-scrollbar {
+  display: none;
+}
+.no-user-title{
+    color: rgb(192, 89, 89);
+    font-size: 13px;
+}
+.selected-user{
+    height: 18px;
+    min-width: 50px;
+    gap: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #49416d;
+    border-radius: 10px;
+    box-shadow: 0px 0px 19px 5px rgba(122, 122, 122, 0.1);
+    border: 1px solid #49416d;
+    padding: 3px;
+}
+.name{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+.deselect{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deselect i{
+    color: rgb(145, 58, 58);
+    padding: 2px;
+    cursor: pointer;
+}
+.deselect i:hover{
+    background-color: #49416d;
+    color: white;
+    border-radius: 50%;
 }

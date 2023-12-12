@@ -16,6 +16,7 @@ import { UserResultComponent } from './user-result/user-result.component';
 export class SearchUsersComponent {
 
   searchResult:User[]|null
+  selectedUsers:any[]=[]
 
   constructor(private api:ApiService){}
 
@@ -25,13 +26,33 @@ export class SearchUsersComponent {
       let queryParams = new HttpParams()
       queryParams = queryParams.append("name",searchName)
       this.api.getReturn(`${environment.BASE_API_URL}/user/searchUsers`,{params:queryParams}).subscribe((data)=>{
-        console.log(data);
-        this.searchResult = data
+        this.searchResult = data.filter((obj1:any) => !this.selectedUsers.some((obj2) => obj1.id === obj2.id));
       },(error)=>{
         console.log(error);
       })
     }else{
+      this.selectedUsers =this.selectedUsers
       this.searchResult=null
     }
   }
+
+  getSelectedUser(user:any) {
+    this.selectedUsers.push(user)
+    console.log(this.selectedUsers);    
+  }
+
+  isUserSelected(user:any){
+    if(this.selectedUsers.includes(user)){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  removeUser(user:any){
+    this.selectedUsers = this.selectedUsers.filter(obj => {
+      return obj !== user
+    });
+  }
+
 }

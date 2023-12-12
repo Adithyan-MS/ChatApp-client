@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { User } from '../../../../../../models/data-types';
 import { AppService } from '../../../../../../services/app.service';
@@ -13,10 +13,11 @@ import { environment } from '../../../../../../../environments/environment.devel
 })
 export class UserResultComponent implements OnInit{
   @Input() user:any
+  @Output() eventEmitter = new EventEmitter<any>()
+
   userPic:string
   
   constructor(private appService:AppService){
-
   }
 
   ngOnInit(): void { 
@@ -25,7 +26,10 @@ export class UserResultComponent implements OnInit{
     }else{
       this.userPic = environment.USER_IMAGE
     }
+  }
 
+  selectedUser(user: any){
+      this.eventEmitter.emit(user)
   }
 
 
