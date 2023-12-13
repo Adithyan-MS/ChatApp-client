@@ -33,7 +33,7 @@ export class ChatProfileComponent implements OnInit{
       this.api.getReturn(`${environment.BASE_API_URL}/user/${this.currentChat.name}`).subscribe((data:User)=>{
         this.chatDetails=data
         if(this.chatDetails.profilePic!=null){
-          this.chatPicture = this.appService.getImageUrl(this.chatDetails.profilePic,this.currentChat.type)
+          this.chatPicture = this.appService.getImageUrl(this.chatDetails.profilePic)
         }else{
           this.chatPicture = environment.USER_IMAGE
         }
@@ -50,7 +50,7 @@ export class ChatProfileComponent implements OnInit{
       this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.name}`).subscribe((data:Room)=>{
         this.chatDetails=data
         if(this.chatDetails.room_pic){
-          this.chatPicture=this.appService.getImageUrl(this.chatDetails.room_pic,this.currentChat.type)
+          this.chatPicture=this.appService.getImageUrl(this.chatDetails.room_pic)
         }else{
           this.chatPicture= environment.ROOM_IMAGE
         }

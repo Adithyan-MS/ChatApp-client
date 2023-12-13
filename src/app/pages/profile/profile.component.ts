@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit{
       if(this.data){
         this.currentUser = JSON.parse(this.data)
         if(this.currentUser.profilePic!=null){
-          this.profilePic = this.appService.getImageUrl(this.currentUser.profilePic,"user");
+          this.profilePic = this.appService.getImageUrl(this.currentUser.profilePic);
         }else{
           this.profilePic = environment.USER_IMAGE
         }
@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit{
       let formParams = new FormData();
       formParams.append('file',this.imageFile);
       const headers = new HttpHeaders().set("ResponseType","text")
-      this.api.postReturn(`${environment.BASE_API_URL}/user/update/picture`,formParams,{headers}).subscribe((data)=>{
+      this.api.postReturn(`${environment.BASE_API_URL}/image/upload`,formParams,{headers}).subscribe((data)=>{
         if(typeof localStorage != null){
           this.newUserDetails = localStorage.getItem("user");
           this.newUserDetails = JSON.parse(this.newUserDetails);

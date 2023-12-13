@@ -22,8 +22,8 @@ export class AppService {
     return formattedDate; 
   }
 
-  getImageUrl(image:string,type:string){
-    return `${environment.BASE_API_URL}/${type}/image/${image}`
+  getImageUrl(image:string){
+    return `${environment.BASE_API_URL}/image/view/${image}`
   }
 
 }

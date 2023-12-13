@@ -13,6 +13,20 @@
                             <div class="name-input">
                                 <label for="">Room name:</label>
                                 <input type="text" formControlName="name">
+                                    @if(submitted){
+                                        @if(createRoomForm.controls["name"].invalid && createRoomForm.controls["name"].dirty || createRoomForm.controls["name"].touched){
+                                            <div class="error">
+                                                @if(createRoomForm.controls["name"].errors?.['required']){
+                                                    This field is required.
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                    @if(!createSuccess){
+                                        <div class="error">
+                                            {{errorMessage}}
+                                        </div>
+                                    }
                             </div>
                             <div class="desc-input">
                                 <label for="">Room description:</label>
@@ -21,10 +35,10 @@
                         </div>
                         <div class="right">
                             <div class="image">
-                                <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" alt="" class="profilePic">
+                                <img [src]="imageSrc || noRoomPic" alt="" class="profilePic">
                                 <label class="upload-icon">
                                     <i class="fa-solid fa-camera"></i>     
-                                    <input type="file" id="file" style="display: none" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+                                    <input type="file" id="file" style="display: none" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos" (change)="onFileChange($event)">   
                                 </label>
                             </div>
                             <label for="">Choose picture:</label>
@@ -35,8 +49,8 @@
                             <app-search-users (itemsChanged)="onItemsChanged($event)"></app-search-users>
                         </div>
                         <div class="form-buttons">
-                            <button class="cancel">cancel</button>
-                            <button class="create" [disabled]="createRoomForm.invalid">create</button>
+                            <button class="cancel" type="reset" (click)="cancelRoomCreate()">cancel</button>
+                            <button class="create" type="submit">create</button>
                         </div>
                     </div>
                 </form>

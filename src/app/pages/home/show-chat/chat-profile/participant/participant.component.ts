@@ -20,7 +20,7 @@ export class ParticipantComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.member.profile_pic){
-      this.memberPic=this.appService.getImageUrl(this.member.profile_pic,"user")
+      this.memberPic=this.appService.getImageUrl(this.member.profile_pic)
     }else{
       this.memberPic = environment.USER_IMAGE
     }

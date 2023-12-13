@@ -22,7 +22,7 @@ export class UserResultComponent implements OnInit{
 
   ngOnInit(): void { 
     if(this.user.profile_pic){
-      this.userPic = this.appService.getImageUrl(this.user.profile_pic,"user");
+      this.userPic = this.appService.getImageUrl(this.user.profile_pic);
     }else{
       this.userPic = environment.USER_IMAGE
     }

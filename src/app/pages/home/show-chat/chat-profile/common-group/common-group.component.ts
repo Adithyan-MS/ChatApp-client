@@ -20,7 +20,7 @@ export class CommonGroupComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.room.room_pic){
-      this.roomPic = this.appService.getImageUrl(this.room.room_pic,"room")
+      this.roomPic = this.appService.getImageUrl(this.room.room_pic)
     }else{
       this.roomPic=environment.ROOM_IMAGE
     }

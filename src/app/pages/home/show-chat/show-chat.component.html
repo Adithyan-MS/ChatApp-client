@@ -50,16 +50,15 @@
             <app-chat-profile [currentChat]="currentChat" (eventEmitter)="viewEvent($event)"></app-chat-profile>
         }
         @case ("createRoom") {
-            <app-create-room></app-create-room>
+            <app-create-room (cancelEvent)="onCancelEvent($event)"></app-create-room>
         }
         @case ("joinRoom") {
             <app-join-room></app-join-room>
         }
         @default {
-            <!-- <div class="startChat">
+            <div class="startChat">
                 <span>Start a new chat</span>
-            </div> -->
-            <app-create-room></app-create-room>
+            </div>
         }
       }
 </div>

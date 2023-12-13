@@ -44,7 +44,7 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
         this.showWhat="chat"       
         this.currentChat = res.data;
         if (this.currentChat.profile_pic) {
-          this.currentChatPic = this.appService.getImageUrl(this.currentChat.profile_pic,this.currentChat.type);
+          this.currentChatPic = this.appService.getImageUrl(this.currentChat.profile_pic);
         }else{
           if(this.currentChat.type=="user"){
             this.currentChatPic= environment.USER_IMAGE            
@@ -120,10 +120,7 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
   scrollToBottom() {
     try {
       console.log(this.myScrollContainer);
-      
-      // Check if scrollContainer.nativeElement is defined before accessing it
       if (this.myScrollContainer && this.myScrollContainer.nativeElement) {
-        // Set the scroll position to the bottom
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
       }
     } catch (err) {
@@ -131,4 +128,11 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
     }
   }
 
+  onCancelEvent(value:any){
+    if(this.currentChat){
+      this.showWhat = value
+    }else{
+      this.showWhat = "startChat"
+    }
+  }
 }
