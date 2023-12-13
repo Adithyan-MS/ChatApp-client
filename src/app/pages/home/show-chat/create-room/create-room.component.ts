@@ -47,8 +47,7 @@ export class CreateRoomComponent implements OnInit{
   }
 
   OnSubmit(){
-    this.submitted = true
-    
+    this.submitted = true    
     if(this.createRoomForm.invalid || this.members?.length==0){
       this.createRoomForm.markAllAsTouched();
       return
@@ -59,35 +58,35 @@ export class CreateRoomComponent implements OnInit{
       desc:formdata.desc,
       participants:this.members
     }
-    this.api.postReturn(`${environment.BASE_API_URL}/room/createRoom`,requestBody).subscribe((data)=>{
-      this.room = data
-      console.log(data);
-      
+    this.api.postReturn(`${environment.BASE_API_URL}/room/createRoom`,requestBody).subscribe((data:Room)=>{
+      this.room = data      
       if(this.imageFile){
         let formParams = new FormData()
         formParams.append('file',this.imageFile)
-        const headers = new HttpHeaders().set("Response","text")
-        this.api.postReturn(`${environment.BASE_API_URL}/image/upload/${this.room.id}`,formParams,{headers}).subscribe((data)=>{
-          this.roomPic = data
+        const headers = new HttpHeaders().set("ResponseType","text")
+        this.api.postReturn(`${environment.BASE_API_URL}/image/upload/${this.room.id}`,formParams,{headers}).subscribe((data:string)=>{
+          this.room.room_pic = data
         },(error)=>{
           console.log(error);
         })
       }
-      this.createSuccess = true   
+      this.createSuccess = true 
+    },(error)=>{      
+      this.errorMessage = error["error"].message;
+      this.createSuccess = false    
+    })
+    if(this.createSuccess){        
       this.dataService.notifyOther({
         view:"chat",
         data:{
           type:"room",
           id:this.room.id,
           name:this.room.name,
-          profile_pic:this.roomPic,
+          profile_pic:this.room.room_pic,
           max_modified_at:this.room.modifiedAt
         }
       })
-    },(error)=>{
-      this.errorMessage = JSON.parse(error["error"]).message;
-      this.createSuccess = false    
-    })
+    }
     this.submitted = false
   }
 
@@ -96,8 +95,7 @@ export class CreateRoomComponent implements OnInit{
     if(this.imageFile){
       const reader = new FileReader();
       reader.onload = e => this.imageSrc = reader.result;
-      reader.readAsDataURL(this.imageFile);
-      console.log(this.imageFile);
+      reader.readAsDataURL(this.imageFile)
     }
   }
   cancelRoomCreate(){

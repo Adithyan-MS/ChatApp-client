@@ -7,15 +7,15 @@
     cursor: pointer;
 }
 .group:hover{
-    background-color: #bdd9bf;
-    color: #49416d;
+    background-color: var(--light-roof);
+    color: var(--dark-base);
 }
 .group:hover .icon-area{
-    background-color: #49416d;
-    color: #bdd9bf;
+    background-color: var(--dark-base);
+    color: var(--light-roof);
 }
 .group:hover i{
-    color: #bdd9bf;
+    color: var(--light-roof);
 }
 .group-icon{
     flex: 1;
@@ -27,7 +27,7 @@
     justify-content: center;
 }
 .group-icon i{
-    color: #49416d;
+    color: var(--dark-base);
 }
 .group-icon img{
     width: 50px;
@@ -45,7 +45,7 @@
     justify-content: center;
     border-radius: 50%;
     object-fit: cover;
-    background-color: #bdd9bf;
+    background-color: var(--light-roof);
 }
 .group-items{
     flex: 9;
@@ -70,9 +70,9 @@
 .group-admin{
     margin-right: 10px;
     padding: 3px;
-    border: 1px solid #bdd9bf;
+    border: 1px solid var(--light-roof);
     font-size: 10px;
 }
 .group:hover .group-admin{
-    border: 1px solid #49416d;
+    border: 1px solid var(--dark-base);
 }

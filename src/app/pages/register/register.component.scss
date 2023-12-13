@@ -23,7 +23,7 @@
 .register-title{
     font-weight: 900;
     font-size: 37px;
-    color: rgb(147, 122, 167);
+    color: var(--light-base);
 }
 .register-status{
     height: 15px;
@@ -89,7 +89,7 @@ p > a{
 }
 button{
     border: none;
-    background-color: rgb(147, 122, 167);
+    background-color: var(--light-base);
     width: 100px;
     font-size: large;
     height: 40px;

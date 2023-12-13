@@ -3,11 +3,23 @@ html,body {
     margin : 0;
     height: 100%;
 }
-@import url('https://fonts.googleapis.com/css2?family=Alata&family=REM:wght@500&family=Space+Grotesk&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik&family=Alata&family=REM:wght@500&family=Space+Grotesk&display=swap');
 body{
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Rubik', sans-serif;
 }
+
+:root {
+    --dark-base: #49416d;
+    --darkx-base: #15055d;
+    --light-base: rgb(147, 122, 167);
+    --light-roof: #dfd9e2;
+    --lightx-roof: rgb(199, 197, 197);
+}
+
+// --light-roof: #f7f4f3;
+// --light-roof: #9abfce;
+// --light-roof: #a7c2cc;
+// --light-roof: #dfd9e2; ----->
 
 // font-family: 'Space Grotesk', sans-serif; ----base font
 

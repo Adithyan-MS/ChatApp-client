@@ -23,7 +23,7 @@
 .login-title{
     font-weight: 900;
     font-size: 37px;
-    color: rgb(147, 122, 167);
+    color: var(--light-base);
 }
 .login-status{
     height: 20px;
@@ -86,11 +86,11 @@ p{
 p > a{
     text-decoration: none;
     cursor: pointer;
-    color: rgb(147, 122, 167);
+    color:var(--light-base);
 }
 button{
     border: none;
-    background-color: rgb(147, 122, 167);
+    background-color:var(--light-base);
     width: 100px;
     font-size: large;
     height: 50px;

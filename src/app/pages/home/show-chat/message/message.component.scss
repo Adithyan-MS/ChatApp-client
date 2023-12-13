@@ -1,7 +1,7 @@
 .container{
     width:fit-content;
     max-width: 50%;
-    background-color: rgb(112 82 136);
+    background-color: var(--light-base);
     height: auto;
     border-radius: 5px;
     display: flex;
@@ -12,7 +12,7 @@
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
 }
 .right{
-    background-color: #49416d;
+    background-color: var(--dark-base);
     float: right;
 }
 .right .name{

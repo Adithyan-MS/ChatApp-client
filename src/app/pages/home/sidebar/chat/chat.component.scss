@@ -7,11 +7,11 @@
     align-items: center;
     cursor: pointer;
     border-radius: 5px;
-    background-color: #49416d;
+    background-color: var(--dark-base);
     color: white;
   }
   .items:hover{
-    background-color: rgb(112 82 136);
+    background-color: var(--light-base);
   }
   .left{
     display: flex;

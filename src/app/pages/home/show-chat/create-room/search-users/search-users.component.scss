@@ -15,7 +15,7 @@
 }
 .title{
     align-self: flex-start;
-    color: #49416d;
+    color: var(--dark-base);
     font-weight: 800;
 }
 .search{
@@ -86,10 +86,10 @@ app-user-result{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    color: #49416d;
+    color: var(--dark-base);
     border-radius: 10px;
     box-shadow: 0px 0px 19px 5px rgba(122, 122, 122, 0.1);
-    border: 1px solid #49416d;
+    border: 1px solid var(--dark-base);
     padding: 3px;
 }
 .name{
@@ -109,7 +109,7 @@ app-user-result{
     cursor: pointer;
 }
 .deselect i:hover{
-    background-color: #49416d;
+    background-color: var(--dark-base);
     color: white;
     border-radius: 50%;
 }

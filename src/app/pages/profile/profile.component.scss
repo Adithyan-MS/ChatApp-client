@@ -1,5 +1,5 @@
 .container{
-    background-color: #bdd9bf;
+    background-color: var(--light-roof);
     height: 92%;
     overflow: scroll;
     -ms-overflow-style: none; 
@@ -19,7 +19,7 @@
     justify-content: center;
     left: 40px;
     font-size: 25px;
-    color: #49416d;
+    color: var(--dark-base);
     z-index: 99;
 }
 .back i{
@@ -42,7 +42,7 @@
     display: flex;
     width: 80%;
     border-radius: 8px;
-    background-color: #49416d;
+    background-color: var(--dark-base);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
 }
 .header{
@@ -79,7 +79,7 @@
 }
 .upload-icon{
     position: absolute;
-    background-color: #bdd9bf;
+    background-color: var(--light-roof);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -99,14 +99,14 @@
     border-radius: 50%;
     height: 100%;
     font-size: 40px;
-    color: #49416d;
+    color: var(--dark-base);
 }
 .upload-icon :hover{
-    background-color: #15055d;
+    background-color: var(--darkx-base);
 }
 .upload-icon:hover i{
-    background-color: #49416d;
-    color: #bdd9bf;
+    background-color: var(--dark-base);
+    color: var(--light-roof);
 }
 .right{
     height: 100%;
@@ -118,7 +118,7 @@
 }
 hr{
     height: 80%;
-    border: 3px solid #bdd9bf;
+    border: 3px solid var(--light-roof);
     border-radius: 50%;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
 }
@@ -136,7 +136,7 @@ hr{
     width: 80%;
     border-radius: 10px;
     display: flex;  
-    background-color: rgb(147, 122, 167);
+    background-color: var(--light-base);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
     color: white;
     justify-content: start;
@@ -159,11 +159,11 @@ hr{
     align-items: center;
     justify-content: center;
     border-radius: 30%;
-    background-color: #49416d;
+    background-color: var(--dark-base);
 }
 .item-title{
     font-size: 14px;
-    color: rgb(199, 197, 197);
+    color: var(--lightx-roof);
 }
 .item-content{
     height: 20px;
@@ -175,9 +175,9 @@ hr{
 }
 .item-content input{
     width: 90%;
-    background-color:  rgb(147, 122, 167);
+    background-color:  var(--light-base);
     border: none;
-    border-bottom: 1px solid #49416d;
+    border-bottom: 1px solid var(--dark-base);
     color: white;
 }
 .item-content input:focus{
@@ -201,10 +201,10 @@ hr{
     cursor: pointer;
 }
 .editIcon :hover{
-    color: #bdd9bf;
+    color: var(--light-roof);
 }
 .biosubmitButton{
-    background-color:  rgb(147, 122, 167);
+    background-color:  var(--light-base);
     border: none;
     cursor: pointer;
     color: white;
@@ -214,7 +214,7 @@ hr{
     justify-content: center;
 }
 .biosubmitButton i:hover{
-    color: #bdd9bf;
+    color: var(--light-roof);
 }
 
 .other-items{

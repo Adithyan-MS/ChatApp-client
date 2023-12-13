@@ -81,7 +81,6 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
     this.messageForm = this.fb.group({
       content:['',[Validators.required]]
     })
-
   }
 
   sendMessage(){
@@ -108,15 +107,12 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
   viewProfile(){
     this.showWhat="profile"
   }
-
   viewEvent($event:string){
     this.showWhat="chat"
   }
-
   toggleMenu(){
     this.isMenuOpened = !this.isMenuOpened;
   }
-
   scrollToBottom() {
     try {
       console.log(this.myScrollContainer);
@@ -127,7 +123,6 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
       console.error(err);
     }
   }
-
   onCancelEvent(value:any){
     if(this.currentChat){
       this.showWhat = value
