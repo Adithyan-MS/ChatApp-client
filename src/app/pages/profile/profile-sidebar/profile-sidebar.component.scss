@@ -12,25 +12,25 @@
 }
 .item{
     padding: 15px;
-    background-color:  rgb(147, 122, 167);
+    background-color: var(--light-base);
     display: flex;
     align-items: center;
     justify-content: start;
     gap: 10px;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
-    border: 1px solid #49416d;
+    border: 1px solid var(--dark-base);
     cursor: pointer;
 }
 .item:hover{
-    background-color: #49416d;
-    border: 1px solid #bdd9bf;
+    background-color: var(--dark-base);
+    border: 1px solid var(--light-roof);
 }
 .item:hover i{
-    color: #bdd9bf;
+    color: var(--light-roof);
 }
 .item i{
     font-size: 22px;
-    color: #49416d;
+    color: var(--dark-base);
 }
 .item .icon{
     width: 40px;

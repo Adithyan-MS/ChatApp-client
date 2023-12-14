@@ -202,7 +202,7 @@
     gap: 5px;
 }
 .group:first-child:hover{
-    background-color: rgb(147, 122, 167);
+    background-color: var(--light-base);
 }
 .group{
     width: 90%;
