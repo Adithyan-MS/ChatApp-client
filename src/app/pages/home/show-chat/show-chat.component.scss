@@ -80,14 +80,15 @@
   border-radius: 10px;
 }
 .menu-item{
-  background-color: var(--dark-base);
+  background-color: var(--dark-roof);
     padding: 10px;
-    color: white;
+    color: var(--black-alpa);
     cursor: pointer;
     font-size: 15px;
 }
 .menu-item:hover{
-  background-color: var(--light-base);
+  background-color: var(--dark-base);
+  color: white;
 }
 .more{
     cursor: pointer;
@@ -125,33 +126,44 @@
     bottom: 0;
   }
   .send{
-    width: 60%;
+    width: 90%;
+    height: 80%;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   .input{
-    flex: 1;
+    width: 100%;
+    height: 100%;
+    align-items: center;
     display: flex;
     gap: 5px;
   }
   input{
     width: 100%;
+    background-color: var(--light-roof);
     height: 27px;
-    border-radius: 20px;
+    border-radius: 5px;
     border: none;
+    height: 100%;
+    font-size: 15px;
+  }
+  .input input:focus{
+    outline: none;
   }
   .button{
-    flex: 1;
     display: flex;
     justify-content: end;
+    height: 100%;
   }
   button{
     border: none;
+    border-radius: 20px;
     color: white;
-    background-color:var(--dark-base);
-    border-radius: 5px;
+    background-color:var(--black-alpa);
     cursor: pointer;
     width: 70px;
+    height: 100%;
   }
   .startChat{
     text-align: center;
@@ -159,7 +171,7 @@
     position: absolute;
     top: 45%;
     left: 40%;
-    color: var(--dark-base);
+    color: var(--black-alpa);
   }
   app-chat-profile{
     height: 100%;

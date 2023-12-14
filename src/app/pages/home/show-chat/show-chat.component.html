@@ -40,7 +40,7 @@
             <div class="send-container">
                 <div class="send">
                     <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
-                        <input formControlName="content" type="text">
+                        <input formControlName="content" type="text" placeholder="Type a message">
                         <button>Send</button>
                     </form>
                 </div>
@@ -56,10 +56,10 @@
             <app-join-room></app-join-room>
         }
         @default {
-            <!-- <div class="startChat">
+            <div class="startChat">
                 <span>Start a new chat</span>
-            </div> -->
-            <app-join-room></app-join-room>
+            </div>
+            <!-- <app-join-room></app-join-room> -->
         }
       }
 </div>

@@ -19,7 +19,7 @@
     justify-content: center;
     left: 40px;
     font-size: 25px;
-    color: var(--dark-base);
+    color: var(--black-alpa);
     z-index: 99;
 }
 .back i{
@@ -42,7 +42,7 @@
     display: flex;
     width: 80%;
     border-radius: 8px;
-    background-color: var(--dark-base);
+    background-color: var(--dark-roof);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
 }
 .header{
@@ -126,7 +126,7 @@ hr{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80%;
+    height: 90%;
     flex-direction: column;
     border-radius: 10px;
     gap: 8px;
@@ -134,9 +134,10 @@ hr{
 }
 .items{
     width: 80%;
+    height: 98%;
     border-radius: 10px;
     display: flex;  
-    background-color: var(--light-base);
+    background-color: var(--light-roof);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
     color: white;
     justify-content: start;
@@ -175,7 +176,7 @@ hr{
 }
 .item-content input{
     width: 90%;
-    background-color:  var(--light-base);
+    background-color:  var(--light-roof);
     border: none;
     border-bottom: 1px solid var(--dark-base);
     color: white;
@@ -201,10 +202,10 @@ hr{
     cursor: pointer;
 }
 .editIcon :hover{
-    color: var(--light-roof);
+    color: var(--dark-roof);
 }
 .biosubmitButton{
-    background-color:  var(--light-base);
+    background-color:  var(--light-roof);
     border: none;
     cursor: pointer;
     color: white;
@@ -214,7 +215,7 @@ hr{
     justify-content: center;
 }
 .biosubmitButton i:hover{
-    color: var(--light-roof);
+    color: var(--dark-roof);
 }
 
 .other-items{

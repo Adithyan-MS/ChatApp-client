@@ -20,7 +20,7 @@
     justify-content: center;
     left: 30px;
     font-size: 25px;
-    color: var(--dark-base);
+    color: var(--black-alpa);
     z-index: 99;
 }
 .back i{
@@ -53,7 +53,7 @@
 .item{
     color: white;
     display: flex;
-    background-color: var(--dark-base);
+    background-color: var(--dark-roof);
     width: 100%;
     flex-direction: column;
     border-radius: 7px;
@@ -102,7 +102,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--light-roof);
+    color: white;
     font-size: 20px;
     border: 0.5px solid var(--light-roof);
     border-radius: 5px;
@@ -166,7 +166,7 @@
     font-size: 25px;
 }
 .meta .prio2 i{
-    color: var(--light-roof);
+    color: white;
 }
 
 .meta .prio1 i{
@@ -202,7 +202,10 @@
     gap: 5px;
 }
 .group:first-child:hover{
-    background-color: var(--light-base);
+    border: 1px solid var(--dark-base);
+}
+.group:first-child{
+    border: 1px solid var(--dark-roof);
 }
 .group{
     width: 90%;

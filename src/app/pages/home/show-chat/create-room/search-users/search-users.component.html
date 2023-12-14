@@ -2,6 +2,7 @@
     <div class="left">
         <span class="title">Add Participants</span>
         <div class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" placeholder="search users" (input)="searchUsers($event)">
         </div>
         <div class="search-results">
@@ -15,7 +16,6 @@
         </div>
     </div>
     <div class="right">
-        <span class="title">Selected Users:</span>
         <div class="selectedUsers-container">
             @if(selectedUsers.length>0){
                 @for(user of selectedUsers; track user.id){

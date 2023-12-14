@@ -12,13 +12,13 @@
 }
 .item{
     padding: 15px;
-    background-color: var(--light-base);
+    background-color: var(--light-roof);
     display: flex;
     align-items: center;
     justify-content: start;
     gap: 10px;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
-    border: 1px solid var(--dark-base);
+    border: 1px solid var(--light-roof);
     cursor: pointer;
 }
 .item:hover{

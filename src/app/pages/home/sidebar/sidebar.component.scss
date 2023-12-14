@@ -24,7 +24,8 @@
     position: sticky;
     top: 0;
     z-index: 999;
-    border-right: 1px solid var(--light-base);
+    border-right: 1px solid var(--dark-roof);
+    border-bottom: 2px solid var(--black-alpa);
 }
 .top{
     display: flex;
@@ -32,7 +33,7 @@
     width: 100%;
     flex: 2;
     align-items: center;
-    border-bottom: 1px solid var(--light-base);
+    border-bottom: 0.5px solid var(--black-alpa);
 
     
 }
@@ -59,26 +60,24 @@
     top: 40px;
     right: 9px;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: 190px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 7px 15px;
     z-index: 1;
-    background-color: var(--light-roof);
-    border: 1px solid var(--light-base);
+    background-color: var(--dark-roof);
     font-size: 15px;
   }
   .dropdown:hover .dropdown-content {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
-.dropdown-content p{
-    background-color: var(--dark-base);
+.dropdown-content div{
+    color: black;
     padding: 10px;
-    // border-radius: 5px;
-    color: white;
     cursor: pointer;
 }
-.dropdown-content p:hover{
-    background-color: var(--light-base);
+.dropdown-content div:hover{
+    background-color: var(--dark-base);
+    color:white;
 }
 .new{
     font-size: 16px;
@@ -91,14 +90,17 @@
     padding: 5px;   
     width: 90%;
     flex: 1;
-    border-bottom: 2px solid var(--dark-base);
 }
 .bottom > input{
     width: 80%;
     border: 0.5px solid gray;
     font-size: 15px;
     border-radius: 5px;
+    background-color: aliceblue;
     border: none;
+}
+.bottom > input{
+    outline: none;
 }
 .chats{
     display: flex;

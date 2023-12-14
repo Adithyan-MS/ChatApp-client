@@ -8,13 +8,13 @@
     cursor: pointer;
     border-radius: 5px;
     background-color: var(--light-roof);
-    color: var(--dark-base);
+    color: var(--black-alpa);
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
     border: 1px solid var(--light-roof);
   }
   .items:hover{
     border: 1px solid var(--dark-base);
-    background-color: var(--light-base);
+    background-color: var(--dark-roof);
   }
   .left{
     display: flex;
