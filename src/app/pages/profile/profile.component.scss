@@ -160,15 +160,16 @@ hr{
     align-items: center;
     justify-content: center;
     border-radius: 30%;
-    background-color: var(--dark-base);
+    background-color: var(--dark-roof);
 }
 .item-title{
     font-size: 14px;
-    color: var(--lightx-roof);
+    color: rgb(80, 79, 79);
 }
 .item-content{
     height: 20px;
-    color: white;
+    color: black;
+    font-weight: 600;
     display: flex;
     justify-content: space-between;
     gap: 5px;
@@ -178,8 +179,10 @@ hr{
     width: 90%;
     background-color:  var(--light-roof);
     border: none;
+    font-size: 15px;
     border-bottom: 1px solid var(--dark-base);
-    color: white;
+    color: black;
+    font-weight: 600;
 }
 .item-content input:focus{
     outline: none;

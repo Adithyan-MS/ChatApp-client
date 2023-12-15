@@ -6,20 +6,30 @@
             </div>
         </div>
         <div class="item">
+            <div class="joinError">
+                <span>
+                    @if(joinError){
+                        {{joinError}}
+                    }
+                </span>
+            </div>
             <div class="join-form">
                 <div class="top">
                     <div class="input">
-                        <input type="text">
-                        <i></i>
-                    </div>
-                    <div class="searchResult"></div>
-                </div>
-                <div class="bottom">
-                    <div class="cancel">
-                        <button class="cancelBtn">Cancel</button>
-                    </div>
-                    <div class="create">
-                        <button class="createBtn">Join</button>
+                        <input type="text" #roomNameValue>
+                        <i class="fa-solid fa-magnifying-glass" (click)="searchRoom()"></i>                    </div>
+                    <div class="searchResult">
+                        @if(room){
+                            <app-room-result [roomData]="room" (errorEvent)="getErrorMessage($event)"></app-room-result>
+                        }@else{
+                            <div class="search-desc">
+                                @if(searchFlag){
+                                    <span>Can't find this room</span>
+                                }@else{
+                                    <span>Search room for joining</span>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

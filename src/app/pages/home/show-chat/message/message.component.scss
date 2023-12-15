@@ -48,3 +48,13 @@
 .time span{
     font-size: 7px;
 }
+.dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    bottom: 50px;
+    z-index: 1;
+    width: 300px;
+  }
+  

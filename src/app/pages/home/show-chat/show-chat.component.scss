@@ -74,20 +74,21 @@
 .menu{
   background-color: #333;
   color: white;
+  box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
   position: absolute;
   top: 40px;
   right: 9px;
   border-radius: 10px;
 }
 .menu-item{
-  background-color: var(--dark-roof);
+  background-color: var(--light-roof);
     padding: 10px;
     color: var(--black-alpa);
     cursor: pointer;
     font-size: 15px;
 }
 .menu-item:hover{
-  background-color: var(--dark-base);
+  background-color: var(--dark-roof);
   color: white;
 }
 .more{
@@ -192,4 +193,8 @@
     align-items: center;
     justify-content: center;
   }
-  
+
+  app-message{
+    position: relative;
+    display: inline-block;
+  }

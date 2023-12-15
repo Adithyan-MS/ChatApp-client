@@ -33,7 +33,7 @@
             <div class="view" #scrollTarget>
                 <div class="message-area">
                     @for(message of messageList; track message.id){
-                        <app-message class="" [message]="message"></app-message>
+                        <app-message class="dropup" [message]="message"></app-message>
                     }
                 </div>
             </div>
@@ -59,7 +59,6 @@
             <div class="startChat">
                 <span>Start a new chat</span>
             </div>
-            <!-- <app-join-room></app-join-room> -->
         }
       }
 </div>

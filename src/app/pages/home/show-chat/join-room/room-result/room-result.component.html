@@ -1,0 +1,16 @@
+<div class="group">
+    <div class="group-icon">
+        <div class="icon-area">
+            <img [src]="roomPic" alt="">
+        </div>
+    </div>
+    <div class="group-items">
+        <div class="item">
+            <span>{{roomData.name}}</span>
+            <span>{{roomData.description}}</span>
+        </div>
+        <div class="item">
+            <span class="group-join" (click)="joinRoom()">Join</span>
+        </div>
+    </div>
+</div>
