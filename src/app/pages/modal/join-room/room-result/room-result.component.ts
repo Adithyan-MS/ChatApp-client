@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Room } from '../../../../../models/data-types';
-import { environment } from '../../../../../../environments/environment.development';
-import { AppService } from '../../../../../services/app.service';
-import { ApiService } from '../../../../../services/api.service';
-import { DataService } from '../../../../../services/data.service';
+import { Room } from '../../../../models/data-types';
+import { environment } from '../../../../../environments/environment.development';
+import { AppService } from '../../../../services/app.service';
+import { ApiService } from '../../../../services/api.service';
+import { DataService } from '../../../../services/data.service';
 import { HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -17,13 +17,11 @@ import { HttpHeaders } from '@angular/common/http';
 export class RoomResultComponent implements OnInit{
 
   @Input() roomData:Room
-  @Output() errorEvent = new EventEmitter<any>()
+  @Output() responseEvent = new EventEmitter<any>()
   roomPic:string
   errorMessage:string
 
-  constructor(private appService:AppService,private api:ApiService,private dataService:DataService){
-
-  }
+  constructor(private appService:AppService,private api:ApiService,private dataService:DataService){ }
 
   ngOnInit(): void {
     if(this.roomData.room_pic){      
@@ -46,11 +44,16 @@ export class RoomResultComponent implements OnInit{
           max_modified_at:this.roomData.modifiedAt
         }
       })
-      console.log(data)
-    },(error:any)=>{
-      console.log(error.error);      
+      this.responseEvent.emit({
+        status:true,
+        message:"Join Success"
+      })     
+    },(error:any)=>{ 
       this.errorMessage = JSON.parse(error["error"]).message;
-      this.errorEvent.emit(this.errorMessage)      
+      this.responseEvent.emit({
+        status:false,
+        message:this.errorMessage
+      })      
     })
   }
 

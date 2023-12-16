@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { User, userSearch } from '../../../../../../models/data-types';
-import { AppService } from '../../../../../../services/app.service';
-import { environment } from '../../../../../../../environments/environment.development';
+import { User, userSearch } from '../../../../../models/data-types';
+import { AppService } from '../../../../../services/app.service';
+import { environment } from '../../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-user-result',

@@ -6,7 +6,7 @@
         <div class="header container-items">
             <div class="left">
                 <div class="image">
-                    <img [src]="profilePic ? profilePic : 'https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg'" alt="" class="profilePic">
+                    <img [src]="profilePic" alt="" class="profilePic" (click)="viewImage()">
                     <label class="upload-icon">
                         <i class="fa-solid fa-camera"></i>     
                         <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   

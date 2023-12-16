@@ -7,7 +7,7 @@
             <div class="item">
                 <div class="chat-basic">
                     <div class="image">
-                        <img [src]="chatPicture" alt="">
+                        <img [src]="chatPicture" alt="" (click)="viewImage()">
                     </div>
                     <div class="name">
                         <span>{{chatDetails?.name}}</span>

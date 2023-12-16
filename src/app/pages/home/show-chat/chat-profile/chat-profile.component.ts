@@ -1,4 +1,4 @@
-import { Component,EventEmitter,Input, OnInit, Output } from '@angular/core';
+import { Component,EventEmitter,Input, OnInit, Output, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Participant, Room, User, userChats } from '../../../../models/data-types';
 import { ApiService } from '../../../../services/api.service';
@@ -6,6 +6,7 @@ import { environment } from '../../../../../environments/environment.development
 import { AppService } from '../../../../services/app.service';
 import { ParticipantComponent } from './participant/participant.component';
 import { CommonGroupComponent } from './common-group/common-group.component';
+import { ModalService } from '../../../../services/modal.service';
 
 @Component({
   selector: 'app-chat-profile',
@@ -20,13 +21,13 @@ export class ChatProfileComponent implements OnInit{
   @Output() eventEmitter = new EventEmitter<string>()
 
   chatDetails:User|Room|any
-  chatPicture:string|null
+  chatPicture:string
   createdAt:string
   members:Participant[]
   pastMembers:Participant[]|null=null
   userCommonRooms:Room[]
 
-  constructor(private api:ApiService,private appService : AppService){}
+  constructor(private api:ApiService,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef){}
 
   ngOnInit(): void {
     if(this.currentChat.type==="user"){
@@ -75,5 +76,9 @@ export class ChatProfileComponent implements OnInit{
     this.eventEmitter.emit("chat")
   }
     
+  viewImage(){
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("viewImage",this.chatPicture)
+  }
 
 }

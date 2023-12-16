@@ -1,0 +1,45 @@
+<div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}">
+    <div class="username">
+        <span>{{message.sender_name}}</span>
+        <i class="show-options fa-solid fa-angle-up" [ngClass]="{'flipped' : isOptionsOpened}" (click)="optionsToggle()"></i>
+    </div>
+    <div class="content">
+        <span>{{message.content}}</span>
+    </div>
+    <div class="time">
+        <span>{{sendTime}}</span>
+    </div>
+    @if(message.like_count){
+        <div class="like">
+            <i class="fa-solid fa-heart" (click)="LikedUsersToggle()"></i>
+            @if(message.like_count > 1){
+                <span>{{message.like_count}}</span>
+            }
+            @if(isLikedUsersOpened && likedUsers){
+                <div class="show-liked-users">
+                    <div class="liked-users">
+                        @for(user of likedUsers; track user.id){
+                            <div class="user">
+                                <img [src]="user.profile_pic ? 'http://localhost:8080/chatApi/v1/image/view/'+user.profile_pic : noUserPic" alt="">
+                                <div class="name">
+                                    <span>{{user.name}}</span>
+                                </div>
+                                <i class="fa-solid fa-heart"></i>   
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+@if(isOptionsOpened){
+    <div class="options">
+        <div class="option"><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
+        <div class="option"><i title="Reply" class="fa-solid fa-reply"></i></div>
+        <div class="option"><i title="Star" class="fa-regular fa-star"></i></div>
+        <div class="option"  [hidden]="message.sender_id!==currentUserId"><i  title="Edit" class="fa-solid fa-pencil"></i></div>
+        <div class="option"><i  title="Delete" class="fa-regular fa-trash-can" (click)="deleteMessage()"></i></div>
+        <div class="option"><i title="Select" class="fa-regular fa-square-check"></i></div>
+    </div>
+}

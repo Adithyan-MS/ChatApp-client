@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from './chat/chat.component';
 import { environment } from '../../../../environments/environment.development';
@@ -7,6 +7,7 @@ import { userChats } from '../../../models/data-types';
 import { DataService } from '../../../services/data.service';
 import { HttpParams } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,16 +20,24 @@ export class SidebarComponent implements OnInit{
 
   chats:userChats[]
 
-  constructor(private api:ApiService,private dataService : DataService){}
+  constructor(private api:ApiService,private dataService : DataService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
+    ){}
 
   ngOnInit(): void {    
+    this.getUserChats()    
+    this.dataService.notifyObservable$.subscribe((data)=>{
+      if(data){
+        this.getUserChats()
+      }
+    })
+  }
+  getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
       this.chats=data
     },(error)=>{
       console.log(error);      
     })
   }
-
 
   showChat(chat:userChats){
     this.dataService.notifyOther({
@@ -37,16 +46,12 @@ export class SidebarComponent implements OnInit{
     })
   }
   showCreateRoom(){
-    this.dataService.notifyOther({
-      view:"createRoom",
-      data:null
-    })
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("createRoom")
   }
   showJoinRoom(){
-    this.dataService.notifyOther({
-      view:"joinRoom",
-      data:null
-    })
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("joinRoom")
   }
 
   onSearchChange(event:any){
@@ -60,11 +65,7 @@ export class SidebarComponent implements OnInit{
         console.log(error);      
       })
       }else{
-        this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
-        this.chats=data
-      },(error)=>{
-        console.log(error);      
-      })
+        this.getUserChats()
     }
   }
 

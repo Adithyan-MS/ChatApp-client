@@ -1,13 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchUsersComponent } from './search-users/search-users.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiService } from '../../../../services/api.service';
-import { environment } from '../../../../../environments/environment.development';
-import { Room, userSearch } from '../../../../models/data-types';
+import { Room, userSearch } from '../../../models/data-types';
+import { DataService } from '../../../services/data.service';
+import { ApiService } from '../../../services/api.service';
+import { AppService } from '../../../services/app.service';
+import { ModalService } from '../../../services/modal.service';
+import { environment } from '../../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
-import { AppService } from '../../../../services/app.service';
-import { DataService } from '../../../../services/data.service';
+import { SearchUsersComponent } from './search-users/search-users.component';
 
 @Component({
   selector: 'app-create-room',
@@ -16,7 +17,7 @@ import { DataService } from '../../../../services/data.service';
   templateUrl: './create-room.component.html',
   styleUrl: './create-room.component.scss'
 })
-export class CreateRoomComponent implements OnInit{
+export class CreateRoomComponent {
 
   createRoomForm: FormGroup
   members:number[]
@@ -27,10 +28,9 @@ export class CreateRoomComponent implements OnInit{
   noRoomPic:string
   imageSrc:string|ArrayBuffer|null = null
   room:Room
-  @Output() cancelEvent = new EventEmitter<any>();
-  @Output() successEvent = new EventEmitter<any>();
+  @Output() successEvent = new EventEmitter<any>()
 
-  constructor(private fb:FormBuilder,private dataService: DataService,private api: ApiService,private appService:AppService){}
+  constructor(private fb:FormBuilder,private dataService: DataService,private api: ApiService,private appService:AppService,private modalService: ModalService){}
 
   roomPic:string|null
 
@@ -86,6 +86,7 @@ export class CreateRoomComponent implements OnInit{
           max_modified_at:this.room.modifiedAt
         }
       })
+      this.successEvent.emit("success")
     }
     this.submitted = false
   }
@@ -98,8 +99,4 @@ export class CreateRoomComponent implements OnInit{
       reader.readAsDataURL(this.imageFile)
     }
   }
-  cancelRoomCreate(){
-    this.cancelEvent.emit("chat")
-  }
-
 }

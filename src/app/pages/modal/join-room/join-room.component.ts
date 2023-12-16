@@ -1,9 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Room } from '../../../models/data-types';
+import { ApiService } from '../../../services/api.service';
+import { environment } from '../../../../environments/environment.development';
 import { RoomResultComponent } from './room-result/room-result.component';
-import { ApiService } from '../../../../services/api.service';
-import { environment } from '../../../../../environments/environment.development';
-import { Room } from '../../../../models/data-types';
 
 @Component({
   selector: 'app-join-room',
@@ -13,12 +13,13 @@ import { Room } from '../../../../models/data-types';
   styleUrl: './join-room.component.scss'
 })
 export class JoinRoomComponent {
-
+  
   @ViewChild("roomNameValue") roomNameValue:ElementRef
 
   room:Room|null
   searchFlag:boolean=false
   joinError:string
+  @Output() successEvent = new EventEmitter<any>()
 
   constructor(private api:ApiService){}
 
@@ -34,8 +35,12 @@ export class JoinRoomComponent {
     }
     
   }
-  getErrorMessage(event:any){
-    this.joinError=event
+  getJoinReponse(event:any){
+    if(event.status){
+      this.successEvent.emit("success")
+    }else{
+      this.joinError = event.errorMessage
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { User } from '../../models/data-types';
@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment.development';
 import { Router, RouterModule } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +31,7 @@ export class ProfileComponent implements OnInit{
 
   bioForm:FormGroup
 
-  constructor(private api:ApiService,private appService:AppService,private router:Router,private fb:FormBuilder){}
+  constructor(private api:ApiService,private appService:AppService,private router:Router,private fb:FormBuilder,private viewContainerRef: ViewContainerRef, private modalService:ModalService){}
 
   ngOnInit(): void {
     this.bioForm = this.fb.group({
@@ -102,6 +103,11 @@ export class ProfileComponent implements OnInit{
     },(error)=>{
       console.log(error);      
     })
+  }
+
+  viewImage(){
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("viewImage",this.profilePic)
   }
 
 }

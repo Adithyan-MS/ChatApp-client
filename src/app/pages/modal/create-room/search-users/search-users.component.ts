@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../../../services/api.service';
-import { environment } from '../../../../../../environments/environment.development';
-import { User, userSearch } from '../../../../../models/data-types';
+import { userSearch } from '../../../../models/data-types';
+import { ApiService } from '../../../../services/api.service';
 import { HttpParams } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment.development';
 import { UserResultComponent } from './user-result/user-result.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { UserResultComponent } from './user-result/user-result.component';
   styleUrl: './search-users.component.scss'
 })
 export class SearchUsersComponent {
-
+  
   @Output() itemsChanged = new EventEmitter<any[]>()
 
   searchResult:userSearch[]|null
@@ -56,5 +56,4 @@ export class SearchUsersComponent {
     });
     this.itemsChanged.emit(this.selectedUsers)   
   }
-
 }

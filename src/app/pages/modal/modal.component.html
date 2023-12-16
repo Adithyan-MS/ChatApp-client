@@ -1,0 +1,17 @@
+<div class="modal">
+	<div class="modal-overlay" (click)="close($event)"></div>
+	<div class="modal--modal-content">
+        @switch (modalText) {
+            @case ("createRoom") {
+                <app-create-room (successEvent)="onCreateSuccess($event)"></app-create-room>
+            }
+            @case ("joinRoom") {
+                <app-join-room (successEvent)="onJoinSuccess($event)"></app-join-room>
+            }
+            @case ("viewImage") {
+                <img [src]="modelContent" alt="">
+            }
+        }
+		<a class="modal--close-btn" (click)="close($event)">X</a>
+	</div>
+</div>
