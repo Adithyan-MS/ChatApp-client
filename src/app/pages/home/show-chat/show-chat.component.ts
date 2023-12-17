@@ -30,11 +30,6 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
       if(res.view==="chat"){
         this.showWhat="chat"       
         this.currentChat = res.data;
-      }else if(res.view === "createRoom"){
-          this.showWhat=res.view
-      }
-      else if(res.view === "joinRoom"){
-          this.showWhat=res.view
       }
     })
     

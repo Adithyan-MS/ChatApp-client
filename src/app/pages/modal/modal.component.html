@@ -11,6 +11,9 @@
             @case ("viewImage") {
                 <img [src]="modelContent" alt="">
             }
+            @case ("addMember") {
+                <app-add-room-member [roomId]="modelContent" (successEvent)="onMemberAddSuccess($event)"></app-add-room-member>
+            }
         }
 		<a class="modal--close-btn" (click)="close($event)">X</a>
 	</div>

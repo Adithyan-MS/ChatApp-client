@@ -13,7 +13,7 @@ export class ModalService {
   setRootViewContainerRef(viewContainerRef:ViewContainerRef) {
       this.rootViewContainer = viewContainerRef;
   }
-  addDynamicComponent(modalText: string, modelContent?:string) {
+  addDynamicComponent(modalText: string, modelContent?:any) {
       const factory = this.factoryResolver.resolveComponentFactory(ModalComponent);
       const component = factory.create(this.rootViewContainer.parentInjector);
       component.instance.modalText = modalText;

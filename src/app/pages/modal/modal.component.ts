@@ -2,18 +2,19 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JoinRoomComponent } from './join-room/join-room.component';
 import { CreateRoomComponent } from './create-room/create-room.component';
+import { AddRoomMemberComponent } from './add-room-member/add-room-member.component';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule,CreateRoomComponent,JoinRoomComponent],
+  imports: [CommonModule,CreateRoomComponent,JoinRoomComponent,AddRoomMemberComponent],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
 
   modalText: string;
-  modelContent: string | undefined;
+  modelContent: any | undefined;
   @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
 
   close(event:any){
@@ -27,6 +28,11 @@ export class ModalComponent {
   onJoinSuccess(event:any){
     if(event){
       this.closeModal.emit(event)
+    }
+  }
+  onMemberAddSuccess(event:any){
+    if (event) {
+      this.closeModal.emit(event)      
     }
   }
 }

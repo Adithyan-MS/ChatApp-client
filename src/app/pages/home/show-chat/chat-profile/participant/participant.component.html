@@ -1,4 +1,4 @@
-<div class="group">
+<div class="group" (click)="toggleOptions(member.id)" [ngClass]="{'clicked' : isOptionsOpened}">
     <div class="group-icon">
         <div class="icon-area">
             <img [src]="memberPic" alt="">
@@ -16,3 +16,41 @@
         </div>
     </div>
 </div>
+@if(isOptionsOpened){
+    <div class="options-container">
+        <div class="options">
+            <div class="option" (click)="openConvo()">
+                <div class="option-icon"><i class="fa-solid fa-comment-dots"></i></div>
+                <div class="option-title">
+                    <span>Open conversation</span>
+                </div>
+            </div>
+            @if(adminFlag){
+                <div class="option" (click)="removeParticipant()">
+                    <div class="option-icon"><i class="fa-solid fa-user-minus"></i></div>
+                    <div class="option-title">
+                        <span>Remove from group</span>
+                    </div>
+                </div>
+                @if(member.is_admin){
+                    <div class="option" (click)="dismissAdmin()">
+                        <div class="option-icon">
+                            <i class="fa-solid fa-user-slash"></i>
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="option-title">
+                            <span>Dismiss as admin</span>
+                        </div>
+                    </div>
+                }@else{
+                    <div class="option" (click)="makeRoomAdmin()">
+                        <div class="option-icon"><i class="fa-solid fa-user-shield"></i></div>
+                        <div class="option-title">
+                            <span>Make group admin</span>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

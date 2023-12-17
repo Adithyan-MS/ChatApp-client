@@ -8,6 +8,12 @@
                 <div class="chat-basic">
                     <div class="image">
                         <img [src]="chatPicture" alt="" (click)="viewImage()">
+                        @if(!isChatTypeUser && isCurrentUserAdmin){
+                            <label class="upload-icon">
+                                <i class="fa-solid fa-camera"></i>     
+                                <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+                            </label>
+                        }
                     </div>
                     <div class="name">
                         <span>{{chatDetails?.name}}</span>
@@ -57,6 +63,14 @@
             <div class="item">
                 <div class="chat-meta">
                     <div class="metas">
+                        @if(!isChatTypeUser && isCurrentUserAdmin){
+                            <div class="meta" (click)="showAddMembers()">
+                                <div class="icon prio2">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                </div>
+                                <span>Add Members</span>
+                            </div>
+                        }
                         <div class="meta">
                             <div class="icon prio2">
                                 <i class="fa-solid fa-bell-slash"></i>
@@ -77,10 +91,12 @@
                                 <span>Block {{chatDetails?.name}}</span>
                             </div>
                         }@else{
-                            <div class="meta">
+                            <div class="meta" (click)="onExitRoom()">
                                 <div class="icon prio1">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>                                </div>
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>  
+                                </div>
                                 <span>Exit {{chatDetails?.name}}</span>
+                                <span class="exit-error" style="font-size: 10px;" [hidden]="isExitSuccess">Can't Exit, You are the only Admin!</span>
                             </div>
                         }
                         <div class="meta">
@@ -99,7 +115,7 @@
                     </div>
                     <div class="group-container">
                         @for(member of members; track member.id){
-                          <app-participant [member]="member"></app-participant> 
+                          <app-participant [member]="member" [adminFlag]="isCurrentUserAdmin" (removeParticipantEvent)="onRemoveEvent($event)" (makeRoomAdminEvent)="onMakeRoomAdminEvent($event)" (dismissAdminEvent)="onDismissAdminEvent($event)"></app-participant> 
                         }                
                     </div>
                     @if(pastMembers?.length!=0){

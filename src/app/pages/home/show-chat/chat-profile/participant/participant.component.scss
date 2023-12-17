@@ -76,3 +76,64 @@
 .group:hover .group-admin{
     border: 1px solid var(--dark-base);
 }
+.clicked{
+    background-color: var(--light-roof);
+    color: black;
+}
+.options-container{
+    position: absolute;
+    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+    bottom: 65px;
+    background-color: var(--light-roof);
+    width: 35%;
+    border-radius: 10px;
+    left: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.options{
+    width: 95%;
+    padding: 5px 0px 5px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 3s;
+}
+.option{
+    padding: 15px 0px 15px 0px;
+    display: flex;
+    width: 100%;
+    gap: 5px;
+    color: black;
+    justify-content: space-between;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid var(--light-roof);
+    
+}
+.option:hover{
+    background-color: var(--mid-roof);
+}
+.option .option-icon{
+    position: relative;
+    width: 10%;
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--dark-roof);
+}
+.option-icon .fa-shield-halved{
+     position: absolute;
+     right: 3px;
+     font-size: 7px;
+}
+.option .option-title{
+    width: 80%;
+    display: flex;
+    font-size: 13px;
+    align-items: center;
+    justify-content: start;
+}

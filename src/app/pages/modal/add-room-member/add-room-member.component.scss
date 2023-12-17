@@ -1,0 +1,95 @@
+
+.container{
+    width: 650px;
+    height: 350px;
+    background-color: var(--mid-roof);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: var(--black-alpa);
+    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+}
+.items{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 95%;
+    flex-direction: column;
+}
+.item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+.item:first-child{
+    font-size: 24px;
+    height: 15%;
+    align-items: start;
+}
+.item:last-child{
+    height: 85%;
+    align-items: center;
+    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    background-color: var(--light-roof);
+}
+.add-form{
+    display: flex;
+    width: 100%;
+    height: 95%;
+}
+.addMemberForm{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    height: 100%;
+}
+.form-bottom{
+    display: flex;
+    width: 100%;
+    max-height: 300px;
+    flex: 60%;
+    flex-direction: column;
+    padding-bottom: 10px;
+}
+.add-member{
+    flex: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form-buttons{
+    flex: 15%;
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+    align-items: center;
+    padding-right: 10px;
+}
+.form-buttons button{
+    width: 100px;
+    border: none;
+    height: 40px;
+    color: white;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.create{
+    background-color: var(--black-alpa);
+}
+.cancel{
+    background-color: var(--dark-roof);
+    color: black;
+}
+app-search-users{
+    width: 95%;
+    height: 100%;
+}
+
+

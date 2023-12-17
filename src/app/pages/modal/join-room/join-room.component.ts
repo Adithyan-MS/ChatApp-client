@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Room } from '../../../models/data-types';
 import { ApiService } from '../../../services/api.service';
@@ -12,16 +12,19 @@ import { RoomResultComponent } from './room-result/room-result.component';
   templateUrl: './join-room.component.html',
   styleUrl: './join-room.component.scss'
 })
-export class JoinRoomComponent {
+export class JoinRoomComponent implements OnInit{
   
   @ViewChild("roomNameValue") roomNameValue:ElementRef
-
   room:Room|null
   searchFlag:boolean=false
   joinError:string
   @Output() successEvent = new EventEmitter<any>()
 
   constructor(private api:ApiService){}
+
+  ngOnInit(): void {
+    setTimeout(()=>this.setFieldFocus())
+  }
 
   searchRoom(){
     const roomName = this.roomNameValue.nativeElement.value
@@ -40,6 +43,12 @@ export class JoinRoomComponent {
       this.successEvent.emit("success")
     }else{
       this.joinError = event.errorMessage
+    }
+  }
+
+  setFieldFocus(){
+    if(this.roomNameValue){
+      this.roomNameValue.nativeElement.focus()
     }
   }
 

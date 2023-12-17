@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="items">
+        <div class="item">
+            <div class="header">
+                <span>Add Room Members</span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="add-form">
+                <div class="form-bottom">
+                    <div class="add-member">
+                        <app-search-users [roomId]="roomId" (itemsChanged)="onItemsChanged($event)"></app-search-users>
+                    </div>
+                    <div class="form-buttons">
+                        <button class="create" type="" (click)="onSubmit()">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

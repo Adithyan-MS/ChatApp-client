@@ -1,0 +1,126 @@
+.container{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    padding-left: 10px;
+}
+.left{
+    flex: 60%;
+    height: 100%;
+}
+.right{
+    height: 100%;
+    flex: 40%;
+}
+.title{
+    align-self: flex-start;
+    color: var(--dark-base);
+    font-weight: 800;
+    padding-bottom: 3px;
+}
+.search{
+    padding-top: 13px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 97%;
+}
+.search i{
+    width: 70px;
+    position: absolute;
+}
+.search input{
+    border: none;
+    border-bottom: 0.5px solid var(--dark-roof);
+    background-color: var(--light-roof);
+    width: 100%;
+    height: 20px;
+    transition: 0.3s;
+    padding-left: 20px;
+    font-size: 17px;
+}
+input:focus{
+    outline: none;
+}
+.search-results{
+    flex: 6;
+    width: 95%;
+    display: flex;
+    align-items: start;
+    height: 150px;
+}
+.result-container{
+    padding-top: 10px;
+    max-height: 140px;
+    overflow: scroll;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 15px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+
+}
+.result-container::-webkit-scrollbar {
+  display: none;
+}
+app-user-result{
+    cursor: pointer;
+}
+.selectedUsers-container{
+    overflow: scroll;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-wrap: wrap;
+    max-height: 150px;
+    padding-top: 40px;
+    gap: 10px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+.selectedUsers-container::-webkit-scrollbar {
+  display: none;
+}
+.no-user-title{
+    color: rgb(83, 83, 83);
+    font-size: 13px;
+    font-style: italic;
+}
+.selected-user{
+    height: 18px;
+    min-width: 50px;
+    gap: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: var(--dark-base);
+    border-radius: 10px;
+    box-shadow: 0px 0px 19px 5px rgba(122, 122, 122, 0.1);
+    border: 1px solid var(--dark-base);
+    padding: 3px;
+}
+.name{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+.deselect{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deselect i{
+    color: rgb(145, 58, 58);
+    padding: 2px;
+    cursor: pointer;
+}
+.deselect i:hover{
+    background-color: var(--dark-base);
+    color: white;
+    border-radius: 50%;
+}
