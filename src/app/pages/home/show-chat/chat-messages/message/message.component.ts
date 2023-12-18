@@ -19,6 +19,7 @@ export class MessageComponent implements OnInit{
   @Input() message:message
   @Output() deleteSuccessEvent = new EventEmitter<any>()
   @Output() replyMessageEvent = new EventEmitter<any>()
+  @Output() editMessageEvent = new EventEmitter<any>()
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -54,6 +55,7 @@ export class MessageComponent implements OnInit{
     this.api.postReturn(`${environment.BASE_API_URL}/message/like/${this.message.id}`,null).subscribe((data:number)=>{
       console.log(data);
       this.message.like_count=data
+      this.isOptionsOpened = false;
       this.getLikedUsers()
     },(error)=>{
       console.log(error);
@@ -78,12 +80,17 @@ export class MessageComponent implements OnInit{
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
       this.deleteSuccessEvent.emit(data)
+      this.isOptionsOpened = false;
     },(error)=>{
       console.log(error);
-      
     })
   }
   replyMessage(){
     this.replyMessageEvent.emit(this.message)
+    this.isOptionsOpened = false;
+  }
+  editMessage(){
+    this.editMessageEvent.emit(this.message)
+    this.isOptionsOpened = false;
   }
 }

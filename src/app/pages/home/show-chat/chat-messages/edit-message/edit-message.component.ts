@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { message } from '../../../../../models/data-types';
 
 @Component({
-  selector: 'app-parent-message',
+  selector: 'app-edit-message',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './parent-message.component.html',
-  styleUrl: './parent-message.component.scss'
+  templateUrl: './edit-message.component.html',
+  styleUrl: './edit-message.component.scss'
 })
-export class ParentMessageComponent implements OnInit{
-  
+export class EditMessageComponent implements OnInit{
+
   @Input() message:message
   @Output() closeEvent = new EventEmitter<any>()
   currentUserId:number

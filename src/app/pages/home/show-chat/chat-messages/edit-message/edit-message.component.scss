@@ -1,0 +1,56 @@
+
+.edit-message{
+    background-color: var(--mid-roof);
+    position: absolute;
+    bottom: 32px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+  }
+  .edit-items{
+    padding: 5px 0px 5px 0px;
+    width: 98%;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-direction: row;
+    border-radius: 5px;
+  }
+.edit-item:nth-child(1){
+    width: 20px;
+    padding: 0px 10px 0px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.edit-item:nth-child(2){
+    display: flex;
+    align-items: start;
+    gap: 2px;
+    flex-direction: column;
+}
+.edit-title{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark-roof);
+}
+.edit-content{
+    font-size: 14px;
+}
+  .edit-close{
+    padding-left: 5px;
+    width: 2%;
+    display: flex;
+    align-items: start;
+  }
+  .edit-close i{
+    color: var(--dark-roof);
+    cursor: pointer;
+  }
+  .edit-close i:hover{
+    color: var(--dark-base);
+  }

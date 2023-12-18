@@ -30,7 +30,7 @@
 <div class="view" #scrollTarget>
     <div class="message-area">
         @for(message of messageList; track message.id){
-            <app-message class="dropup" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)"></app-message>
+            <app-message class="dropup" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>
@@ -39,8 +39,11 @@
         <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
             <div class="form-input">
                 @if(parentMessage){
-                    <app-parent-message [parentMessage]="parentMessage" (closeEvent)="onCloseEvent($event)"></app-parent-message>
+                    <app-parent-message [message]="parentMessage" (closeEvent)="onCloseParentEvent($event)"></app-parent-message>
+                }@else if (editMessage) {
+                    <app-edit-message [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
                 }
+                
                 <input formControlName="content" type="text" placeholder="Type a message" #sendInput>
             </div>
             <button type="submit">send</button>

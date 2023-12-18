@@ -3,18 +3,31 @@
         <div class="parent-message">
             <div class="parent-items">
                 <div class="parent-item">
-                    <span>adi
-                    </span>
+                    <span>{{message.parent_message_id != currentUserId ? message.parent_message_sender : "You"}}</span>
                 </div>
                 <div class="parent-item">
-                    <span>message</span>
+                    <span>{{message.parent_message_content}}</span>
                 </div>
             </div>
         </div>
     }
     <div class="username">
         <span>{{message.sender_name}}</span>
-        <i class="show-options fa-solid fa-angle-up" [ngClass]="{'flipped' : isOptionsOpened}" (click)="optionsToggle()"></i>
+        <div class="option-container">
+            <i class="show-options fa-solid fa-angle-up" [ngClass]="isOptionsOpened ? 'flipped' : 'non-flipped'" (click)="optionsToggle()"></i>
+            @if(isOptionsOpened){
+                <div class="options">
+                    <div class="option"><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
+                    <div class="option"><i title="Reply" class="fa-solid fa-reply" (click)="replyMessage()"></i></div>
+                    <div class="option"><i title="Star" class="fa-regular fa-star"></i></div>
+                    @if(message.sender_id === currentUserId){
+                        <div class="option"><i  title="Edit" class="fa-solid fa-pencil" (click)="editMessage()"></i></div>
+                    }
+                    <div class="option"><i  title="Delete" class="fa-regular fa-trash-can" (click)="deleteMessage()"></i></div>
+                    <div class="option"><i title="Select" class="fa-regular fa-square-check"></i></div>
+                </div>
+            }
+        </div>
     </div>
     <div class="content">
         <span>{{message.content}}</span>
@@ -46,13 +59,3 @@
         </div>
     }
 </div>
-@if(isOptionsOpened){
-    <div class="options">
-        <div class="option"><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
-        <div class="option"><i title="Reply" class="fa-solid fa-reply" (click)="replyMessage()"></i></div>
-        <div class="option"><i title="Star" class="fa-regular fa-star"></i></div>
-        <div class="option"  [hidden]="message.sender_id!==currentUserId"><i  title="Edit" class="fa-solid fa-pencil"></i></div>
-        <div class="option"><i  title="Delete" class="fa-regular fa-trash-can" (click)="deleteMessage()"></i></div>
-        <div class="option"><i title="Select" class="fa-regular fa-square-check"></i></div>
-    </div>
-}

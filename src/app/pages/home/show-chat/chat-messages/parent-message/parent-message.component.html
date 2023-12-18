@@ -2,10 +2,10 @@
     <div class="parent-items">
         <div class="parent-item">
             <span>
-                {{parentMessage.sender_id == currentUserId ? "You" : parentMessage.sender_name}}</span>
+                {{message.sender_id == currentUserId ? "You" : message.sender_name}}</span>
         </div>
         <div class="parent-item">
-            <span>{{parentMessage.content}}</span>
+            <span>{{message.content}}</span>
         </div>
     </div>
     <div class="parent-close">

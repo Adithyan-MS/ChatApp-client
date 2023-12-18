@@ -9,11 +9,12 @@ import { MessageComponent } from './message/message.component';
 import { HttpHeaders } from '@angular/common/http';
 import { DataService } from '../../../../services/data.service';
 import { ParentMessageComponent } from './parent-message/parent-message.component';
+import { EditMessageComponent } from './edit-message/edit-message.component';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MessageComponent,ParentMessageComponent],
+  imports: [CommonModule,ReactiveFormsModule,MessageComponent,ParentMessageComponent,EditMessageComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss'
 })
@@ -29,6 +30,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   isMenuOpened:boolean = false
   parentMessage:message|null = null
   parentMessageId:number|null = null
+  editMessage:message|null
 
   constructor(private fb: FormBuilder,private appService: AppService,private api:ApiService,private dataService:DataService){}
 
@@ -69,30 +71,48 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
 
   sendMessage(){
     const formValue = this.messageForm.getRawValue();
-    if(formValue.content==''){
-      return
-    }
-    const messageData: sendMessage={
-      message:{
-        content:formValue.content,
-        parentMessage:this.parentMessage ? this.parentMessage.id : null
-      },
-      receiver:{
-        type:this.currentChat.type,
-        id:this.currentChat.id
+      if(formValue.content==''){
+        return
       }
-    }    
-    const headers = new HttpHeaders().set('ResponseType','text')
-    this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
-      this.messageForm.reset()
-      this.parentMessage = null
-      this.ngOnChanges(data)
-      this.dataService.notifyOther({
-        status:"success"
-      });
-    },(error)=>{
-      console.log(error);
-    })
+    if (!this.editMessage) {
+      const messageData: sendMessage={
+        message:{
+          content:formValue.content,
+          parentMessage:this.parentMessage ? this.parentMessage.id : null
+        },
+        receiver:{
+          type:this.currentChat.type,
+          id:this.currentChat.id
+        }
+      }    
+      const headers = new HttpHeaders().set('ResponseType','text')
+      this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
+        this.messageForm.reset()
+        this.parentMessage = null
+        this.ngOnChanges(data)
+        this.dataService.notifyOther({
+          status:"success"
+        });
+      },(error)=>{
+        console.log(error);
+      })      
+    }else{
+      const editData = {
+        messageId:this.editMessage.id,
+        newContent:formValue.content
+      }
+      const headers = new HttpHeaders().set('ResponseType','text')
+      this.api.postReturn(`${environment.BASE_API_URL}/message/editMessage`,editData,{headers}).subscribe((data)=>{
+        this.messageForm.reset()
+        this.editMessage = null
+        this.ngOnChanges(data)
+        this.dataService.notifyOther({
+          status:"success"
+        });
+      },(error)=>{
+        console.log(error);
+      }) 
+    }
   }
   viewProfile(){
     this.showProfileEvent.emit("profile")
@@ -115,13 +135,26 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       this.ngOnChanges(event)
     }
   }
-  onReplyMessage(message:any){
+  onReplyMessage(message:message){
+    this.editMessage = null
     this.parentMessage=message
     this.setSendFieldFocus()
   }
-  onCloseEvent(event:string){
+  onCloseParentEvent(event:string){
     if(event){
       this.parentMessage=null
+    }
+  }
+  onCloseEditEvent(event:string){
+    if(event){
+      this.editMessage=null
+    }
+  }
+  onEditMessage(message:message){
+    if(message){
+      this.parentMessage = null
+      this.editMessage = message
+      this.setSendFieldFocus()
     }
   }
 }

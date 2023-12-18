@@ -19,8 +19,8 @@
 .right .username span{  
     display: none;
 }
-.right + .options{
-    right: 0px;
+.right  .options{
+    right: -75px;
 }
 .right .time{
     left: 2px;
@@ -28,25 +28,27 @@
 .username{
     width: auto;
     margin-bottom: -5px;
-    color: var(--dark-roof);
+    color: var(--dark-base);
     display: flex;
     gap: 10px;
     height: 17px;
     align-items: center;
     justify-content: space-between;
 }
-.username i{
-    display: none;
+.username .show-options{
     cursor: pointer;
     font-size: 11px;
     transition: 0.3s;
 }
+.non-flipped{
+    display: none;
+}
 .flipped {
-    display: inline;
+    display:inline-block;
     transform: rotate(180deg);
 }
-.container:hover .username i{
-    display: inline;
+.container:hover .username .show-options{
+    display: inline-block;
 }
 .username span{
     font-size: 14px;
@@ -58,6 +60,7 @@
 .content{
     min-height: 15px;
     min-width: 80px;
+    word-break: break-word;
     width: auto;
     margin-bottom: 5px;
 }
@@ -147,11 +150,16 @@
 .user .name span:last-child{
     font-size: 10px;
 }
-
+.option-container{
+    position: relative;
+    width: 5px;
+    padding-right: 5px;
+}
 .options{
     z-index: 200;
     position: absolute;
-    bottom: 48px;
+    bottom: 20px;
+    left: -75px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -162,9 +170,13 @@
     background-color: white;
     height: 40px;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
+    min-width: 160px;
 }
 .option{
     font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 15px;
 }
 .option:hover{
@@ -191,6 +203,7 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
+    word-break: break-word;
     justify-content: space-between;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
     padding-bottom: 2px;
@@ -201,6 +214,7 @@
     border-left: 5px solid var(--dark-roof);
     display: flex;
     align-items: center;
+    padding-left: 2px;
     gap: 2px;
     flex-direction: column;
     box-shadow: inset 0 0 1px #505050;
