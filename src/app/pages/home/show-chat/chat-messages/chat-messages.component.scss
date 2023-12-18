@@ -133,6 +133,10 @@
     display: flex;
     gap: 5px;
   }
+  .form-input{
+    width: 100%;
+    position: relative;
+  }
   input{
     width: 100%;
     background-color: var(--light-roof);

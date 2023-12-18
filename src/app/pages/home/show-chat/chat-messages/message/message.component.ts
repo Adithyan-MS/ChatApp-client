@@ -5,11 +5,12 @@ import { AppService } from '../../../../../services/app.service';
 import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
+import { ParentMessageComponent } from '../parent-message/parent-message.component';
 
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,ParentMessageComponent],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
 })
@@ -17,6 +18,7 @@ export class MessageComponent implements OnInit{
 
   @Input() message:message
   @Output() deleteSuccessEvent = new EventEmitter<any>()
+  @Output() replyMessageEvent = new EventEmitter<any>()
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -80,5 +82,8 @@ export class MessageComponent implements OnInit{
       console.log(error);
       
     })
+  }
+  replyMessage(){
+    this.replyMessageEvent.emit(this.message)
   }
 }

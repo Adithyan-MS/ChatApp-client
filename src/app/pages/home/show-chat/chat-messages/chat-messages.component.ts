@@ -8,11 +8,12 @@ import { ApiService } from '../../../../services/api.service';
 import { MessageComponent } from './message/message.component';
 import { HttpHeaders } from '@angular/common/http';
 import { DataService } from '../../../../services/data.service';
+import { ParentMessageComponent } from './parent-message/parent-message.component';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MessageComponent],
+  imports: [CommonModule,ReactiveFormsModule,MessageComponent,ParentMessageComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss'
 })
@@ -26,6 +27,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   messageForm:FormGroup
   messageList:message[]
   isMenuOpened:boolean = false
+  parentMessage:message|null = null
+  parentMessageId:number|null = null
 
   constructor(private fb: FormBuilder,private appService: AppService,private api:ApiService,private dataService:DataService){}
 
@@ -72,7 +75,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     const messageData: sendMessage={
       message:{
         content:formValue.content,
-        parentMessage:null
+        parentMessage:this.parentMessage ? this.parentMessage.id : null
       },
       receiver:{
         type:this.currentChat.type,
@@ -82,6 +85,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     const headers = new HttpHeaders().set('ResponseType','text')
     this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
       this.messageForm.reset()
+      this.parentMessage = null
       this.ngOnChanges(data)
       this.dataService.notifyOther({
         status:"success"
@@ -109,6 +113,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   onDeleteSuccess(event:any){
     if(event){
       this.ngOnChanges(event)
+    }
+  }
+  onReplyMessage(message:any){
+    this.parentMessage=message
+    this.setSendFieldFocus()
+  }
+  onCloseEvent(event:string){
+    if(event){
+      this.parentMessage=null
     }
   }
 }
