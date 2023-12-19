@@ -139,9 +139,25 @@
     justify-content: start;
     flex-direction: column;
     gap: 5px;
-    padding-top: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+.date-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0px 10px 0px;
+}
+.date{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+.date span{
+  color: var(--dark-roof);
+  font-size: 14px;
+  padding: 5px;
 }
   .send-container{
     height: 6%;

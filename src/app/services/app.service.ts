@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
-  constructor() { }
+  constructor(private datePipe:DatePipe) { }
 
   HHMMFormatter(timestamp:string){
     const inputDate = new Date(timestamp);
@@ -24,6 +25,11 @@ export class AppService {
 
   getImageUrl(image:string){
     return `${environment.BASE_API_URL}/image/view/${image}`
+  }
+
+  extractDate(timestamp: string): string {
+    const date = new Date(timestamp);
+    return this.datePipe.transform(date, 'dd/MM/yy') || '';
   }
 
 }

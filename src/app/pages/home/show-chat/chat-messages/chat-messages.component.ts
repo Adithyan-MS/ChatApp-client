@@ -33,6 +33,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   parentMessageId:number|null = null
   editMessage:message|null
   isSearchOpened:boolean = false;
+  messageDateString:string
+  showCheckBox:boolean=false
 
   constructor(private fb: FormBuilder,private appService: AppService,private api:ApiService,private dataService:DataService,private elementRef: ElementRef){}
 
@@ -222,5 +224,51 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     if (!clickedInside) {
       this.isMenuOpened = false;
     }
+  }
+
+  isDifferentDay(messageIndex: number): boolean {
+    if (messageIndex === 0) return true;
+
+    const d1 = new Date(this.messageList[messageIndex - 1].created_at);
+    const d2 = new Date(this.messageList[messageIndex].created_at);
+
+    return (
+      d1.getFullYear() !== d2.getFullYear() ||
+      d1.getMonth() !== d2.getMonth() ||
+      d1.getDate() !== d2.getDate()
+    );
+  }
+
+  getMessageDate(messageIndex: number): string {
+    let dateToday = new Date().toDateString();
+    let longDateYesterday = new Date();
+    longDateYesterday.setDate(new Date().getDate() - 1);
+    let dateYesterday = longDateYesterday.toDateString();
+    let today = dateToday.slice(0, dateToday.length - 5);
+    let yesterday = dateYesterday.slice(0, dateToday.length - 5);
+
+    const wholeDate = new Date(
+      this.messageList[messageIndex].created_at
+    ).toDateString();
+
+    this.messageDateString = wholeDate.slice(0, wholeDate.length - 5);
+
+    if (
+      new Date(this.messageList[messageIndex].created_at).getFullYear() ===
+      new Date().getFullYear()
+    ) {
+      if (this.messageDateString === today) {
+        return "Today";
+      } else if (this.messageDateString === yesterday) {
+        return "Yesterday";
+      } else {
+        return this.messageDateString;
+      }
+    } else {
+      return wholeDate;
+    }
+  }
+  onShowCheckBox(event:any){
+    this.showCheckBox=event
   }
 }

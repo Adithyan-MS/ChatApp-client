@@ -28,7 +28,7 @@
     font-weight: 600;
 }
 .back i:hover{
-    color: white;
+    color: black;
 }
 
 .scroll-container{
@@ -51,9 +51,9 @@
     gap: 5px;
 }
 .item{
-    color: white;
+    color: black;
     display: flex;
-    background-color: var(--dark-roof);
+    background-color: var(--mid-roof);
     width: 100%;
     flex-direction: column;
     border-radius: 7px;
@@ -115,10 +115,10 @@
 .name{
     font-size: 24px;
     font-weight: 700;
-    color: white;
+    color: black;
 }
 .phone{
-    color: white;
+    color: black;
     font-size: 15px;
 }
 .options{
@@ -135,12 +135,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: black;
     font-size: 20px;
-    border: 0.5px solid var(--light-roof);
     border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 5px 5px rgba(30, 30, 30, 0.1);
 }
 .option:hover{
     background-color: var(--light-roof);
@@ -155,10 +154,10 @@
 }
 .bio-title{
     font-size: 12px;
-    color: rgb(224, 222, 222);
+    color: rgb(48, 48, 48);
 }
 .bio-content{
-    color: white;
+    color: black;
     font-size: 15px;
 }
 .chat-meta{
@@ -199,14 +198,14 @@
     font-size: 25px;
 }
 .meta .prio2 i{
-    color: white;
+    color: black;
 }
 
 .meta .prio1 i{
     color: rgb(149, 45, 45);
 }
 .meta span{
-    color: white;
+    color: black;
     font-size: 13px;
 }
 .exit-error{
@@ -225,7 +224,7 @@
     width: 90%;
     align-self: center;
     font-size: 15px;
-    color: rgb(224, 222, 222);
+    color: rgb(48, 48, 48);
 }
 .group-container{
     margin-top: 10px;
@@ -237,12 +236,7 @@
     align-items: center;
     gap: 5px;
 }
-.group:first-child:hover{
-    border: 1px solid var(--dark-base);
-}
-.group:first-child{
-    border: 1px solid var(--dark-roof);
-}
+
 .group{
     width: 90%;
     display: flex;

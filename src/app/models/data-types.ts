@@ -48,7 +48,7 @@ export interface message{
     id:number,
     content:string,
     sender_id:number,
-    is_starred?:boolean,
+    is_starred:boolean|null,
     sender_name:string
     parent_message_id?:number,
     parent_message_sender?:string,

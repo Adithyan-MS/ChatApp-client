@@ -42,7 +42,7 @@
     display: flex;
     width: 80%;
     border-radius: 8px;
-    background-color: var(--dark-roof);
+    background-color: var(--mid-roof);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
 }
 .header{
@@ -118,7 +118,7 @@
 }
 hr{
     height: 80%;
-    border: 3px solid var(--light-roof);
+    border: 3px solid var(--dark-roof);
     border-radius: 50%;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
 }
@@ -139,7 +139,7 @@ hr{
     display: flex;  
     background-color: var(--light-roof);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
-    color: white;
+    color: var(--light-roof);
     justify-content: start;
     padding: 5px;
     gap: 3px;

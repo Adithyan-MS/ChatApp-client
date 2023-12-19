@@ -17,9 +17,11 @@ import { ParentMessageComponent } from '../parent-message/parent-message.compone
 export class MessageComponent implements OnInit{
 
   @Input() message:message
+  @Input() showCheckBox:boolean
   @Output() deleteSuccessEvent = new EventEmitter<any>()
   @Output() replyMessageEvent = new EventEmitter<any>()
   @Output() editMessageEvent = new EventEmitter<any>()
+  @Output() showCheckBoxEvent = new EventEmitter<any>()
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -29,7 +31,8 @@ export class MessageComponent implements OnInit{
   likeCount:number
   likedUsers:any[]
   noUserPic:string = environment.USER_IMAGE
-  starredFlag:boolean
+  starredFlag:boolean|null
+  isMessageChecked:boolean=false
 
   constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService){}
 
@@ -38,6 +41,7 @@ export class MessageComponent implements OnInit{
     this.currentUserId = JSON.parse(this.user).id;
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
+    this.starredFlag=this.message.is_starred
   }
 
   optionsToggle(){
@@ -108,4 +112,9 @@ export class MessageComponent implements OnInit{
       console.log(error);
     })
   }
+  checkMessage(){
+    this.showCheckBoxEvent.emit(true)
+    this.isMessageChecked = true
+  }
+  
 }

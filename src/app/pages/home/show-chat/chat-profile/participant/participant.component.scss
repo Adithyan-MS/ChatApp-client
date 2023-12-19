@@ -70,12 +70,9 @@
 .group-admin{
     margin-right: 10px;
     padding: 3px;
-    border: 1px solid var(--light-roof);
     font-size: 10px;
 }
-.group:hover .group-admin{
-    border: 1px solid var(--dark-base);
-}
+
 .clicked{
     background-color: var(--light-roof);
     color: black;

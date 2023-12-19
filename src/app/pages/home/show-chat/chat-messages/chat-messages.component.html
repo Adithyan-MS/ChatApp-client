@@ -39,7 +39,14 @@
 <div class="view" #scrollTarget>
     <div class="message-area">
         @for(message of messageList; track message.id){
-            <app-message class="dropup" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            @if (isDifferentDay($index)) {
+                <div class="date-container">
+                    <div class="date">
+                        <span>{{getMessageDate($index)}}</span>
+                    </div>
+                </div>
+            }
+            <app-message class="dropup" (showCheckBoxEvent)="onShowCheckBox($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>
