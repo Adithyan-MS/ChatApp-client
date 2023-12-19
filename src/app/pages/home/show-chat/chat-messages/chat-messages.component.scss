@@ -86,6 +86,38 @@
     cursor: pointer;
     font-size: 20px;
   }
+
+.search-container{
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+}
+.search-container .back-icon{
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.back-icon i{
+  font-size: 20px;  
+  cursor: pointer;
+}
+.back-icon i:hover{
+  color: white;
+}
+.search-container input{
+  width: 90%;
+  padding-top: 10px;
+  height: 60%;
+  font-size: 15px;
+  background-color: var(--light-roof);
+  border-bottom: 2px solid var(--dark-roof);
+}
+.search-container input:focus{
+  outline: none;
+}
   .view{
     background-color: rgb(223, 220, 220);
     width: 100%;
@@ -107,6 +139,7 @@
     justify-content: start;
     flex-direction: column;
     gap: 5px;
+    padding-top: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
 }

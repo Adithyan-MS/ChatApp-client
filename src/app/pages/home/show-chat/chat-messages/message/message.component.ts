@@ -29,6 +29,7 @@ export class MessageComponent implements OnInit{
   likeCount:number
   likedUsers:any[]
   noUserPic:string = environment.USER_IMAGE
+  starredFlag:boolean
 
   constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService){}
 
@@ -92,5 +93,19 @@ export class MessageComponent implements OnInit{
   editMessage(){
     this.editMessageEvent.emit(this.message)
     this.isOptionsOpened = false;
+  }
+  starMessage(){
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage/${this.message.id}`,null,{headers}).subscribe((data)=>{
+      console.log(data);
+      
+      if(data =="starred"){
+        this.starredFlag=true
+      }else{
+        this.starredFlag=false
+      }
+    },(error)=>{
+      console.log(error);
+    })
   }
 }

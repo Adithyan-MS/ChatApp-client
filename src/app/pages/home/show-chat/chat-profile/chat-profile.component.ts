@@ -171,8 +171,11 @@ export class ChatProfileComponent implements OnInit{
         }
       },(error)=>console.log(error))
     }else{
-
     }
+  }
+  searchMessage(){
+    this.backToChat()
+    this.dataService.notifyOther("openSearch")
   }
 
 }
