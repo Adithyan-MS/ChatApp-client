@@ -1,4 +1,4 @@
-import { Component,ElementRef,EventEmitter,HostListener,Input, OnInit, Output } from '@angular/core';
+import { Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  User, message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
@@ -35,6 +35,10 @@ export class MessageComponent implements OnInit{
   isMessageChecked:boolean=false
 
   constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService){}
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   this.ngOnInit()
+  // }
 
   ngOnInit(): void {
     this.user = localStorage.getItem("user");
@@ -113,8 +117,10 @@ export class MessageComponent implements OnInit{
     })
   }
   checkMessage(){
-    this.showCheckBoxEvent.emit(true)
+    this.showCheckBoxEvent.emit(true)    
     this.isMessageChecked = true
+    console.log(this.showCheckBox);
+    
   }
   
 }

@@ -46,7 +46,7 @@
                     </div>
                 </div>
             }
-            <app-message class="dropup" (showCheckBoxEvent)="onShowCheckBox($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message class="dropup" [showCheckBox]="showCheckBox" (showCheckBoxEvent)="onShowCheckBox($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>

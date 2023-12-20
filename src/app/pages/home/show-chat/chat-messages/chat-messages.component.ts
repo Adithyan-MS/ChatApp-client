@@ -34,10 +34,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   editMessage:message|null
   isSearchOpened:boolean = false;
   messageDateString:string
-  showCheckBox:boolean=false
-
+  showCheckBox:boolean
+  
   constructor(private fb: FormBuilder,private appService: AppService,private api:ApiService,private dataService:DataService,private elementRef: ElementRef){}
-
+  
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data=="openSearch"){
@@ -51,6 +51,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
 
   ngOnChanges(changes: SimpleChanges): void {
     this.isSearchOpened=false
+    this.showCheckBox=false
     if (this.currentChat.profile_pic) {
       this.currentChatPic = this.appService.getImageUrl(this.currentChat.profile_pic);
     }else{

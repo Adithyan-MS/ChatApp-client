@@ -11,7 +11,7 @@ import { AppService } from '../../../../services/app.service';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent implements OnInit{
+export class ChatComponent implements OnInit,OnChanges{
 
   @Input() chat:userChats
   profilePic:string|null
@@ -19,6 +19,9 @@ export class ChatComponent implements OnInit{
   messageDateString:string
 
   constructor(private appService: AppService){}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit()
+  }
 
   ngOnInit(): void {
     if(this.chat.max_modified_at){

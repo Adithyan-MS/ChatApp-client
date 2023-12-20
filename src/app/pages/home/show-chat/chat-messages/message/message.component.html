@@ -1,7 +1,7 @@
 <div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}">
     @if (showCheckBox) {
         <div class="select-message">
-            <input type="checkbox" name="" id="">
+            <input type="checkbox" name="" id="" [checked]="isMessageChecked">
         </div>
     }
     <div class="message-container">
