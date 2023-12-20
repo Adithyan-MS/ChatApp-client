@@ -35,6 +35,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   isSearchOpened:boolean = false;
   messageDateString:string
   showCheckBox:boolean
+  selectedList:number[]=[]
+  headerContent:string
   
   constructor(private fb: FormBuilder,private appService: AppService,private api:ApiService,private dataService:DataService,private elementRef: ElementRef){}
   
@@ -52,6 +54,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     this.isSearchOpened=false
     this.showCheckBox=false
+    this.headerContent="none"
     if (this.currentChat.profile_pic) {
       this.currentChatPic = this.appService.getImageUrl(this.currentChat.profile_pic);
     }else{
@@ -186,11 +189,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   openSearch(){
     this.isSearchOpened=true
+    this.headerContent="search"
     setTimeout(()=>this.setSearchFieldFocus())
     
   }
   backSearch(){
     this.isSearchOpened =false
+    this.showCheckBox=false
+    this.selectedList=[]
+    this.headerContent="none"
     if(this.currentChat.type==="user"){
       this.getUserChatMessage();
     }else{
@@ -271,5 +278,19 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   onShowCheckBox(event:any){
     this.showCheckBox=event
+    this.headerContent="select"
+  }
+  onMessageChecked(event:any){
+    if(event)
+      this.selectedList.push(event)
+    
+  }
+  onMessageUnChecked(event:any){
+    if(event){
+      const index: number = this.selectedList.indexOf(event);
+      if (index !== -1) {
+        this.selectedList.splice(index, 1);
+      }
+    }
   }
 }

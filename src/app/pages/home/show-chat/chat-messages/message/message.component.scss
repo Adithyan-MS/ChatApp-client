@@ -35,7 +35,7 @@
     display: none;
 }
 .right  .options{
-    left: -100px;
+    left: -130px;
 }
 .right .time{
     left: 2px;
@@ -220,6 +220,9 @@
     color:green;
 }
 .option .fa-reply{
+    color:var(--dark-roof);
+}
+.option .fa-share{
     color:var(--dark-roof);
 }
 

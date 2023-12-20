@@ -22,6 +22,8 @@ export class MessageComponent implements OnInit{
   @Output() replyMessageEvent = new EventEmitter<any>()
   @Output() editMessageEvent = new EventEmitter<any>()
   @Output() showCheckBoxEvent = new EventEmitter<any>()
+  @Output() notifyCheckedMssageEvent = new EventEmitter<any>()
+  @Output() notifyUnCheckedMssageEvent = new EventEmitter<any>()
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -36,9 +38,6 @@ export class MessageComponent implements OnInit{
 
   constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService){}
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   this.ngOnInit()
-  // }
 
   ngOnInit(): void {
     this.user = localStorage.getItem("user");
@@ -119,8 +118,16 @@ export class MessageComponent implements OnInit{
   checkMessage(){
     this.showCheckBoxEvent.emit(true)    
     this.isMessageChecked = true
-    console.log(this.showCheckBox);
-    
+    this.notifyCheckedMssageEvent.emit(this.message.id)
+    this.isOptionsOpened = false;    
+  }
+  checkCheckBoxvalue(event:any){
+    console.log(event.target.checked);
+    if(event.target.checked){
+      this.notifyCheckedMssageEvent.emit(this.message.id)
+    }else{
+      this.notifyUnCheckedMssageEvent.emit(this.message.id)
+    }    
   }
   
 }

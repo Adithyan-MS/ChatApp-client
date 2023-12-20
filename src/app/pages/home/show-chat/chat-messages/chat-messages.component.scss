@@ -118,6 +118,56 @@
 .search-container input:focus{
   outline: none;
 }
+
+
+.select-option-container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.select-option-left{
+  display: flex;
+  gap: 10px;
+}
+.select-option-left .back-icon{
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.select-option-left .select-count{
+  font-size: 18px;
+}
+.back-icon i{
+  font-size: 20px;  
+  cursor: pointer;
+}
+.back-icon i:hover{
+  color: white;
+}
+.select-option-right{
+  display: flex;
+  gap: 20px;
+  padding-right: 10px;
+}
+.right-items{
+  width: 30px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--dark-roof);
+  border: 5px;
+  height: 30px;
+}
+.right-items i{
+  color: var(--dark-roof);
+  cursor: pointer;
+  font-size: 20px;
+}
+.right-items i:hover{
+  color: var(--mid-roof);
+}
+
   .view{
     background-color: rgb(223, 220, 220);
     width: 100%;

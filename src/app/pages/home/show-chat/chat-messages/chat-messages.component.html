@@ -1,39 +1,67 @@
 <div class="header">
-    @if(!isSearchOpened){
-        <div class="left" (click)="viewProfile()">
-            <img [src]="currentChatPic ? currentChatPic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
-            <div class="chat-name">
-                <span class="name name-space">
-                    @if(currentChat){
-                        {{currentChat.name}}
-                    }
-                </span>
-                <span class="last-message name-space"></span>
-            </div>
-        </div>
-        <div class="right">
-            <div class="menu-container" style="display: flex;justify-content: center;flex-direction: column;align-items: end;">
-                <div class="menu-icon">
-                    <i class="menu-toggler fa-solid fa-ellipsis-vertical more" (click)="toggleMenu()"></i>
+    @switch (headerContent) {
+        @case ("search") {
+            <div class="search-container">
+                <div class="back-icon">
+                    <i class="fa-solid fa-arrow-left" (click)="backSearch()"></i>
                 </div>
-                @if(isMenuOpened){
-                    <div class="menu" style="width: 100%;">
-                        <div class="menu-item" (click)="viewProfile()">View profile</div>
-                        <div class="menu-item" (click)="openSearch()">Search</div>
-                        <div class="menu-item">Report</div>
-                        <div class="menu-item">Block</div>
-                        <div class="menu-item">Clear chat</div>
+                <input type="text" placeholder="Search..." #searchInput (input)="searchMessage($event)">
+            </div>
+        }
+        @case ("select") {
+            <div class="select-option-container">
+                <div class="select-option-left">
+                    <div class="back-icon">
+                        <i class="fa-solid fa-arrow-left" (click)="backSearch()"></i>
                     </div>
-                }
+                    <div class="select-count">
+                        @if (selectedList.length!=0) {
+                            <span>{{selectedList.length}} selected</span>
+                        }
+                    </div>                
+                </div>
+                <div class="select-option-right">
+                    <div class="right-items">
+                        <i title="Star" class="fa-regular fa-star"></i>
+                    </div>
+                    <div class="right-items">
+                        <i  title="Reply" class="fa-solid fa-reply"></i>
+                    </div>
+                    <div class="right-items">
+                        <i title="Forward" class="fa-solid fa-share"></i>
+                    </div>
+                </div>
             </div>
-        </div>
-    }@else{
-        <div class="search-container">
-            <div class="back-icon">
-                <i class="fa-solid fa-arrow-left" (click)="backSearch()"></i>
+        }
+        @default {
+            <div class="left" (click)="viewProfile()">
+                <img [src]="currentChatPic ? currentChatPic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
+                <div class="chat-name">
+                    <span class="name name-space">
+                        @if(currentChat){
+                            {{currentChat.name}}
+                        }
+                    </span>
+                    <span class="last-message name-space"></span>
+                </div>
             </div>
-            <input type="text" placeholder="Search..." #searchInput (input)="searchMessage($event)">
-        </div>
+            <div class="right">
+                <div class="menu-container" style="display: flex;justify-content: center;flex-direction: column;align-items: end;">
+                    <div class="menu-icon">
+                        <i class="menu-toggler fa-solid fa-ellipsis-vertical more" (click)="toggleMenu()"></i>
+                    </div>
+                    @if(isMenuOpened){
+                        <div class="menu" style="width: 100%;">
+                            <div class="menu-item" (click)="viewProfile()">View profile</div>
+                            <div class="menu-item" (click)="openSearch()">Search</div>
+                            <div class="menu-item">Report</div>
+                            <div class="menu-item">Block</div>
+                            <div class="menu-item">Clear chat</div>
+                        </div>
+                    }
+                </div>
+            </div>            
+        }
     }
 </div>
 <div class="view" #scrollTarget>
@@ -46,7 +74,7 @@
                     </div>
                 </div>
             }
-            <app-message class="dropup" [showCheckBox]="showCheckBox" (showCheckBoxEvent)="onShowCheckBox($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message class="dropup" [showCheckBox]="showCheckBox" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>

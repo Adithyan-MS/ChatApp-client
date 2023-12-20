@@ -1,7 +1,7 @@
 <div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}">
     @if (showCheckBox) {
         <div class="select-message">
-            <input type="checkbox" name="" id="" [checked]="isMessageChecked">
+            <input type="checkbox" name="" id="" [checked]="isMessageChecked" (change)="checkCheckBoxvalue($event)">
         </div>
     }
     <div class="message-container">
@@ -30,6 +30,7 @@
                             <div class="option"><i  title="Edit" class="fa-solid fa-pencil" (click)="editMessage()"></i></div>
                         }
                         <div class="option"><i  title="Delete" class="fa-regular fa-trash-can" (click)="deleteMessage()"></i></div>
+                        <div class="option"><i title="Forward" class="fa-solid fa-share"></i></div>
                         <div class="option"><i title="Select" class="fa-regular fa-square-check" (click)="checkMessage()"></i></div>
                     </div>
                 }

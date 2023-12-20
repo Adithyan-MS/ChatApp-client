@@ -68,5 +68,8 @@ export class SidebarComponent implements OnInit{
         this.getUserChats()
     }
   }
+  showStarredMessage(){
+    
+  }
 
 }

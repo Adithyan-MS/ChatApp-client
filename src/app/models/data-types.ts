@@ -23,6 +23,7 @@ export interface userChats{
     type:string,
     id:number,
     name:string,
+    last_message?:string,
     profile_pic?:string,
     max_modified_at:string
 }
