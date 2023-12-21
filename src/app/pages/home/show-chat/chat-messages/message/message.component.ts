@@ -24,6 +24,7 @@ export class MessageComponent implements OnInit{
   @Output() showCheckBoxEvent = new EventEmitter<any>()
   @Output() notifyCheckedMssageEvent = new EventEmitter<any>()
   @Output() notifyUnCheckedMssageEvent = new EventEmitter<any>()
+  @Output() forwardMssageEvent = new EventEmitter<any>()
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -128,6 +129,9 @@ export class MessageComponent implements OnInit{
     }else{
       this.notifyUnCheckedMssageEvent.emit(this.message.id)
     }    
+  }
+  forwardMessage(){
+    this.forwardMssageEvent.emit(this.message.id)
   }
   
 }

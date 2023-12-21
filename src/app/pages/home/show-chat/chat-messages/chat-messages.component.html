@@ -25,7 +25,7 @@
                         <i title="Star" class="fa-regular fa-star"></i>
                     </div>
                     <div class="right-items">
-                        <i  title="Reply" class="fa-solid fa-reply"></i>
+                        <i  title="Delete" class="fa-solid fa-trash"></i>
                     </div>
                     <div class="right-items">
                         <i title="Forward" class="fa-solid fa-share"></i>
@@ -74,10 +74,11 @@
                     </div>
                 </div>
             }
-            <app-message class="dropup" [showCheckBox]="showCheckBox" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message class="dropup" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>
+
 <div class="send-container">
     <div class="send">
         <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
@@ -94,3 +95,6 @@
         </form>
     </div>
 </div>
+@if(isForwardOpened){
+    <app-forward-message></app-forward-message>
+}

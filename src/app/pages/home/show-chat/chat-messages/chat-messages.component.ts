@@ -10,11 +10,12 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { DataService } from '../../../../services/data.service';
 import { ParentMessageComponent } from './parent-message/parent-message.component';
 import { EditMessageComponent } from './edit-message/edit-message.component';
+import { ForwardMessageComponent } from './forward-message/forward-message.component';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MessageComponent,ParentMessageComponent,EditMessageComponent],
+  imports: [CommonModule,ReactiveFormsModule,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss'
 })
@@ -37,6 +38,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   showCheckBox:boolean
   selectedList:number[]=[]
   headerContent:string
+  isForwardOpened:boolean=false
+  forwardMessageList:number[]=[]
   
   constructor(private fb: FormBuilder,private appService: AppService,private api:ApiService,private dataService:DataService,private elementRef: ElementRef){}
   
@@ -291,6 +294,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       if (index !== -1) {
         this.selectedList.splice(index, 1);
       }
+    }
+  }
+  onForwardMessageEvent(messageId:number){
+    if(messageId){
+      this.isForwardOpened=true
+      this.forwardMessageList.push(messageId)
     }
   }
 }
