@@ -20,9 +20,11 @@
                     </div>
                 </div>
                 <div class="options">
-                    <div class="option">
-                        <i class="fa-solid fa-phone"></i>
-                    </div>
+                    @if (!isCurrentUserPastParticipant) {
+                        <div class="option">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                    }
                     @if(chatDetails?.email){
                         <div class="option">
                             <i class="fa-regular fa-envelope"></i>
@@ -60,6 +62,13 @@
                     <span class="bio-content">{{createdAt}}</span>
                 </div>
             </div>
+            @if (isCurrentUserPastParticipant) {
+                <div class="item">
+                    <div class="chat-meta">
+                        <span class="no-longer-a-member">You're no longer a member in this room</span>
+                    </div>
+                </div>
+            }
             <div class="item">
                 <div class="chat-meta">
                     <div class="metas">
@@ -71,12 +80,22 @@
                                 <span>Add Members</span>
                             </div>
                         }
-                        <div class="meta">
-                            <div class="icon prio2">
-                                <i class="fa-solid fa-bell-slash"></i>
+                        @if (!isCurrentUserPastParticipant) {
+                            <div class="meta">
+                                <div class="icon prio2">
+                                    <i class="fa-solid fa-bell-slash"></i>
+                                </div>
+                                <span>Mute notifications</span>
                             </div>
-                            <span>Mute notifications</span>
-                        </div>
+                        }
+                        @if (isCurrentUserPastParticipant) {
+                            <div class="meta">
+                                <div class="icon prio1">
+                                    <i class="fa-solid fa-trash"></i>
+                                </div>
+                                <span>Delete {{chatDetails?.name}}</span>
+                            </div>
+                        }
                         @if(chatDetails?.email){
                             <div class="meta">
                                 <div class="icon prio1">
@@ -85,13 +104,15 @@
                                 <span>Block {{chatDetails?.name}}</span>
                             </div>
                         }@else{
-                            <div class="meta" (click)="onExitRoom()">
-                                <div class="icon prio1">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>  
+                            @if (!isCurrentUserPastParticipant) {
+                                <div class="meta" (click)="onExitRoom()">
+                                    <div class="icon prio1">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i>  
+                                    </div>
+                                    <span>Exit {{chatDetails?.name}}</span>
+                                    <span class="exit-error" style="font-size: 10px;" [hidden]="isExitSuccess">Can't Exit, You are the only Admin!</span>
                                 </div>
-                                <span>Exit {{chatDetails?.name}}</span>
-                                <span class="exit-error" style="font-size: 10px;" [hidden]="isExitSuccess">Can't Exit, You are the only Admin!</span>
-                            </div>
+                            }
                         }
                         <div class="meta">
                             <div class="icon prio1">

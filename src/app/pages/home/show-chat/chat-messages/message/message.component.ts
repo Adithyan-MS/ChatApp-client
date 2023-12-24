@@ -18,6 +18,7 @@ export class MessageComponent implements OnInit{
 
   @Input() message:message
   @Input() showCheckBox:boolean
+  @Input() isCurrentUserPastParticipant:boolean
   @Output() deleteSuccessEvent = new EventEmitter<any>()
   @Output() replyMessageEvent = new EventEmitter<any>()
   @Output() editMessageEvent = new EventEmitter<any>()
@@ -40,7 +41,7 @@ export class MessageComponent implements OnInit{
   constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService){}
 
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.user = localStorage.getItem("user");
     this.currentUserId = JSON.parse(this.user).id;
     this.chatMessage=this.message;
@@ -132,6 +133,7 @@ export class MessageComponent implements OnInit{
   }
   forwardMessage(){
     this.forwardMssageEvent.emit(this.message.id)
+    this.isOptionsOpened = false;
   }
   
 }

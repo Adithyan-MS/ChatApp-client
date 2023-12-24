@@ -15,20 +15,20 @@
                         <i class="fa-solid fa-arrow-left" (click)="backSearch()"></i>
                     </div>
                     <div class="select-count">
-                        @if (selectedList.length!=0) {
                             <span>{{selectedList.length}} selected</span>
-                        }
                     </div>                
                 </div>
                 <div class="select-option-right">
+                    @if (!isCurrentUserPastParticipant) {
+                        <div class="right-items" >
+                            <i title="Star" class="fa-regular fa-star" [class.disabled]="selectedList.length===0"></i>
+                        </div>
+                    }
                     <div class="right-items">
-                        <i title="Star" class="fa-regular fa-star"></i>
+                        <i  title="Delete" class="fa-solid fa-trash" [class.disabled]="selectedList.length===0"></i>
                     </div>
                     <div class="right-items">
-                        <i  title="Delete" class="fa-solid fa-trash"></i>
-                    </div>
-                    <div class="right-items">
-                        <i title="Forward" class="fa-solid fa-share"></i>
+                        <i title="Forward" class="fa-solid fa-share" (click)="forwardMessages()" [class.disabled]="selectedList.length===0"></i>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                             <div class="menu-item" (click)="viewProfile()">View profile</div>
                             <div class="menu-item" (click)="openSearch()">Search</div>
                             <div class="menu-item">Report</div>
-                            <div class="menu-item">Block</div>
+                            <div class="menu-item" [hidden]="isCurrentUserPastParticipant">Block</div>
                             <div class="menu-item">Clear chat</div>
                         </div>
                     }
@@ -74,27 +74,30 @@
                     </div>
                 </div>
             }
-            <app-message class="dropup" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message class="dropup" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>
 
 <div class="send-container">
     <div class="send">
-        <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
-            <div class="form-input">
-                @if(parentMessage){
-                    <app-parent-message [message]="parentMessage" (closeEvent)="onCloseParentEvent($event)"></app-parent-message>
-                }@else if (editMessage) {
-                    <app-edit-message [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
-                }
-                
-                <input formControlName="content" type="text" placeholder="Type a message" #sendInput>
-            </div>
-            <button type="submit">send</button>
-        </form>
+        @if (isCurrentUserPastParticipant) {
+            <span>You can't send messages to this room because you're no longer a member.</span>            
+        }@else {
+            <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
+                <div class="form-input">
+                    @if(parentMessage){
+                        <app-parent-message [message]="parentMessage" (closeEvent)="onCloseParentEvent($event)"></app-parent-message>
+                    }@else if (editMessage) {
+                        <app-edit-message [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
+                    }                
+                    <input formControlName="content" type="text" placeholder="Type a message" #sendInput>
+                </div>
+                <button type="submit">send</button>
+            </form>
+        }        
     </div>
 </div>
 @if(isForwardOpened){
-    <app-forward-message></app-forward-message>
+    <app-forward-message (forwardSubmitEvent)="onForwardSumbit($event)" (forwardCancelEvent)="onForwardCancel($event)"></app-forward-message>
 }

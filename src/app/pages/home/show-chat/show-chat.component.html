@@ -1,14 +1,14 @@
 <div class="container">
     @switch (showWhat) {
         @case ("chat") {
-            <app-chat-messages [currentChat]="currentChat" (showProfileEvent)="viewProfile($event)"></app-chat-messages>
+            <app-chat-messages [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [currentChat]="currentChat" (showProfileEvent)="viewProfile($event)"></app-chat-messages>
         }
         @case ("profile") {
-            <app-chat-profile [currentChat]="currentChat" (eventEmitter)="viewEvent($event)"></app-chat-profile>
+            <app-chat-profile [isCurrentUserPastParticipant]="isCurrentUserPastParticipant"  [currentChat]="currentChat" (eventEmitter)="viewEvent($event)" (exitSuccessEvent)="onExitSuccess($event)"></app-chat-profile>
         }
         @default {
-            <div class="startChat">
-                <span>Start a new chat</span>
+            <div class="other">
+                <span>{{otherResponse}}</span>
             </div>
         }
       }

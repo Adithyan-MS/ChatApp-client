@@ -8,12 +8,10 @@
     background-color:var(--light-roof);
     flex-direction: column;
 }
-  .startChat{
+  .other{
+    width: 100%;
     text-align: center;
     font-size: 25px;
-    position: absolute;
-    top: 45%;
-    left: 40%;
     color: var(--black-alpa);
   }
   app-chat-messages{

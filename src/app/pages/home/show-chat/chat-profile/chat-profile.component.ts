@@ -21,8 +21,9 @@ import { Router } from '@angular/router';
 export class ChatProfileComponent implements OnInit{
 
   @Input()currentChat:userChats
+  @Input()isCurrentUserPastParticipant:boolean
   @Output() eventEmitter = new EventEmitter<string>()
-
+  @Output() exitSuccessEvent = new EventEmitter<string>()
   chatDetails:User|Room|any
   chatPicture:string
   createdAt:string
@@ -152,6 +153,7 @@ export class ChatProfileComponent implements OnInit{
       this.getRoomParticipants()
       this.getRoomPastParticipants()
       this.isExitSuccess=true
+      this.exitSuccessEvent.emit("success")
     },(error)=>{
       this.isExitSuccess=false   
       console.log(this.isExitSuccess);

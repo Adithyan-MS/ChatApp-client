@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchChatComponent } from './search-chat/search-chat.component';
 import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
-import { error } from 'console';
 import { HttpParams } from '@angular/common/http';
+import { chatSearch, receiver } from '../../../../../models/data-types';
 
 @Component({
   selector: 'app-forward-message',
@@ -15,42 +15,52 @@ import { HttpParams } from '@angular/common/http';
 })
 export class ForwardMessageComponent {
 
-  searchResult:any[]=[]
-  selectedChats:any[]=[]
+  searchResult:chatSearch[]=[]
+  selectedChats:chatSearch[]=[]
+  receiversList:receiver[]=[]
+  @Output() forwardSubmitEvent = new EventEmitter<any>()
+  @Output() forwardCancelEvent = new EventEmitter<any>()
 
-  constructor(private api:ApiService){}
+  constructor(private api:ApiService, private elementRef:ElementRef){}
 
   searchChats(event:any){
     let searchName = event.target.value
     if(searchName!=''){
       let queryParams = new HttpParams();
       queryParams = queryParams.append("value",searchName);    
-      this.api.getReturn(`${environment.BASE_API_URL}/message/forward/search`,{params:queryParams}).subscribe((data)=>{
-        console.log(data);     
+      this.api.getReturn(`${environment.BASE_API_URL}/message/forward/search`,{params:queryParams}).subscribe((data:chatSearch[])=>{
         this.searchResult = data 
       },(error)=>console.log(error))
     }
   }
-
-  getSelectedChat(chat:any) {
+  getSelectedChat(chat:chatSearch) {
     this.selectedChats.push(chat)
-    // this.itemsChanged.emit(this.selectedChats)   
-  }
-  
-  isChatSelected(chat:any){
+  }  
+  isChatSelected(chat:chatSearch){
     if(this.selectedChats.includes(chat)){
       return false;
     }else{
       return true;
     }
-  }
-  
-  removeChat(chat:any){
+  }  
+  removeChat(chat:chatSearch){
     this.selectedChats = this.selectedChats.filter(obj => {
       return obj !== chat
     });
   }
   forwardMessage(){
-
+    if(this.selectedChats.length!=0){
+      this.selectedChats.map((value)=>{
+        this.receiversList.push({
+          type:value.type,
+          id:value.id
+        })
+      })
+      this.forwardSubmitEvent.emit(this.receiversList)
+    }
+  }
+  cancelForward(){
+    this.receiversList=[]
+    this.forwardCancelEvent.emit(true)
   }
 }

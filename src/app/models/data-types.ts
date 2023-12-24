@@ -75,3 +75,15 @@ export interface userSearch{
     id:number,
     profile_pic?:string
 }
+
+export interface chatSearch{
+    id:number,
+    name:string,
+    type:string,
+    profile_pic?:string
+}
+
+export interface receiver{
+    id:number,
+    type:string
+}

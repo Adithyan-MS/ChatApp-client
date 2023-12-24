@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { message, sendMessage, userChats } from '../../../../models/data-types';
+import { message, receiver, sendMessage, userChats } from '../../../../models/data-types';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AppService } from '../../../../services/app.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -24,7 +24,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   @ViewChild('scrollTarget') private myScrollContainer: ElementRef;
   @ViewChild('sendInput') myMessageSendField :ElementRef
   @ViewChild('searchInput') searchField :ElementRef
-  @Input() currentChat:userChats
+  @Input() currentChat:userChats 
+  @Input() isCurrentUserPastParticipant:boolean
   @Output() showProfileEvent = new EventEmitter<any>()
   currentChatPic: string|null
   messageForm:FormGroup
@@ -51,7 +52,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     })
     this.messageForm = this.fb.group({
       content:['',[Validators.required]]
-    })    
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -299,7 +300,29 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   onForwardMessageEvent(messageId:number){
     if(messageId){
       this.isForwardOpened=true
-      this.forwardMessageList.push(messageId)
+      this.selectedList.push(messageId)
     }
+  }
+  onForwardSumbit(receiversList:receiver[]){
+    const reqBody = {
+      messageIds:this.selectedList,
+      receivers:receiversList
+    }
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.postReturn(`${environment.BASE_API_URL}/message/forwardMessage`,reqBody,{headers}).subscribe((data)=>{
+      this.isForwardOpened = false
+      this.selectedList = []
+      this.ngOnChanges(data)
+        this.dataService.notifyOther({
+          status:"success"
+        });
+    },(error)=>console.log(error))
+  }
+  onForwardCancel(event:any){
+    if(this.isForwardOpened)
+      this.isForwardOpened=false
+  }
+  forwardMessages(){
+    this.isForwardOpened=true
   }
 }
