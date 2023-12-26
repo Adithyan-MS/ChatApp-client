@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    padding: 5px;
+    padding: 3px;
     position: relative;
     color: var(--dark-base);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
@@ -35,7 +35,7 @@
     display: none;
 }
 .right  .options{
-    left: -130px;
+    left: -200px;
 }
 .right .time{
     left: 2px;
@@ -50,6 +50,10 @@
     height: 17px;
     align-items: center;
     justify-content: space-between;
+}
+.username .user-span{
+    margin-top: -5px;
+    width: 90%;
 }
 .username .show-options{
     cursor: pointer;
@@ -75,6 +79,7 @@
 }
 .content{
     min-height: 15px;
+    margin-top: -2px;
     min-width: 80px;
     word-break: break-word;
     width: auto;
@@ -91,7 +96,7 @@
     padding-bottom: 2px;
 }
 .time span{
-    font-size: 8px;
+    font-size: 7px;
 }
 .time i{
     font-size: 8px;

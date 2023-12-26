@@ -18,7 +18,11 @@
             </div>
         }
         <div class="username">
-            <span>{{message.sender_name}}</span>
+            <div class="user-span">
+                @if (shouldDisplaySenderName(message.sender_name)) {
+                    <span>{{message.sender_name}}</span>
+                }
+            </div>
             <div class="option-container">
                 <i class="show-options fa-solid fa-angle-up" [ngClass]="isOptionsOpened ? 'flipped' : 'non-flipped'" (click)="optionsToggle()"></i>
                 @if(isOptionsOpened){

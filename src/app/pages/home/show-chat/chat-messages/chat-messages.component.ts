@@ -23,7 +23,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   
   @ViewChild('scrollTarget') private myScrollContainer: ElementRef;
   @ViewChild('sendInput') myMessageSendField :ElementRef
-  @ViewChild('searchInput') searchField :ElementRef
+  @ViewChild('searchInput') searchField :ElementRef 
   @Input() currentChat:userChats 
   @Input() isCurrentUserPastParticipant:boolean
   @Output() showProfileEvent = new EventEmitter<any>()
@@ -324,5 +324,28 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   forwardMessages(){
     this.isForwardOpened=true
+  }
+  deleteMessages(){
+    const reqBody = {
+      messageIds:this.selectedList
+    }
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
+      this.selectedList = []
+      this.ngOnChanges(data)
+    },(error)=>{
+      console.log(error);
+    })
+  }
+  starMessages(){
+    const reqBody={
+      messageIds:this.selectedList
+    }
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage`,reqBody,{headers}).subscribe((data)=>{
+      this.ngOnChanges(data)
+    },(error)=>{
+      console.log(error);
+    })
   }
 }

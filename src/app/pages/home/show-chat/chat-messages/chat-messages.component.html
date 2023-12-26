@@ -21,11 +21,11 @@
                 <div class="select-option-right">
                     @if (!isCurrentUserPastParticipant) {
                         <div class="right-items" >
-                            <i title="Star" class="fa-regular fa-star" [class.disabled]="selectedList.length===0"></i>
+                            <i title="Star" class="fa-regular fa-star" (click)="starMessages()" [class.disabled]="selectedList.length===0"></i>
                         </div>
                     }
                     <div class="right-items">
-                        <i  title="Delete" class="fa-solid fa-trash" [class.disabled]="selectedList.length===0"></i>
+                        <i  title="Delete" class="fa-solid fa-trash" (click)="deleteMessages()" [class.disabled]="selectedList.length===0"></i>
                     </div>
                     <div class="right-items">
                         <i title="Forward" class="fa-solid fa-share" (click)="forwardMessages()" [class.disabled]="selectedList.length===0"></i>

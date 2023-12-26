@@ -6,6 +6,7 @@ import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
 import { ParentMessageComponent } from '../parent-message/parent-message.component';
+import { SenderService } from './message-service/sender.service';
 
 @Component({
   selector: 'app-message',
@@ -14,7 +15,7 @@ import { ParentMessageComponent } from '../parent-message/parent-message.compone
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
 })
-export class MessageComponent implements OnInit{
+export class MessageComponent implements OnInit,OnChanges{
 
   @Input() message:message
   @Input() showCheckBox:boolean
@@ -38,8 +39,11 @@ export class MessageComponent implements OnInit{
   starredFlag:boolean|null
   isMessageChecked:boolean=false
 
-  constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService){}
+  constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit()
+  }
 
   ngOnInit(): void {    
     this.user = localStorage.getItem("user");
@@ -47,6 +51,13 @@ export class MessageComponent implements OnInit{
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
     this.starredFlag=this.message.is_starred
+    console.log(this.message.is_starred);    
+  }
+
+  shouldDisplaySenderName(currentSenderName: string): boolean {
+    const display = currentSenderName !== this.senderNameService.getPreviousSenderName();
+    this.senderNameService.setPreviousSenderName(currentSenderName);
+    return display;
   }
 
   optionsToggle(){
@@ -104,10 +115,11 @@ export class MessageComponent implements OnInit{
     this.isOptionsOpened = false;
   }
   starMessage(){
+    const reqBody={
+      messageIds:[this.message.id]
+    }
     const headers = new HttpHeaders().set("ResponseType","text")
-    this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage/${this.message.id}`,null,{headers}).subscribe((data)=>{
-      console.log(data);
-      
+    this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage`,reqBody,{headers}).subscribe((data)=>{
       if(data =="starred"){
         this.starredFlag=true
       }else{
