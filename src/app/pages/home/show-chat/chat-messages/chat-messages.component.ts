@@ -287,6 +287,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   onMessageChecked(event:any){
     if(event)
       this.selectedList.push(event)
+    console.log(this.selectedList);
     
   }
   onMessageUnChecked(event:any){
@@ -343,6 +344,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     }
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage`,reqBody,{headers}).subscribe((data)=>{
+      this.selectedList=[]      
       this.ngOnChanges(data)
     },(error)=>{
       console.log(error);

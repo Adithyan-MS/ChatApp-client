@@ -51,7 +51,6 @@ export class MessageComponent implements OnInit,OnChanges{
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
     this.starredFlag=this.message.is_starred
-    console.log(this.message.is_starred);    
   }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {
@@ -74,7 +73,6 @@ export class MessageComponent implements OnInit,OnChanges{
   }
   likeMessage(){
     this.api.postReturn(`${environment.BASE_API_URL}/message/like/${this.message.id}`,null).subscribe((data:number)=>{
-      console.log(data);
       this.message.like_count=data
       this.isOptionsOpened = false;
       this.getLikedUsers()
@@ -136,7 +134,6 @@ export class MessageComponent implements OnInit,OnChanges{
     this.isOptionsOpened = false;    
   }
   checkCheckBoxvalue(event:any){
-    console.log(event.target.checked);
     if(event.target.checked){
       this.notifyCheckedMssageEvent.emit(this.message.id)
     }else{
