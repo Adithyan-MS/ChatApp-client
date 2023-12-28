@@ -20,11 +20,13 @@ export interface User {
 }
 
 export interface userChats{
-    type:string,
     id:number,
     name:string,
-    last_message?:string,
     profile_pic?:string,
+    type:string,
+    latest_message?:string,
+    latest_message_sender_id?:number,
+    latest_message_sender_name?:string,
     max_modified_at:string
 }
 

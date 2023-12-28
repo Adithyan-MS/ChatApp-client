@@ -14,16 +14,22 @@ import { AppService } from '../../../../services/app.service';
 export class ChatComponent implements OnInit,OnChanges{
 
   @Input() chat:userChats
+  @Input() currentUserId:number
   profilePic:string|null
   lastMessageTime:string|null
   messageDateString:string
+  isCurrentUserSender:boolean
 
   constructor(private appService: AppService){}
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    if(this.chat.latest_message_sender_id === this.currentUserId)
+      this.isCurrentUserSender = true
+    else
+      this.isCurrentUserSender = false
     if(this.chat.max_modified_at){
       let dateToday = new Date().toDateString();
       let longDateYesterday = new Date();

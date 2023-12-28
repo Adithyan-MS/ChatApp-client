@@ -3,7 +3,12 @@
         <img [src]="profilePic ? profilePic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
         <div class="chat-name">
             <span class="name name-space">{{chat.name}}</span>
-            <span class="last-message name-space"></span>
+            <span class="last-message name-space">
+                @if(isCurrentUserSender){
+                    You:
+                }@else{
+                    {{chat.latest_message_sender_name}}:
+                }{{chat.latest_message}}</span>
         </div>
     </div>
     <div class="right">
@@ -11,4 +16,3 @@
         <div class="count"></div>
     </div>
 </div>
-

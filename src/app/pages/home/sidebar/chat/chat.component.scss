@@ -36,7 +36,7 @@
   .chat-name{
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 4px;
   }
   .name{
     font-size: 14px;
@@ -46,7 +46,9 @@
     flex: 1;
   }
   .last-message{
-    font-size: 10px;
+    font-size: 14px;
+    font-weight: 100;
+    color: rgb(85, 82, 82);
   }
   .right{
     display: flex;

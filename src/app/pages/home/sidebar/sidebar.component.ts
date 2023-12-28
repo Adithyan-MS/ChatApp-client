@@ -19,11 +19,17 @@ import { ModalService } from '../../../services/modal.service';
 export class SidebarComponent implements OnInit{
 
   chats:userChats[]
+  user:string|any
+  userId:number
 
   constructor(private api:ApiService,private dataService : DataService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
 
   ngOnInit(): void {    
+    if(typeof localStorage != undefined){
+      this.user = localStorage.getItem("user");
+      this.userId = JSON.parse(this.user).id; 
+    }
     this.getUserChats()    
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data){
@@ -33,7 +39,7 @@ export class SidebarComponent implements OnInit{
   }
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
-      this.chats=data
+      this.chats=data      
     },(error)=>{
       console.log(error);      
     })

@@ -20,7 +20,7 @@
     </div>
     <div class="chats">
         @for(chat of chats; track chat.name){
-            <app-chat (click)="showChat(chat)" class="chat" [chat]="chat"></app-chat>
+            <app-chat (click)="showChat(chat)" [currentUserId]="userId" class="chat" [chat]="chat"></app-chat>
         }
     </div>
 </div>
