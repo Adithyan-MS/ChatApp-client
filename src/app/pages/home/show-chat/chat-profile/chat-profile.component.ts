@@ -41,7 +41,7 @@ export class ChatProfileComponent implements OnInit{
 
   constructor(private api:ApiService,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef, private dataService:DataService,private router:Router){}
   
-  ngOnInit(): void {
+  ngOnInit(): void {   
     this.dataService.notifyObservable$.subscribe((res)=>{
       if(res == "newMembersAdded"){
         this.getRoomParticipants()
@@ -178,6 +178,10 @@ export class ChatProfileComponent implements OnInit{
   searchMessage(){
     this.backToChat()
     this.dataService.notifyOther("openSearch")
+  }
+  createRoom(){
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("createRoom",this.chatDetails)
   }
 
 }

@@ -118,11 +118,12 @@ export class MessageComponent implements OnInit,OnChanges{
     }
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage`,reqBody,{headers}).subscribe((data)=>{
-      if(data =="starred"){
+      if(data ==`message ${this.message.id}starred`){
         this.starredFlag=true
       }else{
         this.starredFlag=false
       }
+      
     },(error)=>{
       console.log(error);
     })

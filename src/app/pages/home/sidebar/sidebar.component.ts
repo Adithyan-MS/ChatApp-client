@@ -53,7 +53,7 @@ export class SidebarComponent implements OnInit{
   }
   showCreateRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("createRoom")
+    this.modalService.addDynamicComponent("createRoom",null)
   }
   showJoinRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)

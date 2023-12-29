@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { userSearch } from '../../../../models/data-types';
+import { User, userSearch } from '../../../../models/data-types';
 import { ApiService } from '../../../../services/api.service';
 import { HttpParams } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment.development';
@@ -13,14 +13,20 @@ import { UserResultComponent } from './user-result/user-result.component';
   templateUrl: './search-users.component.html',
   styleUrl: './search-users.component.scss'
 })
-export class SearchUsersComponent {
+export class SearchUsersComponent implements OnInit{
   
   @Output() itemsChanged = new EventEmitter<any[]>()
-
+  @Input() preSelectedUser: User|null
   searchResult:userSearch[]|null
   selectedUsers:userSearch[]=[]
 
   constructor(private api:ApiService){}
+
+  ngOnInit(): void {
+    if(this.preSelectedUser!=null){
+      this.getSelectedUser(this.preSelectedUser)
+    }
+  }
 
   searchUsers(event:any){
     let searchName = event.target.value

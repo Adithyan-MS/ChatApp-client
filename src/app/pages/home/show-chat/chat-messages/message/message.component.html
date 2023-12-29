@@ -23,24 +23,6 @@
                     <span>{{message.sender_name}}</span>
                 }
             </div>
-            <div class="option-container">
-                <i class="show-options fa-solid fa-angle-up" [ngClass]="isOptionsOpened ? 'flipped' : 'non-flipped'" (click)="optionsToggle()"></i>
-                @if(isOptionsOpened){
-                    <div class="options">
-                        @if (!isCurrentUserPastParticipant) {
-                            <div class="option" ><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
-                            <div class="option" ><i title="Reply" class="fa-solid fa-reply" (click)="replyMessage()"></i></div>
-                            <div class="option" ><i title="Star" class="fa-regular fa-star" (click)="starMessage()"></i></div>
-                            @if(message.sender_id === currentUserId){
-                                <div class="option" ><i  title="Edit" class="fa-solid fa-pencil" (click)="editMessage()"></i></div>
-                            }
-                        }
-                        <div class="option"><i  title="Delete" class="fa-regular fa-trash-can" (click)="deleteMessage()"></i></div>
-                        <div class="option"><i title="Forward" class="fa-solid fa-share" (click)="forwardMessage()" id="forwardIcon"></i></div>
-                        <div class="option"><i title="Select" class="fa-regular fa-square-check" (click)="checkMessage()"></i></div>
-                    </div>
-                }
-            </div>
         </div>
         <div class="content">
             <span>{{message.content}}</span>
@@ -74,6 +56,23 @@
                 }
             </div>
         }
-
+    </div>
+    <div class="option-container">
+        <i class="show-options fa-solid fa-angle-up" [ngClass]="isOptionsOpened ? 'flipped' : 'non-flipped'" (click)="optionsToggle()"></i>
+        @if(isOptionsOpened){
+            <div class="options">
+                @if (!isCurrentUserPastParticipant) {
+                    <div class="option" ><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
+                    <div class="option" ><i title="Reply" class="fa-solid fa-reply" (click)="replyMessage()"></i></div>
+                    <div class="option" ><i title="Star" class="fa-regular fa-star" (click)="starMessage()"></i></div>
+                    @if(message.sender_id === currentUserId){
+                        <div class="option" ><i  title="Edit" class="fa-solid fa-pencil" (click)="editMessage()"></i></div>
+                    }
+                }
+                <div class="option"><i  title="Delete" class="fa-regular fa-trash-can" (click)="deleteMessage()"></i></div>
+                <div class="option"><i title="Forward" class="fa-solid fa-share" (click)="forwardMessage()" id="forwardIcon"></i></div>
+                <div class="option"><i title="Select" class="fa-regular fa-square-check" (click)="checkMessage()"></i></div>
+            </div>
+        }
     </div>
 </div>

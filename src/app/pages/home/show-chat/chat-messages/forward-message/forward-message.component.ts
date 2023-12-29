@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchChatComponent } from './search-chat/search-chat.component';
 import { ApiService } from '../../../../../services/api.service';
@@ -13,16 +13,27 @@ import { chatSearch, receiver } from '../../../../../models/data-types';
   templateUrl: './forward-message.component.html',
   styleUrl: './forward-message.component.scss'
 })
-export class ForwardMessageComponent {
+export class ForwardMessageComponent implements OnInit{
 
   searchResult:chatSearch[]=[]
   selectedChats:chatSearch[]=[]
   receiversList:receiver[]=[]
   @Output() forwardSubmitEvent = new EventEmitter<any>()
   @Output() forwardCancelEvent = new EventEmitter<any>()
+  @ViewChild("forwardSearch") forwardSearch :ElementRef
 
   constructor(private api:ApiService, private elementRef:ElementRef){}
 
+  ngOnInit(): void {
+    setTimeout(()=>this.setSendFieldFocus())
+  }
+
+  setSendFieldFocus(){
+    if(this.forwardSearch){
+      this.forwardSearch.nativeElement.focus()
+    }
+  }
+  
   searchChats(event:any){
     let searchName = event.target.value
     if(searchName!=''){

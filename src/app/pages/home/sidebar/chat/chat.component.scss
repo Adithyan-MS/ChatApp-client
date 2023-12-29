@@ -9,7 +9,6 @@
     border-radius: 5px;
     background-color: var(--light-roof);
     color: var(--black-alpa);
-    // box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
     border: 1px solid var(--light-roof);
     border-top: 0.5px solid var(--dark-roof);
     border-bottom: 0.5px solid var(--dark-roof);
@@ -46,9 +45,13 @@
     flex: 1;
   }
   .last-message{
-    font-size: 14px;
+    max-width: 200px;
+    font-size: 13px;
     font-weight: 100;
-    color: rgb(85, 82, 82);
+    color: rgb(56, 55, 55);
+    white-space: nowrap;      /*keep text on one line */
+    overflow: hidden;         /*prevent text from being shown outside the border */
+    text-overflow: ellipsis;
   }
   .right{
     display: flex;

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Room, userSearch } from '../../../models/data-types';
+import { Room, User, userSearch } from '../../../models/data-types';
 import { DataService } from '../../../services/data.service';
 import { ApiService } from '../../../services/api.service';
 import { AppService } from '../../../services/app.service';
@@ -21,6 +21,7 @@ export class CreateRoomComponent {
 
   createRoomForm: FormGroup
   members:number[]
+  @Input() createWithUser: User|null
   submitted:boolean = false
   errorMessage:string|null = null
   createSuccess:boolean
@@ -35,6 +36,8 @@ export class CreateRoomComponent {
   roomPic:string|null
 
   ngOnInit(): void {
+    console.log(this.createWithUser?.id);
+    
     this.noRoomPic = environment.ROOM_IMAGE
     this.createRoomForm = this.fb.group({
       name:['',[Validators.required]],
@@ -44,6 +47,8 @@ export class CreateRoomComponent {
 
   onItemsChanged(value:userSearch[]){
     this.members=value.map(obj => obj.id)
+    console.log(this.members);
+    
   }
 
   OnSubmit(){
@@ -59,35 +64,44 @@ export class CreateRoomComponent {
       participants:this.members
     }
     this.api.postReturn(`${environment.BASE_API_URL}/room/createRoom`,requestBody).subscribe((data:Room)=>{
-      this.room = data      
+      this.room = data
+      this.createSuccess = true 
+      this.successEvent.emit("success")    
       if(this.imageFile){
         let formParams = new FormData()
         formParams.append('file',this.imageFile)
         const headers = new HttpHeaders().set("ResponseType","text")
         this.api.postReturn(`${environment.BASE_API_URL}/image/upload/${this.room.id}`,formParams,{headers}).subscribe((data:string)=>{
           this.room.room_pic = data
+          this.dataService.notifyOther({
+            view:"chat",
+            data:{
+              type:"room",
+              id:this.room.id,
+              name:this.room.name,
+              profile_pic:this.room.room_pic,
+              max_modified_at:this.room.modifiedAt
+            }
+          })
         },(error)=>{
           console.log(error);
         })
+      }else{
+        this.dataService.notifyOther({
+          view:"chat",
+          data:{
+            type:"room",
+            id:this.room.id,
+            name:this.room.name,
+            profile_pic:null,
+            max_modified_at:this.room.modifiedAt
+          }
+        })
       }
-      this.createSuccess = true 
     },(error)=>{      
       this.errorMessage = error["error"].message;
       this.createSuccess = false    
     })
-    if(this.createSuccess){        
-      this.dataService.notifyOther({
-        view:"chat",
-        data:{
-          type:"room",
-          id:this.room.id,
-          name:this.room.name,
-          profile_pic:this.room.room_pic,
-          max_modified_at:this.room.modifiedAt
-        }
-      })
-      this.successEvent.emit("success")
-    }
     this.submitted = false
   }
 

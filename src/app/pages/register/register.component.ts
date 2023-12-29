@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit{
  
     const formValues = this.registerForm.getRawValue();
  
-    const userData: User={
+    const userData={
       name: formValues.username,
       password: formValues.password,
       email: formValues.email,

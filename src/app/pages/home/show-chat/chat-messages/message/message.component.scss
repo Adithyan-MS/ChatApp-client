@@ -5,8 +5,7 @@
     height: auto;
     border-radius: 5px;
     display: flex;
-    display: flex;
-    align-items: center;
+    align-items: start;
     flex-direction: row;
     padding: 3px;
     position: relative;
@@ -22,6 +21,7 @@
     border: none;
 }
 .message-container{
+    margin-top: 5px;
     display: flex;
     flex-direction: column;
 }
@@ -29,7 +29,6 @@
     background-color: var(--mid-roof);
     float: right;
     color: var(--dark-base);
-    flex-direction: row-reverse;
 }
 .right .username span{  
     display: none;
@@ -46,8 +45,6 @@
     margin-bottom: -5px;
     color: var(--dark-base);
     display: flex;
-    gap: 10px;
-    height: 17px;
     align-items: center;
     justify-content: space-between;
 }
@@ -55,7 +52,7 @@
     margin-top: -5px;
     width: 90%;
 }
-.username .show-options{
+.option-container .show-options{
     cursor: pointer;
     font-size: 11px;
     transition: 0.3s;
@@ -67,7 +64,7 @@
     display:inline-block;
     transform: rotate(180deg);
 }
-.container:hover .username .show-options{
+.container:hover .option-container .show-options{
     display: inline-block;
 }
 .username span{
@@ -79,7 +76,6 @@
 }
 .content{
     min-height: 15px;
-    margin-top: -2px;
     min-width: 80px;
     word-break: break-word;
     width: auto;
@@ -106,7 +102,7 @@
     position: absolute;
     bottom: -5px;
     background-color: white;
-    padding: 0px 5px 0px 5px;
+    padding: 0px 3px 0px 3px;
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -117,7 +113,7 @@
     right: 0px;
 }
 .like i{
-    font-size: 13px;
+    font-size: 12px;
     color: red;
     cursor: pointer;
 }
@@ -128,7 +124,7 @@
 .show-liked-users{
     position: absolute;
     width: 180px;
-    left: 0px;
+    left: -3px;
     top: 15px;
     background-color: white;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
@@ -137,9 +133,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: visibility 0s, opacity 0.5s linear;
 }
 .right .show-liked-users{
-    left: -150px;
+    left: -157px;
     top: 16px;
 }
 .liked-users{
@@ -183,13 +180,17 @@
 .option-container{
     position: relative;
     width: 5px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: start;
     padding-right: 5px;
 }
 .options{
     z-index: 200;
     position: absolute;
-    bottom: 20px;
-    left: -75px;
+    bottom: 15px;
+    left: -78px;
     display: flex;
     align-items: center;
     justify-content: space-around;

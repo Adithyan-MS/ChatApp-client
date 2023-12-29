@@ -3,12 +3,22 @@
         <img [src]="profilePic ? profilePic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
         <div class="chat-name">
             <span class="name name-space">{{chat.name}}</span>
-            <span class="last-message name-space">
-                @if(isCurrentUserSender){
-                    You:
-                }@else{
-                    {{chat.latest_message_sender_name}}:
-                }{{chat.latest_message}}</span>
+            <div class="last-message name-space">
+                <span>
+                    @if(isCurrentUserSender){
+                        You
+                    }@else{
+                        {{chat.latest_message_sender_name}}
+                    }
+                </span>
+                <span>
+                    @if (chat.latest_message) {
+                        : {{chat.latest_message}}
+                    }@else {
+                        created room "{{chat.name}}"
+                    }
+                </span>
+            </div>
         </div>
     </div>
     <div class="right">

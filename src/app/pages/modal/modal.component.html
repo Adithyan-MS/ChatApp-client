@@ -3,7 +3,7 @@
 	<div class="modal--modal-content">
         @switch (modalText) {
             @case ("createRoom") {
-                <app-create-room (successEvent)="onCreateSuccess($event)"></app-create-room>
+                <app-create-room (successEvent)="onCreateSuccess($event)" [createWithUser]="modelContent"></app-create-room>
             }
             @case ("joinRoom") {
                 <app-join-room (successEvent)="onJoinSuccess($event)"></app-join-room>

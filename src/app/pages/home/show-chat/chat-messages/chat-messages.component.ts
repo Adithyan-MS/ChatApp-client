@@ -188,6 +188,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     if(message){
       this.parentMessage = null
       this.editMessage = message
+      this.myMessageSendField.nativeElement.value = this.editMessage.content
       this.setSendFieldFocus()
     }
   }

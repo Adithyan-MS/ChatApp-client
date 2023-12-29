@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-bottom">
                         <div class="add-member">
-                            <app-search-users (itemsChanged)="onItemsChanged($event)"></app-search-users>
+                            <app-search-users [preSelectedUser]="createWithUser" (itemsChanged)="onItemsChanged($event)"></app-search-users>
                         </div>
                         <div class="form-buttons">
                             <button class="create" type="submit">create</button>
