@@ -6,8 +6,8 @@
         <div class="header container-items">
             <div class="left">
                 <div class="image">
-                    <img [src]="profilePic" alt="" class="profilePic" (click)="viewImage()">
-                    <label class="upload-icon">
+                    <img [src]="profilePic" alt="" class="profilePic" (click)="viewImage()" [style.view-transition-name]="'app-profile-img'">
+                    <label class="upload-icon" [style.view-transition-name]="'app-profile-upload-icon'">
                         <i class="fa-solid fa-camera"></i>     
                         <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
                     </label>
@@ -16,7 +16,7 @@
             <div class="right">
                 <hr>
                 <div class="details">
-                    <div class="items">
+                    <div class="items" [style.view-transition-name]="'app-profile-details-name'">
                         <div class="item">
                             <div class="item-icon">
                                 <i class="fa-solid fa-user"></i>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="items">
+                    <div class="items" [style.view-transition-name]="'app-profile-details-bio'">
                         <div class="item">
                             <div class="item-icon">
                                 <i class="fa-solid fa-circle-exclamation"></i>
@@ -43,7 +43,7 @@
                             </div>
                             @if(editBioFlag){
                                 <form class="item-content" [formGroup]="bioForm" action="" (ngSubmit)="updateBio()">
-                                    <input type="text" class="bioInput" value={{userBio}} formControlName="bio">
+                                    <input type="text" class="bioInput" formControlName="bio" #bioInputField>
                                     <button type="submit" class="biosubmitButton"><i class="fa-solid fa-check"></i></button>
                                     <span class="cancelIcon"><i class="fa-solid fa-xmark" (click)="cancelBioEdit()"></i></span>
                                 </form>
@@ -55,13 +55,13 @@
                             }
                         </div>
                     </div>
-                    <div class="items">
+                    <div class="items" [style.view-transition-name]="'app-profile-details-phone'">
                         <div class="item">
                             <div class="item-icon">
                                 <i class="fa-solid fa-phone"></i>
                             </div>
                         </div>
-                        <div class="item">
+                        <div class="item" >
                             <div class="item-title">
                                 <span>phone</span>
                             </div>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="items">
+                    <div class="items" [style.view-transition-name]="'app-profile-details-email'">
                         <div class="item">
                             <div class="item-icon">
                                 <i class="fa-solid fa-envelope"></i>

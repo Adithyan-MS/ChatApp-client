@@ -48,7 +48,7 @@ export class RoomResultComponent implements OnInit{
         status:true,
         message:"Join Success"
       })     
-    },(error:any)=>{ 
+    },(error:any)=>{      
       this.errorMessage = JSON.parse(error["error"]).message;
       this.responseEvent.emit({
         status:false,

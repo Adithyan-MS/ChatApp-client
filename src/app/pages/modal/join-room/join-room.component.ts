@@ -38,11 +38,11 @@ export class JoinRoomComponent implements OnInit{
     }
     
   }
-  getJoinReponse(event:any){
+  getJoinResponse(event:any){
     if(event.status){
       this.successEvent.emit("success")
     }else{
-      this.joinError = event.errorMessage
+      this.joinError = event.message
     }
   }
 

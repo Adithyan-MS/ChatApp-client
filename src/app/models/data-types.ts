@@ -25,6 +25,7 @@ export interface userChats{
     profile_pic?:string,
     type:string,
     latest_message?:string,
+    latest_message_id:number|null,
     latest_message_sender_id?:number,
     latest_message_sender_name?:string,
     max_modified_at:string

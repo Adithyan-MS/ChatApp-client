@@ -1,26 +1,39 @@
-<div class="container">
+<div class="container" [style.view-transition-name]="'app-sidebar-container'">
     <div class="header">
         <div class="top">
             <div class="top-left">
-                <span class="title">Chats</span>
+                <div class="title" >
+                    @if (!isStarredMessageOpened) {
+                        <span>Chats</span>
+                    }@else {
+                        <span [style.view-transition-name]="'home-title'">StarredMessages</span>
+                    }
+                </div>
             </div>
             <div class="dropdown">
-                <i class="fa-sharp fa-regular fa-pen-to-square new"></i>
-                <div class="dropdown-content">
-                    <div (click)="showCreateRoom()">Create room</div>
-                    <div (click)="showJoinRoom()">Join room</div>
-                    <div (click)="showStarredMessage()">Starred messsages</div>
-                    <div [routerLink]="'/profile'">Settings</div>
-                </div>
+                @if (!isStarredMessageOpened) {
+                    <i class="fa-sharp fa-regular fa-pen-to-square new"></i>
+                    <div class="dropdown-content" [@dropdownAnimation]>
+                        <div (click)="showCreateRoom()">Create room</div>
+                        <div (click)="showJoinRoom()">Join room</div>
+                        <div (click)="showStarredMessage()">Starred messsages</div>
+                        <div [routerLink]="'/profile'">Settings</div>
+                    </div>
+                }@else {
+                    <i class="fa-solid fa-xmark new" (click)="closeStarredMessage()"></i>
+                }
               </div>
         </div>
         <div class="bottom">
-            <input type="text" placeholder="Search or start a new chat" (input)="onSearchChange($event)">
+            <input type="text" [placeholder]="!isStarredMessageOpened ? 'Search or start a new chat' : 'Search'" (input)="onSearchChange($event)">
         </div>
     </div>
     <div class="chats">
+        @if (isStarredMessageOpened) {
+            <span>Messsages</span>
+        }
         @for(chat of chats; track chat.name){
-            <app-chat (click)="showChat(chat)" [currentUserId]="userId" class="chat" [chat]="chat"></app-chat>
+            <app-chat (click)="showChat(chat)" [index]="$index" (click)="clickChat($index)" [clickedIndex]="clickedIndex" [currentUserId]="userId" class="chat" [chat]="chat"></app-chat>
         }
     </div>
 </div>

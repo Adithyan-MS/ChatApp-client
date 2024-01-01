@@ -51,7 +51,7 @@
                         <i class="menu-toggler fa-solid fa-ellipsis-vertical more" (click)="toggleMenu()"></i>
                     </div>
                     @if(isMenuOpened){
-                        <div class="menu" style="width: 100%;">
+                        <div class="menu" style="width: 100%;" [@dropdownAnimation]>
                             <div class="menu-item" (click)="viewProfile()">View profile</div>
                             <div class="menu-item" (click)="openSearch()">Search</div>
                             <div class="menu-item">Report</div>
@@ -66,7 +66,7 @@
 </div>
 <div class="view" #scrollTarget>
     <div class="message-area">
-        @for(message of messageList; track message.id){
+        @for(message of messageList; track $index;){
             @if (isDifferentDay($index)) {
                 <div class="date-container">
                     <div class="date">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             }
-            <app-message class="dropup" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message class="dropup" [attr.id]="'message-' + message.id" [index]="$index" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>
@@ -87,9 +87,9 @@
             <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
                 <div class="form-input">
                     @if(parentMessage){
-                        <app-parent-message [message]="parentMessage" (closeEvent)="onCloseParentEvent($event)"></app-parent-message>
+                        <app-parent-message [@dropupAnimation] [message]="parentMessage" (closeEvent)="onCloseParentEvent($event)"></app-parent-message>
                     }@else if (editMessage) {
-                        <app-edit-message [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
+                        <app-edit-message [@dropupAnimation] [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
                     }                
                     <input formControlName="content" type="text" placeholder="Type a message" #sendInput>
                 </div>

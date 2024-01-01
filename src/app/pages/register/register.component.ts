@@ -33,23 +33,18 @@ export class RegisterComponent implements OnInit{
   }
  
   onFormSubmit(){
- 
-    this.submitted = true;
- 
+    this.submitted = true; 
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
-    }
- 
-    const formValues = this.registerForm.getRawValue();
- 
+    } 
+    const formValues = this.registerForm.getRawValue(); 
     const userData={
       name: formValues.username,
       password: formValues.password,
       email: formValues.email,
       phone_number: formValues.phonenumber
-    }
-   
+    }   
     this.api.postReturn(`${environment.BASE_API_URL}/auth/register`,userData).subscribe((data:AuthResponse)=>{
       this.registerSuccess = true;
       this.registerForm.reset();
@@ -57,10 +52,8 @@ export class RegisterComponent implements OnInit{
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.registerSuccess = false;
-    })
- 
+    }) 
     this.submitted = false;
- 
   }
  
 }

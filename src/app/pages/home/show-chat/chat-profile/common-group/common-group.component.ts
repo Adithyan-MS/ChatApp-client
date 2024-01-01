@@ -4,6 +4,7 @@ import { Room } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { DataService } from '../../../../../services/data.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-common-group',
@@ -17,7 +18,7 @@ export class CommonGroupComponent implements OnInit{
   @Input() room:Room
   roomPic:string
 
-  constructor(private appService:AppService,private dataService: DataService){}
+  constructor(private appService:AppService,private route:ActivatedRoute,private router:Router,private dataService: DataService){}
 
   ngOnInit(): void {
     if(this.room.room_pic){
@@ -27,6 +28,7 @@ export class CommonGroupComponent implements OnInit{
     }
   }
   openRoomChat(){
+    this.router.navigate([`${this.room.name}`], {relativeTo:this.route});
     this.dataService.notifyOther({
       view:"chat",
       data:{

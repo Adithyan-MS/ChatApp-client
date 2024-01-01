@@ -6,34 +6,41 @@ import { ApiService } from '../../../services/api.service';
 import { userChats } from '../../../models/data-types';
 import { DataService } from '../../../services/data.service';
 import { HttpParams } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ModalService } from '../../../services/modal.service';
+import { SenderService } from '../show-chat/chat-messages/message-service/sender.service';
+import { AnimationService } from '../../../services/animation.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
   imports: [CommonModule,ChatComponent,RouterModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
+  animations:[AnimationService.prototype.getItemMovementAnimation(),AnimationService.prototype.getVerticalMovementAnimation(),AnimationService.prototype.getDropdownAnimation()]
 })
 export class SidebarComponent implements OnInit{
 
   chats:userChats[]
   user:string|any
   userId:number
+  clickedIndex?:number
+  isStarredMessageOpened:boolean = false
 
-  constructor(private api:ApiService,private dataService : DataService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
+  constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     if(typeof localStorage != undefined){
       this.user = localStorage.getItem("user");
       this.userId = JSON.parse(this.user).id; 
     }
-    this.getUserChats()    
-    this.dataService.notifyObservable$.subscribe((data)=>{
-      if(data){
+    this.getUserChats()
+    this.dataService.notifyObservable$.subscribe((data)=>{ 
+      if(data.length==0 || (data && !this.isStarredMessageOpened)){
         this.getUserChats()
+      }else{
+        this.getStarredMessages()
       }
     })
   }
@@ -46,10 +53,15 @@ export class SidebarComponent implements OnInit{
   }
 
   showChat(chat:userChats){
+    this.router.navigate([chat.name], {relativeTo:this.route});
     this.dataService.notifyOther({
       view:"chat",
       data:chat
     })
+    this.messageService.setSelectedMessageId(chat.latest_message_id)    
+  }
+  clickChat(index:any){
+    this.clickedIndex=index
   }
   showCreateRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
@@ -65,17 +77,42 @@ export class SidebarComponent implements OnInit{
       if(searchName !==""){
         let queryParams = new HttpParams();
         queryParams = queryParams.append("name",searchName);
-        this.api.getReturn(`${environment.BASE_API_URL}/user/search`,{params:queryParams}).subscribe((data)=>{
-        this.chats=data
-      },(error)=>{
-        console.log(error);      
-      })
+        if (!this.isStarredMessageOpened) {
+          this.api.getReturn(`${environment.BASE_API_URL}/user/search`,{params:queryParams}).subscribe((data)=>{
+            this.chats=data
+          },(error)=>{
+          console.log(error);      
+          })          
+        }else{
+          this.api.getReturn(`${environment.BASE_API_URL}/user/starredMessages/search`,{params:queryParams}).subscribe((data)=>{
+            this.chats=data
+          },(error)=>{
+          console.log(error);      
+          })
+        }
       }else{
-        this.getUserChats()
+        if (!this.isStarredMessageOpened) {
+          this.getUserChats()          
+        } else {
+          this.getStarredMessages()
+        }
     }
   }
   showStarredMessage(){
-    
+    this.isStarredMessageOpened=true
+    this.getStarredMessages()
+    this.clickedIndex=undefined
+    this.router.navigate(['starredMessages'], {relativeTo:this.route});
   }
-
+  closeStarredMessage(){
+    this.isStarredMessageOpened=false
+    this.getUserChats()
+    this.clickedIndex=undefined
+    this.router.navigate(['/home']);
+  }
+  getStarredMessages(){
+    this.api.getReturn(`${environment.BASE_API_URL}/user/starredMessages`).subscribe((data)=>{
+      this.chats=data
+    },(error)=>console.log(error))
+  }
 }

@@ -35,9 +35,7 @@ export class CreateRoomComponent {
 
   roomPic:string|null
 
-  ngOnInit(): void {
-    console.log(this.createWithUser?.id);
-    
+  ngOnInit(): void {    
     this.noRoomPic = environment.ROOM_IMAGE
     this.createRoomForm = this.fb.group({
       name:['',[Validators.required]],
@@ -47,8 +45,6 @@ export class CreateRoomComponent {
 
   onItemsChanged(value:userSearch[]){
     this.members=value.map(obj => obj.id)
-    console.log(this.members);
-    
   }
 
   OnSubmit(){

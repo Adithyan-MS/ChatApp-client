@@ -5,6 +5,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { authGuard } from './guards/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { inject } from '@angular/core';
+import { ChatMessagesComponent } from './pages/home/show-chat/chat-messages/chat-messages.component';
+import { ChatProfileComponent } from './pages/home/show-chat/chat-profile/chat-profile.component';
+import { SidebarComponent } from './pages/home/sidebar/sidebar.component';
 
 export const routes: Routes = [
     {
@@ -37,7 +40,23 @@ export const routes: Routes = [
         path:"home",
         component:HomeComponent,
         title:"Home | ChatApp",
-        canActivate:[authGuard]
+        canActivate:[authGuard],
+        children:[
+            {
+                path:':chat',
+                component:ChatMessagesComponent,
+                children:[
+                    {
+                        path:'profile',
+                        component:ChatProfileComponent
+                    }
+                ]
+            },
+            {
+                path:'starredMessages',
+                component:SidebarComponent
+            }
+        ]
     },
     {
         path:"profile",

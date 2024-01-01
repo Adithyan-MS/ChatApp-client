@@ -4,12 +4,12 @@
     </div>
     <div class="scroll-container">
         <div class="items">
-            <div class="item">
+            <div class="item" [style.view-transition-name]="'chat-profile-basic'">
                 <div class="chat-basic">
                     <div class="image">
-                        <img [src]="chatPicture" alt="" (click)="viewImage()">
+                        <img [src]="chatPicture" alt="" (click)="viewImage()" [style.view-transition-name]="'chat-profile-img'">
                         @if(!isChatTypeUser && isCurrentUserAdmin){
-                            <label class="upload-icon">
+                            <label class="upload-icon" [style.view-transition-name]="'chat-profile-upload-icon'">
                                 <i class="fa-solid fa-camera"></i>     
                                 <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
                             </label>
@@ -19,59 +19,59 @@
                         <span>{{chatDetails?.name}}</span>
                     </div>
                 </div>
-                <div class="options">
+                <div class="options" [style.view-transition-name]="'chat-profile-basic-options'">
                     @if (!isCurrentUserPastParticipant) {
-                        <div class="option">
+                        <div class="option"[style.view-transition-name]="'chat-profile-basic-phone'">
                             <i class="fa-solid fa-phone"></i>
                         </div>
                     }
                     @if(chatDetails?.email){
-                        <div class="option">
+                        <div class="option" [style.view-transition-name]="'chat-profile-basic-email'">
                             <i class="fa-regular fa-envelope"></i>
                         </div>
                     }
-                    <div class="option" (click)="searchMessage()">
+                    <div class="option" (click)="searchMessage()" [style.view-transition-name]="'chat-profile-basic-search'">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
-                    <div class="option">
+                    <div class="option" [style.view-transition-name]="'chat-profile-basic-share'">
                         <i class="fa-solid fa-share"></i>
                     </div>
                 </div>
             </div>
-            <div class="item">
+            <div class="item" [style.view-transition-name]="'chat-profile-bio'">
                 @if (chatDetails?.bio || chatDetails?.description) {
-                    <div class="bio">
+                    <div class="bio" [style.view-transition-name]="'chat-profile-bio-about'">
                         <span class="bio-title">About</span>
                         <span class="bio-content">{{chatDetails.bio ? chatDetails.bio : chatDetails.description }}</span>
                     </div>
                 }
                 @if(chatDetails?.email){
-                    <div class="bio">
+                    <div class="bio" [style.view-transition-name]="'chat-profile-bio-email'">
                         <span class="bio-title">Email</span>
                         <span class="bio-content">{{chatDetails?.email}}</span>
                     </div>
                 }
                 @if(chatDetails?.phone_number){
-                    <div class="bio">
+                    <div class="bio" [style.view-transition-name]="'chat-profile-bio-phone'">
                         <span class="bio-title">Phone</span>
                         <span class="bio-content">{{chatDetails?.phone_number}}</span>
                     </div>
                 }
-                <div class="bio">
+                <div class="bio" [style.view-transition-name]="'chat-profile-bio-createAt'">
                     <span class="bio-title">Created At</span>
                     <span class="bio-content">{{createdAt}}</span>
                 </div>
             </div>
             @if (isCurrentUserPastParticipant) {
-                <div class="item">
+                <div class="item" [style.view-transition-name]="'chat-profile-notMember'">
                     <div class="chat-meta">
                         <span class="no-longer-a-member">You're no longer a member in this room</span>
                     </div>
                 </div>
             }
-            <div class="item">
+            <div class="item" [style.view-transition-name]="'chat-profile-meta'">
                 <div class="chat-meta">
-                    <div class="metas">
+                    <div class="metas" [style.view-transition-name]="'chat-profile-meta-add'">
                         @if(!isChatTypeUser && isCurrentUserAdmin){
                             <div class="meta" (click)="showAddMembers()">
                                 <div class="icon prio2">
@@ -81,7 +81,7 @@
                             </div>
                         }
                         @if (!isCurrentUserPastParticipant) {
-                            <div class="meta">
+                            <div class="meta" [style.view-transition-name]="'chat-profile-meta-mute'">
                                 <div class="icon prio2">
                                     <i class="fa-solid fa-bell-slash"></i>
                                 </div>
@@ -89,7 +89,7 @@
                             </div>
                         }
                         @if (isCurrentUserPastParticipant) {
-                            <div class="meta">
+                            <div class="meta" [style.view-transition-name]="'chat-profile-meta-delete'">
                                 <div class="icon prio1">
                                     <i class="fa-solid fa-trash"></i>
                                 </div>
@@ -97,7 +97,7 @@
                             </div>
                         }
                         @if(chatDetails?.email){
-                            <div class="meta">
+                            <div class="meta" [style.view-transition-name]="'chat-profile-meta-block'">
                                 <div class="icon prio1">
                                     <i class="fa-solid fa-ban"></i>
                                 </div>
@@ -105,7 +105,7 @@
                             </div>
                         }@else{
                             @if (!isCurrentUserPastParticipant) {
-                                <div class="meta" (click)="onExitRoom()">
+                                <div class="meta" (click)="onExitRoom()" [style.view-transition-name]="'chat-profile-meta-exit'">
                                     <div class="icon prio1">
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>  
                                     </div>
@@ -114,7 +114,7 @@
                                 </div>
                             }
                         }
-                        <div class="meta">
+                        <div class="meta" [style.view-transition-name]="'chat-profile-meta-report'">
                             <div class="icon prio1">
                                 <i class="fa-solid fa-thumbs-down"></i>
                             </div>
@@ -123,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            <div class="item">
+            <div class="item" [style.view-transition-name]="'chat-profile-group'">
                 @if(members){
                     <div class="group-count">
                         <span>{{members?.length}} participants</span>
@@ -139,7 +139,7 @@
                         </div>
                         <div class="group-container">
                             @for(pastMember of pastMembers; track pastMember.id){
-                                <app-participant [member]="pastMember"></app-participant> 
+                                <app-participant [member]="pastMember" [style.view-transition-name]="'chat-profile-group'+pastMember.id"></app-participant> 
                             }
                         </div>
                     }

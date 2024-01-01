@@ -55,7 +55,6 @@
 .option-container .show-options{
     cursor: pointer;
     font-size: 11px;
-    transition: 0.3s;
 }
 .non-flipped{
     display: none;
@@ -133,7 +132,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: visibility 0s, opacity 0.5s linear;
 }
 .right .show-liked-users{
     left: -157px;

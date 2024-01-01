@@ -4,15 +4,17 @@ import { Participant } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { ApiService } from '../../../../../services/api.service';
-import { error } from 'console';
 import { DataService } from '../../../../../services/data.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AnimationService } from '../../../../../services/animation.service';
 
 @Component({
   selector: 'app-participant',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './participant.component.html',
-  styleUrl: './participant.component.scss'
+  styleUrl: './participant.component.scss',
+  animations:[AnimationService.prototype.getDropupAnimation()]
 })
 export class ParticipantComponent implements OnInit,OnChanges{
 
@@ -26,7 +28,7 @@ export class ParticipantComponent implements OnInit,OnChanges{
   user:string|null
   roomId:number
 
-  constructor(private appService: AppService,private elementRef: ElementRef,private dataService: DataService){}
+  constructor(private appService: AppService,private router:Router,private route:ActivatedRoute,private elementRef: ElementRef,private dataService: DataService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
@@ -56,6 +58,7 @@ export class ParticipantComponent implements OnInit,OnChanges{
     this.toggleOptions(this.member.id)
   }
   openConvo(){
+    this.router.navigate([this.member.name],{relativeTo:this.route})
     this.dataService.notifyOther({
       view:"chat",
       data:{

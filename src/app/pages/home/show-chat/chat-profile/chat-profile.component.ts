@@ -9,7 +9,7 @@ import { CommonGroupComponent } from './common-group/common-group.component';
 import { ModalService } from '../../../../services/modal.service';
 import { DataService } from '../../../../services/data.service';
 import { HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-profile',
@@ -39,7 +39,7 @@ export class ChatProfileComponent implements OnInit{
   newFileName:string
   newUserDetails:User|any
 
-  constructor(private api:ApiService,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef, private dataService:DataService,private router:Router){}
+  constructor(private api:ApiService,private route:ActivatedRoute,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef, private dataService:DataService,private router:Router){}
   
   ngOnInit(): void {   
     this.dataService.notifyObservable$.subscribe((res)=>{
@@ -84,6 +84,7 @@ export class ChatProfileComponent implements OnInit{
 
   backToChat(){
     this.eventEmitter.emit("chat")
+    this.router.navigate([`${this.currentChat.name}`], {relativeTo:this.route});
   }
     
   viewImage(){
@@ -153,10 +154,10 @@ export class ChatProfileComponent implements OnInit{
       this.getRoomParticipants()
       this.getRoomPastParticipants()
       this.isExitSuccess=true
+      this.router.navigate([`${this.currentChat.name}`], {relativeTo:this.route});
       this.exitSuccessEvent.emit("success")
     },(error)=>{
-      this.isExitSuccess=false   
-      console.log(this.isExitSuccess);
+      this.isExitSuccess=false
          
     })
   }
@@ -178,6 +179,7 @@ export class ChatProfileComponent implements OnInit{
   searchMessage(){
     this.backToChat()
     this.dataService.notifyOther("openSearch")
+    this.router.navigate([`${this.currentChat.name}`], {relativeTo:this.route});
   }
   createRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)

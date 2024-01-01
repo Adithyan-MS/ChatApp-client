@@ -11,13 +11,17 @@ import { DataService } from '../../../../services/data.service';
 import { ParentMessageComponent } from './parent-message/parent-message.component';
 import { EditMessageComponent } from './edit-message/edit-message.component';
 import { ForwardMessageComponent } from './forward-message/forward-message.component';
+import { SenderService } from './message-service/sender.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AnimationService } from '../../../../services/animation.service';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
   imports: [CommonModule,ReactiveFormsModule,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent],
   templateUrl: './chat-messages.component.html',
-  styleUrl: './chat-messages.component.scss'
+  styleUrl: './chat-messages.component.scss',
+  animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation()]
 })
 export class ChatMessagesComponent implements OnInit,OnChanges{
   
@@ -41,8 +45,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   headerContent:string
   isForwardOpened:boolean=false
   forwardMessageList:number[]=[]
+  locateMessageId:number|null
   
-  constructor(private fb: FormBuilder,private appService: AppService,private api:ApiService,private dataService:DataService,private elementRef: ElementRef){}
+  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef){}
   
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe((data)=>{
@@ -80,10 +85,16 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       if(!this.isSearchOpened){
         this.setSendFieldFocus()
       }
-      setTimeout(() => this.scrollToBottom());
+      this.locateMessageId=this.messageService.getSelectedMessageId()
+        if(this.locateMessageId!=null){
+          setTimeout(() => this.scrollToMessage(this.locateMessageId))
+        }else{
+          setTimeout(() => this.scrollToBottom());
+        }
     },(error)=>{
       console.log(error);
     })
+
   }
   getRoomChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
@@ -91,7 +102,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       if(!this.isSearchOpened){
         this.setSendFieldFocus()
       }
-      setTimeout(() => this.scrollToBottom());
+      this.locateMessageId=this.messageService.getSelectedMessageId()
+        if(this.locateMessageId!=null){
+          setTimeout(() => this.scrollToMessage(this.locateMessageId))
+        }else{
+          setTimeout(() => this.scrollToBottom());
+        }
     },(error)=>{
       console.log(error);
     })
@@ -118,7 +134,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
         this.parentMessage = null
         this.ngOnChanges(data)
         this.dataService.notifyOther({
-          status:"success"
+          status:"sendSuccess"
         });
       },(error)=>{
         console.log(error);
@@ -142,6 +158,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     }
   }
   viewProfile(){
+    this.router.navigate([`${this.currentChat.name}/profile`],{relativeTo:this.route})
     this.showProfileEvent.emit("profile")
   }
   toggleMenu(){
@@ -152,14 +169,29 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     }
   }
+  scrollToMessage(messageId: number|null): void {
+    const container: HTMLElement = this.myScrollContainer.nativeElement;
+    const messageElement = container.querySelector(`#message-${messageId}`) as HTMLElement;
+    if (messageElement) {
+      const containerRect = container.getBoundingClientRect();
+      const messageRect = messageElement.getBoundingClientRect();
+      const scrollTo = messageRect.top - containerRect.top - containerRect.height / 2 + messageRect.height / 2;
+      messageElement.style.backgroundColor = 'rgba(171, 197, 207, 0.5)';
+      container.scrollTo({
+        top: scrollTo,
+        behavior: 'smooth',
+      });
+      setTimeout(() => {
+        messageElement.style.backgroundColor = '';
+      }, 1000);
+    }
+  }
   setSendFieldFocus(){
     if(this.myMessageSendField){
       this.myMessageSendField.nativeElement.focus()
     }
   }
   setSearchFieldFocus(){
-    console.log(this.searchField);
-    
     if(this.searchField){
       this.searchField.nativeElement.focus()
     }
@@ -287,9 +319,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   onMessageChecked(event:any){
     if(event)
-      this.selectedList.push(event)
-    console.log(this.selectedList);
-    
+      this.selectedList.push(event)    
   }
   onMessageUnChecked(event:any){
     if(event){
@@ -345,8 +375,11 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     }
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage`,reqBody,{headers}).subscribe((data)=>{
-      this.selectedList=[]      
+      this.selectedList=[]   
       this.ngOnChanges(data)
+      this.dataService.notifyOther({
+        status:"starSuccess"
+      })
     },(error)=>{
       console.log(error);
     })

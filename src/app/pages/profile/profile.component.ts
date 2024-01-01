@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { User } from '../../models/data-types';
@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
+import { AnimationService } from '../../services/animation.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit{
   newUserDetails:User|any
   userBio:string
   editBioFlag:boolean=false
+  @ViewChild("bioInputField") bioInputField:ElementRef
 
   bioForm:FormGroup
 
@@ -81,6 +83,10 @@ export class ProfileComponent implements OnInit{
   }
 
   viewBioEdit(){
+    setTimeout(()=>{
+      this.bioInputField.nativeElement.focus()
+      this.bioInputField.nativeElement.value = this.userBio
+    })
     this.editBioFlag=true
   }
   cancelBioEdit(){

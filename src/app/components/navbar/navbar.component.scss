@@ -8,11 +8,18 @@
     z-index: 999;
 }
 .left{
+    gap: 5px;
     flex: 1;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.left img{
+    width: 43px;
+    height: 43px;
+    border-radius: 10%;
+    margin-top: 8px;
 }
 .right{
     flex: 2;
@@ -22,8 +29,10 @@
     justify-content: end;
 }
 .nav-title{
-    color: white;
-    font-size: 40px;
+    background: -webkit-linear-gradient(var(--lightx-roof), var(--light-roof));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 30px;
     text-align: center;
     font-family: 'REM', sans-serif;
     cursor: pointer;

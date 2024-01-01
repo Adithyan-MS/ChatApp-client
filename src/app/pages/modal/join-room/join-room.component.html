@@ -20,7 +20,7 @@
                         <i class="fa-solid fa-magnifying-glass" (click)="searchRoom()"></i>                    </div>
                     <div class="searchResult">
                         @if(room){
-                            <app-room-result [roomData]="room" (responseEvent)="getJoinReponse($event)"></app-room-result>
+                            <app-room-result [roomData]="room" (responseEvent)="getJoinResponse($event)"></app-room-result>
                         }@else{
                             <div class="search-desc">
                                 @if(searchFlag){

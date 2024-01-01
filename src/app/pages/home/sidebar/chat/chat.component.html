@@ -1,21 +1,24 @@
-<div class="items">
+<div class="items" [ngClass]="{'clicked' : clickedIndex==index}">
     <div class="left">
         <img [src]="profilePic ? profilePic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
         <div class="chat-name">
             <span class="name name-space">{{chat.name}}</span>
             <div class="last-message name-space">
                 <span>
-                    @if(isCurrentUserSender){
-                        You
-                    }@else{
-                        {{chat.latest_message_sender_name}}
-                    }
-                </span>
-                <span>
                     @if (chat.latest_message) {
-                        : {{chat.latest_message}}
-                    }@else {
-                        created room "{{chat.name}}"
+                        @if(isCurrentUserSender){
+                            You:
+                        }@else{
+                            {{chat.latest_message_sender_name}}:
+                        }
+                        <span>{{chat.latest_message}}</span>
+                    }@else if(!chat.latest_message && chat.max_modified_at){
+                        @if(isCurrentUserSender){
+                            You
+                        }@else{
+                            {{chat.latest_message_sender_name}}
+                        }
+                        <span>created room "{{chat.name}}"</span>
                     }
                 </span>
             </div>

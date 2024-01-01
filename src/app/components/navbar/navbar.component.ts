@@ -46,7 +46,6 @@ export class NavbarComponent implements OnInit{
   userLogout(){
     const headers = new HttpHeaders().set('ResponseType', 'text');
     this.api.postReturn(`${environment.BASE_API_URL}/auth/logout`,null,{headers}).subscribe((data:any)=>{
-      console.log(data);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       this.router.navigate(["login"])

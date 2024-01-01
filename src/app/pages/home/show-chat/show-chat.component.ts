@@ -4,7 +4,7 @@ import { DataService } from '../../../services/data.service';
 import {  userChats } from '../../../models/data-types';
 import { ApiService } from '../../../services/api.service';
 import { AppService } from '../../../services/app.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChatProfileComponent } from './chat-profile/chat-profile.component';
 import { ChatMessagesComponent } from './chat-messages/chat-messages.component';
 import { environment } from '../../../../environments/environment.development';
@@ -25,13 +25,13 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
   otherResponse:string|null = "Start a new chat."
   isCurrentUserPastParticipant:boolean
   
-  constructor(private dataService:DataService,private api: ApiService,private appService: AppService,private router:Router){}
+  constructor(private dataService:DataService,private route:ActivatedRoute,private api: ApiService,private appService: AppService,private router:Router){}
 
   ngAfterViewInit(): void {
   }
   
   ngOnInit(): void { 
-    this.dataService.notifyObservable$.subscribe(res=>{
+    this.dataService.notifyObservable$.subscribe(res=>{   
       if(res.view==="chat"){
         if(res.data.type==="room"){
           if (typeof localStorage !== 'undefined' && localStorage.getItem("user")) {
@@ -57,12 +57,13 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
         }else{
           this.showWhat="chat"       
           this.currentChat = res.data;
-          this.isCurrentUserPastParticipant=false
+          this.isCurrentUserPastParticipant=false          
         }
       }
     })    
   }
   viewProfile(event:any){
+    this.router.navigate([`${this.currentChat.name}/profile`], {relativeTo:this.route});
     this.showWhat = event
   }
   viewEvent($event:string){

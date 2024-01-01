@@ -40,7 +40,7 @@
                     <span>{{message.like_count}}</span>
                 }
                 @if(isLikedUsersOpened && likedUsers){
-                    <div class="show-liked-users">
+                    <div class="show-liked-users" [@dropdownAnimation]>
                         <div class="liked-users">
                             @for(user of likedUsers; track user.id){
                                 <div class="user">
@@ -60,7 +60,7 @@
     <div class="option-container">
         <i class="show-options fa-solid fa-angle-up" [ngClass]="isOptionsOpened ? 'flipped' : 'non-flipped'" (click)="optionsToggle()"></i>
         @if(isOptionsOpened){
-            <div class="options">
+            <div class="options" [@dropupAnimation]>
                 @if (!isCurrentUserPastParticipant) {
                     <div class="option" ><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
                     <div class="option" ><i title="Reply" class="fa-solid fa-reply" (click)="replyMessage()"></i></div>

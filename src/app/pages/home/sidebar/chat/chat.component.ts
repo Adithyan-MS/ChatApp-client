@@ -15,6 +15,8 @@ export class ChatComponent implements OnInit,OnChanges{
 
   @Input() chat:userChats
   @Input() currentUserId:number
+  @Input() clickedIndex?:number
+  @Input() index:number
   profilePic:string|null
   lastMessageTime:string|null
   messageDateString:string

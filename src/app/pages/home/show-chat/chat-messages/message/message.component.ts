@@ -6,19 +6,24 @@ import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
 import { ParentMessageComponent } from '../parent-message/parent-message.component';
-import { SenderService } from './message-service/sender.service';
+import { SenderService } from '../message-service/sender.service';
+import { DataService } from '../../../../../services/data.service';
+import { AnimationService } from '../../../../../services/animation.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-message',
   standalone: true,
   imports: [CommonModule,ParentMessageComponent],
   templateUrl: './message.component.html',
-  styleUrl: './message.component.scss'
+  styleUrl: './message.component.scss',
+  animations:[AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getDropupAnimation()]
 })
 export class MessageComponent implements OnInit,OnChanges{
 
   @Input() message:message
   @Input() showCheckBox:boolean
+  @Input() index:number
   @Input() isCurrentUserPastParticipant:boolean
   @Output() deleteSuccessEvent = new EventEmitter<any>()
   @Output() replyMessageEvent = new EventEmitter<any>()
@@ -39,7 +44,7 @@ export class MessageComponent implements OnInit,OnChanges{
   starredFlag:boolean|null
   isMessageChecked:boolean=false
 
-  constructor(private appService: AppService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
+  constructor(private appService: AppService,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
@@ -50,12 +55,15 @@ export class MessageComponent implements OnInit,OnChanges{
     this.currentUserId = JSON.parse(this.user).id;
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
-    this.starredFlag=this.message.is_starred
+    this.starredFlag=this.message.is_starred    
   }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {
+    if (this.index === 0) {
+      return true
+    }
     const display = currentSenderName !== this.senderNameService.getPreviousSenderName();
-    this.senderNameService.setPreviousSenderName(currentSenderName);
+    this.senderNameService.setPreviousSenderName(currentSenderName); 
     return display;
   }
 
@@ -118,12 +126,14 @@ export class MessageComponent implements OnInit,OnChanges{
     }
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/starOrUnstarMessage`,reqBody,{headers}).subscribe((data)=>{
-      if(data ==`message ${this.message.id}starred`){
+      if(data ==`\nmessage ${this.message.id}starred`){
         this.starredFlag=true
       }else{
         this.starredFlag=false
       }
-      
+      this.dataService.notifyOther({
+        status:"starSuccess"
+      })
     },(error)=>{
       console.log(error);
     })

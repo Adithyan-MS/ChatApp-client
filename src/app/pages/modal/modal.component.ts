@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { JoinRoomComponent } from './join-room/join-room.component';
 import { CreateRoomComponent } from './create-room/create-room.component';
 import { AddRoomMemberComponent } from './add-room-member/add-room-member.component';
+import { AnimationService } from '../../services/animation.service';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
   imports: [CommonModule,CreateRoomComponent,JoinRoomComponent,AddRoomMemberComponent],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss'
+  styleUrl: './modal.component.scss',
+  animations:[AnimationService.prototype.getPopupAnimation(),AnimationService.prototype.getFadeInOutAnimation()]
 })
 export class ModalComponent {
 
