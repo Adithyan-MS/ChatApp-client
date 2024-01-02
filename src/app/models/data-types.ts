@@ -65,6 +65,7 @@ export interface message{
 export interface sendMessage{
     message:{
         content:string,
+        type:string,
         parentMessage:number|null
     },
     receiver:{

@@ -84,6 +84,30 @@
         @if (isCurrentUserPastParticipant) {
             <span>You can't send messages to this room because you're no longer a member.</span>            
         }@else {
+            <div class="attach">
+                <i class="fa-solid fa-paperclip" (click)="toggleSendMenu()"></i>
+                @if (isSendMenuOpen) {
+                    <div class="send-menu" [@dropupAnimation]>
+                        <label class="send-menu-item">
+                            <div class="send-menu-icon">
+                                <i class="fa-solid fa-file"></i>  
+                            </div>
+                            <div class="send-menu-name">
+                                <span>Document</span>
+                            </div>
+                        </label>
+                        <label class="send-menu-item">
+                            <div class="send-menu-icon">
+                                <i class="fa-solid fa-image"></i>  
+                            </div>
+                            <div class="send-menu-name">
+                                <span>Image</span>
+                            </div>
+                            <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+                        </label>
+                    </div>
+                }
+            </div>
             <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
                 <div class="form-input">
                     @if(parentMessage){
@@ -92,8 +116,8 @@
                         <app-edit-message [@dropupAnimation] [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
                     }                
                     <input formControlName="content" type="text" placeholder="Type a message" #sendInput>
-                </div>
-                <button type="submit">send</button>
+                </div>                
+                <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
             </form>
         }        
     </div>

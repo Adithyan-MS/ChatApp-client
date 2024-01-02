@@ -228,6 +228,74 @@
     align-items: center;
     justify-content: center;
 }
+.fa-paperclip{
+  transform:rotate(-44deg);
+  margin-right: 10px;
+  cursor: pointer;
+}
+.fa-paperclip:hover{
+  color: gray;
+}
+.fa-paper-plane{
+  transform:rotate(50deg);
+  font-weight: 100;
+}
+.fa-paper-plane:hover{
+  color: gray;
+}
+.attach{
+  position: relative;
+}
+.send-menu{
+  box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+  position: absolute;
+  border-radius: 10px;
+  bottom: 33px;
+  left: -20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 170px;
+  background-color: var(--light-roof);
+  padding: 6px 0px 6px 0px ;
+}
+.send-menu-item{
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 2px;
+}
+.send-menu-item:hover {
+  background-color: var(--mid-roof);
+}
+.send-menu-icon{
+  width: 40px;
+  box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.send-menu-item:last-child .send-menu-icon{
+  background-color: rgb(55, 38, 82);
+}
+.send-menu-item:first-child .send-menu-icon{
+  background-color: rgb(66, 31, 66);
+}
+.send-menu-icon i{
+  color: white;
+}
+.send-menu-name{
+  width: 110px;
+  display: flex;
+  align-items: start;
+}
 .input{
     width: 100%;
     height: 100%;
@@ -260,15 +328,12 @@
   button{
     border: none;
     border-radius: 20px;
-    color: white;
-    font-size: 18px;
-    background-color:var(--dark-roof);
+    font-size: 23px;
+    background-color:var(--light-roof);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 70px;
-    height: 100%;
   }
   .fa-location-arrow{
     font-size: 34px;

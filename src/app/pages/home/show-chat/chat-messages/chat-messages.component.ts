@@ -46,6 +46,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   isForwardOpened:boolean=false
   forwardMessageList:number[]=[]
   locateMessageId:number|null
+  isSendMenuOpen:boolean = false
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef){}
   
@@ -121,13 +122,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       const messageData: sendMessage={
         message:{
           content:formValue.content,
+          type:"text",
           parentMessage:this.parentMessage ? this.parentMessage.id : null
         },
         receiver:{
           type:this.currentChat.type,
           id:this.currentChat.id
         }
-      }    
+      }
       const headers = new HttpHeaders().set('ResponseType','text')
       this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
         this.messageForm.reset()
@@ -268,6 +270,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     const clickedInside = this.elementRef.nativeElement.contains(event.target);
     if (!clickedInside) {
       this.isMenuOpened = false;
+      this.isSendMenuOpen = false
     }
   }
 
@@ -383,5 +386,11 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     },(error)=>{
       console.log(error);
     })
+  }
+  toggleSendMenu(){
+    this.isSendMenuOpen = !this.isSendMenuOpen
+  }
+  onFilechange(event:any){
+
   }
 }
