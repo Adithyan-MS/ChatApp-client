@@ -14,14 +14,15 @@ import { ForwardMessageComponent } from './forward-message/forward-message.compo
 import { SenderService } from './message-service/sender.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationService } from '../../../../services/animation.service';
+import { SendFileComponent } from './send-file/send-file.component';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent],
+  imports: [CommonModule,ReactiveFormsModule,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss',
-  animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation()]
+  animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getPopupAnimation()]
 })
 export class ChatMessagesComponent implements OnInit,OnChanges{
   
@@ -47,6 +48,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   forwardMessageList:number[]=[]
   locateMessageId:number|null
   isSendMenuOpen:boolean = false
+  showSendFilePreview:boolean=false
+  selectedFiles: File[] = [];
+  images:any[]=[]
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef){}
   
@@ -92,23 +96,27 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
         }else{
           setTimeout(() => this.scrollToBottom());
         }
-    },(error)=>{
-      console.log(error);
-    })
-
-  }
-  getRoomChatMessage(){
-    this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
-      this.messageList=data
-      if(!this.isSearchOpened){
-        this.setSendFieldFocus()
-      }
-      this.locateMessageId=this.messageService.getSelectedMessageId()
+        this.showSendFilePreview=false
+        this.images=[]
+      },(error)=>{
+        console.log(error);
+      })
+      
+    }
+    getRoomChatMessage(){
+      this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
+        this.messageList=data
+        if(!this.isSearchOpened){
+          this.setSendFieldFocus()
+        }
+        this.locateMessageId=this.messageService.getSelectedMessageId()
         if(this.locateMessageId!=null){
           setTimeout(() => this.scrollToMessage(this.locateMessageId))
         }else{
           setTimeout(() => this.scrollToBottom());
         }
+        this.showSendFilePreview=false
+        this.images=[]
     },(error)=>{
       console.log(error);
     })
@@ -391,6 +399,23 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     this.isSendMenuOpen = !this.isSendMenuOpen
   }
   onFilechange(event:any){
-
+    const files: FileList = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      this.selectedFiles.push(file);
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.images.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    this.isSendMenuOpen = false
+    this.showSendFilePreview=true
+  }
+  onCloseSendFileEvent(event:any){
+    if(event){
+      this.showSendFilePreview=false
+      this.images=[]
+    }
   }
 }

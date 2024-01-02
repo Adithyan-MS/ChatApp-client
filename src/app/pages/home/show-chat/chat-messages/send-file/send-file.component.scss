@@ -1,0 +1,136 @@
+.container{
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.top{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    height: 40px;
+    width: 95%;
+}
+.top-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.top-title span{
+    font-size: 17px;
+}
+.top-cancel{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+.top-cancel i{
+    font-size: 17px;
+}
+.top-cancel i:hover{
+    color: gray;
+}
+.middle{
+    width: 98%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.middle .file-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-height: 300px;
+    overflow-x: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+    flex-direction: row;
+}
+.middle .file-container::-webkit-scrollbar {
+    display: none;
+}
+.file-container .file{
+    flex: 1;
+    max-width: 98%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    object-fit: cover;
+}
+.file img{
+    width: 100%;
+    min-width: 100px;
+    border-radius: 5px;
+    object-fit: cover;
+    max-height: 250px;
+    min-height: 250px;
+}
+.file .trash{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gray;
+    border-radius: 50%;
+    padding: 5px;
+    opacity: 0.5;
+}
+.trash i{
+    color: rgb(230, 230, 230);
+}
+.file .fa-trash-can:hover{
+    color: var(--dark-roof);
+}
+.bottom{
+    padding-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    height: 30px;
+    width: 95%;
+}
+.bottom-left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 40px;
+    background-color: var(--mid-roof);
+}
+.bottom-left:hover {
+    background-color: var(--dark-roof);
+}
+.bottom-left span{
+    font-size: 17px;
+}
+.bottom-right{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    justify-content: center;
+    height: 30px;
+    width: 40px;
+    background-color: green;
+    color: white;
+}
+.bottom-right:hover {
+    background-color: rgb(115, 192, 115);
+}
+.bottom-right i{
+    font-size: 17px;
+    transform:rotate(50deg);
+    font-weight: 100;
+}

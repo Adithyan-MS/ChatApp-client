@@ -101,23 +101,26 @@
                                 <i class="fa-solid fa-image"></i>  
                             </div>
                             <div class="send-menu-name">
-                                <span>Image</span>
+                                <span>Photo</span>
                             </div>
                             <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
                         </label>
                     </div>
                 }
+                @if (showSendFilePreview) {
+                    <app-send-file [images]="images" [@popupAnimation] (closeSendFileEvent)="onCloseSendFileEvent($event)"></app-send-file>
+                }
             </div>
-            <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()">
+            <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()" >
                 <div class="form-input">
                     @if(parentMessage){
                         <app-parent-message [@dropupAnimation] [message]="parentMessage" (closeEvent)="onCloseParentEvent($event)"></app-parent-message>
                     }@else if (editMessage) {
                         <app-edit-message [@dropupAnimation] [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
                     }                
-                    <input formControlName="content" type="text" placeholder="Type a message" #sendInput>
+                    <input [class.disabled]="showSendFilePreview" formControlName="content" type="text" placeholder="Type a message" #sendInput>
                 </div>                
-                <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
+                <button [class.disabled]="showSendFilePreview" type="submit"><i class="fa-regular fa-paper-plane" ></i></button>
             </form>
         }        
     </div>

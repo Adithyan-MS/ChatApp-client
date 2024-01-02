@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="top">
+        <div class="top-title">
+            <span>Send Photo</span>
+        </div>
+        <div class="top-cancel">
+            <i class="fa-solid fa-xmark" (click)="closeSendFile()"></i>
+        </div>
+    </div>
+    <div class="middle">
+        <div class="file-container">
+            @for (image of images; track $index) {
+                <div class="file">
+                    <img [src]="image" alt="">
+                    <div class="trash">
+                        <i class="fa-regular fa-trash-can" (click)="removeFile($index)"></i>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="bottom">
+        <label class="bottom-left">
+            <i class="fa-solid fa-plus"></i>
+            <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+        </label>
+        <div class="bottom-right">
+            <i class="fa-regular fa-paper-plane" (click)="sendFile()"></i>
+        </div>
+    </div>
+</div>

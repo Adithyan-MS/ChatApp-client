@@ -10,7 +10,6 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
-import { AnimationService } from '../../services/animation.service';
 
 @Component({
   selector: 'app-profile',
