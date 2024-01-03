@@ -51,6 +51,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   showSendFilePreview:boolean=false
   selectedFiles: File[] = [];
   images:any[]=[]
+  documents:any[]=[]
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef){}
   
@@ -402,10 +403,16 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     const files: FileList = event.target.files;
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+      console.log(file);
       this.selectedFiles.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.images.push(e.target.result);
+          this.images.push({
+            file:e.target.result,
+            type:file.type,
+            name:file["name"],
+            size:file.size
+          });
       };
       reader.readAsDataURL(file);
     }

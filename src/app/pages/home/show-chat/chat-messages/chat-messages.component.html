@@ -95,6 +95,7 @@
                             <div class="send-menu-name">
                                 <span>Document</span>
                             </div>
+                            <input type="file" id="file-document" style="display: none" (change)="onFilechange($event)" name="document" accept=".doc, .docx, .pdf, .txt" multiple="" data-original-title="upload document">   
                         </label>
                         <label class="send-menu-item">
                             <div class="send-menu-icon">
@@ -103,12 +104,12 @@
                             <div class="send-menu-name">
                                 <span>Photo</span>
                             </div>
-                            <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+                            <input type="file" id="file-photo" style="display: none" (change)="onFilechange($event)" name="photo" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
                         </label>
                     </div>
                 }
                 @if (showSendFilePreview) {
-                    <app-send-file [images]="images" [@popupAnimation] (closeSendFileEvent)="onCloseSendFileEvent($event)"></app-send-file>
+                    <app-send-file [images]="images" [documents]="documents" [@popupAnimation] (closeSendFileEvent)="onCloseSendFileEvent($event)"></app-send-file>
                 }
             </div>
             <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()" >

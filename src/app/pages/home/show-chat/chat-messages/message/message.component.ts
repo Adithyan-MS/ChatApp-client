@@ -56,6 +56,8 @@ export class MessageComponent implements OnInit,OnChanges{
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
     this.starredFlag=this.message.is_starred    
+    console.log(this.message);
+    
   }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {

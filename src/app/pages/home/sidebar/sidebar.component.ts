@@ -43,10 +43,13 @@ export class SidebarComponent implements OnInit{
         this.getStarredMessages()
       }
     })
+    
+    
   }
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
-      this.chats=data      
+      this.chats=data    
+      console.log(this.chats);  
     },(error)=>{
       console.log(error);      
     })

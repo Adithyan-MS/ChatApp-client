@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
@@ -9,10 +9,14 @@ import { ImageCropperModule } from 'ngx-image-cropper';
   templateUrl: './send-file.component.html',
   styleUrl: './send-file.component.scss'
 })
-export class SendFileComponent {
+export class SendFileComponent implements OnInit{
+
+  ngOnInit(): void {
+  }
 
   @Output() closeSendFileEvent = new EventEmitter<any>()
   @Input() images:any[]
+  @Input() documents:any[]
   selectedFiles:File[]=[]
 
   closeSendFile(){
@@ -25,10 +29,16 @@ export class SendFileComponent {
       this.selectedFiles.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.images.push(e.target.result);
+        this.images.push({
+          file:e.target.result,
+          type:file.type,
+          name:file["name"],
+          size:file.size
+        });
       };
       reader.readAsDataURL(file);
     }
+
   }
   removeFile(index:number){
     this.images.splice(index,1)

@@ -71,6 +71,40 @@
     object-fit: cover;
     max-height: 250px;
     min-height: 250px;
+    box-shadow: 0px 0px 19px 5px rgba(206, 206, 206, 0.1);
+}
+.file .doc-view{
+    width: 100%;
+    min-width: 100px;
+    border-radius: 5px;
+    object-fit: cover;
+    max-height: 250px;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    background: rgba(54,98,116, 0.2);
+    box-shadow: 0px 0px 19px 5px rgba(206, 206, 206, 0.1);
+
+}
+.doc-view .doc-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.doc-icon i{
+    font-size: 55px;
+    color: rgb(230, 230, 230);
+}
+.doc-meta{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    gap: 5px;
+    flex-direction: column;
 }
 .file .trash{
     position: absolute;

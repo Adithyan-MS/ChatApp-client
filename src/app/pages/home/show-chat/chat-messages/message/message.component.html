@@ -25,7 +25,11 @@
             </div>
         </div>
         <div class="content">
-            <span>{{message.content}}</span>
+            @if (message.type=="1") {
+                <img [src]="'http://localhost:8080/chatApi/v1/message/view/'+message.sender_name+'/image/'+message.content" alt="">
+            }@else{
+                <span>{{message.content}}</span>
+            }
         </div>
         <div class="time">    
             @if(starredFlag){

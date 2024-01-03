@@ -1,7 +1,7 @@
 <div class="container">
     <div class="top">
         <div class="top-title">
-            <span>Send Photo</span>
+            <span>Send File</span>
         </div>
         <div class="top-cancel">
             <i class="fa-solid fa-xmark" (click)="closeSendFile()"></i>
@@ -9,20 +9,49 @@
     </div>
     <div class="middle">
         <div class="file-container">
-            @for (image of images; track $index) {
-                <div class="file">
-                    <img [src]="image" alt="">
-                    <div class="trash">
-                        <i class="fa-regular fa-trash-can" (click)="removeFile($index)"></i>
+            @if(images.length!=0){
+                @for (image of images; track $index) {
+                    <div class="file">
+                        @if (image.type.includes("image")) {
+                            <img [src]="image.file" alt="">
+                        }@else {
+                            <div class="doc-view">
+                                <div class="doc-icon">
+                                    @if(image.type == "text/plain"){
+                                        <i class="fa-solid fa-file-lines"></i>
+                                    }@else if(image.type == "application/pdf") {
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    }@else {
+                                        <i class="fa-solid fa-file-word"></i>
+                                    }
+                                </div>
+                                <div class="doc-meta">
+                                    <span>{{image.name}}</span>
+                                    <span>{{image.size}}
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                        <div class="trash">
+                            <i class="fa-regular fa-trash-can" (click)="removeFile($index)"></i>
+                        </div>
                     </div>
-                </div>
+                }
+            }@else {
+                @for (document of documents; track $index) {
+                    <div class="file">
+                        <div class="trash">
+                            <i class="fa-regular fa-trash-can" (click)="removeFile($index)"></i>
+                        </div>
+                    </div>
+                }
             }
         </div>
     </div>
     <div class="bottom">
         <label class="bottom-left">
             <i class="fa-solid fa-plus"></i>
-            <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+            <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image"  multiple="" data-original-title="upload photos">   
         </label>
         <div class="bottom-right">
             <i class="fa-regular fa-paper-plane" (click)="sendFile()"></i>

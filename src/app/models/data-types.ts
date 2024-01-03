@@ -25,6 +25,7 @@ export interface userChats{
     profile_pic?:string,
     type:string,
     latest_message?:string,
+    latest_message_type?:string,
     latest_message_id:number|null,
     latest_message_sender_id?:number,
     latest_message_sender_name?:string,
@@ -51,6 +52,7 @@ export interface Participant{
 export interface message{
     id:number,
     content:string,
+    type:string,
     sender_id:number,
     is_starred:boolean|null,
     sender_name:string
