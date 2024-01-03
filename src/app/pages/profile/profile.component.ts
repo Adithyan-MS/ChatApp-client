@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit{
       if(this.data){
         this.currentUser = JSON.parse(this.data)
         if(this.currentUser.profilePic!=null){
-          this.profilePic = this.appService.getImageUrl(this.currentUser.profilePic);
+          this.profilePic = this.appService.getImageUrl(this.currentUser.name,this.currentUser.profilePic);
         }else{
           this.profilePic = environment.USER_IMAGE
         }

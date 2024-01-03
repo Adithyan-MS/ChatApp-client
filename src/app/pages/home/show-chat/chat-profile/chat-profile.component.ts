@@ -56,7 +56,7 @@ export class ChatProfileComponent implements OnInit{
       this.api.getReturn(`${environment.BASE_API_URL}/user/${this.currentChat.name}`).subscribe((data:User)=>{
         this.chatDetails=data
         if(this.chatDetails.profilePic!=null){
-          this.chatPicture = this.appService.getImageUrl(this.chatDetails.profilePic)
+          this.chatPicture = this.appService.getImageUrl(this.chatDetails.name,this.chatDetails.profilePic)
         }else{
           this.chatPicture = environment.USER_IMAGE
         }
@@ -70,7 +70,7 @@ export class ChatProfileComponent implements OnInit{
       this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.name}`).subscribe((data:Room)=>{
         this.chatDetails=data
         if(this.chatDetails.room_pic){
-          this.chatPicture=this.appService.getImageUrl(this.chatDetails.room_pic)
+          this.chatPicture=this.appService.getImageUrl(this.chatDetails.name,this.chatDetails.room_pic)
         }else{
           this.chatPicture= environment.ROOM_IMAGE
         }
@@ -169,7 +169,7 @@ export class ChatProfileComponent implements OnInit{
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/image/upload/${this.chatDetails.id}`,formParams,{headers}).subscribe((data)=>{
         if(data){
-          this.chatDetails.room_pic = this.appService.getImageUrl(data);
+          this.chatDetails.room_pic = this.appService.getImageUrl(this.chatDetails.name,data);
           this.ngOnInit()
         }
       },(error)=>console.log(error))

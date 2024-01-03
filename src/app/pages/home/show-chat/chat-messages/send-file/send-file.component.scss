@@ -47,9 +47,9 @@
     gap: 5px;
     max-height: 300px;
     overflow-x: scroll;
+    flex-direction: row;
     -ms-overflow-style: none; 
     scrollbar-width: none;
-    flex-direction: row;
 }
 .middle .file-container::-webkit-scrollbar {
     display: none;

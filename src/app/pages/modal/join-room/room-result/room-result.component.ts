@@ -25,7 +25,7 @@ export class RoomResultComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.roomData.room_pic){      
-      this.roomPic = this.appService.getImageUrl(this.roomData.room_pic);
+      this.roomPic = this.appService.getImageUrl(this.roomData.name,this.roomData.room_pic);
     }else{
       this.roomPic = environment.ROOM_IMAGE
     }

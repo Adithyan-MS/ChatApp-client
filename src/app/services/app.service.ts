@@ -23,8 +23,8 @@ export class AppService {
     return formattedDate; 
   }
 
-  getImageUrl(image:string){
-    return `${environment.BASE_API_URL}/image/view/${image}`
+  getImageUrl(name:string|any,image:string){
+    return `${environment.BASE_API_URL}/image/view/${name}/${image}`
   }
 
   extractDate(timestamp: string): string {

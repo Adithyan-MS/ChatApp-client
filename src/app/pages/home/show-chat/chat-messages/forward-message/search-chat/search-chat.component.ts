@@ -20,7 +20,7 @@ export class SearchChatComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.chat.profile_pic){
-      this.userPic = this.appService.getImageUrl(this.chat.profile_pic);
+      this.userPic = this.appService.getImageUrl(this.chat.name,this.chat.profile_pic);
     }else{
       this.userPic = environment.USER_IMAGE
     }

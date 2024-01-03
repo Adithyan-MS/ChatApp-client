@@ -70,7 +70,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     this.showCheckBox=false
     this.headerContent="none"
     if (this.currentChat.profile_pic) {
-      this.currentChatPic = this.appService.getImageUrl(this.currentChat.profile_pic);
+      this.currentChatPic = this.appService.getImageUrl(this.currentChat.name,this.currentChat.profile_pic);
     }else{
       if(this.currentChat.type=="user"){
         this.currentChatPic= environment.USER_IMAGE            
