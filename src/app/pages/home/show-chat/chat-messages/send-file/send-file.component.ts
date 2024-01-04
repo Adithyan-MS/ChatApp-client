@@ -6,6 +6,7 @@ import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { error } from 'console';
 import { HttpHeaders } from '@angular/common/http';
+import { AppService } from '../../../../../services/app.service';
 
 @Component({
   selector: 'app-send-file',
@@ -24,7 +25,7 @@ export class SendFileComponent implements OnInit{
   @Input() currentChat:userChats
   @Output() fileSendSuccessEvent = new EventEmitter<any>()
 
-  constructor(private api:ApiService){}
+  constructor(private api:ApiService,private appService:AppService){}
 
   ngOnInit(): void {
   }
@@ -43,7 +44,7 @@ export class SendFileComponent implements OnInit{
           file:e.target.result,
           type:file.type,
           name:file["name"],
-          size:file.size
+          size:this.appService.formatFileSize(file.size)
         });
       };
       reader.readAsDataURL(file);

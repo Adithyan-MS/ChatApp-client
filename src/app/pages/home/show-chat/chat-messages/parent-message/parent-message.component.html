@@ -17,7 +17,7 @@
         </div>
         @if (message.type == "image") {
             <div class="items">
-                <img [src]="'http://localhost:8080/chatApi/v1/message/view/'+message.sender_name+'/image/'+message.content" alt="">
+                <img [src]="imageParentUrl" alt="">
             </div>
         }        
     </div>

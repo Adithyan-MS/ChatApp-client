@@ -1,4 +1,4 @@
-import { Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  User, message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
@@ -10,6 +10,7 @@ import { SenderService } from '../message-service/sender.service';
 import { DataService } from '../../../../../services/data.service';
 import { AnimationService } from '../../../../../services/animation.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalService } from '../../../../../services/modal.service';
 
 @Component({
   selector: 'app-message',
@@ -43,8 +44,10 @@ export class MessageComponent implements OnInit,OnChanges{
   noUserPic:string = environment.USER_IMAGE
   starredFlag:boolean|null
   isMessageChecked:boolean=false
+  imageUrl:string
+  imageParentUrl:string
 
-  constructor(private appService: AppService,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
+  constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
@@ -56,8 +59,10 @@ export class MessageComponent implements OnInit,OnChanges{
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
     this.starredFlag=this.message.is_starred    
-    console.log(this.message);
-    
+    if(this.message.type=="image")
+      this.imageUrl = this.appService.getMessageImageUrl(this.message.sender_name,this.message.content);
+    if(this.message.parent_message_id)
+      this.imageParentUrl = this.appService.getMessageImageUrl(this.message.parent_message_sender,this.message.parent_message_content);
   }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {
@@ -156,6 +161,11 @@ export class MessageComponent implements OnInit,OnChanges{
   forwardMessage(){
     this.forwardMssageEvent.emit(this.message.id)
     this.isOptionsOpened = false;
+  }
+
+  viewImage(){
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("viewImage",this.imageUrl)
   }
   
 }

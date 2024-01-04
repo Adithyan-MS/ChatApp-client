@@ -2,7 +2,7 @@
 .container{
     width:fit-content;
     max-width: 50%;
-    height: auto;
+    // height: auto;
     border-radius: 5px;
     display: flex;
     align-items: start;
@@ -15,6 +15,7 @@
 }
 
 .select-message input{
+    margin-top: 5px;
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -29,12 +30,13 @@
     background-color: var(--mid-roof);
     float: right;
     color: var(--dark-base);
+    flex-direction: row-reverse;
 }
 .right .username span{  
     display: none;
 }
 .right  .options{
-    left: -200px;
+    left: -125px;
 }
 .right .time{
     left: 2px;
@@ -69,6 +71,7 @@
 .username span{
     font-size: 14px;
     font-weight: 700;
+    margin-bottom: -10px;
 }
 .content span{
     font-size: 14px;
@@ -76,6 +79,7 @@
 .content{
     min-height: 15px;
     min-width: 80px;
+    padding-top: 4px;
     word-break: break-word;
     width: auto;
     margin-bottom: 5px;
@@ -83,6 +87,10 @@
 .content img{
     padding: 2px;
     max-width: 320px;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
 }
 .time{
     position: absolute;
@@ -103,11 +111,12 @@
 }
 .like{
     position: absolute;
-    bottom: -5px;
+    bottom: -9px;
     background-color: white;
     padding: 0px 3px 0px 3px;
     border-radius: 20px;
     display: flex;
+    z-index: 100;
     align-items: center;
     justify-content: center;
     gap: 2px;
@@ -264,6 +273,7 @@
   .parent-items img{
     width: 40px;
     height: 40px;
+    object-fit: cover;
     align-self: flex-end;
   }
   .parent-items:last-child{    

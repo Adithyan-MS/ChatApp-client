@@ -23,7 +23,7 @@
                 </div>
                 @if(message.parent_message_type == "image"){
                     <div class="parent-items">
-                        <img [src]="'http://localhost:8080/chatApi/v1/message/view/'+message.parent_message_sender+'/image/'+message.parent_message_content" alt="">
+                        <img [src]="imageParentUrl" alt="">
                     </div>
                 }
             </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="content">
             @if (message.type=="image") {
-                <img [src]="'http://localhost:8080/chatApi/v1/message/view/'+message.sender_name+'/image/'+message.content" alt="">
+                <img (click)="viewImage()" [src]="imageUrl" alt="">
             }@else{
                 <span>{{message.content}}</span>
             }
@@ -59,7 +59,7 @@
                         <div class="liked-users">
                             @for(user of likedUsers; track user.id){
                                 <div class="user">
-                                    <img [src]="user.profile_pic ? 'http://localhost:8080/chatApi/v1/image/view/'+user.profile_pic : noUserPic" alt="">
+                                    <img [src]="user.profile_pic ? 'http://localhost:8080/chatApi/v1/image/view/'+user.name+'/'+user.profile_pic : noUserPic" alt="">
                                     <div class="name">
                                         <span>{{user.name}}</span>
                                     </div>

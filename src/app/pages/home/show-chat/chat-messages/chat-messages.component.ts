@@ -94,9 +94,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       }
       this.locateMessageId=this.messageService.getSelectedMessageId()
         if(this.locateMessageId!=null){
-          setTimeout(() => this.scrollToMessage(this.locateMessageId))
+          setTimeout(() => this.scrollToMessage(this.locateMessageId),(10))
         }else{
-          setTimeout(() => this.scrollToBottom());
+          setTimeout(() => this.scrollToBottom(),(20));
         }
         this.showSendFilePreview=false
         this.images=[]
@@ -113,9 +113,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
         }
         this.locateMessageId=this.messageService.getSelectedMessageId()
         if(this.locateMessageId!=null){
-          setTimeout(() => this.scrollToMessage(this.locateMessageId))
+          setTimeout(() => this.scrollToMessage(this.locateMessageId),(10))
         }else{
-          setTimeout(() => this.scrollToBottom());
+          setTimeout(() => this.scrollToBottom(),(20));
         }
         this.showSendFilePreview=false
         this.images=[]
@@ -140,9 +140,13 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
           id:this.currentChat.id
         }
       }
+      console.log(messageData);
+      
       const headers = new HttpHeaders().set('ResponseType','text')
       this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
         this.messageForm.reset()
+        console.log(data);
+        
         this.parentMessage = null
         this.ngOnChanges(data)
         this.dataService.notifyOther({
@@ -413,7 +417,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
             file:e.target.result,
             type:file.type,
             name:file["name"],
-            size:file.size
+            size:this.appService.formatFileSize(file.size)
           });
       };
       reader.readAsDataURL(file);
@@ -428,10 +432,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     }
   }
   onFileSendSuccess(event:any){
-        // this.parentMessage = null
-        this.ngOnChanges(event)
-        this.dataService.notifyOther({
-          status:"sendSuccess"
-        });
+    this.parentMessage = null
+    this.ngOnChanges(event)
+    this.dataService.notifyOther({
+      status:"sendSuccess"
+    });
   }
 }
