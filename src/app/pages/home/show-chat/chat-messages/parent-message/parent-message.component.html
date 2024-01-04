@@ -1,12 +1,25 @@
 <div class="parent-message">
     <div class="parent-items">
-        <div class="parent-item">
-            <span>
-                {{message.sender_id == currentUserId ? "You" : message.sender_name}}</span>
+        <div class="items">
+            <div class="parent-item">
+                <span>
+                    {{message.sender_id == currentUserId ? "You" : message.sender_name}}</span>
+            </div>
+            <div class="parent-item">
+                @if (message.type == "document") {
+                    <span>{{message.content}}</span>
+                }@else if (message.type == "image") {
+                    <span><i class="fa-regular fa-image"></i> Photo</span>
+                }@else {
+                    <span>{{message.content}}</span>                   
+                }
+            </div>
         </div>
-        <div class="parent-item">
-            <span>{{message.content}}</span>
-        </div>
+        @if (message.type == "image") {
+            <div class="items">
+                <img [src]="'http://localhost:8080/chatApi/v1/message/view/'+message.sender_name+'/image/'+message.content" alt="">
+            </div>
+        }        
     </div>
     <div class="parent-close">
         <i class="fa-solid fa-xmark" (click)="close()"></i>

@@ -54,7 +54,7 @@
 }
 .option-container .show-options{
     cursor: pointer;
-    font-size: 11px;
+    font-size: 9px;
 }
 .non-flipped{
     display: none;
@@ -181,7 +181,7 @@
 }
 .option-container{
     position: relative;
-    width: 6px;
+    width: 2px;
     margin-top: 5px;
     display: flex;
     justify-content: start;
@@ -235,27 +235,41 @@
 }
 
 .parent-message{
-    width: 100%;
     border-radius: 5px;
     display: flex;
+    gap: 10px;
     align-items: center;
-    word-break: break-word;
     justify-content: space-between;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
-    padding-bottom: 2px;
+    background-color: var(--mid-roof);
+    box-shadow: inset 0 0 1px #505050;
+    margin-bottom: 2px;
   }
   .parent-items{
-    background-color: var(--mid-roof);
     width: 100%;
-    border-left: 5px solid var(--dark-roof);
     display: flex;
     align-items: center;
     padding-left: 2px;
     gap: 2px;
     flex-direction: column;
-    box-shadow: inset 0 0 1px #505050;
-    border-radius: 5px;
   }
+  .parent-message:first-child{
+    border-left: 5px solid var(--dark-roof);
+  }
+  .parent-message:last-child{
+    border-left: 5px solid var(--dark-roof);
+    justify-content: end;
+    align-items: end;
+  }
+  .parent-items img{
+    width: 40px;
+    height: 40px;
+    align-self: flex-end;
+  }
+  .parent-items:last-child{    
+    word-break: break-word;
+  }
+
   .parent-item{
     width: 98%;
     display: flex;

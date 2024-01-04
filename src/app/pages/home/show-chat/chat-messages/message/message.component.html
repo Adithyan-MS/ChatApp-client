@@ -12,9 +12,20 @@
                         <span>{{message.parent_message_id != currentUserId ? message.parent_message_sender : "You"}}</span>
                     </div>
                     <div class="parent-item">
-                        <span>{{message.parent_message_content}}</span>
+                        @if (message.parent_message_type=="document") {
+                            <span>{{message.parent_message_content}}</span>
+                        }@else if(message.parent_message_type == "image"){
+                            <span><i class="fa-regular fa-image"></i> Photo</span>
+                        }@else {
+                            <span>{{message.parent_message_content}}</span>
+                        }
                     </div>
                 </div>
+                @if(message.parent_message_type == "image"){
+                    <div class="parent-items">
+                        <img [src]="'http://localhost:8080/chatApi/v1/message/view/'+message.parent_message_sender+'/image/'+message.parent_message_content" alt="">
+                    </div>
+                }
             </div>
         }
         <div class="username">
@@ -25,7 +36,7 @@
             </div>
         </div>
         <div class="content">
-            @if (message.type=="1") {
+            @if (message.type=="image") {
                 <img [src]="'http://localhost:8080/chatApi/v1/message/view/'+message.sender_name+'/image/'+message.content" alt="">
             }@else{
                 <span>{{message.content}}</span>
@@ -69,7 +80,7 @@
                     <div class="option" ><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
                     <div class="option" ><i title="Reply" class="fa-solid fa-reply" (click)="replyMessage()"></i></div>
                     <div class="option" ><i title="Star" class="fa-regular fa-star" (click)="starMessage()"></i></div>
-                    @if(message.sender_id === currentUserId){
+                    @if(message.sender_id === currentUserId && message.type == "text"){
                         <div class="option" ><i  title="Edit" class="fa-solid fa-pencil" (click)="editMessage()"></i></div>
                     }
                 }

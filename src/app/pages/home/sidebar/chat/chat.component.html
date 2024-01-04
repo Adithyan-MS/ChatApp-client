@@ -11,10 +11,13 @@
                         }@else{
                             {{chat.latest_message_sender_name}}:
                         }
-                        @if (chat.latest_message_type=="0") {
+                        @if (chat.latest_message_type=="text") {
                             <span>{{chat.latest_message}}</span>
+                        }
+                        @else if (chat.latest_message_type=="document") {
+                            <span><i class="fa-regular fa-file"></i> Document</span>
                         }@else {
-                            <span>Send a file</span>
+                            <span><i class="fa-regular fa-image"></i> Photo</span>
                         }
                     }@else if(!chat.latest_message && chat.max_modified_at){
                         @if(isCurrentUserSender){

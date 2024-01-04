@@ -109,7 +109,7 @@
                     </div>
                 }
                 @if (showSendFilePreview) {
-                    <app-send-file [images]="images" [documents]="documents" [@popupAnimation] (closeSendFileEvent)="onCloseSendFileEvent($event)"></app-send-file>
+                    <app-send-file [isFileTypeImage]="isFileTypeImage" [parentMessage]="parentMessage" [selectedFiles]="selectedFiles" [files]="images" [documents]="documents" [@popupAnimation] [currentChat]="currentChat" (fileSendSuccessEvent)="onFileSendSuccess($event)" (closeSendFileEvent)="onCloseSendFileEvent($event)"></app-send-file>
                 }
             </div>
             <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()" >

@@ -9,25 +9,25 @@
     </div>
     <div class="middle">
         <div class="file-container">
-            @if(images.length!=0){
-                @for (image of images; track $index) {
+            @if(files.length!=0){
+                @for (file of files; track $index) {
                     <div class="file">
-                        @if (image.type.includes("image")) {
-                            <img [src]="image.file" alt="">
+                        @if (file.type.includes("image")) {
+                            <img [src]="file.file" alt="">
                         }@else {
                             <div class="doc-view">
                                 <div class="doc-icon">
-                                    @if(image.type == "text/plain"){
+                                    @if(file.type == "text/plain"){
                                         <i class="fa-solid fa-file-lines"></i>
-                                    }@else if(image.type == "application/pdf") {
+                                    }@else if(file.type == "application/pdf") {
                                         <i class="fa-solid fa-file-pdf"></i>
                                     }@else {
                                         <i class="fa-solid fa-file-word"></i>
                                     }
                                 </div>
                                 <div class="doc-meta">
-                                    <span>{{image.name}}</span>
-                                    <span>{{image.size}}
+                                    <span>{{file.name}}</span>
+                                    <span>{{file.size}}
                                     </span>
                                 </div>
                             </div>
@@ -51,7 +51,11 @@
     <div class="bottom">
         <label class="bottom-left">
             <i class="fa-solid fa-plus"></i>
-            <input type="file" id="file" style="display: none" (change)="onFilechange($event)" name="image"  multiple="" data-original-title="upload photos">   
+            @if (isFileTypeImage) {
+                <input type="file" id="file-photo" style="display: none" (change)="onFilechange($event)" name="photo" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+            }@else {
+                <input type="file" id="file-document" style="display: none" (change)="onFilechange($event)" name="document" accept=".doc, .docx, .pdf, .txt" multiple="" data-original-title="upload document">   
+            }
         </label>
         <div class="bottom-right">
             <i class="fa-regular fa-paper-plane" (click)="sendFile()"></i>

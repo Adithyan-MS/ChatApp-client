@@ -52,6 +52,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   selectedFiles: File[] = [];
   images:any[]=[]
   documents:any[]=[]
+  isFileTypeImage:boolean = false
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef){}
   
@@ -401,9 +402,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   onFilechange(event:any){
     const files: FileList = event.target.files;
+    if(files[0].type.includes("image"))
+      this.isFileTypeImage = true
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log(file);
       this.selectedFiles.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -424,5 +426,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       this.showSendFilePreview=false
       this.images=[]
     }
+  }
+  onFileSendSuccess(event:any){
+        // this.parentMessage = null
+        this.ngOnChanges(event)
+        this.dataService.notifyOther({
+          status:"sendSuccess"
+        });
   }
 }
