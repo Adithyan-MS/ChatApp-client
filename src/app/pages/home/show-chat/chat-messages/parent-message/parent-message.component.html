@@ -7,7 +7,7 @@
             </div>
             <div class="parent-item">
                 @if (message.type == "document") {
-                    <span>{{message.content}}</span>
+                    <span><i class="fa-regular fa-file"></i> {{message.content}}</span>
                 }@else if (message.type == "image") {
                     <span><i class="fa-regular fa-image"></i> Photo</span>
                 }@else {

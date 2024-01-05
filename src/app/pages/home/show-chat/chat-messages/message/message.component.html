@@ -1,4 +1,4 @@
-<div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}">
+<div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}" (mouseover)="isOpened = true" (mouseleave)="isOpened = false">
     @if (showCheckBox) {
         <div class="select-message">
             <input type="checkbox" name="" id="" [checked]="isMessageChecked" (change)="checkCheckBoxvalue($event)">
@@ -13,7 +13,7 @@
                     </div>
                     <div class="parent-item">
                         @if (message.parent_message_type=="document") {
-                            <span>{{message.parent_message_content}}</span>
+                            <span><i class="fa-regular fa-file"></i> {{message.parent_message_content}}</span>
                         }@else if(message.parent_message_type == "image"){
                             <span><i class="fa-regular fa-image"></i> Photo</span>
                         }@else {
@@ -38,7 +38,22 @@
         <div class="content">
             @if (message.type=="image") {
                 <img (click)="viewImage()" [src]="imageUrl" alt="">
-            }@else{
+            }@else if(message.type=="document") {
+                <div class="doc-content">
+                    <div class="items">
+                        <div class="item">
+                            <i class="fa-regular fa-file"></i> 
+                            <div class="doc-msg">
+                                <div class="doc-msg-item">
+                                    <span>{{message.content}}</span>
+                                </div>
+                                <span class="doc-msg-type">TXT</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @else{
                 <span>{{message.content}}</span>
             }
         </div>
@@ -73,8 +88,7 @@
         }
     </div>
     <div class="option-container">
-        <i class="show-options fa-solid fa-angle-up" [ngClass]="isOptionsOpened ? 'flipped' : 'non-flipped'" (click)="optionsToggle()"></i>
-        @if(isOptionsOpened){
+        @if(isOpened){
             <div class="options" [@dropupAnimation]>
                 @if (!isCurrentUserPastParticipant) {
                     <div class="option" ><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>

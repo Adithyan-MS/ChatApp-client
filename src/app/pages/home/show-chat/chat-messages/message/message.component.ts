@@ -37,7 +37,6 @@ export class MessageComponent implements OnInit,OnChanges{
   currentUserId:number
   user:User|any
   sendTime:string
-  isOptionsOpened:boolean = false
   isLikedUsersOpened:boolean = false
   likeCount:number
   likedUsers:any[]
@@ -46,6 +45,7 @@ export class MessageComponent implements OnInit,OnChanges{
   isMessageChecked:boolean=false
   imageUrl:string
   imageParentUrl:string
+  isOpened:boolean=false
 
   constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
 
@@ -74,22 +74,17 @@ export class MessageComponent implements OnInit,OnChanges{
     return display;
   }
 
-  optionsToggle(){
-    this.isOptionsOpened = !this.isOptionsOpened
-  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
     const clickedInside = this.elementRef.nativeElement.contains(event.target);
     if (!clickedInside) {
-      this.isOptionsOpened = false;
       this.isLikedUsersOpened=false
     }
   }
   likeMessage(){
     this.api.postReturn(`${environment.BASE_API_URL}/message/like/${this.message.id}`,null).subscribe((data:number)=>{
       this.message.like_count=data
-      this.isOptionsOpened = false;
       this.getLikedUsers()
     },(error)=>{
       console.log(error);
@@ -114,18 +109,15 @@ export class MessageComponent implements OnInit,OnChanges{
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
       this.deleteSuccessEvent.emit(data)
-      this.isOptionsOpened = false;
     },(error)=>{
       console.log(error);
     })
   }
   replyMessage(){
     this.replyMessageEvent.emit(this.message)
-    this.isOptionsOpened = false;
   }
   editMessage(){
     this.editMessageEvent.emit(this.message)
-    this.isOptionsOpened = false;
   }
   starMessage(){
     const reqBody={
@@ -149,7 +141,6 @@ export class MessageComponent implements OnInit,OnChanges{
     this.showCheckBoxEvent.emit(true)    
     this.isMessageChecked = true
     this.notifyCheckedMssageEvent.emit(this.message.id)
-    this.isOptionsOpened = false;    
   }
   checkCheckBoxvalue(event:any){
     if(event.target.checked){
@@ -160,7 +151,6 @@ export class MessageComponent implements OnInit,OnChanges{
   }
   forwardMessage(){
     this.forwardMssageEvent.emit(this.message.id)
-    this.isOptionsOpened = false;
   }
 
   viewImage(){

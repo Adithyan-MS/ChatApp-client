@@ -15,7 +15,7 @@
                             <span>{{chat.latest_message}}</span>
                         }
                         @else if (chat.latest_message_type=="document") {
-                            <span><i class="fa-regular fa-file"></i> Document</span>
+                            <span><i class="fa-regular fa-file"></i> {{chat.latest_message}}</span>
                         }@else {
                             <span><i class="fa-regular fa-image"></i> Photo</span>
                         }
