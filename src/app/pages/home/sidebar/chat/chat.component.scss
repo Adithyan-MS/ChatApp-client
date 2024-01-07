@@ -6,20 +6,14 @@
     height: 65px;
     align-items: center;
     cursor: pointer;
-    border-radius: 5px;
     background-color: var(--light-roof);
     color: var(--black-alpa);
     border: 1px solid var(--light-roof);
-    // border-top: 0.5px solid var(--dark-roof);
-    // border-bottom: 0.5px solid var(--dark-roof);
-
   }
   .items:hover{
-    border: 1px solid white;
     background-color: var(--mid-roof);
   }
   .clicked{
-    border: 1px solid white;
     background-color: var(--mid-roof);
   }
   .left{

@@ -5,8 +5,8 @@
     justify-content: center;
 }
 .container{
-    height: 65%;
-    width: 40%;
+    // height: 65%;
+    width: 35%;
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);
     display: flex;
     flex-direction: column;
@@ -26,12 +26,13 @@
     color: var(--dark-roof);
 }
 .login-status{
-    height: 20px;
+    height: 15px;
     color: red;
     font-size: 18px;
 }
 .login-hline{
-    margin: -7px;
+    // margin: -7px;
+    margin-bottom: 10px;
 }
 .login-form{
     margin-top: 20px;
@@ -42,7 +43,7 @@
     justify-content: center;
     gap: 20px;
     height: 70%;
-    margin: 10px;
+    padding-bottom: 30px;
 }
 .form-items{
     height: 50px;

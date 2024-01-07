@@ -63,7 +63,8 @@ export class MessageComponent implements OnInit,OnChanges{
       this.imageUrl = this.appService.getMessageImageUrl(this.message.sender_name,this.message.content);
     if(this.message.parent_message_id)
       this.imageParentUrl = this.appService.getMessageImageUrl(this.message.parent_message_sender,this.message.parent_message_content);
-  }
+    
+    }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {
     if (this.index === 0) {
@@ -158,4 +159,7 @@ export class MessageComponent implements OnInit,OnChanges{
     this.modalService.addDynamicComponent("viewImage",this.imageUrl)
   }
   
+  openDocument(){
+    window.open(`${environment.BASE_API_URL}/message/view/${this.message.sender_name}/document/${this.message.content}`, '_blank');
+  }
 }

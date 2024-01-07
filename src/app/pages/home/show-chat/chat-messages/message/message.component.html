@@ -13,7 +13,16 @@
                     </div>
                     <div class="parent-item">
                         @if (message.parent_message_type=="document") {
-                            <span><i class="fa-regular fa-file"></i> {{message.parent_message_content}}</span>
+                            <span>
+                                @if (message.parent_message_content?.includes(".pdf")) {
+                                    <i class="fa-regular fa-file-pdf"></i>
+                                }@else if (message.parent_message_content?.includes(".doc")) {
+                                    <i class="fa-regular fa-file-word"></i>
+                                }@else {
+                                    <i class="fa-regular fa-file"></i> 
+                                }
+                                {{message.parent_message_content}}
+                            </span>
                         }@else if(message.parent_message_type == "image"){
                             <span><i class="fa-regular fa-image"></i> Photo</span>
                         }@else {
@@ -39,15 +48,29 @@
             @if (message.type=="image") {
                 <img (click)="viewImage()" [src]="imageUrl" alt="">
             }@else if(message.type=="document") {
-                <div class="doc-content">
+                <div class="doc-content" (click)="openDocument()">
                     <div class="items">
                         <div class="item">
-                            <i class="fa-regular fa-file"></i> 
+                            @if (message.content.includes(".pdf")) {
+                                <i class="fa-regular fa-file-pdf"></i>
+                            }@else if (message.content.includes(".doc")) {
+                                <i class="fa-regular fa-file-word"></i>
+                            }@else {
+                                <i class="fa-regular fa-file"></i> 
+                            }
                             <div class="doc-msg">
                                 <div class="doc-msg-item">
                                     <span>{{message.content}}</span>
                                 </div>
-                                <span class="doc-msg-type">TXT</span>
+                                @if (message.content.includes(".pdf")) {
+                                    <span class="doc-msg-type">PDF</span>
+                                }@else if (message.content.includes(".doc")) {
+                                    <span class="doc-msg-type">DOC</span>
+                                }@else if (message.content.includes(".txt")) {
+                                    <span class="doc-msg-type">TXT</span>
+                                }@else {
+                                    <span class="doc-msg-type"></span>
+                                }
                             </div>
                         </div>
                     </div>

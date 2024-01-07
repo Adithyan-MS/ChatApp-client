@@ -6,18 +6,19 @@
             </div>
         </div>
         <div class="item">
-            <div class="joinError">
-                <span>
-                    @if(joinError){
-                        {{joinError}}
-                    }
-                </span>
-            </div>
             <div class="join-form">
                 <div class="top">
                     <div class="input">
                         <input type="text" #roomNameValue>
-                        <i class="fa-solid fa-magnifying-glass" (click)="searchRoom()"></i>                    </div>
+                        <i class="fa-solid fa-magnifying-glass" (click)="searchRoom()"></i>
+                    </div>
+                    <div class="joinError">
+                        <span>
+                            @if(joinError){
+                                {{joinError}}
+                            }
+                        </span>
+                    </div>
                     <div class="searchResult">
                         @if(room){
                             <app-room-result [roomData]="room" (responseEvent)="getJoinResponse($event)"></app-room-result>

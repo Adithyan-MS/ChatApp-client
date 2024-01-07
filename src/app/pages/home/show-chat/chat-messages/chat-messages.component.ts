@@ -15,11 +15,12 @@ import { SenderService } from './message-service/sender.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationService } from '../../../../services/animation.service';
 import { SendFileComponent } from './send-file/send-file.component';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent],
+  imports: [CommonModule,ReactiveFormsModule,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent,PickerComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss',
   animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getPopupAnimation()]
@@ -53,6 +54,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   images:any[]=[]
   documents:any[]=[]
   isFileTypeImage:boolean = false
+  isEmojiOpened:boolean = false
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef){}
   
@@ -89,6 +91,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
       this.messageList=data 
+      console.log(this.messageList);
+      
       if(!this.isSearchOpened){
         this.setSendFieldFocus()
       }
@@ -437,5 +441,27 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     this.dataService.notifyOther({
       status:"sendSuccess"
     });
+  }
+  toggleEmoji(){
+    this.isEmojiOpened = !this.isEmojiOpened
+  }
+
+  addEmoji(event:any){
+    console.log(event.emoji.native);
+    const input = this.myMessageSendField.nativeElement;
+    input.focus();
+    if (document.execCommand){
+      var event1 = new Event('input');
+      document.execCommand('insertText', false, event.emoji.native);
+      return; 
+      }
+      const [start, end] = [input.selectionStart, input.selectionEnd]; 
+      input.setRangeText(event.emoji.native, start, end, 'end');
+  }
+  clearChat(){
+    this.messageList.map((message)=>{
+      this.selectedList.push(message.id)
+    })
+    this.deleteMessages()
   }
 }

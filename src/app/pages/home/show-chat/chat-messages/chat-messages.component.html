@@ -56,7 +56,7 @@
                             <div class="menu-item" (click)="openSearch()">Search</div>
                             <div class="menu-item">Report</div>
                             <div class="menu-item" [hidden]="isCurrentUserPastParticipant">Block</div>
-                            <div class="menu-item">Clear chat</div>
+                            <div class="menu-item" (click)="clearChat()">Clear chat</div>
                         </div>
                     }
                 </div>
@@ -74,16 +74,21 @@
                     </div>
                 </div>
             }
-            <app-message class="dropup" [attr.id]="'message-' + message.id" [index]="$index" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message [@popupAnimation] class="dropup" [attr.id]="'message-' + message.id" [index]="$index" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
         }
     </div>
 </div>
-
 <div class="send-container">
     <div class="send">
         @if (isCurrentUserPastParticipant) {
             <span>You can't send messages to this room because you're no longer a member.</span>            
         }@else {
+            <div class="emoji-container">
+                <i class="fa-regular fa-face-smile" (click)="toggleEmoji()"></i>
+                @if (isEmojiOpened) {
+                    <emoji-mart [@dropupAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
+                }
+            </div>
             <div class="attach">
                 <i class="fa-solid fa-paperclip" (click)="toggleSendMenu()"></i>
                 @if (isSendMenuOpen) {

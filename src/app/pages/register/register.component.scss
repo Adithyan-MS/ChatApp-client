@@ -5,7 +5,7 @@
     justify-content: center;
 }
 .container{
-    height: 85%;
+    // height: 85%;
     width: 40%;
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);
     display: flex;
@@ -31,7 +31,8 @@
     font-size: 18px;
 }
 .register-hline{
-    
+    margin-bottom: 10px;
+
 }
 .register-form{
     margin-top: 20px;
@@ -42,7 +43,7 @@
     justify-content: start;
     gap: 10px;
     height: 100%;
-    margin: 10px;
+    padding-bottom: 30px;
 }
 .form-items{
     height: 50px;

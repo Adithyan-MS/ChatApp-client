@@ -21,14 +21,18 @@
                 </div>
                 <div class="options" [style.view-transition-name]="'chat-profile-basic-options'">
                     @if (!isCurrentUserPastParticipant) {
-                        <div class="option"[style.view-transition-name]="'chat-profile-basic-phone'">
-                            <i class="fa-solid fa-phone"></i>
-                        </div>
+                        <a href="tel:{{chatDetails.phone_number}}">
+                            <div class="option"[style.view-transition-name]="'chat-profile-basic-phone'">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                        </a>
                     }
                     @if(chatDetails?.email){
-                        <div class="option" [style.view-transition-name]="'chat-profile-basic-email'">
-                            <i class="fa-regular fa-envelope"></i>
-                        </div>
+                        <a href = "mailto:{{chatDetails.email}}"> 
+                            <div class="option" [style.view-transition-name]="'chat-profile-basic-email'">
+                                <i class="fa-regular fa-envelope"></i>
+                            </div>
+                        </a>
                     }
                     <div class="option" (click)="searchMessage()" [style.view-transition-name]="'chat-profile-basic-search'">
                         <i class="fa-solid fa-magnifying-glass"></i>

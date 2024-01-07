@@ -4,6 +4,8 @@ html,body {
     height: 100%;
 }
 @import url('https://fonts.googleapis.com/css2?family=Rubik&family=Alata&family=REM:wght@500&family=Space+Grotesk&display=swap');
+@import '@ctrl/ngx-emoji-mart/picker';
+
 body{
     font-family: 'Rubik', sans-serif;
 }
