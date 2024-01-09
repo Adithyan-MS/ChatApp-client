@@ -93,7 +93,7 @@
                             </div>
                         }
                         @if (isCurrentUserPastParticipant) {
-                            <div class="meta" [style.view-transition-name]="'chat-profile-meta-delete'">
+                            <div class="meta" [style.view-transition-name]="'chat-profile-meta-delete'" (click)="deleteRoom()">
                                 <div class="icon prio1">
                                     <i class="fa-solid fa-trash"></i>
                                 </div>

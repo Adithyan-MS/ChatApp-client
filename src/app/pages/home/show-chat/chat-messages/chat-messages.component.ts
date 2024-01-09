@@ -144,17 +144,13 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
           id:this.currentChat.id
         }
       }
-      console.log(messageData);
-      
       const headers = new HttpHeaders().set('ResponseType','text')
       this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
-        this.messageForm.reset()
-        console.log(data);
-        
+        this.messageForm.reset()        
         this.parentMessage = null
         this.ngOnChanges(data)
         this.dataService.notifyOther({
-          status:"sendSuccess"
+          view:"chat"
         });
       },(error)=>{
         console.log(error);
@@ -170,7 +166,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
         this.editMessage = null
         this.ngOnChanges(data)
         this.dataService.notifyOther({
-          status:"success"
+          view:"chat"
         });
       },(error)=>{
         console.log(error);
@@ -367,7 +363,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       this.selectedList = []
       this.ngOnChanges(data)
         this.dataService.notifyOther({
-          status:"success"
+          view:"chat"
         });
     },(error)=>console.log(error))
   }
@@ -399,7 +395,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       this.selectedList=[]   
       this.ngOnChanges(data)
       this.dataService.notifyOther({
-        status:"starSuccess"
+        view:"chat"
       })
     },(error)=>{
       console.log(error);
@@ -439,7 +435,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     this.parentMessage = null
     this.ngOnChanges(event)
     this.dataService.notifyOther({
-      status:"sendSuccess"
+      view:"chat"
     });
   }
   toggleEmoji(){

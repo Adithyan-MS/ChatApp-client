@@ -5,7 +5,7 @@
             <span class="name name-space">{{chat.name}}</span>
             <div class="last-message name-space">
                 <span>
-                    @if (chat.latest_message) {
+                    @if (chat.latest_message_type!="roomEvent") {
                         @if(isCurrentUserSender){
                             You:
                         }@else{
@@ -19,13 +19,15 @@
                         }@else {
                             <span><i class="fa-regular fa-image"></i> Photo</span>
                         }
-                    }@else if(!chat.latest_message && chat.max_modified_at){
-                        @if(isCurrentUserSender){
-                            You
-                        }@else{
-                            {{chat.latest_message_sender_name}}
-                        }
-                        <span>created room "{{chat.name}}"</span>
+                    }@else{
+                        <div class="latest_roomEvent">
+                            @if(isCurrentUserSender){
+                                You
+                            }@else{
+                                {{chat.latest_message_sender_name}}
+                            }
+                            <span>{{chat.latest_message}}</span>
+                        </div>
                     }
                 </span>
             </div>

@@ -59,6 +59,8 @@ export class ShowChatComponent implements OnInit,AfterViewInit{
           this.currentChat = res.data;
           this.isCurrentUserPastParticipant=false          
         }
+      }else if(res.view = "other"){
+        this.showWhat = "other"
       }
     })    
   }

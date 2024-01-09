@@ -15,6 +15,7 @@
   }
   .clicked{
     background-color: var(--mid-roof);
+    border: 0.5px solid var(--light-ruser);
   }
   .left{
     display: flex;
@@ -48,8 +49,8 @@
     font-weight: 100;
     margin-top: -5px;
     color: rgb(56, 55, 55);
-    white-space: nowrap;      /*keep text on one line */
-    overflow: hidden;         /*prevent text from being shown outside the border */
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
   }
   .right{
@@ -66,4 +67,9 @@
 }
 .count{
     flex: 1;
+  }
+  .latest_roomEvent{
+    font-size: 14px;
+    font-style: italic;
+    color: rgb(101, 101, 101);
   }

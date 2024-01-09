@@ -24,6 +24,7 @@ export class ChatProfileComponent implements OnInit{
   @Input()isCurrentUserPastParticipant:boolean
   @Output() eventEmitter = new EventEmitter<string>()
   @Output() exitSuccessEvent = new EventEmitter<string>()
+  @Output() deleteRoomSuccessEvent = new EventEmitter<string>()
   chatDetails:User|Room|any
   chatPicture:string
   createdAt:string
@@ -184,6 +185,18 @@ export class ChatProfileComponent implements OnInit{
   createRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
     this.modalService.addDynamicComponent("createRoom",this.chatDetails)
+  }
+
+  deleteRoom(){
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/delete`,null,{headers}).subscribe((data)=>{
+      if(data){
+        console.log(data);
+        this.dataService.notifyOther({
+          view:"other",data:null  
+        })
+      }
+    },(error)=>console.log(error))
   }
 
 }

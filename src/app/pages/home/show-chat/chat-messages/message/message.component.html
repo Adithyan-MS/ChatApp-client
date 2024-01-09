@@ -1,10 +1,10 @@
-<div class="container" [ngClass]="message.sender_id===currentUserId && message.type!=='roomEvent' ? 'right' : ''" (mouseover)="isOpened = true" (mouseleave)="isOpened = false">
+@if (message.type !== 'roomEvent') {
+<div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}" (mouseover)="isOpened = true" (mouseleave)="isOpened = false">
     @if (showCheckBox) {
         <div class="select-message">
             <input type="checkbox" name="" id="" [checked]="isMessageChecked" (change)="checkCheckBoxvalue($event)">
         </div>
     }
-    @if (message.type !== 'roomEvent') {
         <div class="message-container">
             @if(message.parent_message_id){
                 <div class="parent-message">
@@ -111,19 +111,6 @@
                 </div>
             }
         </div>
-    }@else {
-        <div class="roomInfo">
-            <span>
-                @if (message.sender_id==currentUserId) {
-                    you
-                }@else {
-                    {{message.sender_name}}
-                }
-            </span>
-            {{message.content}}
-        </div>
-    }
-    
     <div class="option-container">
         @if(isOpened && message.type !== 'roomEvent'){
             <div class="options" [@dropupAnimation]>
@@ -142,3 +129,17 @@
         }
     </div>
 </div>
+}@else {
+    <div class="centerInfo">
+        <div class="roomInfo">
+            <span>
+                @if (message.sender_id==currentUserId) {
+                    You
+                }@else {
+                    {{message.sender_name}}
+                }
+            </span>
+            {{message.content}}
+        </div>
+    </div>
+}

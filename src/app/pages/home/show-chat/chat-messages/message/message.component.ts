@@ -132,7 +132,7 @@ export class MessageComponent implements OnInit,OnChanges{
         this.starredFlag=false
       }
       this.dataService.notifyOther({
-        status:"starSuccess"
+        view:"chat"
       })
     },(error)=>{
       console.log(error);
