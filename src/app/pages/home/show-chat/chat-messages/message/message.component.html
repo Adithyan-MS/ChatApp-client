@@ -1,117 +1,131 @@
-<div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}" (mouseover)="isOpened = true" (mouseleave)="isOpened = false">
+<div class="container" [ngClass]="message.sender_id===currentUserId && message.type!=='roomEvent' ? 'right' : ''" (mouseover)="isOpened = true" (mouseleave)="isOpened = false">
     @if (showCheckBox) {
         <div class="select-message">
             <input type="checkbox" name="" id="" [checked]="isMessageChecked" (change)="checkCheckBoxvalue($event)">
         </div>
     }
-    <div class="message-container">
-        @if(message.parent_message_id){
-            <div class="parent-message">
-                <div class="parent-items">
-                    <div class="parent-item">
-                        <span>{{message.parent_message_id != currentUserId ? message.parent_message_sender : "You"}}</span>
+    @if (message.type !== 'roomEvent') {
+        <div class="message-container">
+            @if(message.parent_message_id){
+                <div class="parent-message">
+                    <div class="parent-items">
+                        <div class="parent-item">
+                            <span>{{message.parent_message_id != currentUserId ? message.parent_message_sender : "You"}}</span>
+                        </div>
+                        <div class="parent-item">
+                            @if (message.parent_message_type=="document") {
+                                <span>
+                                    @if (message.parent_message_content?.includes(".pdf")) {
+                                        <i class="fa-regular fa-file-pdf"></i>
+                                    }@else if (message.parent_message_content?.includes(".doc")) {
+                                        <i class="fa-regular fa-file-word"></i>
+                                    }@else {
+                                        <i class="fa-regular fa-file"></i> 
+                                    }
+                                    {{message.parent_message_content}}
+                                </span>
+                            }@else if(message.parent_message_type == "image"){
+                                <span><i class="fa-regular fa-image"></i> Photo</span>
+                            }@else {
+                                <span>{{message.parent_message_content}}</span>
+                            }
+                        </div>
                     </div>
-                    <div class="parent-item">
-                        @if (message.parent_message_type=="document") {
-                            <span>
-                                @if (message.parent_message_content?.includes(".pdf")) {
+                    @if(message.parent_message_type == "image"){
+                        <div class="parent-items">
+                            <img [src]="imageParentUrl" alt="">
+                        </div>
+                    }
+                </div>
+            }
+            <div class="username">
+                <div class="user-span">
+                    @if (shouldDisplaySenderName(message.sender_name)) {
+                        <span>{{message.sender_name}}</span>
+                    }
+                </div>
+            </div>
+            <div class="content">
+                @if (message.type=="image") {
+                    <img (click)="viewImage()" [src]="imageUrl" alt="">
+                }@else if(message.type=="document") {
+                    <div class="doc-content" (click)="openDocument()">
+                        <div class="items">
+                            <div class="item">
+                                @if (message.content.includes(".pdf")) {
                                     <i class="fa-regular fa-file-pdf"></i>
-                                }@else if (message.parent_message_content?.includes(".doc")) {
+                                }@else if (message.content.includes(".doc")) {
                                     <i class="fa-regular fa-file-word"></i>
                                 }@else {
                                     <i class="fa-regular fa-file"></i> 
                                 }
-                                {{message.parent_message_content}}
-                            </span>
-                        }@else if(message.parent_message_type == "image"){
-                            <span><i class="fa-regular fa-image"></i> Photo</span>
-                        }@else {
-                            <span>{{message.parent_message_content}}</span>
-                        }
-                    </div>
-                </div>
-                @if(message.parent_message_type == "image"){
-                    <div class="parent-items">
-                        <img [src]="imageParentUrl" alt="">
-                    </div>
-                }
-            </div>
-        }
-        <div class="username">
-            <div class="user-span">
-                @if (shouldDisplaySenderName(message.sender_name)) {
-                    <span>{{message.sender_name}}</span>
-                }
-            </div>
-        </div>
-        <div class="content">
-            @if (message.type=="image") {
-                <img (click)="viewImage()" [src]="imageUrl" alt="">
-            }@else if(message.type=="document") {
-                <div class="doc-content" (click)="openDocument()">
-                    <div class="items">
-                        <div class="item">
-                            @if (message.content.includes(".pdf")) {
-                                <i class="fa-regular fa-file-pdf"></i>
-                            }@else if (message.content.includes(".doc")) {
-                                <i class="fa-regular fa-file-word"></i>
-                            }@else {
-                                <i class="fa-regular fa-file"></i> 
-                            }
-                            <div class="doc-msg">
-                                <div class="doc-msg-item">
-                                    <span>{{message.content}}</span>
+                                <div class="doc-msg">
+                                    <div class="doc-msg-item">
+                                        <span>{{message.content}}</span>
+                                    </div>
+                                    @if (message.content.includes(".pdf")) {
+                                        <span class="doc-msg-type">PDF</span>
+                                    }@else if (message.content.includes(".doc")) {
+                                        <span class="doc-msg-type">DOC</span>
+                                    }@else if (message.content.includes(".txt")) {
+                                        <span class="doc-msg-type">TXT</span>
+                                    }@else {
+                                        <span class="doc-msg-type"></span>
+                                    }
                                 </div>
-                                @if (message.content.includes(".pdf")) {
-                                    <span class="doc-msg-type">PDF</span>
-                                }@else if (message.content.includes(".doc")) {
-                                    <span class="doc-msg-type">DOC</span>
-                                }@else if (message.content.includes(".txt")) {
-                                    <span class="doc-msg-type">TXT</span>
-                                }@else {
-                                    <span class="doc-msg-type"></span>
-                                }
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-            @else{
-                <span>{{message.content}}</span>
-            }
-        </div>
-        <div class="time">    
-            @if(starredFlag){
-                <i class="fa-solid fa-star"></i>    
-            }
-            <span>{{sendTime}}</span>
-        </div>
-        @if(message.like_count){
-            <div class="like">
-                <i class="fa-solid fa-heart" (click)="LikedUsersToggle()"></i>
-                @if(message.like_count > 1){
-                    <span>{{message.like_count}}</span>
                 }
-                @if(isLikedUsersOpened && likedUsers){
-                    <div class="show-liked-users" [@dropdownAnimation]>
-                        <div class="liked-users">
-                            @for(user of likedUsers; track user.id){
-                                <div class="user">
-                                    <img [src]="user.profile_pic ? 'http://localhost:8080/chatApi/v1/image/view/'+user.name+'/'+user.profile_pic : noUserPic" alt="">
-                                    <div class="name">
-                                        <span>{{user.name}}</span>
-                                    </div>
-                                    <i class="fa-solid fa-heart"></i>   
-                                </div>
-                            }
-                        </div>
-                    </div>
+                @else{
+                    <span>{{message.content}}</span>
                 }
             </div>
-        }
-    </div>
+            <div class="time">    
+                @if(starredFlag){
+                    <i class="fa-solid fa-star"></i>    
+                }
+                <span>{{sendTime}}</span>
+            </div>
+            @if(message.like_count){
+                <div class="like">
+                    <i class="fa-solid fa-heart" (click)="LikedUsersToggle()"></i>
+                    @if(message.like_count > 1){
+                        <span>{{message.like_count}}</span>
+                    }
+                    @if(isLikedUsersOpened && likedUsers){
+                        <div class="show-liked-users" [@dropdownAnimation]>
+                            <div class="liked-users">
+                                @for(user of likedUsers; track user.id){
+                                    <div class="user">
+                                        <img [src]="user.profile_pic ? 'http://localhost:8080/chatApi/v1/image/view/'+user.name+'/'+user.profile_pic : noUserPic" alt="">
+                                        <div class="name">
+                                            <span>{{user.name}}</span>
+                                        </div>
+                                        <i class="fa-solid fa-heart"></i>   
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }@else {
+        <div class="roomInfo">
+            <span>
+                @if (message.sender_id==currentUserId) {
+                    you
+                }@else {
+                    {{message.sender_name}}
+                }
+            </span>
+            {{message.content}}
+        </div>
+    }
+    
     <div class="option-container">
-        @if(isOpened){
+        @if(isOpened && message.type !== 'roomEvent'){
             <div class="options" [@dropupAnimation]>
                 @if (!isCurrentUserPastParticipant) {
                     <div class="option" ><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
