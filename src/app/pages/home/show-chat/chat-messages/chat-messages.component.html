@@ -126,7 +126,11 @@
                     }                
                     <input [class.disabled]="showSendFilePreview" formControlName="content" type="text" placeholder="Type a message" #sendInput>
                 </div>                
-                <button [class.disabled]="showSendFilePreview" type="submit"><i class="fa-regular fa-paper-plane" ></i></button>
+                <button [class.disabled]="showSendFilePreview" type="submit">
+                    <span class="material-symbols-outlined">
+                        send
+                    </span>
+                </button>
             </form>
         }        
     </div>

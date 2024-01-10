@@ -169,8 +169,8 @@
 .bottom-right:hover {
     background-color: rgb(115, 192, 115);
 }
-.bottom-right i{
-    font-size: 17px;
-    transform:rotate(50deg);
-    font-weight: 100;
-}
+.bottom-right span{
+    font-size: 30px;
+    color: black;
+    font-weight: 500;
+  }
