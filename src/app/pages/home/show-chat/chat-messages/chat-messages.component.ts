@@ -16,11 +16,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationService } from '../../../../services/animation.service';
 import { SendFileComponent } from './send-file/send-file.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent,PickerComponent],
+  imports: [CommonModule,ReactiveFormsModule,ClickOutsideDirective,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent,PickerComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss',
   animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getPopupAnimation()]
@@ -279,14 +280,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       }
     }
   }
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const clickedInside = this.elementRef.nativeElement.contains(event.target);
-    if (!clickedInside) {
-      this.isMenuOpened = false;
-      this.isSendMenuOpen = false
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // onDocumentClick(event: Event) {
+  //   const clickedInside = this.elementRef.nativeElement.contains(event.target);
+  //   if (!clickedInside) {
+  //     this.isMenuOpened = false;
+  //     this.isSendMenuOpen = false
+  //   }
+  // }
 
   isDifferentDay(messageIndex: number): boolean {
     if (messageIndex === 0) return true;
@@ -459,5 +460,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       this.selectedList.push(message.id)
     })
     this.deleteMessages()
+  }
+
+  clickedOutsideMenu(){
+    this.isMenuOpened = false
+  }
+  clickedOutsideAttach(){
+    this.isSendMenuOpen = false
+  }
+  clickedOutsideEmoji(){
+    this.isEmojiOpened = false
   }
 }

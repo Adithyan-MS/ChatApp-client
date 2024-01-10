@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ClickOutsideDirective } from './directives/clickOutside/click-outside.directive';
 
 @Component({
     selector: 'app-root',

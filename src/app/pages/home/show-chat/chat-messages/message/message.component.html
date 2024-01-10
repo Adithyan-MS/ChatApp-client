@@ -88,7 +88,7 @@
                 <span>{{sendTime}}</span>
             </div>
             @if(message.like_count){
-                <div class="like">
+                <div class="like" appClickOutside (clickOutside)="clickedOutsideLike()">
                     <i class="fa-solid fa-heart" (click)="LikedUsersToggle()"></i>
                     @if(message.like_count > 1){
                         <span>{{message.like_count}}</span>

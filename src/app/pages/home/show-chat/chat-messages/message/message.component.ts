@@ -11,11 +11,12 @@ import { DataService } from '../../../../../services/data.service';
 import { AnimationService } from '../../../../../services/animation.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalService } from '../../../../../services/modal.service';
+import { ClickOutsideDirective } from '../../../../../directives/clickOutside/click-outside.directive';
 
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [CommonModule,ParentMessageComponent],
+  imports: [CommonModule,ParentMessageComponent,ClickOutsideDirective],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
   animations:[AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getDropupAnimation()]
@@ -75,14 +76,6 @@ export class MessageComponent implements OnInit,OnChanges{
     return display;
   }
 
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const clickedInside = this.elementRef.nativeElement.contains(event.target);
-    if (!clickedInside) {
-      this.isLikedUsersOpened=false
-    }
-  }
   likeMessage(){
     this.api.postReturn(`${environment.BASE_API_URL}/message/like/${this.message.id}`,null).subscribe((data:number)=>{
       this.message.like_count=data
@@ -158,8 +151,29 @@ export class MessageComponent implements OnInit,OnChanges{
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
     this.modalService.addDynamicComponent("viewImage",this.imageUrl)
   }
+
+  downloadedFiles:any
   
   openDocument(){
+    // this.downloadedFiles = localStorage.getItem('downloadedFiles');
+    // this.downloadedFiles = JSON.parse(this.downloadedFiles) || {};
+    // if(this.downloadedFiles!=null){
+    //   const fileExistsLocally = this.downloadedFiles[this.message.content];
+    //   if (fileExistsLocally) {
+    //     console.log("knkc");
+        
+    //     window.open(`C:/Users/LENOVO/Downloads/${this.message.content}`, '_blank');
+    //   } else {
+    //     window.open(`${environment.BASE_API_URL}/message/view/${this.message.sender_name}/document/${this.message.content}`, '_blank');
+    //     this.downloadedFiles[this.message.content] = true;
+    //     localStorage.setItem('downloadedFiles', JSON.stringify(this.downloadedFiles));
+    //   }
+    // }
+
     window.open(`${environment.BASE_API_URL}/message/view/${this.message.sender_name}/document/${this.message.content}`, '_blank');
+
+  }
+  clickedOutsideLike(){
+    this.isLikedUsersOpened = false
   }
 }

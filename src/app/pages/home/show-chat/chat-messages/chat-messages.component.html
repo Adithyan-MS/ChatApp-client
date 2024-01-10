@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="right">
-                <div class="menu-container" style="display: flex;justify-content: center;flex-direction: column;align-items: end;">
+                <div class="menu-container" style="display: flex;justify-content: center;flex-direction: column;align-items: end;" appClickOutside (clickOutside)="clickedOutsideMenu()">
                     <div class="menu-icon">
                         <i class="menu-toggler fa-solid fa-ellipsis-vertical more" (click)="toggleMenu()"></i>
                     </div>
@@ -83,13 +83,13 @@
         @if (isCurrentUserPastParticipant) {
             <span>You can't send messages to this room because you're no longer a member.</span>            
         }@else {
-            <div class="emoji-container">
+            <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                 <i class="fa-regular fa-face-smile" (click)="toggleEmoji()"></i>
                 @if (isEmojiOpened) {
                     <emoji-mart [@dropupAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
                 }
             </div>
-            <div class="attach">
+            <div class="attach" appClickOutside (clickOutside)="clickedOutsideAttach()">
                 <i class="fa-solid fa-paperclip" (click)="toggleSendMenu()"></i>
                 @if (isSendMenuOpen) {
                     <div class="send-menu" [@dropupAnimation]>
