@@ -47,7 +47,9 @@
             </div>
             <div class="content">
                 @if (message.type=="image") {
-                    <img (click)="viewImage()" [src]="imageUrl" alt="">
+                    <div class="content-image">
+                        <img (click)="viewImage()" [src]="imageUrl" alt="">
+                    </div>
                 }@else if(message.type=="document") {
                     <div class="doc-content" (click)="openDocument()">
                         <div class="items">

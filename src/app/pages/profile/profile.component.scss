@@ -69,10 +69,12 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    max-width: 250px;
+    max-height: 250px;
 }
 .left img{
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: auto;
     border-radius: 50%;
     object-fit:cover;
     cursor: pointer;

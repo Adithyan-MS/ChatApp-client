@@ -4,7 +4,7 @@
         <div class="chat-name">
             <span class="name name-space">{{chat.name}}</span>
             <div class="last-message name-space">
-                <span>
+                <div class="lm-span">
                     @if (chat.latest_message_type!="roomEvent") {
                         @if(isCurrentUserSender){
                             You:
@@ -29,12 +29,12 @@
                             <span>{{chat.latest_message}}</span>
                         </div>
                     }
-                </span>
+                </div>
             </div>
         </div>
     </div>
     <div class="right">
-        <div class="time">{{lastMessageTime}}</div>
+        <div class="time"><span>{{lastMessageTime}}</span></div>
         <div class="count"></div>
     </div>
 </div>

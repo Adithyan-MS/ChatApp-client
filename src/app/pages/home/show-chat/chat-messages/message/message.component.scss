@@ -83,10 +83,14 @@
     width: auto;
     margin-bottom: 5px;
 }
-.content img{
-    padding: 2px;
+.content-image{
     max-width: 320px;
     max-height: 380px;
+}
+.content img{
+    padding: 2px;
+    max-width: 100%;
+    height: auto;
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
@@ -131,7 +135,7 @@
     
 }
 .doc-msg-item{
-    width: 300px;
+    max-width: 300px;
     white-space: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
