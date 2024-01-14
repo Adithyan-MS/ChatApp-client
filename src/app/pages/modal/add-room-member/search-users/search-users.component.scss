@@ -39,7 +39,7 @@
     height: 20px;
     transition: 0.3s;
     padding-left: 20px;
-    font-size: 17px;
+    font-size: var(--fs-m);
 }
 input:focus{
     outline: none;
@@ -87,7 +87,7 @@ app-user-result{
 }
 .no-user-title{
     color: rgb(83, 83, 83);
-    font-size: 13px;
+    font-size: var(--fs-xxm);
     font-style: italic;
 }
 .selected-user{
@@ -107,7 +107,7 @@ app-user-result{
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: var(--fs-m);
 }
 .deselect{
     display: flex;

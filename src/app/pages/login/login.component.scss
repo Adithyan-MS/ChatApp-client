@@ -22,16 +22,15 @@
 }
 .login-title{
     font-weight: 900;
-    font-size: 37px;
+    font-size: var(--fs-xxl);
     color: var(--dark-roof);
 }
 .login-status{
     height: 15px;
     color: red;
-    font-size: 18px;
+    font-size: var(--fs-m);
 }
 .login-hline{
-    // margin: -7px;
     margin-bottom: 10px;
 }
 .login-form{
@@ -63,10 +62,10 @@
     width: 100%;
     justify-content: end;
     color: rgb(240, 43, 17);
-    font-size: small;
+    font-size: var(--fs-xxm);
 }
 label{
-    font-size: 18px;
+    font-size: var(--fs-l);
     display: flex;
     gap: 30px;
     color: rgb(70, 69, 69);
@@ -75,14 +74,14 @@ label{
 }
 input{
     border: none;
-    font-size: 20px;
+    font-size: var(--fs-l);
     width: 250px;
     height: 32px;
     border: 1px solid rgb(179, 174, 174);
 }
 p{
     color: rgb(94, 91, 91);
-    font-size: 15px;
+    font-size: var(--fs-m);
 }
 p > a{
     text-decoration: none;
@@ -93,7 +92,7 @@ button{
     border: none;
     background-color:var(--dark-roof);
     width: 100px;
-    font-size: large;
+    font-size: var(--fs-l);
     height: 50px;
     border-radius: 10%;
     box-shadow: 2px 0px 53px -12px rgba(100,110,101,0.75);

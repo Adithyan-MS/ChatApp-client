@@ -25,8 +25,9 @@
     
 }
 .item:first-child{
-    font-size: 24px;
+    font-size: var(--fs-xl);
     height: 15%;
+    padding: 5px;
     align-items: start;
 }
 .item:last-child{
@@ -75,10 +76,10 @@
     width: 90%;
     border-radius: 10px;
     height: 50%;
-    font-size: 18px;
+    font-size: var(--fs-l);
 }
 .input i{
-    font-size: 25px;
+    font-size: var(--fs-l);
     cursor: pointer;
 }
 .input i:hover{

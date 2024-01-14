@@ -11,7 +11,6 @@
     // box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.1);
     background-color: var(--light-roof);
     border: 0.5px solid var(--mid-roof);
-
 }
 .select-message input{
     margin-top: 5px;
@@ -58,7 +57,7 @@
 }
 .option-container .show-options{
     cursor: pointer;
-    font-size: 9px;
+    font-size: var(--fs-xs);
 }
 .non-flipped{
     display: none;
@@ -68,19 +67,19 @@
     transform: rotate(180deg);
 }
 .username span{
-    font-size: 14px;
+    font-size: var(--fs-xm);
     font-weight: 700;
     margin-bottom: -10px;
 }
 .content span{
-    font-size: 14px;
+    font-size: var(--fs-xm);
 }
 .content{
     min-height: 15px;
     min-width: 80px;
     padding-top: 4px;
     word-break: break-word;
-    width: auto;
+    // width: auto;
     margin-bottom: 5px;
 }
 .content-image{
@@ -88,14 +87,14 @@
     max-height: 380px;
 }
 .content img{
-    padding: 2px;
     max-width: 100%;
-    height: auto;
+    max-height: 380px;
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
 }
 .content .doc-content{
+    min-width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,17 +113,16 @@
     flex-direction: column;
     justify-content: center;
     padding: 10px;
+    width: 100%;
 }
 .doc-content .item{
-    
     display: flex;
     align-items: start;
     justify-content: start;
-    
     gap: 8px;
 }
 .doc-content .item i{
-    font-size: 30px;
+    font-size: var(--fs-xl);
     box-shadow: inset 0 0 1px #505050;
 }
 .doc-content .doc-msg {
@@ -135,15 +133,14 @@
     
 }
 .doc-msg-item{
-    max-width: 300px;
     white-space: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
     max-height: 30px;
-    font-size: 10px;
+    font-size: var(--fs-s);
 }
 .doc-msg-type{
-    font-size: 13px;
+    font-size: var(--fs-xxm);
     color: rgb(65, 65, 65);
 }
 .time{
@@ -179,12 +176,12 @@
     right: 0px;
 }
 .like i{
-    font-size: 13px;
+    font-size: var(--fs-xm);
     color: red;
     cursor: pointer;
 }
 .like span{
-    font-size: 12px;
+    font-size: var(--fs-xxm);
 }
 
 .show-liked-users{
@@ -235,12 +232,12 @@
     object-fit: cover;
 }
 .user .name span:first-child{
-    font-size: 13px;
+    font-size: var(--fs-xxm);
     padding-bottom: 7px;
     padding-left: 5px;
 }
 .user .name span:last-child{
-    font-size: 10px;
+    font-size: var(--fs-s);
 }
 .centerInfo{
     display: flex;
@@ -252,7 +249,7 @@
     border-radius: 10px;
     background-color: #e9e2c0;
     padding: 3px 5px 3px 5px;
-    font-size: 11px;
+    font-size: var(--fs-xxm);
     font-style: italic;
     box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.1);
     color: #505050;
@@ -281,14 +278,14 @@
     min-width: 160px;
 }
 .option{
-    font-size: 15px;
+    font-size: var(--fs-m);
     display: flex;
     align-items: center;
     justify-content: center;
     width: 15px;
 }
 .option:hover{
-    font-size: 20px;
+    font-size: var(--fs-l);
 }
 .option .fa-heart{
     color: red;
@@ -359,16 +356,23 @@
     padding-right: 5px;
   }
   .parent-item:first-child span{
-    font-size: 13px;
+    font-size: var(--fs-xxm);
     font-weight: 700;
     white-space: nowrap;
 }
 .parent-item:last-child span{
-    font-size: 11px;
+    font-size: var(--fs-s);
     font-weight: 500;
     max-height: 25px;
     max-width: 100%;
     white-space: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  @media only screen and (max-width: 830px) {
+    .container{
+        max-width: 80%;
+        // font-size: 0.1vw;
+    }
   }

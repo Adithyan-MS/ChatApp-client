@@ -54,8 +54,8 @@
     gap: 5px;
 }
 .group-item span:nth-child(1){
-    font-size: 17px;
+    font-size: var(--fs-m);
 }
 .group-item span:nth-child(2){
-    font-size: 10px;
+    font-size: var(--fs-s);
 }

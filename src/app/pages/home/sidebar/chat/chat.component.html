@@ -2,39 +2,41 @@
     <div class="left">
         <img [src]="profilePic ? profilePic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
         <div class="chat-name">
-            <span class="name name-space">{{chat.name}}</span>
+            <div class="right">
+                <span class="name name-space">{{chat.name}}</span>
+                <div class="time"><span>{{lastMessageTime}}</span></div>
+            </div>
             <div class="last-message name-space">
                 <div class="lm-span">
-                    @if (chat.latest_message_type!="roomEvent") {
-                        @if(isCurrentUserSender){
-                            You:
-                        }@else{
-                            {{chat.latest_message_sender_name}}:
-                        }
-                        @if (chat.latest_message_type=="text") {
-                            <span>{{chat.latest_message}}</span>
-                        }
-                        @else if (chat.latest_message_type=="document") {
-                            <span><i class="fa-regular fa-file"></i> {{chat.latest_message}}</span>
-                        }@else {
-                            <span><i class="fa-regular fa-image"></i> Photo</span>
-                        }
-                    }@else{
-                        <div class="latest_roomEvent">
+                    @if (chat.latest_message) {
+                        @if (chat.latest_message_type!="roomEvent") {
                             @if(isCurrentUserSender){
-                                You
+                                You:
                             }@else{
-                                {{chat.latest_message_sender_name}}
+                                {{chat.latest_message_sender_name}}:
                             }
-                            <span>{{chat.latest_message}}</span>
-                        </div>
+                            @if (chat.latest_message_type=="text") {
+                                <span>{{chat.latest_message}}</span>
+                            }
+                            @else if (chat.latest_message_type=="document") {
+                                <span><i class="fa-regular fa-file"></i> {{chat.latest_message}}</span>
+                            }@else if (chat.latest_message_type=="image"){
+                                <span><i class="fa-regular fa-image"></i> Photo</span>
+                            }
+                        }@else{
+                            <div class="latest_roomEvent">
+                                @if(isCurrentUserSender){
+                                    You
+                                }@else{
+                                    {{chat.latest_message_sender_name}}
+                                }
+                                <span>{{chat.latest_message}}</span>
+                            </div>
+                        }
                     }
                 </div>
             </div>
         </div>
     </div>
-    <div class="right">
-        <div class="time"><span>{{lastMessageTime}}</span></div>
-        <div class="count"></div>
-    </div>
+    
 </div>

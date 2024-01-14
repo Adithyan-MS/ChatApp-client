@@ -19,7 +19,7 @@
     align-items: center;
     justify-content: center;
     left: 30px;
-    font-size: 25px;
+    font-size: var(--fs-xl);
     color: var(--black-alpa);
     z-index: 99;
 }
@@ -75,12 +75,12 @@
     background-color:white;
     position: relative;
     border-radius: 50%;
-    max-width: 200px;
-    max-height: 200px;
+    width: 200px;
+    height: 200px;
 }
 .image img{
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
     cursor: pointer;
@@ -107,7 +107,7 @@
     justify-content: center;
     border-radius: 50%;
     height: 100%;
-    font-size: 40px;
+    font-size: var(--fs-xxl);
     color: var(--dark-base);
 }
 .upload-icon :hover{
@@ -118,13 +118,13 @@
     color: var(--light-roof);
 }
 .name{
-    font-size: 24px;
+    font-size: var(--fs-xl);
     font-weight: 700;
     color: black;
 }
 .phone{
     color: black;
-    font-size: 15px;
+    font-size: var(--fs-m);
 }
 .options{
     display: flex;
@@ -145,7 +145,7 @@
     align-items: center;
     justify-content: center;
     color: black;
-    font-size: 20px;
+    font-size: var(--fs-l);
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 0px 0px 5px 5px rgba(30, 30, 30, 0.1);
@@ -162,16 +162,16 @@
     width: 100%;
 }
 .bio-title{
-    font-size: 12px;
+    font-size: var(--fs-xxm);
     color: rgb(48, 48, 48);
 }
 .bio-content{
     color: black;
-    font-size: 15px;
+    font-size: var(--fs-m);
 }
 .no-longer-a-member{
     padding: 10px 0px 10px 0px;
-    font-size: 17px;
+    font-size: var(--fs-m);
     color: rgb(100, 46, 46);
 }
 .chat-meta{
@@ -209,7 +209,7 @@
     color: var(--dark-base);
 }
 .meta i{
-    font-size: 25px;
+    font-size: var(--fs-xl);
 }
 .meta .prio2 i{
     color: black;
@@ -220,7 +220,7 @@
 }
 .meta span{
     color: black;
-    font-size: 13px;
+    font-size: var(--fs-xxm);
 }
 .exit-error{
     font-style: italic;
@@ -237,7 +237,7 @@
     margin-top: 10px;
     width: 90%;
     align-self: center;
-    font-size: 15px;
+    font-size: var(--fs-m);
     color: rgb(48, 48, 48);
 }
 .group-container{
@@ -307,15 +307,15 @@
     gap: 5px;
 }
 .group-item span:nth-child(1){
-    font-size: 17px;
+    font-size: var(--fs-m);
 }
 .group-item span:nth-child(2){
-    font-size: 10px;
+    font-size: var(--fs-s);
 }
 .pastMember{
     align-self: flex-start;
     margin-left: 40px;
-    font-size: 15px;
+    font-size: var(--fs-m);
     color: rgb(224, 222, 222);
 }
 app-participant{

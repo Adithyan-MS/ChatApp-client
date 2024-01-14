@@ -1,11 +1,12 @@
 <div class="nav">
     <div class="left">
         <div class="image">
-            <!-- <img src="/assets/logo.png"> -->
+            <img src="/assets/logo.png">
         </div>
-        <h4 [routerLink]="'/home'" class="nav-title">ChatApp</h4>
+        <h4 [routerLink]="'/home'" class="nav-title">Converse</h4>
     </div>
     <div class="right">
+        <i class="fa-solid fa-bars"></i>
         <div class="nav-items">
             @if(username){
             <div class="nav-item nav-user" [routerLink]="'profile'">

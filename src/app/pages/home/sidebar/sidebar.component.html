@@ -25,7 +25,10 @@
               </div>
         </div>
         <div class="bottom">
-            <input type="text" [placeholder]="!isStarredMessageOpened ? 'Search or start a new chat' : 'Search'" (input)="onSearchChange($event)">
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" [placeholder]="!isStarredMessageOpened ? 'Search or start a new chat' : 'Search'" (input)="onSearchChange($event)">
+            </div>
         </div>
     </div>
     <div class="chats">

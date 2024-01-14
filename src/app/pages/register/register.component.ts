@@ -37,8 +37,9 @@ export class RegisterComponent implements OnInit{
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
-    } 
-    const formValues = this.registerForm.getRawValue(); 
+    }
+    const formValues = this.registerForm.getRawValue();
+
     const userData={
       name: formValues.username,
       password: formValues.password,

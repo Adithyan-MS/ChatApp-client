@@ -56,10 +56,10 @@
     justify-content: start;
   }
   .parent-item:first-child span{
-    font-size: 14px;
+    font-size: var(--fs-xm);
     font-weight: 700;
   }
   .parent-item:last-child span{
-    font-size: 13px;
+    font-size: var(--fs-xxm);
     font-weight: 500;
   }

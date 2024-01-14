@@ -34,12 +34,12 @@
     flex-direction: column;
 }
 .edit-title{
-    font-size: 13px;
+    font-size: calc(var(--fs-xxm) + 1px);
     font-weight: 500;
     color: var(--light-ruser);
 }
 .edit-content{
-    font-size: 14px;
+    font-size: var(--fs-xm);
 }
   .edit-close{
     padding-left: 5px;

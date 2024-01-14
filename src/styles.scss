@@ -15,10 +15,57 @@ body{
     --darkx-base: #1e241b;
     --dark-base: #1f271b;
     --light-base: #3c4b34;
-    --dark-roof: #366274;
+    --dark-roof: #417f68;
     --mid-roof:#8EC3B0;
     --light-roof: #BCEAD5;
     --lightx-roof: #b4ddcb;
     --light-ruser: #dedede;;
     --mid-ruser: #b9c2bc;
+
+
+    --fs-xxl:40px;
+    --fs-xl:30px;
+    --fs-l:20px;
+    --fs-m:15px;
+    --fs-xm:14px;
+    --fs-xxm:12px;
+    --fs-s:10px;
+    --fs-xs:9px;
+    --fs-xxs:7px;
+    --fs-t:5px;
+    --fs-xt:5px;
+}
+
+@media screen and (min-width: 2560px) {
+    :root {
+        --fs-xxl:60px;
+        --fs-xl:50px;
+        --fs-l:30px;
+        --fs-m:25px;
+        --fs-xm:24px;
+        --fs-xxm:22px;
+        --fs-s:20px;
+        --fs-xs:19px;
+        --fs-xxs:17px;
+        --fs-t:10px;
+        --fs-xt:10px;
+    }
+    
+}
+
+@media screen and (max-width: 770px) {
+    // :root {
+    //     --fs-xxl:35px;
+    //     --fs-xl:25px;
+    //     --fs-l:15px;
+    //     --fs-m:10px;
+    //     --fs-xm:9px;
+    //     --fs-xxm:7px;
+    //     --fs-s:5px;
+    //     --fs-xs:4px;
+    //     --fs-xxs:2px;
+    //     --fs-t:1px;
+    //     --fs-xt:1px;
+    // }
+    
 }

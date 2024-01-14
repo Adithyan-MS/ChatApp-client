@@ -27,7 +27,7 @@
     
 }
 .item:first-child{
-    font-size: 24px;
+    font-size: var(--fs-xl);
     height: 15%;
     align-items: start;
 }
@@ -76,7 +76,7 @@
     border: none;
     height: 40px;
     color: white;
-    font-size: 15px;
+    font-size: var(--fs-m);
     border-radius: 5px;
     cursor: pointer;
 }

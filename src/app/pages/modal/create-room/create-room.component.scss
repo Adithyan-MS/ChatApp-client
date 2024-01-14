@@ -27,7 +27,7 @@
     
 }
 .item:first-child{
-    font-size: 24px;
+    font-size: var(--fs-xl);
     height: 15%;
     align-items: start;
 }
@@ -99,14 +99,14 @@
     width: 80%;
     border-bottom: 1px solid var(--darkx-base);
     height: 30px;
-    font-size: 18px;
+    font-size: var(--fs-l);
 }
 .left input:focus{
     outline: none;
 }
 .error{
     color: rgb(163, 94, 94);
-    font-size: 10px;
+    font-size: var(--fs-s);
 }
 .image{
     display: flex;
@@ -150,7 +150,7 @@
     justify-content: center;
     border-radius: 50%;
     height: 100%;
-    font-size: 20px;
+    font-size: var(--fs-l);
     color: var(--dark-base);
 }
 .upload-icon :hover{
@@ -179,7 +179,7 @@
     border: none;
     height: 40px;
     color: white;
-    font-size: 15px;
+    font-size: var(--fs-m);
     border-radius: 5px;
     cursor: pointer;
 }

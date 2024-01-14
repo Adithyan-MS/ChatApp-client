@@ -11,7 +11,7 @@
   .other{
     width: 100%;
     text-align: center;
-    font-size: 25px;
+    font-size: var(--fs-l);
     color: var(--black-alpa);
   }
   app-chat-messages{

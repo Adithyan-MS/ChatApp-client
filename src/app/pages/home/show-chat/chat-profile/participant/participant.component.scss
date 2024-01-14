@@ -56,10 +56,10 @@
     width: 100%;
 }
 .group-items span:nth-child(1){
-    font-size: 17px;
+    font-size: var(--fs-m);
 }
 .group-items span:nth-child(2){
-    font-size: 10px;
+    font-size: var(--fs-s);
 }
 .item{
     display: flex;
@@ -70,7 +70,7 @@
 .group-admin{
     margin-right: 10px;
     padding: 3px;
-    font-size: 10px;
+    font-size: var(--fs-s);
 }
 
 .clicked{
@@ -119,18 +119,18 @@
     padding-left: 10px;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: var(--fs-l);
     color: var(--dark-roof);
 }
 .option-icon .fa-shield-halved{
      position: absolute;
      right: 3px;
-     font-size: 7px;
+     font-size: var(--fs-xxs);
 }
 .option .option-title{
     width: 80%;
     display: flex;
-    font-size: 13px;
+    font-size: var(--fs-xxm);
     align-items: center;
     justify-content: start;
 }

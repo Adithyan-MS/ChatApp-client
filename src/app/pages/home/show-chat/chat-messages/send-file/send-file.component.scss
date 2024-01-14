@@ -18,7 +18,7 @@
     justify-content: center;
 }
 .top-title span{
-    font-size: 17px;
+    font-size: var(--fs-m);
 }
 .top-cancel{
     display: flex;
@@ -27,7 +27,7 @@
     justify-content: center;
 }
 .top-cancel i{
-    font-size: 17px;
+    font-size: var(--fs-m);
 }
 .top-cancel i:hover{
     color: gray;
@@ -102,7 +102,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: var(--fs-xxm);
     gap: 5px;
     flex-direction: column;
 }
@@ -153,7 +153,7 @@
     background-color: var(--dark-roof);
 }
 .bottom-left span{
-    font-size: 17px;
+    font-size: var(--fs-m);
 }
 .bottom-right{
     display: flex;
@@ -170,7 +170,7 @@
     background-color: rgb(115, 192, 115);
 }
 .bottom-right span{
-    font-size: 25px;
+    font-size: var(--fs-xl);
     color: white;
     font-weight: 500;
   }
