@@ -2,9 +2,9 @@
     display: flex;
     height: 100%;
     background-color: var(--black-alpa);
-    flex-wrap: wrap;
     width: 100%;
     position: sticky;
+    position: relative;
     z-index: 999;
 }
 .left{
@@ -51,7 +51,7 @@
     align-items: center;
     justify-content: center;
     gap: 25px;
-    margin-right: 100px;
+    margin-right: 30px;
 }
 .nav-item{
     cursor: pointer;
@@ -80,14 +80,55 @@
     color: white;
     font-size: var(--fs-l);
     margin-right: 20px;
+    position: absolute;
+    right: 0;
+    top: 15px;
 
 }
 
-@media screen and (max-width: 620px) {
-    .nav-items{
-        display: none;
+@media screen and (max-width: 500px) {
+    .nav{
+        flex-direction: column;
+        overflow: hidden;
     }
+    .nav-items{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 95%;
+        margin-right: 0px;
+        justify-content: start;
+        align-items: start;
+    }
+    .nav-items span{
+        font-size: var(--fs-m);
+    }
+    .left{
+        flex: 1;
+        padding-left: 10px;
+        justify-content: start;
+    }    
+    .right{
+        flex: 1;
+        padding-top: 10px;
+        padding-bottom: 20px;
+        justify-content: center;
+        background-color: var(--black-alpa);
+    }    
     .fa-bars{
         display: block;
+    }
+    .nav-user{
+        flex-direction: row-reverse;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .nav-user > img{
+        width: 30px;
+        height: 30px;
+    }
+    .left img{
+        width: 45px;
+        height: 45px;
     }
   }

@@ -28,6 +28,15 @@
                                     Minimum length must be > 3
                                 }@else if (registerForm.controls["username"].errors?.['maxlength']) {
                                     Maximum length must be < 15
+                                }@else if (registerForm.controls["username"].errors?.['pattern']){
+                                    Invalid Username Pattern 
+                                    <div class="dropdown">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <div class="dropdown-content">
+                                            <span>PLEASE FOLLOW THE PATTERN:</span>
+                                            <span>Username must contain only Alphabets, Numbers and Special Characters (. and _)</span>
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         }
@@ -78,12 +87,12 @@
                                 @if(registerForm.controls["password"].errors?.['required']){
                                     This field is required.
                                 }@else if (registerForm.controls["password"].errors?.['pattern']) {
-                                    <div class="password-error">
-                                        <span>PLEASE FOLLOW THE PATTERN:</span><hr>
-                                        <div class="password-error-items">
-                                            <span>length > 8,</span>
-                                            <span>Capital Letters,</span>
-                                            <span>Special Charaters</span>
+                                    Invalid Password Pattern 
+                                    <div class="dropdown">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <div class="dropdown-content">
+                                            <span>PLEASE FOLLOW THE PATTERN:</span>
+                                            <span>Password must have length > 8 and should contain atleast 1 Capital Letter and a Special Charater</span>
                                         </div>
                                     </div>
                                 }
@@ -100,7 +109,7 @@
                         <div class="item-error">
                             @if(registerForm.controls["confirmPassword"].errors?.['required']){
                                 This field is required.
-                            }@else if (registerForm.errors?.['passwordNotMatch']) {
+                            }@else if (registerForm.controls["confirmPassword"].errors?.['matching']) {
                                 Password does'nt Match!
                             }
                         </div>

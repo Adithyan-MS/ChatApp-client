@@ -3,23 +3,25 @@
         <div class="image">
             <img src="/assets/logo.png">
         </div>
-        <h4 [routerLink]="'/home'" class="nav-title">Converse</h4>
+        <span [routerLink]="'/home'" class="nav-title">Converse</span>
     </div>
-    <div class="right">
-        <i class="fa-solid fa-bars"></i>
-        <div class="nav-items">
-            @if(username){
-            <div class="nav-item nav-user" [routerLink]="'profile'">
-                <img [src]="profilePic"
-                    alt="">
-                <span>{{username}}</span>
+    @if (isMenuOpened) {
+            <div class="right">
+            <div class="nav-items">
+                @if(username){
+                    <div class="nav-item nav-user" [routerLink]="'profile'">
+                        <img [src]="profilePic"
+                        alt="">
+                        <span>{{username}}</span>
+                    </div>
+                    <span class="nav-item" (click)="userLogout()">Logout</span>
+                }@else {
+                    <span class="nav-item" [routerLink]="'login'">Login</span>
+                    <span class="nav-item" [routerLink]="'register'">Register</span>
+                }
             </div>
-            <span class="nav-item" (click)="userLogout()">Logout</span>
-            }@else {
-            <span class="nav-item" [routerLink]="'login'">Login</span>
-            <span class="nav-item" [routerLink]="'register'">Register</span>
-            }
         </div>
-    </div>
+        }
+        <i class="fa-solid fa-bars" (click)="toggleMenu()"></i>
 </div>
 <br>

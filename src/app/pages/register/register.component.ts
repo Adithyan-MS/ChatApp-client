@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment.development';
 import { AuthResponse, User } from '../../models/data-types';
@@ -24,20 +24,30 @@ export class RegisterComponent implements OnInit{
  
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      username:['',[Validators.required,Validators.maxLength(15),Validators.minLength(3)]],
+      username:['',[Validators.required,Validators.maxLength(15),Validators.minLength(3),Validators.pattern("^[a-zA-Z0-9._]*$")]],
       email:['',[Validators.required,Validators.email]],
       phonenumber:['',[Validators.required,Validators.pattern("^[0-9]{10}$")]],
       password:['',[Validators.required,Validators.pattern("(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}")]],
       confirmPassword:['',[Validators.required]]
     },{
-      validators: this.passwordMatchValidator.bind(this)
+      validators: this.passwordMatchValidator('password', 'confirmPassword')
     })
   }
 
-  passwordMatchValidator(formGroup: FormGroup) {
-    const  password = formGroup.get('password');
-    const  confirmPassword = formGroup.get('confirmPassword');
-    return password === confirmPassword ? null : { passwordNotMatch: true };
+  passwordMatchValidator(controlName: string, checkControlName: string):ValidatorFn {
+    return (controls: AbstractControl) => {
+      const control = controls.get(controlName);
+      const checkControl = controls.get(checkControlName);
+      if (checkControl?.errors && !checkControl.errors['matching']) {
+        return null;
+      }
+      if (control?.value !== checkControl?.value) {
+        controls.get(checkControlName)?.setErrors({ matching: true });
+        return { matching: true };
+      } else {
+        return null;
+      }
+    };
   }
  
   onFormSubmit(){

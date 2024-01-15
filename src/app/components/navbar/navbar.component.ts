@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit{
   username:string|null
   profilePic:string|null
   user:User | any
+  isMenuOpened:boolean = true
   constructor(private router: Router,private api:ApiService,private appService: AppService){
    
   }
@@ -53,5 +54,7 @@ export class NavbarComponent implements OnInit{
       console.log(error);      
     })
   }
- 
+  toggleMenu(){
+    this.isMenuOpened = !this.isMenuOpened
+  }
 }

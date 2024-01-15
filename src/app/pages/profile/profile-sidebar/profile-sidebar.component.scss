@@ -45,3 +45,40 @@
 .item span{
     color: black;
 }
+
+@media only screen and (max-width: 1024px) {
+   .item{
+        padding: 10px;
+   }
+  }
+@media only screen and (max-width: 800px) {
+   .item{
+        padding: 7px;
+        gap: 5px;
+   }
+   .item i{
+        font-size: var(--fs-m);
+    }
+    .item .icon{
+        width: 30px;
+        height: 30px;
+    }
+    .item span{
+        font-size: var(--fs-xxm);
+    }
+}
+@media only screen and (max-width: 620px) {
+   .item{
+    padding: 5px;
+   }
+   .item i{
+        font-size: var(--fs-xxm);
+    }
+    .item .icon{
+        width: 25px;
+        height: 25px;
+    }
+    .item span{
+        font-size: var(--fs-s);
+    }
+}
