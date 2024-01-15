@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment.development';
 import { AuthResponse, User } from '../../models/data-types';
@@ -29,10 +29,20 @@ export class RegisterComponent implements OnInit{
       phonenumber:['',[Validators.required,Validators.pattern("^[0-9]{10}$")]],
       password:['',[Validators.required,Validators.pattern("(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}")]],
       confirmPassword:['',[Validators.required]]
+    },{
+      validators: this.passwordMatchValidator.bind(this)
     })
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const  password = formGroup.get('password');
+    const  confirmPassword = formGroup.get('confirmPassword');
+    return password === confirmPassword ? null : { passwordNotMatch: true };
   }
  
   onFormSubmit(){
+    console.log(this.registerForm);
+    
     this.submitted = true; 
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
@@ -53,6 +63,8 @@ export class RegisterComponent implements OnInit{
     },(error)=>{
       this.errorMessage = error["error"].message;
       this.registerSuccess = false;
+      console.log(error);
+      
     }) 
     this.submitted = false;
   }

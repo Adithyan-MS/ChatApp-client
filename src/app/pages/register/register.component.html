@@ -100,7 +100,7 @@
                         <div class="item-error">
                             @if(registerForm.controls["confirmPassword"].errors?.['required']){
                                 This field is required.
-                            }@else if (registerForm.controls["confirmPassword"].value != registerForm.controls["password"].value) {
+                            }@else if (registerForm.errors?.['passwordNotMatch']) {
                                 Password does'nt Match!
                             }
                         </div>
