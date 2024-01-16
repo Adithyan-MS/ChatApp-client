@@ -280,14 +280,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       }
     }
   }
-  // @HostListener('document:click', ['$event'])
-  // onDocumentClick(event: Event) {
-  //   const clickedInside = this.elementRef.nativeElement.contains(event.target);
-  //   if (!clickedInside) {
-  //     this.isMenuOpened = false;
-  //     this.isSendMenuOpen = false
-  //   }
-  // }
 
   isDifferentDay(messageIndex: number): boolean {
     if (messageIndex === 0) return true;
@@ -470,5 +462,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   clickedOutsideEmoji(){
     this.isEmojiOpened = false
+  }
+
+  mobileBack(){
+    this.dataService.notifyOther("mobile-back")
   }
 }

@@ -34,9 +34,10 @@
             </div>
         }
         @default {
-            <div class="left" (click)="viewProfile()">
-                <img [src]="currentChatPic ? currentChatPic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
-                <div class="chat-name">
+            <div class="left">
+                <i class="fa-solid fa-arrow-left mobileBack" (click)="mobileBack()"></i>
+                <img [src]="currentChatPic ? currentChatPic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image" (click)="viewProfile()">
+                <div class="chat-name" (click)="viewProfile()">
                     <span class="name name-space">
                         @if(currentChat){
                             {{currentChat.name}}

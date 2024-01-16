@@ -27,7 +27,6 @@ export class SidebarComponent implements OnInit{
   clickedIndex?:number
   isStarredMessageOpened:boolean = false
   @Output() mobileViewEvent = new EventEmitter<any>()
-  isMobileView:boolean = false
 
   constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
@@ -54,12 +53,12 @@ export class SidebarComponent implements OnInit{
       console.log(error);      
     })
   }
-  @HostListener("window:resize", []) checkSize() {
+  checkSize():boolean{
     console.log(window.innerWidth);
     if (window.innerWidth <= 500) {
-      this.isMobileView = true
+      return true
     }else{
-      this.isMobileView = false
+      return false
     }
   }
 
@@ -70,10 +69,9 @@ export class SidebarComponent implements OnInit{
       data:chat
     })
     this.messageService.setSelectedMessageId(chat.latest_message_id)
-    this.checkSize()
-    if(this.isMobileView){
+    if(this.checkSize()){
       this.mobileViewEvent.emit(true)
-    }   
+    }
   }
   clickChat(index:any){
     this.clickedIndex=index

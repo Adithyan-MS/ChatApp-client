@@ -51,7 +51,6 @@
     margin-top: -5px;
     color: rgb(56, 55, 55);
     width: 100%;
-    // max-width: calc(100% - 70px); /* Adjust the width as per your layout */
     overflow: hidden;
   }
   
@@ -77,3 +76,27 @@
     font-style: italic;
     color: rgb(101, 101, 101);
   }
+  @media screen and (max-width: 500px) {
+    .left{
+      gap: 5px;
+    }
+    .chat-image{
+      width: 40px;
+      height: 40px;
+    }
+    .name{
+      font-size: var(--fs-xxm);
+    }
+    .last-message{
+      font-size: var(--fs-xxm);
+    }
+    .items{
+      height: 50px;
+    }
+    .time{
+      font-size: var(--fs-xxs);
+    }
+    .latest_roomEvent{
+      font-size: var(--fs-xxm);
+    }
+}

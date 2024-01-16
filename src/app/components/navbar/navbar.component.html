@@ -6,7 +6,7 @@
         <span [routerLink]="'/home'" class="nav-title">Converse</span>
     </div>
     @if (isMenuOpened) {
-            <div class="right">
+            <div class="right" [@dropdownAnimation]>
             <div class="nav-items">
                 @if(username){
                     <div class="nav-item nav-user" [routerLink]="'profile'">
@@ -14,7 +14,9 @@
                         alt="">
                         <span>{{username}}</span>
                     </div>
-                    <span class="nav-item" (click)="userLogout()">Logout</span>
+                    <div class="nav-item" (click)="userLogout()">
+                        <span class="nav-item">Logout</span>
+                    </div>
                 }@else {
                     <span class="nav-item" [routerLink]="'login'">Login</span>
                     <span class="nav-item" [routerLink]="'register'">Register</span>
@@ -22,6 +24,6 @@
             </div>
         </div>
         }
-        <i class="fa-solid fa-bars" (click)="toggleMenu()"></i>
+        <i class="fa-solid fa-bars" appClickOutside (clickOutside)="clickedOutsideMenu()" (click)="toggleMenu()"></i>
 </div>
 <br>

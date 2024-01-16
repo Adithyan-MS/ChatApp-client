@@ -7,7 +7,7 @@
     position: sticky;
     background-color: var(--light-roof);
     border-bottom: 1px solid rgb(170, 168, 168);
-    z-index: 999;
+    z-index: 990;
     width: 100%;
     top: 0;
 }
@@ -20,6 +20,14 @@
     padding-left: 10px;
     flex: 2;
   }
+
+.mobileBack{
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0px;
+  display: none;
+  margin-left: -5px;
+}
   .chat-image{
     width: 45px;
     height: 45px;
@@ -27,7 +35,6 @@
     object-fit: cover;
     cursor: pointer;
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
-
 }
 .chat-name{
     display: flex;
@@ -50,7 +57,7 @@
     font-size: var(--fs-xxm);
     align-items: center;
     height: 100%;
-    flex: 2;
+    min-width: 60px;
     justify-content: end;
 }
 .menu-container{
@@ -62,6 +69,7 @@
   padding: 10px;
 }
 .menu{
+  min-width: 150px;
   background-color: #333;
   color: white;
   box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
@@ -408,4 +416,19 @@ app-send-file{
     cursor: none;
     opacity: .5;
     pointer-events: none;
+  }
+
+  @media screen and (max-width: 500px){
+    .mobileBack{
+      display: block;
+    }
+    .chat-image{
+      width: 40px;
+      height: 40px;
+    }
+    .name{
+      cursor: pointer;
+      font-size: var(--fs-m);
+      font-weight: 800;
+   }
   }
