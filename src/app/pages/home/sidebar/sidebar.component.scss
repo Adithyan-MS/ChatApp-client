@@ -97,16 +97,16 @@
     position: absolute;
     text-align: left;
     color: var(--dark-roof);
-    left: 10px;
-    bottom: 7px;
+    left: 8px;
+    bottom: 5px;
 }
 .search-container > input{
     width: calc(100% - 30px);
     padding-left: 30px;
-    height: 23px;
+    height: 19px;
     border: 0.5px solid gray;
     font-size: var(--fs-m);
-    border-radius: 20px;
+    border-radius: 3px;
     background-color: aliceblue;
     border: none;
     border-bottom: 2px solid var(--dark-roof);
@@ -128,4 +128,10 @@
 }
 app-chat{
     width: 95%;
+}
+
+@media screen and (max-width: 500px) {
+    .header{
+        border-right: none;
+    }
 }

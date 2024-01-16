@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from './chat/chat.component';
 import { environment } from '../../../../environments/environment.development';
@@ -26,6 +26,8 @@ export class SidebarComponent implements OnInit{
   userId:number
   clickedIndex?:number
   isStarredMessageOpened:boolean = false
+  @Output() mobileViewEvent = new EventEmitter<any>()
+  isMobileView:boolean = false
 
   constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
@@ -43,8 +45,6 @@ export class SidebarComponent implements OnInit{
         this.getStarredMessages()
       }
     })
-    
-    
   }
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
@@ -54,6 +54,14 @@ export class SidebarComponent implements OnInit{
       console.log(error);      
     })
   }
+  @HostListener("window:resize", []) checkSize() {
+    console.log(window.innerWidth);
+    if (window.innerWidth <= 500) {
+      this.isMobileView = true
+    }else{
+      this.isMobileView = false
+    }
+  }
 
   showChat(chat:userChats){
     this.router.navigate([chat.name], {relativeTo:this.route});
@@ -61,7 +69,11 @@ export class SidebarComponent implements OnInit{
       view:"chat",
       data:chat
     })
-    this.messageService.setSelectedMessageId(chat.latest_message_id)    
+    this.messageService.setSelectedMessageId(chat.latest_message_id)
+    this.checkSize()
+    if(this.isMobileView){
+      this.mobileViewEvent.emit(true)
+    }   
   }
   clickChat(index:any){
     this.clickedIndex=index

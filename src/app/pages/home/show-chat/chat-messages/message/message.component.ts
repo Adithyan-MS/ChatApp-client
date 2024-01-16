@@ -68,9 +68,6 @@ export class MessageComponent implements OnInit,OnChanges{
     }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {
-    if (this.index === 0) {
-      return true
-    }
     const display = currentSenderName !== this.senderNameService.getPreviousSenderName();
     this.senderNameService.setPreviousSenderName(currentSenderName); 
     return display;

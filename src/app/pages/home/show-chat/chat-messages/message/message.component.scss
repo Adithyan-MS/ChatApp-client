@@ -94,7 +94,7 @@
     cursor: pointer;
 }
 .content .doc-content{
-    min-width: 300px;
+    max-width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,7 +112,7 @@
     align-items: start;
     flex-direction: column;
     justify-content: center;
-    padding: 10px;
+    padding: 5px;
     width: 100%;
 }
 .doc-content .item{
@@ -243,13 +243,13 @@
     display: flex;
     justify-content: center;
     padding: 0px;
-    margin: 2px 0px 2px 0px ;
+    margin: 1px 0px 1px 0px ;
 }
 .roomInfo{
     border-radius: 10px;
     background-color: #e9e2c0;
-    padding: 3px 5px 3px 5px;
-    font-size: var(--fs-xxm);
+    padding: 1px 3px 1px 3px;
+    font-size: var(--fs-s);
     font-style: italic;
     box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.1);
     color: #505050;

@@ -177,6 +177,7 @@ hr{
     display: flex;
     justify-content: space-between;
     gap: 5px;
+    font-size: calc(var(--fs-m) - 1px);
     align-items: center;
 }
 .item-content input{

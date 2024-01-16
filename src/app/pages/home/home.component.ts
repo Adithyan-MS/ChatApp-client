@@ -12,4 +12,18 @@ import { ShowChatComponent } from './show-chat/show-chat.component';
 })
 
 export class HomeComponent{
+
+    onMobileView(event:boolean){
+        let sidebar = document.getElementById('sidebar') as HTMLElement;
+        let show = document.getElementById('show') as HTMLElement;
+        if(event){
+            sidebar?.style.setProperty('display', 'none')
+            show?.style.setProperty('width', '100%')
+            show?.style.setProperty('display', 'flex')
+        }else{
+            sidebar?.style.setProperty('display', 'flex')
+            // show?.style.setProperty('width', '100%')
+            show?.style.setProperty('display', 'flex')
+        }
+    }
 }

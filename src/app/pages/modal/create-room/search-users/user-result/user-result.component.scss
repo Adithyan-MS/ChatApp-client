@@ -1,10 +1,10 @@
 .user{
     display: flex;
     align-items: center;
-    width: 50px;
-    height: 60px;
+    width: 40px;
+    height: 50px;
     flex-direction: column;
-    font-size: var(--fs-xxm);
+    font-size: var(--fs-s);
     color: var(--dark-base);
 }
 .name{
@@ -20,8 +20,8 @@
     text-overflow: ellipsis;
 }
 .image{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

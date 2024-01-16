@@ -1,4 +1,4 @@
 <div class="home">
-    <app-sidebar></app-sidebar>
-    <app-show-chat ></app-show-chat>
+    <app-sidebar (mobileViewEvent)="onMobileView($event)" id="sidebar"></app-sidebar>
+    <app-show-chat id="show"></app-show-chat>
 </div>

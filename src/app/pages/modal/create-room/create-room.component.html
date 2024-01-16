@@ -3,11 +3,14 @@
         <div class="item">
             <div class="header">
                 <span>Create Room</span>
+                <div class="form-buttons">
+                    <button class="create" form="create-room" type="submit">create</button>
+                </div>
             </div>
         </div>
         <div class="item">
             <div class="create-form">
-                <form [formGroup]="createRoomForm" action="" class="roomCreateForm" (ngSubmit)="OnSubmit()">
+                <form [formGroup]="createRoomForm" action="" class="roomCreateForm" id="create-room" (ngSubmit)="OnSubmit()">
                     <div class="form-top">
                         <div class="left">
                             <div class="name-input">
@@ -47,9 +50,6 @@
                     <div class="form-bottom">
                         <div class="add-member">
                             <app-search-users [preSelectedUser]="createWithUser" (itemsChanged)="onItemsChanged($event)"></app-search-users>
-                        </div>
-                        <div class="form-buttons">
-                            <button class="create" type="submit">create</button>
                         </div>
                     </div>
                 </form>
