@@ -342,8 +342,6 @@
     object-fit: cover;
     align-self: flex-end;
   }
-  
-
   .parent-item{
     width: 98%;
     display: flex;
@@ -373,6 +371,20 @@
   @media only screen and (max-width: 830px) {
     .container{
         max-width: 80%;
-        // font-size: 0.1vw;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .container{
+        flex-direction: row-reverse;
+    }
+    .right{
+        flex-direction: row;
+
+    }
+    .options{
+        left: 0px;
+    }
+    .right  .options{
+        left: -215px;
     }
   }

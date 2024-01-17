@@ -77,26 +77,5 @@
     color: rgb(101, 101, 101);
   }
   @media screen and (max-width: 500px) {
-    .left{
-      gap: 5px;
-    }
-    .chat-image{
-      width: 40px;
-      height: 40px;
-    }
-    .name{
-      font-size: var(--fs-xxm);
-    }
-    .last-message{
-      font-size: var(--fs-xxm);
-    }
-    .items{
-      height: 50px;
-    }
-    .time{
-      font-size: var(--fs-xxs);
-    }
-    .latest_roomEvent{
-      font-size: var(--fs-xxm);
-    }
+    
 }

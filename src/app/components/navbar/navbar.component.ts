@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit{
   
   @HostListener('window:resize', ['$event'])
   mobileSize():boolean {
-      if(window.innerWidth <= 500){
+      if(typeof window !== 'undefined' && window.innerWidth <= 500){
         this.isMenuOpened=false
         return true
       }else{

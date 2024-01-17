@@ -3,46 +3,9 @@
     height: 92%;
 }
 app-sidebar{
-    width: 25%;
-    border-right: 1px solid  var(--dark-roof);
+    // border-right: 1px solid  var(--dark-roof);
 }
 app-show-chat{
-    width: 75%;
-}
-
-@media screen and (max-width: 1024px) {
-    app-sidebar{
-        width: 30%;
-        border-right: 1px solid  var(--dark-roof);
-    }
-    app-show-chat{
-        width: 70%;
-    }
-}
-@media screen and (max-width: 800px) {
-    app-sidebar{
-        width: 40%;
-        border-right: 1px solid  var(--dark-roof);
-    }
-    app-show-chat{
-        width: 60%;
-    }
-}
-@media screen and (max-width: 700px) {
-    app-sidebar{
-        width: 45%;
-        border-right: 1px solid  var(--dark-roof);
-    }
-    app-show-chat{
-        width: 55%;
-    }
-}
-@media screen and (max-width: 500px) {
-    app-sidebar{
-        width: 100%;
-        border-right: none;
-    }
-    app-show-chat{
-        display: none;
-    }
+    border-left: 1px solid  var(--dark-roof);
+    // width: 75%;
 }

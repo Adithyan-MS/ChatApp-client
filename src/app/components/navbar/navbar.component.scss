@@ -79,18 +79,17 @@
 .fa-bars{
     display: none;
     color: white;
-    font-size: var(--fs-l);
+    font-size: 25px;
     margin-right: 20px;
     position: absolute;
     right: 0;
-    top: 15px;
+    top: 17px;
 
 }
 
 @media screen and (max-width: 500px) {
     .nav{
         flex-direction: column;
-        // overflow: hidden;
     }
     .nav-items{
         display: flex;
@@ -130,10 +129,6 @@
         flex-direction: row-reverse;
         width: 100%;
         justify-content: space-between;
-    }
-    .nav-user > img{
-        width: 30px;
-        height: 30px;
     }
     .left img{
         width: 45px;

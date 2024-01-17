@@ -154,12 +154,16 @@
     background-color: var(--light-roof);
     color: var(--dark-base);
 }
+.bio-item{
+    align-items: center;
+    justify-content: center;
+}
 .bio{
-    margin: 10px 50px 10px 50px;
+    margin: 7px 0px 7px 0px;
     display: flex;
     justify-content: start;
     flex-direction: column; 
-    width: 100%;
+    width: 88%;
 }
 .bio-title{
     font-size: var(--fs-xxm);
@@ -194,7 +198,7 @@
     border-radius: 10px;
     display: flex;
     width: 100%;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     cursor: pointer;
 }
@@ -220,7 +224,7 @@
 }
 .meta span{
     color: black;
-    font-size: var(--fs-xxm);
+    font-size: var(--fs-xm);
 }
 .exit-error{
     font-style: italic;
@@ -330,4 +334,54 @@ app-common-group{
     justify-content: center;
     align-self: center;
     width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+    .scroll-container .items{
+        width: 95%;
+        gap: 2px;
+    }
+    .back{
+        font-size: 25px;
+        left: 5px;
+    }
+    .option{
+        width: 45px;
+        height: 45px;
+    }
+    .image{
+        width: 120px;
+        height: 120px;
+    }
+    .upload-icon{
+        width: 45px;
+        height: 45px;
+    }
+    .upload-icon i{
+        font-size: var(--fs-xl);
+    }
+    .bio{
+        margin: 3px 0px 3px 0px;
+    }
+    .metas{
+        width: 95%;
+        gap: 0px;
+    }
+    .meta{
+        gap: 0px;
+        font-size: var(--fs-xm);
+    }
+    .meta i{
+        font-size: 25px;
+    }
+    .name{
+        font-size: 18px;
+    }
+    .icon-area{
+        width: 40px;
+        height: 40px;
+    }
+    .group-item span{
+        font-size: 13px;
+    }
 }

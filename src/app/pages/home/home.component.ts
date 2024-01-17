@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit{
     constructor(private dataService:DataService){}
 
     ngOnInit(): void {
+        this.mobileSize()
         this.dataService.notifyObservable$.subscribe((res)=>{
             if(res == "mobile-back"){
                 let sidebar = document.getElementById('sidebar') as HTMLElement;
@@ -27,6 +28,38 @@ export class HomeComponent implements OnInit{
             }
         })
     }
+
+    @HostListener('window:resize', ['$event'])
+    mobileSize() {
+        let sidebar = document.getElementById('sidebar') as HTMLElement;
+        let show = document.getElementById('show') as HTMLElement;
+        if(window.innerWidth <= 500){
+            sidebar?.style.setProperty('display', 'flex')
+            sidebar?.style.setProperty('width', '100%')
+            show?.style.setProperty('display', 'none')
+        }else if(window.innerWidth <= 700){
+            sidebar?.style.setProperty('display', 'flex')
+            show?.style.setProperty('display', 'flex')
+            sidebar?.style.setProperty('width', '45%')
+            show?.style.setProperty('width', '55%')
+        }else if(window.innerWidth <= 800){
+            sidebar?.style.setProperty('display', 'flex')
+            sidebar?.style.setProperty('width', '40%')
+            show?.style.setProperty('width', '60%')
+            show?.style.setProperty('display', 'flex')
+        }
+        else if(window.innerWidth <= 1024){
+            sidebar?.style.setProperty('display', 'flex')
+            sidebar?.style.setProperty('width', '30%')
+            show?.style.setProperty('width', '70%')
+            show?.style.setProperty('display', 'flex')
+        }else{
+            sidebar?.style.setProperty('display', 'flex')
+            sidebar?.style.setProperty('width', '25%')
+            show?.style.setProperty('width', '75%')
+            show?.style.setProperty('display', 'flex')
+        }
+  }
 
     onMobileView(event:boolean){
         let sidebar = document.getElementById('sidebar') as HTMLElement;
