@@ -174,3 +174,12 @@
     color: white;
     font-weight: 500;
   }
+
+  @media screen and (max-width: 700px){
+    .container{
+        max-width: 200px;
+    }
+    .middle .file-container{
+        max-height: 180px;
+    }
+  }

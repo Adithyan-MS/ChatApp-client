@@ -23,6 +23,11 @@
 .modal--modal-content {
     box-shadow: 0 1px 3px 0 rgba(38,41,58,.06);
     position: relative;
+    display: flex;
+    align-items: center;
+    // width: 95%;
+    // height: 80%;
+    justify-content: center;
 }
 
 .modal--close-btn {
@@ -39,7 +44,7 @@
     background-color: var(--light-roof);
     text-align: center;
     border-radius: 50%;
-
+    // display: none;
 }
 .modal--close-btn:hover {
     background-color: darken(#366274, 15%);
@@ -47,6 +52,47 @@
     color: white;
 }
 img{
-    max-height: 600px;
+    // width: 10%;
+    // height: 100%;
+    max-width: 90%;
+    max-height: 650px;
     object-fit: cover;
+}
+app-create-room{
+    width: 450px;
+    height:380px;
+}
+app-join-room{
+    width: 400px;
+    height:230px;
+}
+app-add-room-member{
+    width: 450px;
+    height: 300px;
+}
+@media only screen and (max-width: 770px) {
+    // .modal--close-btn {
+    //     display: none;
+    // }
+}
+@media only screen and (max-width: 426px) {
+    .modal--close-btn {
+        display: none;
+    }
+    .modal--modal-content {
+        width: 95%;
+    }
+    img{
+        // width: 100%;
+    }
+    app-create-room{
+        width: 100%;
+    }
+    app-join-room{
+        width: 100%;
+    }
+    app-add-room-member{
+        width: 100%;
+    }
+    
 }

@@ -87,7 +87,7 @@
             <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                 <i class="fa-regular fa-face-smile" (click)="toggleEmoji()"></i>
                 @if (isEmojiOpened) {
-                    <emoji-mart [@dropupAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
+                    <emoji-mart [style]="{ width: 'unset' }" [@dropupAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
                 }
             </div>
             <div class="attach" appClickOutside (clickOutside)="clickedOutsideAttach()">

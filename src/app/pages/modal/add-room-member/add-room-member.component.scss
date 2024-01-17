@@ -1,7 +1,7 @@
 
 .container{
-    width: 650px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
     background-color: var(--mid-roof);
     border-radius: 15px;
     display: flex;
@@ -27,9 +27,16 @@
     
 }
 .item:first-child{
-    font-size: var(--fs-xl);
+    font-size: var(--fs-l);
     height: 15%;
-    align-items: start;
+    // align-items: start;
+}
+.item .header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .item:last-child{
     height: 85%;
@@ -72,20 +79,21 @@
     padding-right: 10px;
 }
 .form-buttons button{
-    width: 100px;
+    width: 80px;
     border: none;
-    height: 40px;
+    height: 30px;
     color: white;
-    font-size: var(--fs-m);
+    font-size: var(--fs-xxm);
     border-radius: 5px;
     cursor: pointer;
 }
 .create{
+    color: var(--light-roof);
     background-color: var(--black-alpa);
 }
-.cancel{
-    background-color: var(--dark-roof);
-    color: black;
+.create:hover{
+    background-color: var(--light-roof);
+    color: var(--black-alpa);
 }
 app-search-users{
     width: 95%;
