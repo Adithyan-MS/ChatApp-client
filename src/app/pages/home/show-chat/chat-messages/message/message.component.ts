@@ -105,9 +105,11 @@ export class MessageComponent implements OnInit,OnChanges{
     })
   }
   replyMessage(){
+    this.isOpened=false
     this.replyMessageEvent.emit(this.message)
   }
   editMessage(){
+    this.isOpened=false
     this.editMessageEvent.emit(this.message)
   }
   starMessage(){

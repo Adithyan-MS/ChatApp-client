@@ -408,9 +408,29 @@ app-send-file{
     top: 50%;
     left: 35%;
     width: 300px;
+    z-index: 200;
     box-shadow: 0px 0px 19px 5px rgba(122, 122, 122, 0.1); 
     margin: auto;
     transform: translateY(-50%);
+  }
+  app-parent-message{
+    background-color: var(--light-roof);
+    position: absolute;
+    bottom: 32px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 210;
+    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
+  }
+  app-edit-message{
+    background-color: var(--mid-roof);
+    position: absolute;
+    bottom: 32px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
   }
   .disabled {
     cursor: none;

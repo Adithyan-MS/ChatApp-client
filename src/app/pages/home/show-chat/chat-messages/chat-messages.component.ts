@@ -73,6 +73,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     this.isSearchOpened=false
     this.showCheckBox=false
+    this.isForwardOpened=false
+    this.parentMessage = null
+    this.editMessage = null
     this.headerContent="none"
     if (this.currentChat.profile_pic) {
       this.currentChatPic = this.appService.getImageUrl(this.currentChat.name,this.currentChat.profile_pic);
