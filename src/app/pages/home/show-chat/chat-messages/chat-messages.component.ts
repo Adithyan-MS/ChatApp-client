@@ -439,7 +439,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
 
   addEmoji(event:any){
-    console.log(event.emoji.native);
     const input = this.myMessageSendField.nativeElement;
     input.focus();
     if (document.execCommand){

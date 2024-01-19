@@ -15,7 +15,15 @@
                         <div class="left">
                             <div class="name-input">
                                 <label for="">Room name:</label>
-                                <input type="text" formControlName="name">
+                                <div class="input-with-emoji">
+                                    <input type="text" formControlName="name" #roomNameField>
+                                    <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
+                                        <i class="fa-regular fa-face-smile" (click)="toggleEmoji()"></i>
+                                        @if (isEmojiOpened) {
+                                            <emoji-mart [style]="{ width: 'unset' }" [@dropdownAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
+                                        }
+                                    </div>
+                                </div>
                                     @if(submitted){
                                         @if(createRoomForm.controls["name"].invalid && createRoomForm.controls["name"].dirty || createRoomForm.controls["name"].touched){
                                             <div class="error">

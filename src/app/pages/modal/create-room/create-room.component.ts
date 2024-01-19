@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Room, User, userSearch } from '../../../models/data-types';
@@ -9,19 +9,24 @@ import { ModalService } from '../../../services/modal.service';
 import { environment } from '../../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
 import { SearchUsersComponent } from './search-users/search-users.component';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { AnimationService } from '../../../services/animation.service';
+import { ClickOutsideDirective } from '../../../directives/clickOutside/click-outside.directive';
 
 @Component({
   selector: 'app-create-room',
   standalone: true,
-  imports: [CommonModule,SearchUsersComponent,ReactiveFormsModule],
+  imports: [CommonModule,SearchUsersComponent,ClickOutsideDirective,ReactiveFormsModule,PickerComponent],
   templateUrl: './create-room.component.html',
-  styleUrl: './create-room.component.scss'
+  styleUrl: './create-room.component.scss',
+  animations:[AnimationService.prototype.getDropdownAnimation()]
 })
 export class CreateRoomComponent {
 
   createRoomForm: FormGroup
-  members:number[]
+  members:number[]=[]
   @Input() createWithUser: User|null
+  @ViewChild('roomNameField') roomNameField :ElementRef
   submitted:boolean = false
   errorMessage:string|null = null
   createSuccess:boolean
@@ -30,6 +35,7 @@ export class CreateRoomComponent {
   imageSrc:string|ArrayBuffer|null = null
   room:Room
   @Output() successEvent = new EventEmitter<any>()
+  isEmojiOpened:boolean = false
 
   constructor(private fb:FormBuilder,private dataService: DataService,private api: ApiService,private appService:AppService,private modalService: ModalService){}
 
@@ -48,7 +54,9 @@ export class CreateRoomComponent {
   }
 
   OnSubmit(){
-    this.submitted = true    
+    this.submitted = true 
+    console.log(this.members?.length);
+       
     if(this.createRoomForm.invalid || this.members?.length==0){
       this.createRoomForm.markAllAsTouched();
       return
@@ -108,5 +116,23 @@ export class CreateRoomComponent {
       reader.onload = e => this.imageSrc = reader.result;
       reader.readAsDataURL(this.imageFile)
     }
+  }
+  toggleEmoji(){
+    this.isEmojiOpened = !this.isEmojiOpened
+  }
+
+  clickedOutsideEmoji(){
+    this.isEmojiOpened = false
+  }
+  addEmoji(event:any){
+    const input = this.roomNameField.nativeElement;
+    input.focus();
+    if (document.execCommand){
+      var event1 = new Event('input');
+      document.execCommand('insertText', false, event.emoji.native);
+      return; 
+      }
+      const [start, end] = [input.selectionStart, input.selectionEnd]; 
+      input.setRangeText(event.emoji.native, start, end, 'end');
   }
 }

@@ -73,14 +73,14 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     color: var(--dark-base);
     font-weight: 800;
 }
 .form-top .right{
-    flex: 1;
+    padding-right: 30px;
     display: flex;
-    align-items: start;
+    align-items: center;
     flex-direction: column;
     justify-content: center;
 }
@@ -91,9 +91,36 @@ label{
     width: 90%;
     display: flex;
     align-items: start;
-    justify-content: center;
+    justify-content: start;
     flex-direction: column;
 }
+.input-with-emoji{
+    width: 100%;
+    position: relative;
+}
+.emoji-container{
+    position: absolute;
+    right: 35px;
+    bottom: 7px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 8px;
+  }
+  .emoji-container i{
+    font-size: var(--fs-m);
+    cursor: pointer;
+  }
+  .emoji-container i:hover{
+    color: gray;
+  }
+  .emoji-container emoji-mart{
+    position: absolute;
+    top: 27px;
+    right: -140px;
+    z-index: 700;
+  }
 .desc-input{
     width: 90%;
     display: flex;
