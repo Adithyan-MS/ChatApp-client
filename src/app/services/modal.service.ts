@@ -22,6 +22,10 @@ export class ModalService {
       this.rootViewContainer.insert(component.hostView);
   }
 
+  addConfirmationDialog(message: string) {
+    this.addDynamicComponent('confirmation', { message });
+  }
+
   removeDynamicComponent(component:any) {
       component.destroy();
   }

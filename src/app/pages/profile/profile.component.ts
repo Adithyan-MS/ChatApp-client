@@ -43,16 +43,8 @@ export class ProfileComponent implements OnInit{
       this.data = localStorage.getItem("user");
       if(this.data){
         this.currentUser = JSON.parse(this.data)
-        if(this.currentUser.profilePic!=null){
-          this.profilePic = this.appService.getImageUrl(this.currentUser.name,this.currentUser.profilePic);
-        }else{
-          this.profilePic = environment.USER_IMAGE
-        }
-        if(this.currentUser.bio){
-          this.userBio = this.currentUser.bio
-        }else{
-          this.userBio = "Hey! I am using ChatApp"
-        }
+        this.profilePic = this.currentUser.profilePic ? this.appService.getImageUrl(`user_${this.currentUser.id}`,this.currentUser.profilePic) : environment.USER_IMAGE
+        this.userBio = this.currentUser.bio ? this.currentUser.bio : "Hey! I am using ChatApp"
       }
     }
   }

@@ -35,11 +35,7 @@ export class ParticipantComponent implements OnInit,OnChanges{
   }
 
   ngOnInit(): void {
-    if(this.member.profile_pic){
-      this.memberPic=this.appService.getImageUrl(this.member.name,this.member.profile_pic)
-    }else{
-      this.memberPic = environment.USER_IMAGE
-    }
+    this.memberPic = this.member.profile_pic ? this.appService.getImageUrl(`user_${this.member.id}`,this.member.profile_pic) : environment.USER_IMAGE
     if(typeof localStorage != "undefined"){
       this.user = localStorage.getItem('user')
     }

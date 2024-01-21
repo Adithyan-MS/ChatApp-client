@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { message, receiver, sendMessage, userChats } from '../../../../models/data-types';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,6 +17,7 @@ import { AnimationService } from '../../../../services/animation.service';
 import { SendFileComponent } from './send-file/send-file.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
+import { ModalService } from '../../../../services/modal.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -57,7 +58,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   isFileTypeImage:boolean = false
   isEmojiOpened:boolean = false
   
-  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef){}
+  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){}
   
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe((data)=>{
@@ -75,16 +76,13 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     this.showCheckBox=false
     this.isForwardOpened=false
     this.parentMessage = null
+    this.selectedFiles=[]
     this.editMessage = null
     this.headerContent="none"
-    if (this.currentChat.profile_pic) {
-      this.currentChatPic = this.appService.getImageUrl(this.currentChat.name,this.currentChat.profile_pic);
+    if(this.currentChat.type=="user"){
+      this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE            
     }else{
-      if(this.currentChat.type=="user"){
-        this.currentChatPic= environment.USER_IMAGE            
-      }else{
-        this.currentChatPic= environment.ROOM_IMAGE
-      }
+      this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
     }
     if(this.currentChat.type==="user"){
       this.getUserChatMessage();
@@ -252,8 +250,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   backSearch(){
     this.isSearchOpened =false
-    this.showCheckBox=false
-    this.selectedList=[]
     this.headerContent="none"
     if(this.currentChat.type==="user"){
       this.getUserChatMessage();
@@ -342,6 +338,11 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       }
     }
   }
+  backSelect(){
+    this.showCheckBox=false
+    this.selectedList=[]
+    this.headerContent="none"
+  }
   onForwardMessageEvent(messageId:number){
     if(messageId){
       this.isForwardOpened=true
@@ -356,31 +357,38 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/forwardMessage`,reqBody,{headers}).subscribe((data)=>{
       this.isForwardOpened = false
-      this.selectedList = []
       this.ngOnChanges(data)
-        this.dataService.notifyOther({
-          view:"chat"
-        });
+      this.dataService.notifyOther({
+        view:"chat"
+      });
     },(error)=>console.log(error))
+    this.selectedList = []
   }
   onForwardCancel(event:any){
-    if(this.isForwardOpened)
+    if(this.isForwardOpened){
       this.isForwardOpened=false
+    }
   }
   forwardMessages(){
     this.isForwardOpened=true
   }
   deleteMessages(){
-    const reqBody = {
-      messageIds:this.selectedList
-    }
-    const headers = new HttpHeaders().set("ResponseType","text")
-    this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
-      this.selectedList = []
-      this.ngOnChanges(data)
-    },(error)=>{
-      console.log(error);
-    })
+    // this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    // this.modalService.addConfirmationDialog('Are you sure you want to delete these message?');
+    // this.dataService.notifyObservable$.subscribe((result) => {
+    //   if (result == "confirmDelete") {
+        const reqBody = {
+          messageIds:this.selectedList
+        }
+        const headers = new HttpHeaders().set("ResponseType","text")
+        this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
+          this.selectedList = []
+          this.ngOnChanges(data)
+        },(error)=>{
+          console.log(error);
+        })
+    //   }
+    // })
   }
   starMessages(){
     const reqBody={
@@ -402,15 +410,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   onFilechange(event:any){
     const files: FileList = event.target.files;
-    if(files[0].type.includes("image"))
-      this.isFileTypeImage = true
+    this.isFileTypeImage = files[0].type.includes("image") ? true : false 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       this.selectedFiles.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
           this.images.push({
-            file:e.target.result,
+          file:e.target.result,
             type:file.type,
             name:file["name"],
             size:this.appService.formatFileSize(file.size)

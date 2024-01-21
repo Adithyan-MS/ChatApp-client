@@ -21,11 +21,7 @@ export class UserResultComponent implements OnInit{
   }
 
   ngOnInit(): void { 
-    if(this.user.profile_pic){
-      this.userPic = this.appService.getImageUrl(this.user.name,this.user.profile_pic);
-    }else{
-      this.userPic = environment.USER_IMAGE
-    }
+    this.userPic = this.user.profile_pic ? this.appService.getImageUrl(`user_${this.user.id}`,this.user.profile_pic) : environment.USER_IMAGE
   }
 
   selectedUser(user: userSearch){

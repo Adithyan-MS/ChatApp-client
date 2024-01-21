@@ -79,7 +79,6 @@
     min-width: 80px;
     padding-top: 4px;
     word-break: break-word;
-    // width: auto;
     margin-bottom: 5px;
 }
 .content-image{
@@ -89,12 +88,13 @@
 .content img{
     max-width: 100%;
     max-height: 380px;
+    min-width: 200px;
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
 }
 .content .doc-content{
-    max-width: 300px;
+    width: 280px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -384,5 +384,13 @@
     }
     .right  .options{
         left: -215px;
+    }
+  }
+  @media only screen and (max-width: 700px) {
+    .container{
+        max-width: 85%;
+    }
+    .content .doc-content{
+        width: 230px;
     }
   }

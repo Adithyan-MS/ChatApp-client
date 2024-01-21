@@ -55,6 +55,7 @@
     display: flex;
     background-color: var(--mid-roof);
     width: 100%;
+    z-index: 0;
     flex-direction: column;
     border: 0.5px solid var(--light-ruser);
     border-radius: 7px;
@@ -118,9 +119,38 @@
     color: var(--light-roof);
 }
 .name{
-    font-size: var(--fs-xl);
     font-weight: 700;
     color: black;
+    display: flex;
+    align-items: normal;
+}
+.name i{
+    cursor: pointer;
+}
+.name .fa-pencil{
+    font-size: 13px;
+}
+.name input,span{
+    font-size: var(--fs-xl);
+}
+.name input{
+    text-align: center;
+    width: 200px;
+}
+.name .input-with-emoji{
+    flex-direction: row-reverse;
+}
+.name .emoji-container{
+    padding-left: 15px;
+}
+.name .fa-check, .fa-xmark{
+    font-size: 20px;
+}
+.name .fa-face-smile{
+    font-size: calc(var(--fs-l) + 0px);
+}
+.fa-face-smile{
+    color: rgb(83, 83, 83);
 }
 .phone{
     color: black;
@@ -173,6 +203,85 @@
     color: black;
     font-size: var(--fs-m);
 }
+.about-Desc-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.about-Desc-container i{
+    cursor: pointer;
+}
+.about-desc-content{
+    width: 96%;
+}
+.about-desc-content input{
+    font-size: var(--fs-m);
+}
+.edit-input input{
+    width: 100%;
+    background-color: var(--mid-roof);
+    border: none;
+    border-bottom: 1px solid black;
+}
+.edit-input input:focus{
+    outline: none;
+}
+
+.name-input{
+    width: 90%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+}
+.input-with-emoji{
+    padding-top: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.emoji-container{
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 8px;
+    position: relative;
+  }
+  .emoji-container i{
+    font-size: var(--fs-l);
+    cursor: pointer;
+  }
+  .emoji-container i:hover{
+    color: gray;
+  }
+  .emoji-container emoji-mart{
+    position: absolute;
+    top: 25px;
+    right: 0px;
+    z-index: 999;
+  }
+  button{
+    border: none;
+    border-radius: 20px;
+    background-color:var(--mid-roof);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fa-check{
+    color: white;
+    font-size: 20px;
+  }
+  .fa-xmark{
+    color: red;
+  }
+
+
 .no-longer-a-member{
     padding: 10px 0px 10px 0px;
     font-size: var(--fs-m);
@@ -185,7 +294,6 @@
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 10px;
-
 }
 .metas{
     display: flex;
@@ -241,8 +349,10 @@
     margin-top: 10px;
     width: 90%;
     align-self: center;
-    font-size: var(--fs-m);
     color: rgb(48, 48, 48);
+}
+.group-count span{
+    font-size: var(--fs-m);
 }
 .group-container{
     margin-top: 10px;

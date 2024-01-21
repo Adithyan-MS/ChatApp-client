@@ -21,11 +21,7 @@ export class CommonGroupComponent implements OnInit{
   constructor(private appService:AppService,private route:ActivatedRoute,private router:Router,private dataService: DataService){}
 
   ngOnInit(): void {
-    if(this.room.room_pic){
-      this.roomPic = this.appService.getImageUrl(this.room.name,this.room.room_pic)
-    }else{
-      this.roomPic=environment.ROOM_IMAGE
-    }
+    this.roomPic = this.room.room_pic ? this.appService.getImageUrl(`room_${this.room.id}`,this.room.room_pic) : environment.ROOM_IMAGE
   }
   openRoomChat(){
     this.router.navigate([`${this.room.name}`], {relativeTo:this.route});

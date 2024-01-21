@@ -81,7 +81,7 @@ export class SendFileComponent implements OnInit{
       },(error)=>{
         console.log(error);
       })
-      
+      this.selectedFiles = []
     }
   }
 }

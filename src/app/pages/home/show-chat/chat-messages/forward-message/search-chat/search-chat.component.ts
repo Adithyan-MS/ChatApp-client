@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppService } from '../../../../../../services/app.service';
 import { environment } from '../../../../../../../environments/environment.development';
+import { chatSearch } from '../../../../../../models/data-types';
 
 @Component({
   selector: 'app-search-chat',
@@ -12,17 +13,17 @@ import { environment } from '../../../../../../../environments/environment.devel
 })
 export class SearchChatComponent implements OnInit{
 
-  @Input() chat:any
+  @Input() chat:chatSearch
   @Output() eventEmitter = new EventEmitter<any>()
-  userPic:string
+  chatPic:string
 
   constructor(private appService:AppService){}
 
   ngOnInit(): void {
-    if(this.chat.profile_pic){
-      this.userPic = this.appService.getImageUrl(this.chat.name,this.chat.profile_pic);
+    if(this.chat.type === "user"){
+      this.chatPic = this.chat.profile_pic ? this.appService.getImageUrl(`user_${this.chat.id}`,this.chat.profile_pic) : environment.USER_IMAGE
     }else{
-      this.userPic = environment.USER_IMAGE
+      this.chatPic = this.chat.profile_pic ? this.appService.getImageUrl(`room_${this.chat.id}`,this.chat.profile_pic) : environment.ROOM_IMAGE
     }
   }
 

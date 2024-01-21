@@ -24,11 +24,7 @@ export class RoomResultComponent implements OnInit{
   constructor(private appService:AppService,private api:ApiService,private dataService:DataService){ }
 
   ngOnInit(): void {
-    if(this.roomData.room_pic){      
-      this.roomPic = this.appService.getImageUrl(this.roomData.name,this.roomData.room_pic);
-    }else{
-      this.roomPic = environment.ROOM_IMAGE
-    }
+    this.roomPic = this.roomData.room_pic ? this.appService.getImageUrl(`room_${this.roomData.id}`,this.roomData.room_pic) : environment.ROOM_IMAGE
   }
 
   joinRoom(){

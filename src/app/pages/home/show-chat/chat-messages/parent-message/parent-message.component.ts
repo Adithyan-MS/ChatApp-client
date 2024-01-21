@@ -26,7 +26,7 @@ export class ParentMessageComponent implements OnInit{
       if(this.user)
         this.currentUserId=JSON.parse(this.user).id
       if(this.message.type == "image")
-        this.imageParentUrl  = this.appService.getMessageImageUrl(this.message.sender_name,this.message.content)
+        this.imageParentUrl  = this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content)
     }
   }
   close(){

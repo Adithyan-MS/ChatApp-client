@@ -64,17 +64,9 @@ export class ChatComponent implements OnInit,OnChanges{
       this.lastMessageTime = null
     }
     if(this.chat.type=="user"){
-      if (this.chat.profile_pic!=null) {
-        this.profilePic=this.appService.getImageUrl(this.chat.name,this.chat.profile_pic);
-      }else{
-        this.profilePic = environment.USER_IMAGE
-      }
+      this.profilePic = this.chat.profile_pic ? this.appService.getImageUrl(`user_${this.chat.id}`,this.chat.profile_pic) : environment.USER_IMAGE
     }else{
-      if (this.chat.profile_pic!=null) {
-        this.profilePic=this.appService.getImageUrl(this.chat.name,this.chat.profile_pic);
-      }else{
-        this.profilePic = environment.ROOM_IMAGE
-      }
+      this.profilePic = this.chat.profile_pic ? this.appService.getImageUrl(`room_${this.chat.id}`,this.chat.profile_pic) : environment.ROOM_IMAGE
     }
 
 

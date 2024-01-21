@@ -44,7 +44,6 @@
     background-color: var(--light-roof);
     text-align: center;
     border-radius: 50%;
-    // display: none;
 }
 .modal--close-btn:hover {
     background-color: darken(#366274, 15%);
@@ -52,9 +51,8 @@
     color: white;
 }
 img{
-    // width: 10%;
-    // height: 100%;
     max-width: 90%;
+    min-width: 300px;
     max-height: 650px;
     object-fit: cover;
 }

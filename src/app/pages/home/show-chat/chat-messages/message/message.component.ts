@@ -9,9 +9,9 @@ import { ParentMessageComponent } from '../parent-message/parent-message.compone
 import { SenderService } from '../message-service/sender.service';
 import { DataService } from '../../../../../services/data.service';
 import { AnimationService } from '../../../../../services/animation.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalService } from '../../../../../services/modal.service';
 import { ClickOutsideDirective } from '../../../../../directives/clickOutside/click-outside.directive';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -44,9 +44,10 @@ export class MessageComponent implements OnInit,OnChanges{
   noUserPic:string = environment.USER_IMAGE
   starredFlag:boolean|null
   isMessageChecked:boolean=false
-  imageUrl:string
-  imageParentUrl:string
+  imageUrl:string | null
+  imageParentUrl:string | null
   isOpened:boolean=false
+  private confirmationSubscription: Subscription;
 
   constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
 
@@ -60,10 +61,8 @@ export class MessageComponent implements OnInit,OnChanges{
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
     this.starredFlag=this.message.is_starred    
-    if(this.message.type=="image")
-      this.imageUrl = this.appService.getMessageImageUrl(this.message.sender_name,this.message.content);
-    if(this.message.parent_message_id)
-      this.imageParentUrl = this.appService.getMessageImageUrl(this.message.parent_message_sender,this.message.parent_message_content);
+    this.imageUrl = this.message.type=="image" ? this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content) : null
+    this.imageParentUrl = this.message.parent_message_id ? this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content) : null
     
     }
 
@@ -94,15 +93,21 @@ export class MessageComponent implements OnInit,OnChanges{
     })
   }
   deleteMessage(){
-    const reqBody = {
-      messageIds:[this.message.id]
-    }
-    const headers = new HttpHeaders().set("ResponseType","text")
-    this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
-      this.deleteSuccessEvent.emit(data)
-    },(error)=>{
-      console.log(error);
-    })
+    // this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    // this.modalService.addConfirmationDialog('Are you sure you want to delete this message?');
+    // this.dataService.notifyObservable$.subscribe((result) => {
+    //   if (result == "confirmDelete") {
+        const reqBody = {
+          messageIds:[this.message.id]
+        }
+        const headers = new HttpHeaders().set("ResponseType","text")
+        this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
+          this.deleteSuccessEvent.emit(data)
+        },(error)=>{
+          console.log(error);
+        })
+    //   }
+    // })
   }
   replyMessage(){
     this.isOpened=false
@@ -169,7 +174,7 @@ export class MessageComponent implements OnInit,OnChanges{
     //   }
     // }
 
-    window.open(`${environment.BASE_API_URL}/message/view/${this.message.sender_name}/document/${this.message.content}`, '_blank');
+    window.open(`${environment.BASE_API_URL}/message/view/user_${this.message.sender_id}/document/${this.message.content}`, '_blank');
 
   }
   clickedOutsideLike(){

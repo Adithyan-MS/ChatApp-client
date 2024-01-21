@@ -58,6 +58,7 @@ export interface message{
     sender_name:string
     parent_message_id?:number,
     parent_message_sender?:string,
+    parent_message_sender_id?:number,
     parent_message_content?:string,
     parent_message_type?:string,
     like_count?:number,

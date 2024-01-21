@@ -1,4 +1,4 @@
-import { Component,EventEmitter,Input, OnInit, Output, ViewContainerRef } from '@angular/core';
+import { Component,ElementRef,EventEmitter,Input, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Participant, Room, User, userChats } from '../../../../models/data-types';
 import { ApiService } from '../../../../services/api.service';
@@ -10,13 +10,18 @@ import { ModalService } from '../../../../services/modal.service';
 import { DataService } from '../../../../services/data.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { AnimationService } from '../../../../services/animation.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-profile',
   standalone: true,
-  imports: [CommonModule,ParticipantComponent,CommonGroupComponent],
+  imports: [CommonModule,ParticipantComponent,ReactiveFormsModule,CommonGroupComponent,ClickOutsideDirective,PickerComponent],
   templateUrl: './chat-profile.component.html',
-  styleUrl: './chat-profile.component.scss'
+  styleUrl: './chat-profile.component.scss',
+  animations:[AnimationService.prototype.getDropdownAnimation()]
 })
 export class ChatProfileComponent implements OnInit{
 
@@ -25,6 +30,8 @@ export class ChatProfileComponent implements OnInit{
   @Output() eventEmitter = new EventEmitter<string>()
   @Output() exitSuccessEvent = new EventEmitter<string>()
   @Output() deleteRoomSuccessEvent = new EventEmitter<string>()
+  @ViewChild("bioEditField") bioEditField : ElementRef
+  @ViewChild("nameEditField") nameEditField : ElementRef
   chatDetails:User|Room|any
   chatPicture:string
   createdAt:string
@@ -39,10 +46,15 @@ export class ChatProfileComponent implements OnInit{
   imageFile:File|null
   newFileName:string
   newUserDetails:User|any
+  isBioEditOpened:boolean=false
+  isNameEditOpened:boolean=false
+  isEmojiOpened: boolean=false;
+  bioEditForm:FormGroup
+  nameEditForm:FormGroup
 
-  constructor(private api:ApiService,private route:ActivatedRoute,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef, private dataService:DataService,private router:Router){}
+  constructor(private api:ApiService,private fb:FormBuilder,private route:ActivatedRoute,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef, private dataService:DataService,private router:Router){}
   
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe((res)=>{
       if(res == "newMembersAdded"){
         this.getRoomParticipants()
@@ -56,11 +68,7 @@ export class ChatProfileComponent implements OnInit{
       this.isChatTypeUser = true
       this.api.getReturn(`${environment.BASE_API_URL}/user/${this.currentChat.name}`).subscribe((data:User)=>{
         this.chatDetails=data
-        if(this.chatDetails.profilePic!=null){
-          this.chatPicture = this.appService.getImageUrl(this.chatDetails.name,this.chatDetails.profilePic)
-        }else{
-          this.chatPicture = environment.USER_IMAGE
-        }
+        this.chatPicture = this.chatDetails.profilePic ? this.appService.getImageUrl(`user_${this.chatDetails.id}`,this.chatDetails.profilePic) : environment.USER_IMAGE
         this.createdAt = this.appService.DMonthYFormatter(this.chatDetails.createdAt)
       },(error)=>console.log(error))
       this.api.getReturn(`${environment.BASE_API_URL}/user/${this.currentChat.name}/commonRooms`).subscribe((data:Room[])=>{
@@ -68,13 +76,9 @@ export class ChatProfileComponent implements OnInit{
       },(error)=>console.log(error))
     }else{
       this.isChatTypeUser = false
-      this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.name}`).subscribe((data:Room)=>{
+      this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}`).subscribe((data:Room)=>{
         this.chatDetails=data
-        if(this.chatDetails.room_pic){
-          this.chatPicture=this.appService.getImageUrl(this.chatDetails.name,this.chatDetails.room_pic)
-        }else{
-          this.chatPicture= environment.ROOM_IMAGE
-        }
+        this.chatPicture = this.chatDetails.room_pic ? this.appService.getImageUrl(`room_${this.chatDetails.id}`,this.chatDetails.room_pic) : environment.ROOM_IMAGE
         this.createdAt = this.appService.DMonthYFormatter(this.chatDetails.createdAt)
       },(error)=>console.log(error))
       this.getRoomParticipants()
@@ -170,7 +174,7 @@ export class ChatProfileComponent implements OnInit{
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/image/upload/${this.chatDetails.id}`,formParams,{headers}).subscribe((data)=>{
         if(data){
-          this.chatDetails.room_pic = this.appService.getImageUrl(this.chatDetails.name,data);
+          this.chatDetails.room_pic = this.appService.getImageUrl(`room_${this.chatDetails.id}`,data);
           this.ngOnInit()
         }
       },(error)=>console.log(error))
@@ -198,5 +202,76 @@ export class ChatProfileComponent implements OnInit{
       }
     },(error)=>console.log(error))
   }
+  openBioEdit(){
+    this.bioEditForm = this.fb.group({
+      description:[this.chatDetails.description,[Validators.required]]
+    })
+    this.isBioEditOpened = true
+    setTimeout(()=>{
+      this.bioEditField.nativeElement.focus()
+      this.bioEditField.nativeElement.value = this.chatDetails.description 
+    })    
+    this.isNameEditOpened = false
+  }
+  closeBioEdit(){
+    this.isBioEditOpened = false
+  }
 
+  openNameEdit(){
+    this.nameEditForm = this.fb.group({
+      name:[this.chatDetails.name,[Validators.required]]
+    })
+    this.isNameEditOpened = true
+    setTimeout(()=>{
+      this.nameEditField.nativeElement.focus()
+      this.nameEditField.nativeElement.value = this.chatDetails.name 
+    })   
+    this.isBioEditOpened = false 
+  }
+  closeNameEdit(){
+    this.isNameEditOpened = false
+  }
+
+  clickedOutsideEmoji(){
+    this.isEmojiOpened = false
+  }
+  toggleEmoji(){
+    this.isEmojiOpened = !this.isEmojiOpened
+  }
+  addEmoji(event:any){
+    const input = this.bioEditField.nativeElement;
+    input.focus();
+    if (document.execCommand){
+      var event1 = new Event('input');
+      document.execCommand('insertText', false, event.emoji.native);
+      return; 
+      }
+      const [start, end] = [input.selectionStart, input.selectionEnd]; 
+      input.setRangeText(event.emoji.native, start, end, 'end');
+  }
+
+  changeDescription(){
+    if(this.chatDetails.description !== this.bioEditForm.controls["description"].value){
+      const formData = this.bioEditForm.getRawValue()
+      const headers = new HttpHeaders().set("ResponseType","text")
+      this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/change/desc`,formData,{headers}).subscribe((data)=>{
+        this.ngOnInit()
+      },(error)=>{
+        console.log(error);      
+      })
+    }
+    this.isBioEditOpened = false
+  }
+  changeName(){
+    if(this.chatDetails.name !== this.nameEditForm.controls["name"].value){
+      const formData = this.nameEditForm.getRawValue()
+      const headers = new HttpHeaders().set("ResponseType","text")
+      this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/change/name`,formData,{headers}).subscribe((data)=>{
+        this.ngOnInit()
+      },(error)=>{
+        console.log(error);      
+      })
+    }
+    this.isNameEditOpened = false    
+  }
 }

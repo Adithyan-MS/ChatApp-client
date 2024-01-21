@@ -19,6 +19,7 @@ import { AnimationService } from '../../services/animation.service';
 })
 export class NavbarComponent implements OnInit{
   username:string|null
+  userId: string|null
   profilePic:string|null
   user:User | any
   isMenuOpened:boolean
@@ -36,12 +37,9 @@ export class NavbarComponent implements OnInit{
         if (typeof localStorage !== 'undefined') {
           if(localStorage.getItem("user")){
             this.user = localStorage.getItem("user");
-            this.username = JSON.parse(this.user).name;            
-            if(JSON.parse(this.user).profilePic!=null){
-              this.profilePic = this.appService.getImageUrl(this.username,JSON.parse(this.user).profilePic);
-            }else{
-              this.profilePic = environment.USER_IMAGE
-            }
+            this.username = JSON.parse(this.user).name;          
+            this.userId = JSON.parse(this.user).id;          
+            this.profilePic = JSON.parse(this.user).profilePic ? this.appService.getImageUrl(`user_${this.userId}`,JSON.parse(this.user).profilePic) : environment.USER_IMAGE
           }else{
             this.username=null
             this.profilePic=null

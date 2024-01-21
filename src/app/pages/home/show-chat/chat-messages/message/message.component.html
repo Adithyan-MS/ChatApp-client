@@ -114,7 +114,7 @@
             }
         </div>
     <div class="option-container">
-        @if(isOpened && message.type !== 'roomEvent'){
+        @if(isOpened && message.type !== 'roomEvent' && !showCheckBox){
             <div class="options" [@dropupAnimation]>
                 @if (!isCurrentUserPastParticipant) {
                     <div class="option" ><i title="Like" class="fa-solid fa-heart" (click)="likeMessage()"></i></div>
