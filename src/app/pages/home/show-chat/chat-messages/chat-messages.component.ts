@@ -373,10 +373,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     this.isForwardOpened=true
   }
   deleteMessages(){
-    // this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    // this.modalService.addConfirmationDialog('Are you sure you want to delete these message?');
-    // this.dataService.notifyObservable$.subscribe((result) => {
-    //   if (result == "confirmDelete") {
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent('Delete message','Are you sure you want to delete these messages?').then((value)=>{
+      if(value){
         const reqBody = {
           messageIds:this.selectedList
         }
@@ -387,8 +386,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
         },(error)=>{
           console.log(error);
         })
-    //   }
-    // })
+      }
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
   starMessages(){
     const reqBody={

@@ -120,17 +120,24 @@ export class ChatProfileComponent implements OnInit{
   }
 
   onRemoveEvent(event:number){
-    this.removeMemberList.push(event)
-    if(this.removeMemberList.length!=0){
-      const reqBody = {
-        members:this.removeMemberList
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent('Remove participant',`Are you sure you want to remove participant from "${this.currentChat.name}" room?`).then((value)=>{
+      if(value){
+        this.removeMemberList.push(event)
+        if(this.removeMemberList.length!=0){
+          const reqBody = {
+            members:this.removeMemberList
+          }
+          const headers = new HttpHeaders().set("ResponseType","text")
+          this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/removeMember`,reqBody,{headers}).subscribe((data)=>{
+            this.getRoomParticipants()
+            this.getRoomPastParticipants()
+          },(error)=>console.log(error))
+        }
       }
-      const headers = new HttpHeaders().set("ResponseType","text")
-      this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/removeMember`,reqBody,{headers}).subscribe((data)=>{
-        this.getRoomParticipants()
-        this.getRoomPastParticipants()
-      },(error)=>console.log(error))
-    }
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
   
   onMakeRoomAdminEvent(value:number){
@@ -154,17 +161,25 @@ export class ChatProfileComponent implements OnInit{
   }
   
   onExitRoom(){
-    const headers = new HttpHeaders().set("ResponseType","text")
-    this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/exitRoom`,null,{headers}).subscribe((data)=>{
-      this.getRoomParticipants()
-      this.getRoomPastParticipants()
-      this.isExitSuccess=true
-      this.router.navigate([`${this.currentChat.name}`], {relativeTo:this.route});
-      this.exitSuccessEvent.emit("success")
-    },(error)=>{
-      this.isExitSuccess=false
-         
-    })
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent('Exit room',`Are you sure you want to exit "${this.currentChat.name}" room?`).then((value)=>{
+      if(value){
+        const headers = new HttpHeaders().set("ResponseType","text")
+        this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/exitRoom`,null,{headers}).subscribe((data)=>{
+          this.getRoomParticipants()
+          this.getRoomPastParticipants()
+          this.isExitSuccess=true
+          this.router.navigate([`${this.currentChat.name}`], {relativeTo:this.route});
+          this.exitSuccessEvent.emit("success")
+        },(error)=>{
+          this.isExitSuccess=false
+          this.modalService.setRootViewContainerRef(this.viewContainerRef)
+          this.modalService.addDynamicComponent('Alert',`Can't Exit, You are the only Admin in "${this.currentChat.name}"!`)
+        })
+      }
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
   onFilechange(event:any){
     this.imageFile = event.target.files[0]
@@ -192,15 +207,22 @@ export class ChatProfileComponent implements OnInit{
   }
 
   deleteRoom(){
-    const headers = new HttpHeaders().set("ResponseType","text")
-    this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/delete`,null,{headers}).subscribe((data)=>{
-      if(data){
-        console.log(data);
-        this.dataService.notifyOther({
-          view:"other",data:null  
-        })
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent('Delete this room?',`Are you sure you want to delete "${this.currentChat.name}" room?`).then((value)=>{
+      if(value){
+        const headers = new HttpHeaders().set("ResponseType","text")
+        this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/delete`,null,{headers}).subscribe((data)=>{
+          if(data){
+            console.log(data);
+            this.dataService.notifyOther({
+              view:"other",data:null  
+            })
+          }
+        },(error)=>console.log(error))
       }
-    },(error)=>console.log(error))
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
   openBioEdit(){
     this.bioEditForm = this.fb.group({

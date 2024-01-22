@@ -1,0 +1,14 @@
+<div class="confirmation-container">
+    <div class="confirmation-title">
+        <span>{{ title }}</span>                        
+    </div>
+    <div class="confirmation-dialog">
+        <div class="confirmation-content">
+            <span>{{ message }}</span>
+        </div>                        
+        <div class="confirmation-buttons">
+          <button (click)="confirm()">Confirm</button>
+          <button (click)="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>

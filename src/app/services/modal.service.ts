@@ -13,17 +13,27 @@ export class ModalService {
   setRootViewContainerRef(viewContainerRef:ViewContainerRef) {
       this.rootViewContainer = viewContainerRef;
   }
-  addDynamicComponent(modalText: string, modelContent?:any) {
+
+  addDynamicComponent(modalText: string, modelContent?:any):Promise<any> {
+    return new Promise((resolve, reject) => {
       const factory = this.factoryResolver.resolveComponentFactory(ModalComponent);
       const component = factory.create(this.rootViewContainer.parentInjector);
+
       component.instance.modalText = modalText;
       component.instance.modelContent = modelContent;
-      component.instance.closeModal.subscribe(() => this.removeDynamicComponent(component));
-      this.rootViewContainer.insert(component.hostView);
-  }
 
-  addConfirmationDialog(message: string) {
-    this.addDynamicComponent('confirmation', { message });
+      const subscription = component.instance.closeModal.subscribe((value) => {
+        this.removeDynamicComponent(component);
+        resolve(value);
+      });
+
+      this.rootViewContainer.insert(component.hostView);
+
+      component.onDestroy(() => {
+        subscription.unsubscribe();
+        this.removeDynamicComponent(component);
+      });
+    });
   }
 
   removeDynamicComponent(component:any) {

@@ -14,16 +14,22 @@
             @case ("addMember") {
                 <app-add-room-member [roomId]="modelContent" (successEvent)="onMemberAddSuccess($event)"></app-add-room-member>
             }
-            @case ("confirmation") {
-                <div class="confirmation-dialog" *ngIf="modalText === 'confirmation'">
-                    <p>{{ modelContent.message }}</p>
-                    <div class="confirmation-buttons">
-                      <button (click)="confirm()">Confirm</button>
-                      <button (click)="cancel()">Cancel</button>
-                    </div>
-                </div>
+            @case ("Delete message") {
+                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
+            }
+            @case ("Exit room") {
+                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
+            }
+            @case ("Delete this room?") {
+                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
+            }
+            @case ("Remove participant") {
+                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
+            }
+            @case ("Alert") {
+                <app-alert-dialog [message]="modelContent" (closeEvent)="onCloseAlert($event)"></app-alert-dialog>
             }
         }
-		<!-- <a class="modal--close-btn" (click)="close($event)">X</a> -->
+		<a class="modal--close-btn" (click)="close($event)" [class.hide]="isImageViewer || isAlert">X</a>
 	</div>
 </div>

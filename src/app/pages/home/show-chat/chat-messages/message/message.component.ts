@@ -93,10 +93,9 @@ export class MessageComponent implements OnInit,OnChanges{
     })
   }
   deleteMessage(){
-    // this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    // this.modalService.addConfirmationDialog('Are you sure you want to delete this message?');
-    // this.dataService.notifyObservable$.subscribe((result) => {
-    //   if (result == "confirmDelete") {
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent('Delete message','Are you sure you want to delete this message?').then((value)=>{
+      if(value){
         const reqBody = {
           messageIds:[this.message.id]
         }
@@ -106,8 +105,10 @@ export class MessageComponent implements OnInit,OnChanges{
         },(error)=>{
           console.log(error);
         })
-    //   }
-    // })
+      }
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
   replyMessage(){
     this.isOpened=false

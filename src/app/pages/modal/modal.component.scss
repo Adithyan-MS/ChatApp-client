@@ -45,6 +45,9 @@
     text-align: center;
     border-radius: 50%;
 }
+.hide{
+    display: none;
+}
 .modal--close-btn:hover {
     background-color: darken(#366274, 15%);
     cursor: pointer;
@@ -67,6 +70,10 @@ app-join-room{
 app-add-room-member{
     width: 450px;
     height: 300px;
+}
+app-confirmation-dialog{
+    // width: 350px;
+    // height:180px;
 }
 @media only screen and (max-width: 770px) {
     // .modal--close-btn {
