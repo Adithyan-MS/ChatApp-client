@@ -78,11 +78,11 @@ export class SidebarComponent implements OnInit{
   }
   showCreateRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("createRoom",null)
+    this.modalService.addDynamicComponent("createRoom","Create Room",null)
   }
   showJoinRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("joinRoom")
+    this.modalService.addDynamicComponent("joinRoom","Join Room",null)
   }
 
   onSearchChange(event:any){

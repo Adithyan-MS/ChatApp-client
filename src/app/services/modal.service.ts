@@ -14,13 +14,14 @@ export class ModalService {
       this.rootViewContainer = viewContainerRef;
   }
 
-  addDynamicComponent(modalText: string, modelContent?:any):Promise<any> {
+  addDynamicComponent(modalText: string,modalTitle?:any, modelContent?:any):Promise<any> {
     return new Promise((resolve, reject) => {
       const factory = this.factoryResolver.resolveComponentFactory(ModalComponent);
       const component = factory.create(this.rootViewContainer.parentInjector);
 
       component.instance.modalText = modalText;
       component.instance.modelContent = modelContent;
+      component.instance.modalTitle = modalTitle;
 
       const subscription = component.instance.closeModal.subscribe((value) => {
         this.removeDynamicComponent(component);

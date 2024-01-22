@@ -2,7 +2,7 @@
     <div class="items">
         <div class="item">
             <div class="header">
-                <span>Create Room</span>
+                <span>{{title}}</span>
                 <div class="form-buttons">
                     <button class="create" form="create-room" type="submit">create</button>
                 </div>
@@ -29,6 +29,8 @@
                                             <div class="error">
                                                 @if(createRoomForm.controls["name"].errors?.['required']){
                                                     This field is required.
+                                                }@else if (createRoomForm.controls["name"].errors?.['maxlength']) {
+                                                    Maximum length must be less than 40 characters.
                                                 }
                                             </div>
                                         }

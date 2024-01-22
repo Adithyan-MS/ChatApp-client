@@ -44,6 +44,11 @@
   }
   .name-space{
     flex: 1;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
   }
   .last-message{
     font-size: var(--fs-xm);

@@ -374,7 +374,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   deleteMessages(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent('Delete message','Are you sure you want to delete these messages?').then((value)=>{
+    this.modalService.addDynamicComponent('confirmation','Delete messages','Are you sure you want to delete these messages?').then((value)=>{
       if(value){
         const reqBody = {
           messageIds:this.selectedList
@@ -458,10 +458,17 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       input.setRangeText(event.emoji.native, start, end, 'end');
   }
   clearChat(){
-    this.messageList.map((message)=>{
-      this.selectedList.push(message.id)
-    })
-    this.deleteMessages()
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent('confirmation','Clear this chat?','Are you sure you want to clear this chat?').then((value)=>{
+      if(value){
+        this.messageList.map((message)=>{
+          this.selectedList.push(message.id)
+        })
+        this.deleteMessages()
+      }
+    }).catch((error)=>{
+      console.log(error);
+    });
   }
 
   clickedOutsideMenu(){

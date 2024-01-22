@@ -52,6 +52,10 @@
     align-items: start;
     justify-content: center;
     gap: 5px;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .group-item span:nth-child(1){
     font-size: var(--fs-m);

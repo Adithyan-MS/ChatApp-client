@@ -4,7 +4,7 @@
     </div>
     <div class="scroll-container">
         <div class="items">
-            <div class="item" [style.view-transition-name]="'chat-profile-basic'">
+            <div class="item info1" [style.view-transition-name]="'chat-profile-basic'">
                 <div class="chat-basic">
                     <div class="image">
                         <img [src]="chatPicture" alt="" (click)="viewImage()" [style.view-transition-name]="'chat-profile-img'">
@@ -68,9 +68,9 @@
                     </div>
                 </div>
             </div>
-            <div class="item bio-item" [style.view-transition-name]="'chat-profile-bio'">
+            <div class="item bio-item info2" [style.view-transition-name]="'chat-profile-bio'">
                 @if (chatDetails?.bio || chatDetails?.description) {
-                    <div class="bio" [style.view-transition-name]="'chat-profile-bio-about'">
+                    <div class="bio bio-about" [style.view-transition-name]="'chat-profile-bio-about'" style="z-index: 1;">
                         <span class="bio-title">
                             {{chatDetails.bio ? "About" : "Description" }}
                         </span>
@@ -138,6 +138,14 @@
                                 <span>Add Members</span>
                             </div>
                         }
+                        @if(!isChatTypeUser && isCurrentUserAdmin){
+                            <div class="meta" (click)="shareRoomCode()">
+                                <div class="icon prio2">
+                                    <i class="fa-solid fa-key"></i>
+                                </div>
+                                <span>Share Room Code</span>
+                            </div>
+                        }
                         @if (!isCurrentUserPastParticipant) {
                             <div class="meta" [style.view-transition-name]="'chat-profile-meta-mute'">
                                 <div class="icon prio2">
@@ -168,7 +176,6 @@
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>  
                                     </div>
                                     <span>Exit {{chatDetails?.name}}</span>
-                                    <span class="exit-error" style="font-size: 10px;" [hidden]="isExitSuccess">Can't Exit, You are the only Admin!</span>
                                 </div>
                             }
                         }

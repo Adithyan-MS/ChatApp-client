@@ -1,5 +1,5 @@
 .alert-container{
-    min-width: 200px;
+    min-width: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9,6 +9,7 @@
 }
 .alert-dialog{
     display: flex;
+    width: 95%;
     height: 80%;
     align-items: center;
     justify-content: center;
@@ -16,7 +17,6 @@
     background-color: var(--light-roof);
     box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.1);
     border-radius: 10px;
-    // padding: 15px;
     margin: 10px;
 }
 .alert-content{
@@ -25,7 +25,8 @@
     display: flex;
     align-items: start;
     justify-content: center;
-    max-width: 245px;
+    max-width: 280px;
+    line-break: anywhere;
 }
 .alert-content span{
     font-size: var(--fs-m);

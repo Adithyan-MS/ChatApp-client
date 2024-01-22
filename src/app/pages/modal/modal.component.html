@@ -3,30 +3,21 @@
 	<div class="modal--modal-content">
         @switch (modalText) {
             @case ("createRoom") {
-                <app-create-room (successEvent)="onCreateSuccess($event)" [createWithUser]="modelContent"></app-create-room>
+                <app-create-room [title]="modalTitle" [createWithUser]="modelContent" (successEvent)="onCreateSuccess($event)"></app-create-room>
             }
             @case ("joinRoom") {
-                <app-join-room (successEvent)="onJoinSuccess($event)"></app-join-room>
+                <app-join-room [title]="modalTitle" (successEvent)="onJoinSuccess($event)"></app-join-room>
             }
             @case ("viewImage") {
                 <img [src]="modelContent" alt="" [@fadeInOut]>
             }
             @case ("addMember") {
-                <app-add-room-member [roomId]="modelContent" (successEvent)="onMemberAddSuccess($event)"></app-add-room-member>
+                <app-add-room-member [title]="modalTitle" [roomId]="modelContent" (successEvent)="onMemberAddSuccess($event)" ></app-add-room-member>
             }
-            @case ("Delete message") {
-                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
+            @case ("confirmation") {
+                <app-confirmation-dialog [title]="modalTitle" [message]="modelContent" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
             }
-            @case ("Exit room") {
-                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
-            }
-            @case ("Delete this room?") {
-                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
-            }
-            @case ("Remove participant") {
-                <app-confirmation-dialog [message]="modelContent" [title]="modalText" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
-            }
-            @case ("Alert") {
+            @case ("alert") {
                 <app-alert-dialog [message]="modelContent" (closeEvent)="onCloseAlert($event)"></app-alert-dialog>
             }
         }

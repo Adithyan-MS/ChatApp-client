@@ -19,6 +19,7 @@ import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 export class ModalComponent implements OnInit{
 
   modalText: string;
+  modalTitle:string
   modelContent: any | undefined;
   @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
   @Output() confirmationResult: EventEmitter<boolean> = new EventEmitter<boolean>();

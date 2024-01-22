@@ -94,7 +94,7 @@ export class MessageComponent implements OnInit,OnChanges{
   }
   deleteMessage(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent('Delete message','Are you sure you want to delete this message?').then((value)=>{
+    this.modalService.addDynamicComponent('confirmation','Delete message','Are you sure you want to delete this message?').then((value)=>{
       if(value){
         const reqBody = {
           messageIds:[this.message.id]
@@ -154,7 +154,7 @@ export class MessageComponent implements OnInit,OnChanges{
 
   viewImage(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("viewImage",this.imageUrl)
+    this.modalService.addDynamicComponent("viewImage",null,this.imageUrl)
   }
 
   downloadedFiles:any

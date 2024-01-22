@@ -104,7 +104,7 @@ export class ProfileComponent implements OnInit{
 
   viewImage(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("viewImage",this.profilePic)
+    this.modalService.addDynamicComponent("viewImage",null,this.profilePic)
   }
 
 }

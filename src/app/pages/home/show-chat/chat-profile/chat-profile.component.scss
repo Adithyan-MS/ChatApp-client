@@ -60,6 +60,12 @@
     border: 0.5px solid var(--light-ruser);
     border-radius: 7px;
 }
+.info1{
+    z-index: 2;
+}
+.info2{
+    z-index: 1;
+}
 .chat-basic{
     width: 100%;
     margin: 10px 0px 10px 0px;
@@ -123,6 +129,7 @@
     color: black;
     display: flex;
     align-items: normal;
+    
 }
 .name i{
     cursor: pointer;
@@ -131,7 +138,14 @@
     font-size: 13px;
 }
 .name input,span{
-    font-size: var(--fs-xl);
+    font-size: calc(var(--fs-xl) - 5px);
+}
+.name span{ 
+    display: flex;
+    white-space: nowrap;
+    max-width: 580px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .name input{
     text-align: center;
@@ -142,6 +156,10 @@
 }
 .name .emoji-container{
     padding-left: 15px;
+}
+.name .emoji-container emoji-mart{
+    top: 30px;
+    left: 0px;
 }
 .name .fa-check, .fa-xmark{
     font-size: 20px;
@@ -261,7 +279,7 @@
   .emoji-container emoji-mart{
     position: absolute;
     top: 25px;
-    right: 0px;
+    right: -80px;
     z-index: 999;
   }
   button{
@@ -332,6 +350,11 @@
 }
 .meta span{
     color: black;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
     font-size: var(--fs-xm);
 }
 .exit-error{
@@ -445,7 +468,24 @@ app-common-group{
     align-self: center;
     width: 100%;
 }
-
+@media screen and (max-width: 1100px) {
+    .name span{ 
+        max-width: 450px;
+    }
+}
+@media screen and (max-width: 900px) {
+    .name span{ 
+        max-width: 400px;
+    }
+}
+@media screen and (max-width: 850px) {
+    .name input,span{
+        font-size: var(--fs-l);
+    }
+    .name span{ 
+        max-width: 300px;
+    }
+}
 @media screen and (max-width: 700px) {
     .scroll-container .items{
         width: 95%;
@@ -494,4 +534,16 @@ app-common-group{
     .group-item span{
         font-size: 13px;
     }
+    .name input,span{
+        font-size: var(--fs-l);
+    }
+    .name span{ 
+        max-width: 260px;
+    }
 }
+@media screen and (max-width: 530px) {
+    .name span{ 
+        max-width: 220px;
+    }
+}
+

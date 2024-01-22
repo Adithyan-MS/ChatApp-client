@@ -36,6 +36,7 @@ export class CreateRoomComponent {
   room:Room
   @Output() successEvent = new EventEmitter<any>()
   isEmojiOpened:boolean = false
+  @Input() title:string
 
   constructor(private fb:FormBuilder,private dataService: DataService,private api: ApiService,private appService:AppService,private modalService: ModalService){}
 
@@ -44,7 +45,7 @@ export class CreateRoomComponent {
   ngOnInit(): void {    
     this.noRoomPic = environment.ROOM_IMAGE
     this.createRoomForm = this.fb.group({
-      name:['',[Validators.required]],
+      name:['',[Validators.required,Validators.maxLength(40)]],
       desc:['']
     })
   }

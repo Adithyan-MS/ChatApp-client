@@ -66,6 +66,14 @@
     flex-direction: column;
     align-items: start;
     gap: 5px;
+    
+}
+.item:first-child{
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
 }
 .group-admin{
     margin-right: 10px;

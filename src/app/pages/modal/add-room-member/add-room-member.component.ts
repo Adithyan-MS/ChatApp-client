@@ -17,6 +17,7 @@ import { DataService } from '../../../services/data.service';
 export class AddRoomMemberComponent implements OnInit{
 
   @Input() roomId: number
+  @Input() title: string
   members:number[]
   @Output() successEvent = new EventEmitter<any>()
 

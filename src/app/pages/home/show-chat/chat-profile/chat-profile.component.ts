@@ -94,12 +94,18 @@ export class ChatProfileComponent implements OnInit{
     
   viewImage(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("viewImage",this.chatPicture)
+    this.modalService.addDynamicComponent("viewImage",null,this.chatPicture)
   }
 
   showAddMembers(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("addMember",this.currentChat.id)
+    this.modalService.addDynamicComponent("addMember","Add Room Members",this.currentChat.id)
+  }
+  
+  shareRoomCode(){
+    //get room code
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("alert",null,"AdknDs4S44asA")
   }
 
   isAdmin(members: Participant[], currentUserId: number): boolean {
@@ -121,7 +127,7 @@ export class ChatProfileComponent implements OnInit{
 
   onRemoveEvent(event:number){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent('Remove participant',`Are you sure you want to remove participant from "${this.currentChat.name}" room?`).then((value)=>{
+    this.modalService.addDynamicComponent('confirmation','Remove participant',`Are you sure you want to remove participant from "${this.currentChat.name}" room?`).then((value)=>{
       if(value){
         this.removeMemberList.push(event)
         if(this.removeMemberList.length!=0){
@@ -162,7 +168,7 @@ export class ChatProfileComponent implements OnInit{
   
   onExitRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent('Exit room',`Are you sure you want to exit "${this.currentChat.name}" room?`).then((value)=>{
+    this.modalService.addDynamicComponent('confirmation','Exit room',`Are you sure you want to exit "${this.currentChat.name}" room?`).then((value)=>{
       if(value){
         const headers = new HttpHeaders().set("ResponseType","text")
         this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/exitRoom`,null,{headers}).subscribe((data)=>{
@@ -174,7 +180,7 @@ export class ChatProfileComponent implements OnInit{
         },(error)=>{
           this.isExitSuccess=false
           this.modalService.setRootViewContainerRef(this.viewContainerRef)
-          this.modalService.addDynamicComponent('Alert',`Can't Exit, You are the only Admin in "${this.currentChat.name}"!`)
+          this.modalService.addDynamicComponent('alert',null,`Can't Exit, You are the only Admin in "${this.currentChat.name}"!`)
         })
       }
     }).catch((error)=>{
@@ -203,12 +209,12 @@ export class ChatProfileComponent implements OnInit{
   }
   createRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("createRoom",this.chatDetails)
+    this.modalService.addDynamicComponent("createRoom","Create Room",this.chatDetails)
   }
 
   deleteRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent('Delete this room?',`Are you sure you want to delete "${this.currentChat.name}" room?`).then((value)=>{
+    this.modalService.addDynamicComponent('confirmation','Delete this room?',`Are you sure you want to delete "${this.currentChat.name}" room?`).then((value)=>{
       if(value){
         const headers = new HttpHeaders().set("ResponseType","text")
         this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/delete`,null,{headers}).subscribe((data)=>{

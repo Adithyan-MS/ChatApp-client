@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Room } from '../../../models/data-types';
 import { ApiService } from '../../../services/api.service';
@@ -19,6 +19,7 @@ export class JoinRoomComponent implements OnInit{
   searchFlag:boolean=false
   joinError:string
   @Output() successEvent = new EventEmitter<any>()
+  @Input() title:string
 
   constructor(private api:ApiService){}
 
