@@ -21,7 +21,7 @@
                                 <span>{{chatDetails?.name}}</span>
                             }@else {
                                 <form class="input-with-emoji" [formGroup]="nameEditForm" id="name-form" (ngSubmit)="changeName()">
-                                    <input type="text" formControlName="name" #nameEditField>
+                                    <input type="text" formControlName="name" #nameEditField (input)="checkNameLength($event)">
                                     <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                                         <i class="fa-regular fa-face-smile" title="Emoji" (click)="toggleEmoji()"></i>
                                         @if (isEmojiOpened) {
@@ -80,7 +80,8 @@
                                     <span class="bio-content">{{chatDetails.bio ? chatDetails.bio : chatDetails.description }}</span>
                                 }@else {
                                     <form class="input-with-emoji" [formGroup]="bioEditForm" id="bio-form" (ngSubmit)="changeDescription()">
-                                        <input type="text" formControlName="description" #bioEditField>
+                                        <span contenteditable="true" class="bioInput" #bioEditSpan (input)="onBioInput()" [attr.maxLength]="maxDescContentLength"></span>
+                                        <!-- <input type="text" formControlName="description" #bioEditField> -->
                                         <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                                             <i class="fa-regular fa-face-smile" title="Emoji" (click)="toggleEmoji()"></i>
                                             @if (isEmojiOpened) {

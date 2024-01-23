@@ -246,7 +246,17 @@
 .edit-input input:focus{
     outline: none;
 }
+.bioInput{
+    width: 90%;
+    line-break: anywhere;
+    font-size: var(--fs-m);
+    border-bottom: 1px solid var(--dark-base);
+    // max-height: 40px;
+}
 
+.bioInput:focus{
+    outline: none;
+}
 .name-input{
     width: 90%;
     display: flex;

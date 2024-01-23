@@ -10,13 +10,17 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { ClickOutsideDirective } from '../../directives/clickOutside/click-outside.directive';
+import { AnimationService } from '../../services/animation.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule,RouterModule,ProfileSidebarComponent,ProfileViewContentComponent,ReactiveFormsModule],
+  imports: [CommonModule,RouterModule,ProfileSidebarComponent,ProfileViewContentComponent,ReactiveFormsModule,PickerComponent,ClickOutsideDirective],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrl: './profile.component.scss',
+  animations:[AnimationService.prototype.getDropdownAnimation()]
 })
 export class ProfileComponent implements OnInit{
 
@@ -28,10 +32,10 @@ export class ProfileComponent implements OnInit{
   newUserDetails:User|any
   userBio:string
   editBioFlag:boolean=false
-  @ViewChild("bioInputField") bioInputField:ElementRef
   @ViewChild("bioEditSpan") bioEditSpan:ElementRef
-
+  maxContentLength = 200; 
   bioForm:FormGroup
+  isEmojiOpened:boolean = false
 
   constructor(private api:ApiService,private appService:AppService,private router:Router,private fb:FormBuilder,private viewContainerRef: ViewContainerRef, private modalService:ModalService){}
 
@@ -78,35 +82,59 @@ export class ProfileComponent implements OnInit{
     setTimeout(()=>{
       this.bioEditSpan.nativeElement.innerText = this.userBio
       this.bioEditSpan.nativeElement.focus()
+      this.moveCursorToEnd() 
+      this.onBioInput()
     })
     this.editBioFlag=true
   }
+
   cancelBioEdit(){
     this.editBioFlag=false
   }
 
-  onBioInput(event:any){
-    this.bioInputField.nativeElement.value = event.target.innerText
+  onBioInput(){
+      let newValue = this.bioEditSpan.nativeElement.innerText;
+      if (newValue.length > this.maxContentLength) {
+        newValue = newValue.slice(0, this.maxContentLength);
+        this.bioEditSpan.nativeElement.innerText = newValue;
+        this.moveCursorToEnd()
+        this.modalService.setRootViewContainerRef(this.viewContainerRef)
+        this.modalService.addDynamicComponent("alert",null,"Bio cannot be greater than 200 characters.")
+      }
+      this.bioForm.patchValue({ bio: newValue });
   }
 
   updateBio(){
     const formdata = this.bioForm.getRawValue();
     console.log(formdata);
-    
-    // const headers = new HttpHeaders().set("ResponseType","text")
-    // this.api.postReturn(`${environment.BASE_API_URL}/user/update/bio`,formdata,{headers}).subscribe((data)=>{
-    //   if(typeof localStorage != null){
-    //     this.newUserDetails = localStorage.getItem("user");
-    //     this.newUserDetails = JSON.parse(this.newUserDetails);
-    //     this.newUserDetails.bio = data
-    //     localStorage.removeItem("user")
-    //     localStorage.setItem("user",JSON.stringify(this.newUserDetails))       
-    //     this.ngOnInit()          
-    //     this.editBioFlag=false
-    //    }
-    // },(error)=>{
-    //   console.log(error);      
-    // })
+       
+    if(formdata.bio != this.userBio){
+      const headers = new HttpHeaders().set("ResponseType","text")
+      this.api.postReturn(`${environment.BASE_API_URL}/user/update/bio`,formdata,{headers}).subscribe((data)=>{
+        if(typeof localStorage != null){
+          this.newUserDetails = localStorage.getItem("user");
+          this.newUserDetails = JSON.parse(this.newUserDetails);
+          this.newUserDetails.bio = data
+          localStorage.removeItem("user")
+          localStorage.setItem("user",JSON.stringify(this.newUserDetails))       
+          this.ngOnInit()  
+        }
+      },(error)=>{
+        console.log(error);      
+      })
+    }
+    this.editBioFlag=false
+  }
+
+  moveCursorToEnd() {
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(this.bioEditSpan.nativeElement);
+    range.collapse(false); 
+    if(selection){
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
   }
 
   viewImage(){
@@ -114,4 +142,23 @@ export class ProfileComponent implements OnInit{
     this.modalService.addDynamicComponent("viewImage",null,this.profilePic)
   }
 
+  toggleEmoji(){
+    this.isEmojiOpened = !this.isEmojiOpened
+  }
+  clickedOutsideEmoji(){
+    this.isEmojiOpened = false
+  }
+  addEmoji(event:any){
+    const input = this.bioEditSpan.nativeElement;
+    this.moveCursorToEnd()
+    if (document.execCommand){
+
+      var event1 = new Event('input');
+      document.execCommand('insertText', false, event.emoji.native);
+      return; 
+      }
+      const [start, end] = [input.selectionStart, input.selectionEnd]; 
+      input.setRangeText(event.emoji.native, start, end, 'end');
+  }
+  
 }

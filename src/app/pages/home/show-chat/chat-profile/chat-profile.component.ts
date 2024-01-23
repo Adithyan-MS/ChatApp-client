@@ -1,4 +1,4 @@
-import { Component,ElementRef,EventEmitter,Input, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component,ElementRef,EventEmitter,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Participant, Room, User, userChats } from '../../../../models/data-types';
 import { ApiService } from '../../../../services/api.service';
@@ -32,6 +32,7 @@ export class ChatProfileComponent implements OnInit{
   @Output() exitSuccessEvent = new EventEmitter<string>()
   @Output() deleteRoomSuccessEvent = new EventEmitter<string>()
   @ViewChild("bioEditField") bioEditField : ElementRef
+  @ViewChild("bioEditSpan") bioEditSpan : ElementRef
   @ViewChild("nameEditField") nameEditField : ElementRef
   chatDetails:User|Room|any
   chatPicture:string
@@ -52,6 +53,8 @@ export class ChatProfileComponent implements OnInit{
   isEmojiOpened: boolean=false;
   bioEditForm:FormGroup
   nameEditForm:FormGroup
+  maxNameContentLength=40
+  maxDescContentLength=200
 
   constructor(private api:ApiService,private fb:FormBuilder,private route:ActivatedRoute,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef, private dataService:DataService,private router:Router){}
   
@@ -241,18 +244,41 @@ export class ChatProfileComponent implements OnInit{
     })
     this.isBioEditOpened = true
     setTimeout(()=>{
-      this.bioEditField.nativeElement.focus()
-      this.bioEditField.nativeElement.value = this.chatDetails.description 
+      this.bioEditSpan.nativeElement.innerText = this.chatDetails.description 
+      this.bioEditSpan.nativeElement.focus()
+      this.moveCursorToEnd() 
+      this.onBioInput()
     })    
     this.isNameEditOpened = false
   }
+  onBioInput(){
+    let newValue = this.bioEditSpan.nativeElement.innerText;
+    if (newValue.length > this.maxDescContentLength) {
+      newValue = newValue.slice(0, this.maxDescContentLength);
+      this.bioEditSpan.nativeElement.innerText = newValue;
+      this.moveCursorToEnd()
+      this.modalService.setRootViewContainerRef(this.viewContainerRef)
+      this.modalService.addDynamicComponent("alert",null,"Bio cannot be greater than 200 characters.")
+    }
+    this.bioEditForm.patchValue({ bio: newValue });
+}
+moveCursorToEnd() {
+  const range = document.createRange();
+  const selection = window.getSelection();
+  range.selectNodeContents(this.bioEditSpan.nativeElement);
+  range.collapse(false); 
+  if(selection){
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+}
   closeBioEdit(){
     this.isBioEditOpened = false
   }
 
   openNameEdit(){
     this.nameEditForm = this.fb.group({
-      name:[this.chatDetails.name,[Validators.required]]
+      name:[this.chatDetails.name,[Validators.required,Validators.maxLength(40)]]
     })
     this.isNameEditOpened = true
     setTimeout(()=>{
@@ -261,6 +287,17 @@ export class ChatProfileComponent implements OnInit{
     })   
     this.isBioEditOpened = false 
   }
+
+  checkNameLength(event:any){
+    let newValue = event.target.value;
+      if (newValue.length > this.maxNameContentLength) {
+        newValue = newValue.slice(0, this.maxNameContentLength);
+        this.nameEditField.nativeElement.value = newValue;
+        this.modalService.setRootViewContainerRef(this.viewContainerRef)
+        this.modalService.addDynamicComponent("alert",null,"Room name cannot be greater than 40 characters.")
+      }
+  }
+
   closeNameEdit(){
     this.isNameEditOpened = false
   }

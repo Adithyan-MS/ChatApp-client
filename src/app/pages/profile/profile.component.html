@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="items" [style.view-transition-name]="'app-profile-details-bio'">
+                    <div class="items" style="z-index: 1;" [style.view-transition-name]="'app-profile-details-bio'">
                         <div class="item">
                             <div class="item-icon">
                                 <i class="fa-solid fa-circle-exclamation"></i>
@@ -43,8 +43,13 @@
                             </div>
                             @if(editBioFlag){
                                 <form class="item-content" [formGroup]="bioForm" action="" (ngSubmit)="updateBio()">
-                                    <input style="display: none;" type="text" name="" id=""  formControlName="bio" #bioInputField>
-                                    <span contenteditable class="bioInput" #bioEditSpan (input)="onBioInput($event)"></span>
+                                    <span contenteditable="true" class="bioInput" #bioEditSpan (input)="onBioInput()" [attr.maxLength]="maxContentLength"></span>
+                                    <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
+                                        <i class="fa-regular fa-face-smile" title="Emoji" (click)="toggleEmoji()"></i>
+                                        @if (isEmojiOpened) {
+                                            <emoji-mart [style]="{ width: 'unset' }" [@dropdownAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
+                                        }
+                                    </div>
                                     <button type="submit" class="biosubmitButton"><i class="fa-solid fa-check"></i></button>
                                     <span class="cancelIcon"><i class="fa-solid fa-xmark" (click)="cancelBioEdit()"></i></span>
                                 </form>
@@ -56,7 +61,7 @@
                             }
                         </div>
                     </div>
-                    <div class="items" [style.view-transition-name]="'app-profile-details-phone'">
+                    <div class="items" style="z-index: 0;" [style.view-transition-name]="'app-profile-details-phone'">
                         <div class="item">
                             <div class="item-icon">
                                 <i class="fa-solid fa-phone"></i>

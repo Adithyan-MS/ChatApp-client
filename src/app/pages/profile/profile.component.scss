@@ -171,7 +171,7 @@ hr{
     color: rgb(80, 79, 79);
 }
 .item-content{
-    // height: 20px;
+    line-break: anywhere;
     color: black;
     font-weight: 600;
     display: flex;
@@ -179,18 +179,6 @@ hr{
     gap: 5px;
     font-size: calc(var(--fs-m) - 1px);
     align-items: center;
-}
-// .item-content textarea{
-   
-//     background-color:  var(--light-roof);
-//     border: none;
-//     font-size: var(--fs-m);
-//     border-bottom: 1px solid var(--dark-base);
-//     color: black;
-//     font-weight: 600;
-// }
-.item-content input:focus{
-    outline: none;
 }
 .item-content .bio{
     width: 90%;
@@ -203,7 +191,29 @@ hr{
     width: 90%;
     line-break: anywhere;
     border-bottom: 1px solid var(--dark-base);
+    // max-height: 40px;
 }
+.emoji-container{
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 8px;
+    position: relative;
+  }
+  .emoji-container i{
+    font-size: var(--fs-l);
+    cursor: pointer;
+  }
+  .emoji-container i:hover{
+    color: gray;
+  }
+  .emoji-container emoji-mart{
+    position: absolute;
+    top: 25px;
+    right: -80px;
+    z-index: 999;
+  }
 .item-content .bioInput:focus{
     outline: none;
 }
