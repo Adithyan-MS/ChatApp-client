@@ -14,6 +14,7 @@ import { ClickOutsideDirective } from '../../../../directives/clickOutside/click
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { AnimationService } from '../../../../services/animation.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { error } from 'console';
 
 @Component({
   selector: 'app-chat-profile',
@@ -103,9 +104,13 @@ export class ChatProfileComponent implements OnInit{
   }
   
   shareRoomCode(){
-    //get room code
-    this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("alert",null,"AdknDs4S44asA")
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/getRoomCode`,{headers}).subscribe((data)=>{
+      this.modalService.setRootViewContainerRef(this.viewContainerRef)
+      this.modalService.addDynamicComponent("alert","roomCode",data)
+    },(error)=>{
+      console.log(error);      
+    })
   }
 
   isAdmin(members: Participant[], currentUserId: number): boolean {

@@ -18,9 +18,9 @@
                 <app-confirmation-dialog [title]="modalTitle" [message]="modelContent" (confirmEvent)="onConfirmEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-confirmation-dialog>
             }
             @case ("alert") {
-                <app-alert-dialog [message]="modelContent" (closeEvent)="onCloseAlert($event)"></app-alert-dialog>
+                <app-alert-dialog [title]="modalTitle" [message]="modelContent" (closeEvent)="onCloseAlert($event)"></app-alert-dialog>
             }
         }
-		<a class="modal--close-btn" (click)="close($event)" [class.hide]="isImageViewer || isAlert">X</a>
+		<a class="modal--close-btn" (click)="close($event)" [class.hide]="removeCloseIcon">X</a>
 	</div>
 </div>

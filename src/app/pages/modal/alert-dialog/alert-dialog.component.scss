@@ -27,9 +27,21 @@
     justify-content: center;
     max-width: 280px;
     line-break: anywhere;
+    gap: 5px;
+}
+.alert-content i{
+    color: var(--dark-roof);
+    font-size: 20px;
+    cursor: pointer;
+}
+.alert-content i:hover{
+    color: var(--mid-roof);
 }
 .alert-content span{
     font-size: var(--fs-m);
+}
+.alert-content .room-code{
+    font-size: 20px;
 }
 .alert-buttons{
     width: 100%;
@@ -53,4 +65,11 @@
 .alert-buttons button:hover{
     background-color: var(--mid-roof);
     color: black;
+}
+.copied-text{
+    font-size: 12px;
+    color: var(--dark-roof);
+    font-style: italic;
+    margin-top: -20px;
+    padding: 5px;
 }

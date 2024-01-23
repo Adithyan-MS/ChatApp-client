@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit{
   userBio:string
   editBioFlag:boolean=false
   @ViewChild("bioInputField") bioInputField:ElementRef
+  @ViewChild("bioEditSpan") bioEditSpan:ElementRef
 
   bioForm:FormGroup
 
@@ -75,8 +76,8 @@ export class ProfileComponent implements OnInit{
 
   viewBioEdit(){
     setTimeout(()=>{
-      this.bioInputField.nativeElement.focus()
-      this.bioInputField.nativeElement.value = this.userBio
+      this.bioEditSpan.nativeElement.innerText = this.userBio
+      this.bioEditSpan.nativeElement.focus()
     })
     this.editBioFlag=true
   }
@@ -84,22 +85,28 @@ export class ProfileComponent implements OnInit{
     this.editBioFlag=false
   }
 
+  onBioInput(event:any){
+    this.bioInputField.nativeElement.value = event.target.innerText
+  }
+
   updateBio(){
     const formdata = this.bioForm.getRawValue();
-    const headers = new HttpHeaders().set("ResponseType","text")
-    this.api.postReturn(`${environment.BASE_API_URL}/user/update/bio`,formdata,{headers}).subscribe((data)=>{
-      if(typeof localStorage != null){
-        this.newUserDetails = localStorage.getItem("user");
-        this.newUserDetails = JSON.parse(this.newUserDetails);
-        this.newUserDetails.bio = data
-        localStorage.removeItem("user")
-        localStorage.setItem("user",JSON.stringify(this.newUserDetails))       
-        this.ngOnInit()          
-        this.editBioFlag=false
-       }
-    },(error)=>{
-      console.log(error);      
-    })
+    console.log(formdata);
+    
+    // const headers = new HttpHeaders().set("ResponseType","text")
+    // this.api.postReturn(`${environment.BASE_API_URL}/user/update/bio`,formdata,{headers}).subscribe((data)=>{
+    //   if(typeof localStorage != null){
+    //     this.newUserDetails = localStorage.getItem("user");
+    //     this.newUserDetails = JSON.parse(this.newUserDetails);
+    //     this.newUserDetails.bio = data
+    //     localStorage.removeItem("user")
+    //     localStorage.setItem("user",JSON.stringify(this.newUserDetails))       
+    //     this.ngOnInit()          
+    //     this.editBioFlag=false
+    //    }
+    // },(error)=>{
+    //   console.log(error);      
+    // })
   }
 
   viewImage(){

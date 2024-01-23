@@ -14,7 +14,7 @@ import { RoomResultComponent } from './room-result/room-result.component';
 })
 export class JoinRoomComponent implements OnInit{
   
-  @ViewChild("roomNameValue") roomNameValue:ElementRef
+  @ViewChild("roomCodeValue") roomCodeValue:ElementRef
   room:Room|null
   searchFlag:boolean=false
   joinError:string
@@ -28,13 +28,13 @@ export class JoinRoomComponent implements OnInit{
   }
 
   searchRoom(){
-    const roomName = this.roomNameValue.nativeElement.value
-    if(roomName!=''){
+    const roomCode = this.roomCodeValue.nativeElement.value
+    if(roomCode!=''){
       this.searchFlag=true
-      this.api.getReturn(`${environment.BASE_API_URL}/room/${roomName}`).subscribe((data:Room)=>{
+      this.api.getReturn(`${environment.BASE_API_URL}/room/roomCode/${roomCode}`).subscribe((data:Room)=>{
         this.room = data
       },(error)=>{
-        this.room = null        
+        this.room = null      
       })
     }
     
@@ -48,8 +48,8 @@ export class JoinRoomComponent implements OnInit{
   }
 
   setFieldFocus(){
-    if(this.roomNameValue){
-      this.roomNameValue.nativeElement.focus()
+    if(this.roomCodeValue){
+      this.roomCodeValue.nativeElement.focus()
     }
   }
 

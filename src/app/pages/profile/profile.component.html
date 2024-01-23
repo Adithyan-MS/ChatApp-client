@@ -43,7 +43,8 @@
                             </div>
                             @if(editBioFlag){
                                 <form class="item-content" [formGroup]="bioForm" action="" (ngSubmit)="updateBio()">
-                                    <input type="text" class="bioInput" formControlName="bio" #bioInputField>
+                                    <input style="display: none;" type="text" name="" id=""  formControlName="bio" #bioInputField>
+                                    <span contenteditable class="bioInput" #bioEditSpan (input)="onBioInput($event)"></span>
                                     <button type="submit" class="biosubmitButton"><i class="fa-solid fa-check"></i></button>
                                     <span class="cancelIcon"><i class="fa-solid fa-xmark" (click)="cancelBioEdit()"></i></span>
                                 </form>

@@ -37,8 +37,8 @@ export interface Room{
     name:string,
     description:string|null,
     room_pic:string|null,
-    createdAt:string,
-    modifiedAt:string
+    createdAt?:string,
+    modifiedAt?:string
 }
 
 export interface Participant{

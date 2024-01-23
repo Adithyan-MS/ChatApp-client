@@ -151,7 +151,7 @@ hr{
 .item:first-child{
     flex: 1;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
 }
 .item:last-child{
@@ -171,7 +171,7 @@ hr{
     color: rgb(80, 79, 79);
 }
 .item-content{
-    height: 20px;
+    // height: 20px;
     color: black;
     font-weight: 600;
     display: flex;
@@ -180,15 +180,15 @@ hr{
     font-size: calc(var(--fs-m) - 1px);
     align-items: center;
 }
-.item-content input{
-    width: 90%;
-    background-color:  var(--light-roof);
-    border: none;
-    font-size: var(--fs-m);
-    border-bottom: 1px solid var(--dark-base);
-    color: black;
-    font-weight: 600;
-}
+// .item-content textarea{
+   
+//     background-color:  var(--light-roof);
+//     border: none;
+//     font-size: var(--fs-m);
+//     border-bottom: 1px solid var(--dark-base);
+//     color: black;
+//     font-weight: 600;
+// }
 .item-content input:focus{
     outline: none;
 }
@@ -197,6 +197,15 @@ hr{
 }
 .item-content .edit-icon{
     width: 10%;
+}
+
+.bioInput{
+    width: 90%;
+    line-break: anywhere;
+    border-bottom: 1px solid var(--dark-base);
+}
+.item-content .bioInput:focus{
+    outline: none;
 }
 .editIcon{
     cursor: pointer;

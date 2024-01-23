@@ -23,16 +23,15 @@ export class ModalComponent implements OnInit{
   modelContent: any | undefined;
   @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
   @Output() confirmationResult: EventEmitter<boolean> = new EventEmitter<boolean>();
-  isImageViewer:boolean = false
-  isAlert:boolean = false
+  removeCloseIcon:boolean = false
 
   constructor(){}
 
   ngOnInit(): void {
-    if(this.modalText == "viewImage")
-      this.isImageViewer = true
-    if(this.modalText == "Alert")
-      this.isAlert = true
+    if(this.modalText == "viewImage" || this.modalText == "alert" || this.modalText == "confirmation")
+      this.removeCloseIcon = true
+    else
+      this.removeCloseIcon = false
   }
 
   close(event:any){

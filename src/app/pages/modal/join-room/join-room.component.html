@@ -9,7 +9,7 @@
             <div class="join-form">
                 <div class="top">
                     <div class="input">
-                        <input type="text" #roomNameValue>
+                        <input type="text" #roomCodeValue>
                         <i class="fa-solid fa-magnifying-glass" (click)="searchRoom()"></i>
                     </div>
                     <div class="joinError">
@@ -27,7 +27,7 @@
                                 @if(searchFlag){
                                     <span>Can't find this room</span>
                                 }@else{
-                                    <span>Search room for joining</span>
+                                    <span>Search room code for joining</span>
                                 }
                             </div>
                         }
