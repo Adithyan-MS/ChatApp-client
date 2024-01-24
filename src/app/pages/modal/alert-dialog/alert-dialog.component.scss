@@ -25,11 +25,16 @@
     display: flex;
     align-items: start;
     justify-content: center;
-    max-width: 280px;
+    max-width: 285px;
     line-break:normal;
     gap: 5px;
 }
-.alert-content i{
+.alert-icon i{
+    margin-top: 3px;
+    font-size: var(--fs-xl);
+    color: #eed202;
+}
+.alert-content .fa-copy{
     color: var(--dark-roof);
     font-size: 20px;
     cursor: pointer;
@@ -39,6 +44,10 @@
 }
 .alert-content span{
     font-size: var(--fs-m);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: wrap;
 }
 .alert-content .room-code{
     font-size: 20px;

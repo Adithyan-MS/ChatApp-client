@@ -48,7 +48,7 @@
     align-items: start;
     justify-content: space-between;
     gap: 5px;
-    width: 100%;
+    width: 75%;
 }
 .group-items span:nth-child(1){
     font-size: var(--fs-m);
@@ -56,11 +56,18 @@
 .group-items span:nth-child(2){
     font-size: var(--fs-s);
 }
+.group-items div:first-child{
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .item{
     display: flex;
     flex-direction: column;
     align-items: start;
     gap: 7px;
+    
 }
 .group-join{
     margin-right: 10px;

@@ -43,8 +43,7 @@
 .chat-name{
     display: flex;
     flex-direction: column;
-    gap: 6px;
-      
+    // gap: 2px;      
 }
 .name{
      cursor: pointer;
@@ -55,7 +54,8 @@
     flex: 1;
   }
   .last-message{
-    font-size: var(--fs-s);
+    font-style: italic;
+    font-size: var(--fs-xs);
   }
   .right{
     display: flex;

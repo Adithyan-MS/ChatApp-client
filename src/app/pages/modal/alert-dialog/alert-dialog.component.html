@@ -1,7 +1,12 @@
 <div class="alert-container">
     <div class="alert-dialog">
         <div class="alert-content">
-            <span [class.room-code]="title == 'roomCode'">{{ message }}</span>
+            @if(title != "roomCode"){
+                <div class="alert-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+            }
+            <span [class.room-code]="title == 'roomCode'" class="message">{{ message }}</span>
             @if(title == "roomCode"){
                 <i title="copy" ngxClipboard  [cbContent]="message" class="fa-solid fa-copy" (click)="isCopied = true"></i>
             }

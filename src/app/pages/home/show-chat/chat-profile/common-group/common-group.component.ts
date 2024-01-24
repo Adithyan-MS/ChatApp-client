@@ -5,6 +5,7 @@ import { AppService } from '../../../../../services/app.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { DataService } from '../../../../../services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../../../../../services/api.service';
 
 @Component({
   selector: 'app-common-group',
@@ -17,11 +18,18 @@ export class CommonGroupComponent implements OnInit{
 
   @Input() room:Room
   roomPic:string
+  roomUsers:string
+  roomUsersList:string[]
 
-  constructor(private appService:AppService,private route:ActivatedRoute,private router:Router,private dataService: DataService){}
+  constructor(private appService:AppService,private api:ApiService,private route:ActivatedRoute,private router:Router,private dataService: DataService){}
 
   ngOnInit(): void {
     this.roomPic = this.room.room_pic ? this.appService.getImageUrl(`room_${this.room.id}`,this.room.room_pic) : environment.ROOM_IMAGE
+    this.api.getReturn(`${environment.BASE_API_URL}/room/${this.room.id}/userList`).subscribe((data)=>{
+      this.roomUsers = data.join(', ')      
+    },(error)=>{
+      console.log(error)
+    })
   }
   openRoomChat(){
     this.router.navigate([`${this.room.name}`], {relativeTo:this.route});

@@ -51,7 +51,7 @@
     flex-direction: column;
     align-items: start;
     justify-content: center;
-    gap: 5px;
+    gap: 1px;
     white-space: nowrap;
     width: 100%;
     overflow: hidden;
@@ -61,7 +61,8 @@
     font-size: var(--fs-m);
 }
 .group-item span:nth-child(2){
-    font-size: var(--fs-s);
+    font-size: var(--fs-xs);
+    font-style: italic;
 }
 @media screen and (max-width: 500px){
     .group-icon .icon-area{

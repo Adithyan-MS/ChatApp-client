@@ -55,6 +55,7 @@ export class ChatProfileComponent implements OnInit{
   nameEditForm:FormGroup
   maxNameContentLength=40
   maxDescContentLength=200
+  alertOpenedOnce:boolean = false
 
   constructor(private api:ApiService,private fb:FormBuilder,private route:ActivatedRoute,private appService : AppService,private modalService:ModalService, private viewContainerRef: ViewContainerRef, private dataService:DataService,private router:Router){}
   
@@ -259,9 +260,9 @@ export class ChatProfileComponent implements OnInit{
       this.moveCursorToEnd()
       this.modalService.setRootViewContainerRef(this.viewContainerRef)
       this.modalService.addDynamicComponent("alert",null,"Bio cannot be greater than 200 characters.")
+      this.bioEditSpan.nativeElement.blur();
     }
     this.bioEditForm.patchValue({ description: newValue });
-    console.log(this.bioEditForm.getRawValue());  
   }
   moveCursorToEnd() {
     const range = document.createRange();
@@ -296,6 +297,7 @@ export class ChatProfileComponent implements OnInit{
         this.nameEditField.nativeElement.value = newValue;
         this.modalService.setRootViewContainerRef(this.viewContainerRef)
         this.modalService.addDynamicComponent("alert",null,"Room name cannot be greater than 40 characters.")
+        this.nameEditField.nativeElement.blur()
       }
   }
 

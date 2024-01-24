@@ -43,7 +43,9 @@
                             {{currentChat.name}}
                         }
                     </span>
-                    <span class="last-message name-space"></span>
+                    @if (currentChat.type === "room") {
+                        <span class="last-message name-space">{{roomUsers}}</span>
+                    }
                 </div>
             </div>
             <div class="right">

@@ -18,6 +18,7 @@ import { SendFileComponent } from './send-file/send-file.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
 import { ModalService } from '../../../../services/modal.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-chat-messages',
@@ -57,6 +58,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   documents:any[]=[]
   isFileTypeImage:boolean = false
   isEmojiOpened:boolean = false
+  roomUsers:string
+  roomUsersList:string[]
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){}
   
@@ -88,6 +91,11 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
       this.getUserChatMessage();
     }else{
       this.getRoomChatMessage();
+      this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/userList`).subscribe((data)=>{
+        this.roomUsers = data.join(', ')
+      },(error)=>{
+        console.log(error)
+      })
     }
   }
   getUserChatMessage(){
@@ -102,7 +110,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
         if(this.locateMessageId!=null){
           setTimeout(() => this.scrollToMessage(this.locateMessageId),(10))
         }else{
-          setTimeout(() => this.scrollToBottom(),(20));
+          this.scrollToBottom()
         }
         this.showSendFilePreview=false
         this.images=[]
@@ -121,7 +129,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
         if(this.locateMessageId!=null){
           setTimeout(() => this.scrollToMessage(this.locateMessageId),(10))
         }else{
-          setTimeout(() => this.scrollToBottom(),(20));
+          this.scrollToBottom()
         }
         this.showSendFilePreview=false
         this.images=[]
@@ -184,7 +192,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   }
   scrollToBottom() {
     if (this.myScrollContainer && this.myScrollContainer.nativeElement) {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      setTimeout(() => {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      }, 20);
     }
   }
   scrollToMessage(messageId: number|null): void {

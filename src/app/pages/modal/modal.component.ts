@@ -57,7 +57,7 @@ export class ModalComponent implements OnInit{
   }
   onCloseAlert(event:any){
     if(event){
-      this.closeModal.emit(false)
+      this.closeModal.emit(event)
     }
   }
 }

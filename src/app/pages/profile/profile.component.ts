@@ -100,16 +100,14 @@ export class ProfileComponent implements OnInit{
         this.moveCursorToEnd()
         this.modalService.setRootViewContainerRef(this.viewContainerRef)
         this.modalService.addDynamicComponent("alert",null,"Bio cannot be greater than 200 characters.")
+        this.bioEditSpan.nativeElement.blur();
       }
       this.bioForm.patchValue({ bio: newValue });
   }
 
   updateBio(){
     const formdata = this.bioForm.getRawValue();
-       
     if(formdata.bio != this.userBio){
-      console.log("chsnge");
-      
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/user/update/bio`,formdata,{headers}).subscribe((data)=>{
         if(typeof localStorage != null){
@@ -153,7 +151,6 @@ export class ProfileComponent implements OnInit{
     const input = this.bioEditSpan.nativeElement;
     this.moveCursorToEnd()
     if (document.execCommand){
-
       var event1 = new Event('input');
       document.execCommand('insertText', false, event.emoji.native);
       return; 
