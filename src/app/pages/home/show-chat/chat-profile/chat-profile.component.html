@@ -25,7 +25,7 @@
                                     <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                                         <i class="fa-regular fa-face-smile" title="Emoji" (click)="toggleEmoji()"></i>
                                         @if (isEmojiOpened) {
-                                            <emoji-mart [style]="{ width: 'unset' }" [@dropdownAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
+                                            <emoji-mart [style]="{ width: 'unset' }" [@dropdownAnimation] (emojiClick)="addNameEmoji($event)"></emoji-mart>
                                         }
                                     </div>
                                 </form>
@@ -69,23 +69,28 @@
                 </div>
             </div>
             <div class="item bio-item info2" [style.view-transition-name]="'chat-profile-bio'">
-                @if (chatDetails?.bio || chatDetails?.description) {
+                @if (chatDetails?.bio || chatDetails?.description || (chatDetails?.description=="" && isCurrentUserAdmin)) {
                     <div class="bio bio-about" [style.view-transition-name]="'chat-profile-bio-about'" style="z-index: 1;">
-                        <span class="bio-title">
+                        <span class="bio-title" [hidden]="chatDetails?.description==''">
                             {{chatDetails.bio ? "About" : "Description" }}
                         </span>
                         <div class="about-Desc-container">
                             <div class="about-desc-content edit-input">
                                 @if (!isBioEditOpened) {
-                                    <span class="bio-content">{{chatDetails.bio ? chatDetails.bio : chatDetails.description }}</span>
+                                    @if(chatDetails.bio){
+                                        {{chatDetails.bio}}
+                                    }@else if(chatDetails.description){
+                                        {{chatDetails.description}}
+                                    }@else if(chatDetails.description == ""){
+                                        <span class="add-desc-span" (click)="openBioEdit()">Add room description</span>
+                                    }
                                 }@else {
                                     <form class="input-with-emoji" [formGroup]="bioEditForm" id="bio-form" (ngSubmit)="changeDescription()">
                                         <span contenteditable="true" class="bioInput" #bioEditSpan (input)="onBioInput()" [attr.maxLength]="maxDescContentLength"></span>
-                                        <!-- <input type="text" formControlName="description" #bioEditField> -->
                                         <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                                             <i class="fa-regular fa-face-smile" title="Emoji" (click)="toggleEmoji()"></i>
                                             @if (isEmojiOpened) {
-                                                <emoji-mart [style]="{ width: 'unset' }" [@dropdownAnimation] (emojiClick)="addEmoji($event)"></emoji-mart>
+                                                <emoji-mart [style]="{ width: 'unset' }" [@dropdownAnimation] (emojiClick)="addBioEmoji($event)"></emoji-mart>
                                             }
                                         </div>
                                     </form>
@@ -93,7 +98,9 @@
                             </div>
                             @if(isCurrentUserAdmin){
                                 @if (!isBioEditOpened) {
-                                    <i class="fa-solid fa-pencil" (click)="openBioEdit()"></i>
+                                    @if(chatDetails?.description != ''){
+                                        <i class="fa-solid fa-pencil" (click)="openBioEdit()"></i>
+                                    }
                                 }@else {
                                     <button type="submit" form="bio-form">
                                         <i class="fa-solid fa-check" title="Submit" ></i>

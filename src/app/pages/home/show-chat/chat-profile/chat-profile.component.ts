@@ -112,7 +112,7 @@ export class ChatProfileComponent implements OnInit{
       this.modalService.setRootViewContainerRef(this.viewContainerRef)
       this.modalService.addDynamicComponent("alert","roomCode",data)
     },(error)=>{
-      console.log(error);      
+      console.log(error);
     })
   }
 
@@ -260,18 +260,19 @@ export class ChatProfileComponent implements OnInit{
       this.modalService.setRootViewContainerRef(this.viewContainerRef)
       this.modalService.addDynamicComponent("alert",null,"Bio cannot be greater than 200 characters.")
     }
-    this.bioEditForm.patchValue({ bio: newValue });
-}
-moveCursorToEnd() {
-  const range = document.createRange();
-  const selection = window.getSelection();
-  range.selectNodeContents(this.bioEditSpan.nativeElement);
-  range.collapse(false); 
-  if(selection){
-    selection.removeAllRanges();
-    selection.addRange(range);
+    this.bioEditForm.patchValue({ description: newValue });
+    console.log(this.bioEditForm.getRawValue());  
   }
-}
+  moveCursorToEnd() {
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(this.bioEditSpan.nativeElement);
+    range.collapse(false); 
+    if(selection){
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
   closeBioEdit(){
     this.isBioEditOpened = false
   }
@@ -308,8 +309,19 @@ moveCursorToEnd() {
   toggleEmoji(){
     this.isEmojiOpened = !this.isEmojiOpened
   }
-  addEmoji(event:any){
-    const input = this.bioEditField.nativeElement;
+  addBioEmoji(event:any){
+    const input = this.bioEditSpan.nativeElement;
+    this.moveCursorToEnd()
+    if (document.execCommand){
+      var event1 = new Event('input');
+      document.execCommand('insertText', false, event.emoji.native);
+      return; 
+      }
+      const [start, end] = [input.selectionStart, input.selectionEnd]; 
+      input.setRangeText(event.emoji.native, start, end, 'end');
+  }
+  addNameEmoji(event:any){
+    const input = this.nameEditField.nativeElement;
     input.focus();
     if (document.execCommand){
       var event1 = new Event('input');
@@ -327,7 +339,7 @@ moveCursorToEnd() {
       this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/change/desc`,formData,{headers}).subscribe((data)=>{
         this.ngOnInit()
       },(error)=>{
-        console.log(error);      
+        console.log(error);
       })
     }
     this.isBioEditOpened = false

@@ -106,9 +106,10 @@ export class ProfileComponent implements OnInit{
 
   updateBio(){
     const formdata = this.bioForm.getRawValue();
-    console.log(formdata);
        
     if(formdata.bio != this.userBio){
+      console.log("chsnge");
+      
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/user/update/bio`,formdata,{headers}).subscribe((data)=>{
         if(typeof localStorage != null){
