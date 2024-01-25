@@ -47,7 +47,6 @@ export class MessageComponent implements OnInit,OnChanges{
   imageUrl:string | null
   imageParentUrl:string | null
   isOpened:boolean=false
-  private confirmationSubscription: Subscription;
 
   constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
 

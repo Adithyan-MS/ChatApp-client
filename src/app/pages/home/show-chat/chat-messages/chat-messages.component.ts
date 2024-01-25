@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { message, receiver, sendMessage, userChats } from '../../../../models/data-types';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -28,7 +28,7 @@ import { error } from 'console';
   styleUrl: './chat-messages.component.scss',
   animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getPopupAnimation()]
 })
-export class ChatMessagesComponent implements OnInit,OnChanges{
+export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
   
   @ViewChild('scrollTarget') private myScrollContainer: ElementRef;
   @ViewChild('sendInput') myMessageSendField :ElementRef
@@ -60,8 +60,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
   isEmojiOpened:boolean = false
   roomUsers:string
   roomUsersList:string[]
+  shouldScrollToBottom:boolean = true
+
   
-  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){}
+  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){}
   
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe((data)=>{
@@ -74,7 +76,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
     })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngAfterViewChecked(): void {
+    
+  }
+//   constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+
+
+  ngOnChanges(changes: SimpleChanges): void {    
     this.isSearchOpened=false
     this.showCheckBox=false
     this.isForwardOpened=false
@@ -130,7 +139,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges{
           setTimeout(() => this.scrollToMessage(this.locateMessageId),(10))
         }else{
           this.scrollToBottom()
-        }
+        }  
         this.showSendFilePreview=false
         this.images=[]
     },(error)=>{
