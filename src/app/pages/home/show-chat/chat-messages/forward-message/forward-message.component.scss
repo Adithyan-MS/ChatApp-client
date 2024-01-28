@@ -129,7 +129,7 @@
         align-items: start;
         justify-content: start;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 2px;
         -ms-overflow-style: none; 
         scrollbar-width: none;
     }
@@ -144,6 +144,7 @@
 .selected-user{
     height: 18px;
     min-width: 50px;
+    max-width: 100px;
     gap: 5px;
     display: flex;
     justify-content: space-around;
@@ -153,12 +154,23 @@
     box-shadow: 0px 0px 19px 5px rgba(122, 122, 122, 0.1);
     border: 1px solid var(--dark-base);
     padding: 3px;
+    background-color: var(--dark-roof);
 }
 .name{
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: var(--fs-m);
+    height: 100%;
+}
+.name span{
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    max-width: 80px;
+    height: 100%;
+    line-break: anywhere;
 }
 .deselect{
     display: flex;
@@ -166,7 +178,7 @@
     justify-content: center;
 }
 .deselect i{
-    color: rgb(145, 58, 58);
+    color: rgb(176, 55, 55);
     padding: 2px;
     cursor: pointer;
 }

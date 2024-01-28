@@ -2,10 +2,10 @@
 <div class="container" [ngClass]="{'right' : message.sender_id===currentUserId}" (mouseover)="isOpened = true" (mouseleave)="isOpened = false">
     @if (showCheckBox) {
         <div class="select-message">
-            <input type="checkbox" name="" id="" [checked]="isMessageChecked" (change)="checkCheckBoxvalue($event)">
+            <input #checkbox type="checkbox" name="" id=""  (change)="checkCheckBoxvalue($event)">
         </div>
     }
-        <div class="message-container">
+        <div class="message-container" (click)="showCheckBox && messageSelect()" [ngClass]="{'checkboxCSS' : showCheckBox}">
             @if(message.parent_message_id){
                 <div class="parent-message">
                     <div class="parent-items">
@@ -48,10 +48,10 @@
             <div class="content">
                 @if (message.type=="image") {
                     <div class="content-image">
-                        <img (click)="viewImage()" [src]="imageUrl" alt="">
+                        <img (click)="!showCheckBox && viewImage()" [src]="imageUrl" alt="">
                     </div>
                 }@else if(message.type=="document") {
-                    <div class="doc-content" (click)="openDocument()">
+                    <div class="doc-content" (click)="!showCheckBox && openDocument()">
                         <div class="items">
                             <div class="item">
                                 @if (message.content.includes(".pdf")) {
@@ -91,7 +91,7 @@
             </div>
             @if(message.like_count){
                 <div class="like" appClickOutside (clickOutside)="clickedOutsideLike()">
-                    <i class="fa-solid fa-heart" (click)="LikedUsersToggle()"></i>
+                    <i class="fa-solid fa-heart" (click)="!showCheckBox && LikedUsersToggle()"></i>
                     @if(message.like_count > 1){
                         <span>{{message.like_count}}</span>
                     }
@@ -100,7 +100,7 @@
                             <div class="liked-users">
                                 @for(user of likedUsers; track user.id){
                                     <div class="user">
-                                        <img [src]="user.profile_pic ? 'http://localhost:8080/chatApi/v1/image/view/'+user.name+'/'+user.profile_pic : noUserPic" alt="">
+                                        <img [src]="user.profile_pic ? 'http://localhost:8080/chatApi/v1/image/view/user_'+user.id+'/'+user.profile_pic : noUserPic" alt="">
                                         <div class="name">
                                             <span>{{user.name}}</span>
                                         </div>

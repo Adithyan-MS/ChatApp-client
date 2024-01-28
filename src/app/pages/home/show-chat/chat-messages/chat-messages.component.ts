@@ -79,9 +79,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
   ngAfterViewChecked(): void {
     
   }
-//   constructor(private el: ElementRef, private renderer: Renderer2) {}
-
-
 
   ngOnChanges(changes: SimpleChanges): void {    
     this.isSearchOpened=false
@@ -109,9 +106,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
   }
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
-      this.messageList=data 
-      console.log(this.messageList);
-      
+      this.messageList=data      
       if(!this.isSearchOpened){
         this.setSendFieldFocus()
       }

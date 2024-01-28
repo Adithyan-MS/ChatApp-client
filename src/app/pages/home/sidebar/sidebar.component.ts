@@ -47,14 +47,12 @@ export class SidebarComponent implements OnInit{
   }
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
-      this.chats=data    
-      console.log(this.chats);  
+      this.chats=data
     },(error)=>{
       console.log(error);      
     })
   }
   checkSize():boolean{
-    console.log(window.innerWidth);
     if (window.innerWidth <= 500) {
       return true
     }else{

@@ -38,8 +38,7 @@ export class SearchUsersComponent implements OnInit{
       let queryParams = new HttpParams()
       queryParams = queryParams.append("name",searchName)
       this.api.getReturn(`${environment.BASE_API_URL}/user/searchUsers`,{params:queryParams}).subscribe((data)=>{
-        this.searchResult = data.filter((obj1:any) => !this.selectedUsers.some((obj2) => obj1.id === obj2.id));
-        this.searchResult = data.filter((obj1:any) => !this.roomParticipants.some((obj2) => obj1.id === obj2.id));
+        this.searchResult = data.filter((obj1: any) => !this.selectedUsers.some((obj2) => obj1.id === obj2.id) && !this.roomParticipants.some((obj2) => obj1.id === obj2.id));
       },(error)=>{
         console.log(error);
       })

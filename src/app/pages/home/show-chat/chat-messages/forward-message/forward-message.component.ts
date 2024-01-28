@@ -40,7 +40,7 @@ export class ForwardMessageComponent implements OnInit{
       let queryParams = new HttpParams();
       queryParams = queryParams.append("value",searchName);    
       this.api.getReturn(`${environment.BASE_API_URL}/message/forward/search`,{params:queryParams}).subscribe((data:chatSearch[])=>{
-        this.searchResult = data 
+        this.searchResult = data.filter((obj1: any) => !this.selectedChats.some((obj2) => obj1.id === obj2.id))
       },(error)=>console.log(error))
     }
   }

@@ -25,9 +25,7 @@ export class ProfileViewContentComponent implements OnInit{
   ngOnInit(): void {
     this.dataService.notifyObservable$.subscribe(res=>{
       if(res){
-        this.menu=res
-        console.log(this.menu);
-        
+        this.menu=res        
       }
     })
   }

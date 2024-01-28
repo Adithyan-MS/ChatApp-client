@@ -1,4 +1,4 @@
-import { Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  User, message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
@@ -34,6 +34,7 @@ export class MessageComponent implements OnInit,OnChanges{
   @Output() notifyCheckedMssageEvent = new EventEmitter<any>()
   @Output() notifyUnCheckedMssageEvent = new EventEmitter<any>()
   @Output() forwardMssageEvent = new EventEmitter<any>()
+  @ViewChild('checkbox') private checkBoxInput: ElementRef;
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -43,7 +44,6 @@ export class MessageComponent implements OnInit,OnChanges{
   likedUsers:any[]
   noUserPic:string = environment.USER_IMAGE
   starredFlag:boolean|null
-  isMessageChecked:boolean=false
   imageUrl:string | null
   imageParentUrl:string | null
   isOpened:boolean=false
@@ -62,7 +62,6 @@ export class MessageComponent implements OnInit,OnChanges{
     this.starredFlag=this.message.is_starred    
     this.imageUrl = this.message.type=="image" ? this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content) : null
     this.imageParentUrl = this.message.parent_message_id ? this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content) : null
-    
     }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {
@@ -89,6 +88,7 @@ export class MessageComponent implements OnInit,OnChanges{
   getLikedUsers(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/likes/${this.message.id}`).subscribe((data)=>{
       this.likedUsers = data
+      
     })
   }
   deleteMessage(){
@@ -137,8 +137,10 @@ export class MessageComponent implements OnInit,OnChanges{
   }
   checkMessage(){
     this.showCheckBoxEvent.emit(true)    
-    this.isMessageChecked = true
-    this.notifyCheckedMssageEvent.emit(this.message.id)
+    setTimeout(()=>{
+      this.checkBoxInput.nativeElement.checked = true
+      this.notifyCheckedMssageEvent.emit(this.message.id)
+    })
   }
   checkCheckBoxvalue(event:any){
     if(event.target.checked){
@@ -179,5 +181,13 @@ export class MessageComponent implements OnInit,OnChanges{
   }
   clickedOutsideLike(){
     this.isLikedUsersOpened = false
+  }
+  messageSelect(){
+    this.checkBoxInput.nativeElement.checked = !this.checkBoxInput.nativeElement.checked    
+    if(this.checkBoxInput.nativeElement.checked){
+      this.notifyCheckedMssageEvent.emit(this.message.id)
+    }else{
+      this.notifyUnCheckedMssageEvent.emit(this.message.id)
+    }    
   }
 }
