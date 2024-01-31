@@ -88,6 +88,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
     this.selectedFiles=[]
     this.editMessage = null
     this.headerContent="none"
+    this.selectedList = []
     if(this.currentChat.type=="user"){
       this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE            
     }else{
@@ -455,6 +456,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
     this.dataService.notifyOther({
       view:"chat"
     });
+  }
+  clickedOutsideSendFile(){
+    // this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    // this.modalService.addDynamicComponent('alert','Canceling file send','File send canceled.').then((value)=>{
+    //   if(value){
+        this.showSendFilePreview=false
+        this.images=[]
+    //   }
+    // })
   }
   toggleEmoji(){
     this.isEmojiOpened = !this.isEmojiOpened

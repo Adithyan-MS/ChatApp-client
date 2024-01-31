@@ -33,8 +33,8 @@
     display: flex;
     align-items: start;
     justify-content: center;
-    max-width: 280px;
-    line-break: anywhere;
+    max-width: 250px;
+    line-break:normal;
 }
 .confirmation-content span{
     font-size: var(--fs-m);
