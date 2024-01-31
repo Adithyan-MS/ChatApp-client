@@ -31,9 +31,9 @@ export const routes: Routes = [
             if(typeof localStorage !== 'undefined' && localStorage.getItem("token") && localStorage.getItem("user")){
                 const router = inject(Router)
                 return router.navigate(['home']);
-              }else{
+            }else{
                 return true;
-              }
+            }
         }]
     },
     {
@@ -48,13 +48,11 @@ export const routes: Routes = [
                 children:[
                     {
                         path:'profile',
-                        component:ChatProfileComponent
+                        component:ChatProfileComponent,
+                        canActivate:[authGuard]
                     }
-                ]
-            },
-            {
-                path:'starredMessages',
-                component:SidebarComponent
+                ],
+                canActivate:[authGuard]
             }
         ]
     },
@@ -63,5 +61,10 @@ export const routes: Routes = [
         component:ProfileComponent,
         title:"Profile | ChatApp",
         canActivate:[authGuard]
+    },
+    {
+        path:"",
+        redirectTo:"login",
+        pathMatch:'full'
     }
 ];
