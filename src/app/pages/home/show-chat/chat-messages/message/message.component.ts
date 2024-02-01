@@ -136,7 +136,7 @@ export class MessageComponent implements OnInit,OnChanges{
     })
   }
   checkMessage(){
-    this.showCheckBoxEvent.emit(true)    
+    this.showCheckBoxEvent.emit(true)     
     setTimeout(()=>{
       this.checkBoxInput.nativeElement.checked = true
       this.notifyCheckedMssageEvent.emit(this.message.id)
