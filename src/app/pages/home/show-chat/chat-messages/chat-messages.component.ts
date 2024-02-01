@@ -18,7 +18,6 @@ import { SendFileComponent } from './send-file/send-file.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
 import { ModalService } from '../../../../services/modal.service';
-import { error } from 'console';
 
 @Component({
   selector: 'app-chat-messages',
@@ -60,7 +59,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
   isEmojiOpened:boolean = false
   roomUsers:string
   roomUsersList:string[]
-  shouldScrollToBottom:boolean = true
+  scrollSuccessfull:boolean = false
 
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){}
@@ -77,12 +76,18 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
   }
 
   ngAfterViewChecked(): void {
-    
+    // console.log("hhhh");
+    // if(this.scrollSuccessfull==false){
+    //   this.scrollToBottom()
+    //   console.log("scrolled");
+      
+    // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {    
-    this.isSearchOpened=false
+    this.isSearchOpened=false    
     this.showCheckBox=false
+    // this.scrollSuccessfull==false
     this.isForwardOpened=false
     this.parentMessage = null
     this.selectedFiles=[]
@@ -200,6 +205,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
       setTimeout(() => {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
       }, 20);
+      this.scrollSuccessfull = true
     }
   }
   scrollToMessage(messageId: number|null): void {

@@ -1,6 +1,5 @@
-import { ViewContainerRef, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { ModalService } from '../services/modal.service';
  
 export const authGuard: CanActivateFn = (route, state) => {
   if(typeof localStorage !== 'undefined' && localStorage.getItem("token") && localStorage.getItem("user")){
@@ -9,17 +8,14 @@ export const authGuard: CanActivateFn = (route, state) => {
     // console.log(Math.floor((new Date).getTime() / 1000)+1780,expiry);
     
     if((Math.floor((new Date).getTime() / 1000)) >= expiry){
-      console.log("expired");
-      window.alert("Token Expired!")
+      window.alert("Token Expired! Please login again.")
       // showTokenExpiredModal()
       localStorage.clear()
       return redirectToLogin()
     }else{
-      console.log("not expired");
       return true;
     }
   }else{
-    console.log("no token or user");
     return redirectToLogin()
   }
 };

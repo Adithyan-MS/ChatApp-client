@@ -77,7 +77,7 @@ export class ChatProfileComponent implements OnInit{
         this.createdAt = this.appService.DMonthYFormatter(this.chatDetails.createdAt)
       },(error)=>console.log(error))
       this.api.getReturn(`${environment.BASE_API_URL}/user/${this.currentChat.name}/commonRooms`).subscribe((data:Room[])=>{
-        this.userCommonRooms=data        
+        this.userCommonRooms=data
       },(error)=>console.log(error))
     }else{
       this.isChatTypeUser = false
