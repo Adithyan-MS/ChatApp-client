@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { message, receiver, sendMessage, userChats } from '../../../../models/data-types';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,6 +18,7 @@ import { SendFileComponent } from './send-file/send-file.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
 import { ModalService } from '../../../../services/modal.service';
+import { Subject, interval, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-chat-messages',
@@ -27,7 +28,7 @@ import { ModalService } from '../../../../services/modal.service';
   styleUrl: './chat-messages.component.scss',
   animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getPopupAnimation()]
 })
-export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
+export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterViewChecked{
   
   @ViewChild('scrollTarget') private myScrollContainer: ElementRef;
   @ViewChild('sendInput') myMessageSendField :ElementRef
@@ -59,12 +60,24 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
   isEmojiOpened:boolean = false
   roomUsers:string
   roomUsersList:string[]
-  scrollSuccessfull:boolean = false
+  scrollToBottomSucess:boolean = false
+  scrollToMessageSucess:boolean = false
+  private destroy$ = new Subject<void>();
 
   
-  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){}
+  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){
+  }
   
   ngOnInit(): void {
+    interval(2000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(()=>{
+        if(this.currentChat.type==="user"){
+          this.getUserChatMessage()
+        }else{
+          this.getRoomChatMessage()
+        }
+      })
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data=="openSearch"){
         this.openSearch()
@@ -75,83 +88,67 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
     })
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
+
   ngAfterViewChecked(): void {
-    // console.log("hhhh");
-    // if(this.scrollSuccessfull==false){
-    //   this.scrollToBottom()
-    //   console.log("scrolled");
-      
-    // }
+    if(!this.isSearchOpened)
+      this.setSendFieldFocus()
+    if(this.locateMessageId!=null){
+      if(this.scrollToMessageSucess==false)
+        this.scrollToMessage(this.locateMessageId)
+    }else if(this.scrollToBottomSucess==false){
+      this.scrollToBottom()
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {    
     this.isSearchOpened=false    
     this.showCheckBox=false
-    // this.scrollSuccessfull==false
+    this.scrollToBottomSucess=false
+    this.scrollToMessageSucess=false
     this.isForwardOpened=false
     this.parentMessage = null
     this.selectedFiles=[]
     this.editMessage = null
     this.headerContent="none"
     this.selectedList = []
-    if(this.currentChat.type=="user"){
-      this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE            
-    }else{
-      this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
-    }
+    this.showSendFilePreview=false
+    this.images=[]
+    this.currentChat.type=="user" ? (this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE) : this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
+    this.locateMessageId=this.messageService.getSelectedMessageId()
     if(this.currentChat.type==="user"){
       this.getUserChatMessage();
     }else{
       this.getRoomChatMessage();
       this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/userList`).subscribe((data)=>{
         this.roomUsers = data.join(', ')
-      },(error)=>{
-        console.log(error)
-      })
+      },(error)=>console.log(error))
     }
+    
+    
   }
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
       this.messageList=data      
-      if(!this.isSearchOpened){
-        this.setSendFieldFocus()
-      }
-      this.locateMessageId=this.messageService.getSelectedMessageId()
-        if(this.locateMessageId!=null){
-          setTimeout(() => this.scrollToMessage(this.locateMessageId),(10))
-        }else{
-          this.scrollToBottom()
-        }
-        this.showSendFilePreview=false
-        this.images=[]
-      },(error)=>{
-        console.log(error);
-      })
-      
+      },(error)=>console.log(error))      
     }
     getRoomChatMessage(){
       this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
         this.messageList=data
-        if(!this.isSearchOpened){
-          this.setSendFieldFocus()
-        }
-        this.locateMessageId=this.messageService.getSelectedMessageId()
-        if(this.locateMessageId!=null){
-          setTimeout(() => this.scrollToMessage(this.locateMessageId),(10))
-        }else{
-          this.scrollToBottom()
-        }  
-        this.showSendFilePreview=false
-        this.images=[]
-    },(error)=>{
-      console.log(error);
-    })
+    },(error)=>console.log(error))
   }
+
+  onScroll(){
+    this.scrollToBottomSucess = true
+  }
+
   sendMessage(){
     const formValue = this.messageForm.getRawValue();
-      if(formValue.content==''){
+    if(formValue.content=='')
         return
-      }
     if (!this.editMessage) {
       const messageData: sendMessage={
         message:{
@@ -200,14 +197,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
   toggleMenu(){
     this.isMenuOpened = !this.isMenuOpened;
   }
+
   scrollToBottom() {
-    if (this.myScrollContainer && this.myScrollContainer.nativeElement) {
-      setTimeout(() => {
+    if (this.myScrollContainer && this.myScrollContainer.nativeElement) 
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-      }, 20);
-      this.scrollSuccessfull = true
-    }
   }
+
   scrollToMessage(messageId: number|null): void {
     const container: HTMLElement = this.myScrollContainer.nativeElement;
     const messageElement = container.querySelector(`#message-${messageId}`) as HTMLElement;
@@ -224,6 +219,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
         messageElement.style.backgroundColor = '';
       }, 1000);
     }
+    this.scrollToMessageSucess = true
   }
   setSendFieldFocus(){
     if(this.myMessageSendField){
@@ -408,9 +404,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
           console.log(error);
         })
       }
-    }).catch((error)=>{
-      console.log(error);
-    });
+    }).catch((error)=>console.log(error));
   }
   starMessages(){
     const reqBody={
@@ -423,9 +417,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
       this.dataService.notifyOther({
         view:"chat"
       })
-    },(error)=>{
-      console.log(error);
-    })
+    },(error)=>console.log(error))
   }
   toggleSendMenu(){
     this.isSendMenuOpen = !this.isSendMenuOpen
@@ -483,9 +475,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
       var event1 = new Event('input');
       document.execCommand('insertText', false, event.emoji.native);
       return; 
-      }
-      const [start, end] = [input.selectionStart, input.selectionEnd]; 
-      input.setRangeText(event.emoji.native, start, end, 'end');
+    }
+    const [start, end] = [input.selectionStart, input.selectionEnd]; 
+    input.setRangeText(event.emoji.native, start, end, 'end');
   }
   clearChat(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
@@ -496,9 +488,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,AfterViewChecked{
         })
         this.deleteMessages()
       }
-    }).catch((error)=>{
-      console.log(error);
-    });
+    }).catch((error)=>console.log(error));
   }
 
   clickedOutsideMenu(){

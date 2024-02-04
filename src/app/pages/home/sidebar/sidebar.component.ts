@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from './chat/chat.component';
 import { environment } from '../../../../environments/environment.development';
@@ -10,6 +10,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ModalService } from '../../../services/modal.service';
 import { SenderService } from '../show-chat/chat-messages/message-service/sender.service';
 import { AnimationService } from '../../../services/animation.service';
+import { Subject, interval, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,7 +20,7 @@ import { AnimationService } from '../../../services/animation.service';
   styleUrl: './sidebar.component.scss',
   animations:[AnimationService.prototype.getItemMovementAnimation(),AnimationService.prototype.getVerticalMovementAnimation(),AnimationService.prototype.getDropdownAnimation()]
 })
-export class SidebarComponent implements OnInit{
+export class SidebarComponent implements OnInit,OnDestroy{
 
   chats:userChats[]
   user:string|any
@@ -27,11 +28,19 @@ export class SidebarComponent implements OnInit{
   clickedIndex?:number
   isStarredMessageOpened:boolean = false
   @Output() mobileViewEvent = new EventEmitter<any>()
+  private destroy$ = new Subject<void>();
 
   constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
 
   ngOnInit(): void {
+    interval(2000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(()=>{
+        if(!this.isStarredMessageOpened){
+          this.getUserChats()
+        }
+      })
     if(typeof localStorage != undefined){
       this.user = localStorage.getItem("user");
       this.userId = JSON.parse(this.user).id; 
@@ -45,6 +54,12 @@ export class SidebarComponent implements OnInit{
       }
     })
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
+
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
       this.chats=data
@@ -53,23 +68,18 @@ export class SidebarComponent implements OnInit{
     })
   }
   checkSize():boolean{
-    if (window.innerWidth <= 500) {
-      return true
-    }else{
-      return false
-    }
+    return window.innerWidth <= 500 ?  true :  false
   }
 
   showChat(chat:userChats){
+    this.messageService.setSelectedMessageId(chat.latest_message_id)
     this.router.navigate([chat.name], {relativeTo:this.route});
     this.dataService.notifyOther({
       view:"chat",
       data:chat
     })
-    this.messageService.setSelectedMessageId(chat.latest_message_id)
-    if(this.checkSize()){
+    if(this.checkSize())
       this.mobileViewEvent.emit(true)
-    }
   }
   clickChat(index:any){
     this.clickedIndex=index
@@ -119,6 +129,7 @@ export class SidebarComponent implements OnInit{
     this.isStarredMessageOpened=false
     this.getUserChats()
     this.clickedIndex=undefined
+    this.messageService.setSelectedMessageId(null)
     this.router.navigate(['/home']);
   }
   getStarredMessages(){

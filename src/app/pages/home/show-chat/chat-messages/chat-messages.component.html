@@ -67,7 +67,7 @@
         }
     }
 </div>
-<div class="view" #scrollTarget>
+<div class="view" #scrollTarget (scroll)="onScroll()">
     <div class="message-area">
         @for(message of messageList; track $index;){
             @if (isDifferentDay($index)) {
