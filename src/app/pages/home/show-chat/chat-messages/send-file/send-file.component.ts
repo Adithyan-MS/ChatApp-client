@@ -16,7 +16,7 @@ import { AppService } from '../../../../../services/app.service';
   styleUrl: './send-file.component.scss'
 })
 export class SendFileComponent implements OnInit{
-  @Input()isFileTypeImage:boolean=true  
+  @Input()fileType:string
   @Output() closeSendFileEvent = new EventEmitter<any>()
   @Input() files:any[]
   @Input() documents:any[]
@@ -61,7 +61,7 @@ export class SendFileComponent implements OnInit{
       const messageRequest = {
         message:{
           content:"file",
-          type:this.isFileTypeImage ? "image" : "document",
+          type:this.fileType,
           parentMessage: this.parentMessage!=null ? this.parentMessage?.id : null
         },
         receiver:{

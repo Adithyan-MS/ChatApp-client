@@ -10,16 +10,19 @@
                     <span><i class="fa-regular fa-file"></i> {{message.content}}</span>
                 }@else if (message.type == "image") {
                     <span><i class="fa-regular fa-image"></i> Photo</span>
-                }@else {
+                }@else if (message.type == "video") {
+                    <span><i class="fa-solid fa-video"></i> Video</span>
+                }
+                @else {
                     <span class="parent-text-message">{{message.content}}</span>                   
                 }
             </div>
         </div>
-        @if (message.type == "image") {
+        @if (message.type == "image" || message.type == "video") {
             <div class="items">
                 <img [src]="imageParentUrl" alt="">
             </div>
-        }        
+        } 
     </div>
     <div class="parent-close">
         <i class="fa-solid fa-xmark" (click)="close()"></i>

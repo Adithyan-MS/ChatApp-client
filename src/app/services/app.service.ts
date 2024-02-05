@@ -36,6 +36,10 @@ export class AppService {
     return `${environment.BASE_API_URL}/message/view/${user}/image/${imageName}`
   }
 
+  getMessageVideoUrl(user:string|any,imageName:string|any):string{
+    return `${environment.BASE_API_URL}/message/view/${user}/video/${imageName}`
+  }
+
   formatFileSize(bytes: number): string {
     const kilobyte = 1024;
     const megabyte = kilobyte * 1024;

@@ -12,8 +12,12 @@
             @if(files.length!=0){
                 @for (file of files; track $index) {
                     <div class="file">
-                        @if (file.type.includes("image")) {
+                        @if (fileType=="image") {
                             <img [src]="file.file" alt="">
+                        }@else if (fileType == "video") {
+                            <video>
+                                <source [src]="file.file" type="video/mp4">
+                            </video>
                         }@else {
                             <div class="doc-view">
                                 <div class="doc-icon">
@@ -51,8 +55,10 @@
     <div class="bottom">
         <label class="bottom-left">
             <i class="fa-solid fa-plus"></i>
-            @if (isFileTypeImage) {
+            @if (fileType=="image") {
                 <input type="file" id="file-photo" style="display: none" (change)="onFilechange($event)" name="photo" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
+            }@else if (fileType=="video") {
+                <input type="file" id="file-video" style="display: none" (change)="onFilechange($event)" name="video" accept="video/*" multiple="" data-original-title="upload video">   
             }@else {
                 <input type="file" id="file-document" style="display: none" (change)="onFilechange($event)" name="document" accept=".doc, .docx, .pdf, .txt" multiple="" data-original-title="upload document">   
             }

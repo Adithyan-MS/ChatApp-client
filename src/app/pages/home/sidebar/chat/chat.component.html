@@ -22,6 +22,8 @@
                                 <span><i class="fa-regular fa-file"></i> {{chat.latest_message}}</span>
                             }@else if (chat.latest_message_type=="image"){
                                 <span><i class="fa-regular fa-image"></i> Photo</span>
+                            }@else if (chat.latest_message_type=="video"){
+                                <span><i class="fa-solid fa-video"></i> Video</span>
                             }
                         }@else{
                             <div class="latest_roomEvent">

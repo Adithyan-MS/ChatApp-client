@@ -73,6 +73,15 @@
     min-height: 250px;
     box-shadow: 0px 0px 19px 5px rgba(206, 206, 206, 0.1);
 }
+.file video{
+    width: 100%;
+    min-width: 100px;
+    border-radius: 5px;
+    object-fit: cover;
+    max-height: 250px;
+    min-height: 250px;
+    box-shadow: 0px 0px 19px 5px rgba(206, 206, 206, 0.1);
+}
 .file .doc-view{
     width: 100%;
     min-width: 100px;

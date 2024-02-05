@@ -26,7 +26,10 @@
                                 </span>
                             }@else if(message.parent_message_type == "image"){
                                 <span><i class="fa-regular fa-image"></i> Photo</span>
-                            }@else {
+                            }@else if (message.parent_message_type == "video") {
+                                <span><i class="fa-solid fa-video"></i> Video</span>
+                            }
+                            @else {
                                 <span>{{message.parent_message_content}}</span>
                             }
                         </div>
@@ -34,6 +37,10 @@
                     @if(message.parent_message_type == "image"){
                         <div class="parent-items">
                             <img [src]="imageParentUrl" alt="">
+                        </div>
+                    }@else if (message.parent_message_type == "video") {
+                        <div class="parent-items">
+                            <img [src]="thumbnailData" alt="">
                         </div>
                     }
                 </div>
@@ -46,11 +53,21 @@
                 </div>
             </div>
             <div class="content">
-                @if (message.type=="image") {
+                @if (message.type == "image") {
                     <div class="content-image">
-                        <img (click)="!showCheckBox && viewImage()" [src]="imageUrl" alt="">
+                        <img (click)="!showCheckBox && viewImage()" [src]="fileUrl" alt="">
                     </div>
-                }@else if(message.type=="document") {
+                }@else if (message.type == "video") {
+                    <div class="content-video" (click)="!showCheckBox && viewVideo()">
+                        <video>
+                            <source [src]="fileUrl"  type="video/mp4">
+                        </video>
+                        <div class="play-icon">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                }
+                @else if(message.type=="document") {
                     <div class="doc-content" (click)="!showCheckBox && openDocument()">
                         <div class="items">
                             <div class="item">

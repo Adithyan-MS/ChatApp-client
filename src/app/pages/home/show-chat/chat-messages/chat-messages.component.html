@@ -114,10 +114,19 @@
                             </div>
                             <input type="file" id="file-photo" style="display: none" (change)="onFilechange($event)" name="photo" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">   
                         </label>
+                        <label class="send-menu-item">
+                            <div class="send-menu-icon">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <div class="send-menu-name">
+                                <span>Video</span>
+                            </div>
+                            <input type="file" id="file-video" style="display: none" (change)="onFilechange($event)" name="video" accept="video/*" multiple="" data-original-title="upload videos">   
+                        </label>
                     </div>
                 }
                 @if (showSendFilePreview) {
-                    <app-send-file [isFileTypeImage]="isFileTypeImage" [parentMessage]="parentMessage" [selectedFiles]="selectedFiles" [files]="images" [documents]="documents" [@popupAnimation] [currentChat]="currentChat" (fileSendSuccessEvent)="onFileSendSuccess($event)" (closeSendFileEvent)="onCloseSendFileEvent($event)" appClickOutside (clickOutside)="clickedOutsideSendFile()"></app-send-file>
+                    <app-send-file [fileType]="fileType" [parentMessage]="parentMessage" [selectedFiles]="selectedFiles" [files]="images" [documents]="documents" [@popupAnimation] [currentChat]="currentChat" (fileSendSuccessEvent)="onFileSendSuccess($event)" (closeSendFileEvent)="onCloseSendFileEvent($event)" appClickOutside (clickOutside)="clickedOutsideSendFile()"></app-send-file>
                 }
             </div>
             <form [formGroup]="messageForm" class="input" (ngSubmit)="sendMessage()" >

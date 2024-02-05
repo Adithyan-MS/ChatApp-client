@@ -11,6 +11,11 @@
             @case ("viewImage") {
                 <img [src]="modelContent" alt="" [@fadeInOut]>
             }
+            @case ("viewVideo") {
+                <video [@fadeInOut] controls>
+                    <source [src]="modelContent" type="video/mp4" >
+                </video>
+            }
             @case ("addMember") {
                 <app-add-room-member [title]="modalTitle" [roomId]="modelContent" (successEvent)="onMemberAddSuccess($event)" ></app-add-room-member>
             }

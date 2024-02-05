@@ -56,7 +56,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   selectedFiles: File[] = [];
   images:any[]=[]
   documents:any[]=[]
-  isFileTypeImage:boolean = false
+  fileType:string=""
   isEmojiOpened:boolean = false
   roomUsers:string
   roomUsersList:string[]
@@ -72,6 +72,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     interval(2000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
+        console.log("fetching...");
+        
         if(this.currentChat.type==="user"){
           this.getUserChatMessage()
         }else{
@@ -94,7 +96,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
 
   ngAfterViewChecked(): void {
-    if(!this.isSearchOpened)
+    if(!this.isSearchOpened && !this.isForwardOpened)
       this.setSendFieldFocus()
     if(this.locateMessageId!=null){
       if(this.scrollToMessageSucess==false)
@@ -104,7 +106,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {    
+  ngOnChanges(changes: SimpleChanges): void {
     this.isSearchOpened=false    
     this.showCheckBox=false
     this.scrollToBottomSucess=false
@@ -424,7 +426,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   onFilechange(event:any){
     const files: FileList = event.target.files;
-    this.isFileTypeImage = files[0].type.includes("image") ? true : false 
+    console.log(files[0].type);
+    this.fileType = (files[0].type.includes("image")) ? "image" : (files[0].type.includes("video")) ? "video" : "document";
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       this.selectedFiles.push(file);
@@ -456,13 +459,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     });
   }
   clickedOutsideSendFile(){
-    // this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    // this.modalService.addDynamicComponent('alert','Canceling file send','File send canceled.').then((value)=>{
-    //   if(value){
         this.showSendFilePreview=false
         this.images=[]
-    //   }
-    // })
   }
   toggleEmoji(){
     this.isEmojiOpened = !this.isEmojiOpened

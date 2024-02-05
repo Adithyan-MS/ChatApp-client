@@ -299,11 +299,14 @@
   justify-content: center;
   border-radius: 50%;
 }
-.send-menu-item:last-child .send-menu-icon{
+.send-menu-item:nth-child(2) .send-menu-icon{
   background-color: rgb(55, 38, 82);
 }
-.send-menu-item:first-child .send-menu-icon{
+.send-menu-item:nth-child(1) .send-menu-icon{
   background-color: rgb(66, 31, 66);
+}
+.send-menu-item:nth-child(3) .send-menu-icon{
+  background-color: rgb(93, 28, 54);
 }
 .send-menu-icon i{
   color: white;

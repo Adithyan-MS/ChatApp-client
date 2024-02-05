@@ -1,4 +1,4 @@
-import { Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  User, message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
@@ -12,6 +12,8 @@ import { AnimationService } from '../../../../../services/animation.service';
 import { ModalService } from '../../../../../services/modal.service';
 import { ClickOutsideDirective } from '../../../../../directives/clickOutside/click-outside.directive';
 import { Subscription } from 'rxjs';
+import { VideoProcessingService } from '../../../../../services/video-processing.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-message',
@@ -21,7 +23,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './message.component.scss',
   animations:[AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getDropupAnimation()]
 })
-export class MessageComponent implements OnInit,OnChanges{
+export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
 
   @Input() message:message
   @Input() showCheckBox:boolean
@@ -44,11 +46,17 @@ export class MessageComponent implements OnInit,OnChanges{
   likedUsers:any[]
   noUserPic:string = environment.USER_IMAGE
   starredFlag:boolean|null
-  imageUrl:string | null
+  fileUrl:string | null
   imageParentUrl:string | null
   isOpened:boolean=false
+  thumbnailData: string;
 
-  constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService){}
+
+  constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService,private videoService: VideoProcessingService){}
+  ngAfterViewChecked(): void {
+    // console.log(this.message.content);
+    
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
@@ -59,9 +67,18 @@ export class MessageComponent implements OnInit,OnChanges{
     this.currentUserId = JSON.parse(this.user).id;
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
-    this.starredFlag=this.message.is_starred    
-    this.imageUrl = this.message.type=="image" ? this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content) : null
-    this.imageParentUrl = this.message.parent_message_id ? this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content) : null
+    this.starredFlag=this.message.is_starred        
+    this.fileUrl = this.message.type=="image" ? this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content) : this.message.type=="video" ? this.appService.getMessageVideoUrl(`user_${this.message.sender_id}`,this.message.content) : null
+    if(this.message.parent_message_id){
+      if( this.message.parent_message_type=="image"){
+        this.imageParentUrl =this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content)
+      }
+      else if(this.message.parent_message_type=="video"){
+        this.videoService.generatePoster(this.appService.getMessageVideoUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content),0.5)
+          .then((thumbUrl) =>this.thumbnailData = thumbUrl)
+          .catch((error) =>console.error("Error generating thumbnail:", error));
+          }
+      }
     }
 
   shouldDisplaySenderName(currentSenderName: string): boolean {
@@ -155,7 +172,11 @@ export class MessageComponent implements OnInit,OnChanges{
 
   viewImage(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("viewImage",null,this.imageUrl)
+    this.modalService.addDynamicComponent("viewImage",null,this.fileUrl)
+  }
+  viewVideo(){
+    this.modalService.setRootViewContainerRef(this.viewContainerRef)
+    this.modalService.addDynamicComponent("viewVideo",null,this.fileUrl)
   }
 
   downloadedFiles:any
