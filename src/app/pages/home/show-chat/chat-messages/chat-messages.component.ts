@@ -62,6 +62,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   roomUsersList:string[]
   scrollToBottomSucess:boolean = false
   scrollToMessageSucess:boolean = false
+  sendFieldFocusSuccess:boolean = false
   private destroy$ = new Subject<void>();
 
   
@@ -69,17 +70,17 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   
   ngOnInit(): void {
-    interval(2000)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(()=>{
-        console.log("fetching...");
+    // interval(3000)
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe(()=>{
+    //     console.log("fetching...");
         
-        if(this.currentChat.type==="user"){
-          this.getUserChatMessage()
-        }else{
-          this.getRoomChatMessage()
-        }
-      })
+    //     if(this.currentChat.type==="user"){
+    //       this.getUserChatMessage()
+    //     }else{
+    //       this.getRoomChatMessage()
+    //     }
+    //   })
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data=="openSearch"){
         this.openSearch()
@@ -96,7 +97,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
 
   ngAfterViewChecked(): void {
-    if(!this.isSearchOpened && !this.isForwardOpened)
+    if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
       this.setSendFieldFocus()
     if(this.locateMessageId!=null){
       if(this.scrollToMessageSucess==false)
@@ -119,6 +120,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.selectedList = []
     this.showSendFilePreview=false
     this.images=[]
+    this.sendFieldFocusSuccess = false
     this.currentChat.type=="user" ? (this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE) : this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
     this.locateMessageId=this.messageService.getSelectedMessageId()
     if(this.currentChat.type==="user"){
@@ -134,7 +136,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
-      this.messageList=data      
+      this.messageList=data
+      console.log(this.messageList);
+            
       },(error)=>console.log(error))      
     }
     getRoomChatMessage(){
@@ -189,7 +193,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         });
       },(error)=>{
         console.log(error);
-      }) 
+      })
     }
   }
   viewProfile(){
@@ -226,6 +230,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   setSendFieldFocus(){
     if(this.myMessageSendField){
       this.myMessageSendField.nativeElement.focus()
+      this.sendFieldFocusSuccess = true
     }
   }
   setSearchFieldFocus(){

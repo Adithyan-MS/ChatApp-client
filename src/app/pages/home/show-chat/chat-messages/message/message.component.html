@@ -59,9 +59,7 @@
                     </div>
                 }@else if (message.type == "video") {
                     <div class="content-video" (click)="!showCheckBox && viewVideo()">
-                        <video>
-                            <source [src]="fileUrl"  type="video/mp4">
-                        </video>
+                        <img [src]="fileUrl" alt="">
                         <div class="play-icon">
                             <i class="fa-solid fa-play"></i>
                         </div>

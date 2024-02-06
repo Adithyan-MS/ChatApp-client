@@ -121,12 +121,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(29, 28, 28, 0.5);
+    background-color: rgba(244, 244, 244, 0.5);
     cursor: pointer;
     border-radius: 5px;
 }
 .content .play-icon i{
-    color: #141414;
+    color: #aaaaaa;
 }
 .content .doc-content{
     width: 280px;
@@ -160,6 +160,7 @@
     font-size: var(--fs-xl);
     box-shadow: inset 0 0 1px #505050;
 }
+
 .doc-content .doc-msg {
     display: flex;
     flex-direction: column;

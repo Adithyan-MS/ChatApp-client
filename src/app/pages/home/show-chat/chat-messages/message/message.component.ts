@@ -67,8 +67,16 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
     this.currentUserId = JSON.parse(this.user).id;
     this.chatMessage=this.message;
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
-    this.starredFlag=this.message.is_starred        
-    this.fileUrl = this.message.type=="image" ? this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content) : this.message.type=="video" ? this.appService.getMessageVideoUrl(`user_${this.message.sender_id}`,this.message.content) : null
+    this.starredFlag=this.message.is_starred
+    if(this.message.type == "image"){
+      this.fileUrl = this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content)
+    }else if(this.message.type=="video"){
+      this.videoService.generatePoster(this.appService.getMessageVideoUrl(`user_${this.message.sender_id}`,this.message.content),0.5)
+        .then((thumbUrl) =>this.fileUrl = thumbUrl)
+        .catch((error) =>console.error("Error generating thumbnail:", error));
+    }else{
+      this.fileUrl = null
+    }
     if(this.message.parent_message_id){
       if( this.message.parent_message_type=="image"){
         this.imageParentUrl =this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content)
@@ -176,7 +184,7 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
   }
   viewVideo(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("viewVideo",null,this.fileUrl)
+    this.modalService.addDynamicComponent("viewVideo",null,this.appService.getMessageVideoUrl(`user_${this.message.sender_id}`,this.message.content))
   }
 
   downloadedFiles:any

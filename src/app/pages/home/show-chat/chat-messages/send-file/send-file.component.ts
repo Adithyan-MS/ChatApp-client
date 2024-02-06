@@ -76,7 +76,6 @@ export class SendFileComponent implements OnInit{
       formData.append('messageData', JSON.stringify(messageRequest));
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/message/sendFile`,formData,{headers}).subscribe((data)=>{
-        console.log(data);
         this.fileSendSuccessEvent.emit(true)
       },(error)=>{
         console.log(error);
