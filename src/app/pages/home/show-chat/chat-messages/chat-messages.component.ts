@@ -70,21 +70,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   
   ngOnInit(): void {
-    // interval(3000)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(()=>{
-    //     console.log("fetching...");
-        
-    //     if(this.currentChat.type==="user"){
-    //       this.getUserChatMessage()
-    //     }else{
-    //       this.getRoomChatMessage()
-    //     }
-    //   })
+    interval(3000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(()=>{        
+        this.currentChat.type==="user" ? this.getUserChatMessage() : this.getRoomChatMessage()
+      })
     this.dataService.notifyObservable$.subscribe((data)=>{
-      if(data=="openSearch"){
+      if(data=="openSearch")
         this.openSearch()
-      }
     })
     this.messageForm = this.fb.group({
       content:['',[Validators.required]]
