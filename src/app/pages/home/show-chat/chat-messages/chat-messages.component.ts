@@ -70,10 +70,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   
   ngOnInit(): void {
-    interval(3000)
+    interval(2000)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(()=>{        
-        this.currentChat.type==="user" ? this.getUserChatMessage() : this.getRoomChatMessage()
+      .subscribe(()=>{
+        if(this.currentChat.type==="user"){
+          this.getUserChatMessage()
+        }else{
+          this.getRoomChatMessage()
+        }
       })
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data=="openSearch")
@@ -124,14 +128,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         this.roomUsers = data.join(', ')
       },(error)=>console.log(error))
     }
-    
-    
   }
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
-      this.messageList=data
-      console.log(this.messageList);
-            
+      this.messageList=data            
       },(error)=>console.log(error))      
     }
     getRoomChatMessage(){

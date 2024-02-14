@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from './chat/chat.component';
 import { environment } from '../../../../environments/environment.development';
@@ -27,7 +27,10 @@ export class SidebarComponent implements OnInit,OnDestroy{
   userId:number
   clickedIndex?:number
   isStarredMessageOpened:boolean = false
+  isSearching:boolean = false
   @Output() mobileViewEvent = new EventEmitter<any>()
+  @ViewChild("searchChatField") searchChatField:ElementRef
+  searchName:string=""
   private destroy$ = new Subject<void>();
 
   constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
@@ -37,7 +40,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
     interval(2000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
-        if(!this.isStarredMessageOpened){
+        if(!this.isStarredMessageOpened && this.searchName ===""){
           this.getUserChats()
         }
       })
@@ -94,10 +97,10 @@ export class SidebarComponent implements OnInit,OnDestroy{
   }
 
   onSearchChange(event:any){
-      let searchName = event.target.value
-      if(searchName !==""){
+      this.searchName = event.target.value
+      if(this.searchName !==""){
         let queryParams = new HttpParams();
-        queryParams = queryParams.append("name",searchName);
+        queryParams = queryParams.append("name",this.searchName);
         if (!this.isStarredMessageOpened) {
           this.api.getReturn(`${environment.BASE_API_URL}/user/search`,{params:queryParams}).subscribe((data)=>{
             this.chats=data

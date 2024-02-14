@@ -4,9 +4,10 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { message, userChats } from '../../../../../models/data-types';
 import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
-import { error } from 'console';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { AppService } from '../../../../../services/app.service';
+import { FileUploadService } from './file-upload.service';
+import { catchError, map, tap, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-send-file',
@@ -24,8 +25,9 @@ export class SendFileComponent implements OnInit{
   @Input() parentMessage:message|null
   @Input() currentChat:userChats
   @Output() fileSendSuccessEvent = new EventEmitter<any>()
+  progress:any
 
-  constructor(private api:ApiService,private appService:AppService){}
+  constructor(private api:ApiService,private appService:AppService, private fileUploadService: FileUploadService){}
 
   ngOnInit(): void {
   }
@@ -57,6 +59,7 @@ export class SendFileComponent implements OnInit{
       this.closeSendFile()
   }
   sendFile(){
+    this.progress = 1
     if(this.files.length!=0){
       const messageRequest = {
         message:{
@@ -71,16 +74,28 @@ export class SendFileComponent implements OnInit{
       }
       let formData: FormData = new FormData();
       for (let i = 0; i < this.selectedFiles.length; i++) {
-        formData.append('files', this.selectedFiles[i]);
+        formData.append('file', this.selectedFiles[i]);
+        formData.append('messageData', JSON.stringify(messageRequest));
+        this.fileUploadService.upload(formData).pipe(
+          map((event: any) => {                 
+            if (event.type == HttpEventType.UploadProgress) {              
+              this.progress = Math.round((100 / event.total) * event.loaded);
+              console.log(this.progress);              
+            } else if (event.type == HttpEventType.Response) {
+              this.progress = null;
+            }
+          }),
+          catchError((err: any) => {
+            this.progress = null;
+            alert(err.message);
+            return throwError(err.message);
+          })
+        )
+        .toPromise();
       }
-      formData.append('messageData', JSON.stringify(messageRequest));
-      const headers = new HttpHeaders().set("ResponseType","text")
-      this.api.postReturn(`${environment.BASE_API_URL}/message/sendFile`,formData,{headers}).subscribe((data)=>{
-        this.fileSendSuccessEvent.emit(true)
-      },(error)=>{
-        console.log(error);
-      })
+      this.fileSendSuccessEvent.emit(true)
       this.selectedFiles = []
+      
     }
   }
 }

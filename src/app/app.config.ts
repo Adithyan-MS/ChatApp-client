@@ -9,5 +9,5 @@ import { DatePipe } from '@angular/common';
 import {  provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes,withViewTransitions()),provideAnimations(),DatePipe,provideHttpClient(withFetch(),withInterceptors([apiInterceptor])), provideClientHydration()]
+  providers: [provideRouter(routes,withViewTransitions()),provideAnimations(),DatePipe,provideHttpClient(withInterceptors([apiInterceptor])), provideClientHydration()]
 };

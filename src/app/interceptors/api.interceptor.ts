@@ -8,12 +8,14 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     if (req.headers.get('ResponseType') === 'text') {
       const authReq = req.clone({
         responseType: 'text',
+        reportProgress:true,
         setHeaders: {
           Authorization: `Bearer ${token}`,
         }
       });
       return next(authReq);
-    }else{
+    }
+    else{
       const authReq = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
