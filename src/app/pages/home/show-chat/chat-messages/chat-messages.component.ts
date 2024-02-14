@@ -70,17 +70,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   
   ngOnInit(): void {
-    // interval(3000)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(()=>{
-    //     console.log("fetching...");
-        
-    //     if(this.currentChat.type==="user"){
-    //       this.getUserChatMessage()
-    //     }else{
-    //       this.getRoomChatMessage()
-    //     }
-    //   })
+    interval(2000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(()=>{
+        if(this.currentChat.type==="user"){
+          this.getUserChatMessage()
+        }else{
+          this.getRoomChatMessage()
+        }
+      })
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data=="openSearch"){
         this.openSearch()

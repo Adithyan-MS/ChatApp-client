@@ -5,7 +5,7 @@ import { message, userChats } from '../../../../../models/data-types';
 import { ApiService } from '../../../../../services/api.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { error } from 'console';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpEvent, HttpHeaders } from '@angular/common/http';
 import { AppService } from '../../../../../services/app.service';
 
 @Component({
@@ -74,8 +74,10 @@ export class SendFileComponent implements OnInit{
         formData.append('files', this.selectedFiles[i]);
       }
       formData.append('messageData', JSON.stringify(messageRequest));
-      const headers = new HttpHeaders().set("ResponseType","text")
-      this.api.postReturn(`${environment.BASE_API_URL}/message/sendFile`,formData,{headers}).subscribe((data)=>{
+      const headers = new HttpHeaders().set("ResponseType","text").set("reportProgress","true")
+      this.api.postReturn(`${environment.BASE_API_URL}/message/sendFile`,formData,{headers}).subscribe((data:HttpEvent<{}>)=>{
+        console.log(data.type,"-----------");
+        
         this.fileSendSuccessEvent.emit(true)
       },(error)=>{
         console.log(error);
