@@ -11,6 +11,7 @@
         <div class="file-container">
             @if(files.length!=0){
                 @for (file of files; track $index) {
+
                     <div class="file">
                         @if (fileType=="image") {
                             <img [src]="file.file" alt="">
@@ -39,6 +40,11 @@
                         <div class="trash">
                             <i class="fa-regular fa-trash-can" (click)="removeFile($index)"></i>
                         </div>
+                        @if (file.progress) {
+                            <div class="progress">
+                                <div class="progress-bar" [style.width]="file.progress + '%'">{{file.progress}}%</div>
+                            </div>
+                            }
                     </div>
                 }
             }@else {
@@ -53,11 +59,6 @@
         </div>
     </div>
     <div class="bottom">
-        @if (progress) {
-            <div class="progress">
-                <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
-            </div>
-            }
         <label class="bottom-left">
             <i class="fa-solid fa-plus"></i>
             @if (fileType=="image") {

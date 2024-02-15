@@ -70,7 +70,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   
   ngOnInit(): void {
-    interval(2000)
+    interval(3000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
         if(this.currentChat.type==="user"){
@@ -162,7 +162,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       }
       const headers = new HttpHeaders().set('ResponseType','text')
       this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
-        this.messageForm.reset()        
+        this.messageForm.reset()    
+            
         this.parentMessage = null
         this.ngOnChanges(data)
         this.dataService.notifyOther({
@@ -435,7 +436,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
           file:e.target.result,
             type:file.type,
             name:file["name"],
-            size:this.appService.formatFileSize(file.size)
+            size:this.appService.formatFileSize(file.size),
+            progress:null
           });
       };
       reader.readAsDataURL(file);

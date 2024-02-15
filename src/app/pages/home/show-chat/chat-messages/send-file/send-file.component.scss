@@ -193,7 +193,10 @@
     }
   }
   .progress {
-    background-color: #e9ecef;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    background-color: #080808;
     border-radius: 0.25rem;
     display: flex;
     font-size: 1.2rem;

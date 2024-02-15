@@ -46,7 +46,8 @@ export class SendFileComponent implements OnInit{
           file:e.target.result,
           type:file.type,
           name:file["name"],
-          size:this.appService.formatFileSize(file.size)
+          size:this.appService.formatFileSize(file.size),
+          progress:null
         });
       };
       reader.readAsDataURL(file);
@@ -59,7 +60,7 @@ export class SendFileComponent implements OnInit{
       this.closeSendFile()
   }
   sendFile(){
-    this.progress = 1
+    // this.progress = 1
     if(this.files.length!=0){
       const messageRequest = {
         message:{
@@ -72,29 +73,38 @@ export class SendFileComponent implements OnInit{
           id:this.currentChat.id
         }
       }
-      let formData: FormData = new FormData();
       for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.files[i].progress = 1     
+        console.log(this.selectedFiles[i]);
+        
+        let formData: FormData = new FormData();
         formData.append('file', this.selectedFiles[i]);
         formData.append('messageData', JSON.stringify(messageRequest));
         this.fileUploadService.upload(formData).pipe(
           map((event: any) => {                 
             if (event.type == HttpEventType.UploadProgress) {              
-              this.progress = Math.round((100 / event.total) * event.loaded);
-              console.log(this.progress);              
+              this.files[i].progress = Math.round((100 / event.total) * event.loaded);
+               
+              
+              console.log(this.files[i].progress,this.files[i].size);              
             } else if (event.type == HttpEventType.Response) {
-              this.progress = null;
+              // this.files[i].progress = null;
+              console.log("completed!!");   
+              if(i==(this.selectedFiles.length-1)){
+                this.selectedFiles = []                
+                this.fileSendSuccessEvent.emit(true)
+                console.log('finishED!!');          
+              }
             }
           }),
           catchError((err: any) => {
-            this.progress = null;
+            this.files[i].progress = null;
             alert(err.message);
             return throwError(err.message);
-          })
-        )
-        .toPromise();
-      }
-      this.fileSendSuccessEvent.emit(true)
-      this.selectedFiles = []
+          }),
+          )
+          .toPromise();
+        }   
       
     }
   }
