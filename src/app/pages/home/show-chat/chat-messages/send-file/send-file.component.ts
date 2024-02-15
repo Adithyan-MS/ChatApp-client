@@ -3,11 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { message, userChats } from '../../../../../models/data-types';
 import { ApiService } from '../../../../../services/api.service';
-import { environment } from '../../../../../../environments/environment.development';
-import { HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AppService } from '../../../../../services/app.service';
 import { FileUploadService } from './file-upload.service';
-import { catchError, map, tap, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-send-file',
@@ -25,7 +23,7 @@ export class SendFileComponent implements OnInit{
   @Input() parentMessage:message|null
   @Input() currentChat:userChats
   @Output() fileSendSuccessEvent = new EventEmitter<any>()
-  progress:any
+  message:string = ''
 
   constructor(private api:ApiService,private appService:AppService, private fileUploadService: FileUploadService){}
 
@@ -60,7 +58,6 @@ export class SendFileComponent implements OnInit{
       this.closeSendFile()
   }
   sendFile(){
-    // this.progress = 1
     if(this.files.length!=0){
       const messageRequest = {
         message:{
@@ -74,38 +71,41 @@ export class SendFileComponent implements OnInit{
         }
       }
       for (let i = 0; i < this.selectedFiles.length; i++) {
-        this.files[i].progress = 1     
-        console.log(this.selectedFiles[i]);
-        
+        this.files[i].progress = 1 
         let formData: FormData = new FormData();
         formData.append('file', this.selectedFiles[i]);
         formData.append('messageData', JSON.stringify(messageRequest));
-        this.fileUploadService.upload(formData).pipe(
-          map((event: any) => {                 
-            if (event.type == HttpEventType.UploadProgress) {              
-              this.files[i].progress = Math.round((100 / event.total) * event.loaded);
-               
-              
+        this.fileUploadService.upload(formData).subscribe({
+          next: (event: any) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.files[i].progress = Math.round((100 * event.loaded) / event.total);
               console.log(this.files[i].progress,this.files[i].size);              
-            } else if (event.type == HttpEventType.Response) {
-              // this.files[i].progress = null;
-              console.log("completed!!");   
-              if(i==(this.selectedFiles.length-1)){
-                this.selectedFiles = []                
-                this.fileSendSuccessEvent.emit(true)
-                console.log('finishED!!');          
-              }
+            } else if (event instanceof HttpResponse) {
+              // this.files[i].progress = null              
             }
-          }),
-          catchError((err: any) => {
-            this.files[i].progress = null;
-            alert(err.message);
-            return throwError(err.message);
-          }),
-          )
-          .toPromise();
-        }   
-      
+          },
+          error: (err: any) => {
+            console.log(err);  
+            if (err.error && err.error.message) {
+              this.message = err.error.message;
+            } else {
+              this.message = 'Could not upload the file!';
+            }
+            this.files[i].progress = null
+          },
+          complete: () => {
+            console.log("completed!! ",i);
+            // this.files.splice(i,1)
+            console.log(this.files);
+            
+            // if(this.files.length==0){
+            //   this.selectedFiles = []                
+            //   this.fileSendSuccessEvent.emit(true)
+            //   console.log('finishED!!');          
+            // }
+          }
+        });
+      }     
     }
   }
 }
