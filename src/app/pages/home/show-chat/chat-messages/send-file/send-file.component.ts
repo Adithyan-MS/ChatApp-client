@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { message, userChats } from '../../../../../models/data-types';
@@ -6,6 +6,7 @@ import { ApiService } from '../../../../../services/api.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AppService } from '../../../../../services/app.service';
 import { FileUploadService } from './file-upload.service';
+import { ModalService } from '../../../../../services/modal.service';
 
 @Component({
   selector: 'app-send-file',
@@ -25,7 +26,7 @@ export class SendFileComponent implements OnInit{
   @Output() fileSendSuccessEvent = new EventEmitter<any>()
   message:string = ''
 
-  constructor(private api:ApiService,private appService:AppService, private fileUploadService: FileUploadService){}
+  constructor(private api:ApiService,  private modalService: ModalService, private viewContainerRef: ViewContainerRef,private appService:AppService, private fileUploadService: FileUploadService){}
 
   ngOnInit(): void {
   }
@@ -35,6 +36,11 @@ export class SendFileComponent implements OnInit{
   }
   onFilechange(event:any){
     const files: FileList = event.target.files;
+    if(files[0].size > 30000000){
+      this.modalService.setRootViewContainerRef(this.viewContainerRef)
+      this.modalService.addDynamicComponent("alert","sendFile","Sorry, file size must be less than 30MB")
+      return
+    }
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       this.selectedFiles.push(file);
@@ -70,6 +76,7 @@ export class SendFileComponent implements OnInit{
           id:this.currentChat.id
         }
       }
+      let countComplete = 0
       for (let i = 0; i < this.selectedFiles.length; i++) {
         this.files[i].progress = 1 
         let formData: FormData = new FormData();
@@ -81,7 +88,7 @@ export class SendFileComponent implements OnInit{
               this.files[i].progress = Math.round((100 * event.loaded) / event.total);
               console.log(this.files[i].progress,this.files[i].size);              
             } else if (event instanceof HttpResponse) {
-              // this.files[i].progress = null              
+              this.files[i].progress = null              
             }
           },
           error: (err: any) => {
@@ -94,15 +101,11 @@ export class SendFileComponent implements OnInit{
             this.files[i].progress = null
           },
           complete: () => {
-            console.log("completed!! ",i);
-            // this.files.splice(i,1)
-            console.log(this.files);
-            
-            // if(this.files.length==0){
-            //   this.selectedFiles = []                
-            //   this.fileSendSuccessEvent.emit(true)
-            //   console.log('finishED!!');          
-            // }
+            countComplete = countComplete + 1      
+            if(countComplete==this.selectedFiles.length){
+              this.selectedFiles = []                
+              this.fileSendSuccessEvent.emit(true)     
+            }
           }
         });
       }     

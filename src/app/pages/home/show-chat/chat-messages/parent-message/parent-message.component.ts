@@ -27,11 +27,9 @@ export class ParentMessageComponent implements OnInit{
       if(this.user)
         this.currentUserId=JSON.parse(this.user).id
       if(this.message.type == "image")
-        this.imageParentUrl  = this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content)
+        this.imageParentUrl  = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,this.message.content)
       else if(this.message.type == "video"){
-        this.videoService.generatePoster(this.appService.getMessageVideoUrl(`user_${this.message.sender_id}`,this.message.content),0.5)
-          .then((thumbUrl) =>this.imageParentUrl = thumbUrl)
-          .catch((error) =>console.error("Error generating thumbnail:", error));
+        this.imageParentUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,`${this.message.content}.png`)
       }
     }
   }

@@ -93,7 +93,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.destroy$.complete()
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewChecked(): void {    
     if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
       this.setSendFieldFocus()
     if(this.locateMessageId!=null){
@@ -425,7 +425,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   onFilechange(event:any){
     const files: FileList = event.target.files;
-    console.log(files[0].type);
+    console.log(files[0]);
+    if(files[0].size > 30000000){
+      this.modalService.setRootViewContainerRef(this.viewContainerRef)
+      this.modalService.addDynamicComponent("alert","sendFile","Sorry, file size must be less than 30MB")
+      return
+    }
     this.fileType = (files[0].type.includes("image")) ? "image" : (files[0].type.includes("video")) ? "video" : "document";
     for (let i = 0; i < files.length; i++) {
       const file = files[i];

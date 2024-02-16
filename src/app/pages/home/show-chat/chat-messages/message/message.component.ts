@@ -69,11 +69,9 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
     this.sendTime = this.appService.HHMMFormatter(this.message.modified_at);
     this.starredFlag=this.message.is_starred
     if(this.message.type == "image"){
-      this.fileUrl = this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content)
+      this.fileUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,this.message.content)
     }else if(this.message.type=="video"){
-      this.videoService.generatePoster(this.appService.getMessageVideoUrl(`user_${this.message.sender_id}`,this.message.content),0.5)
-        .then((thumbUrl) =>this.fileUrl = thumbUrl)
-        .catch((error) =>console.error("Error generating thumbnail:", error));
+      this.fileUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,`${this.message.content}.png`)
     }else{
       this.fileUrl = null
     }
@@ -82,13 +80,10 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
         this.imageParentUrl =this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content)
       }
       else if(this.message.parent_message_type=="video"){
-        this.videoService.generatePoster(this.appService.getMessageVideoUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content),0.5)
-          .then((thumbUrl) =>this.thumbnailData = thumbUrl)
-          .catch((error) =>console.error("Error generating thumbnail:", error));
-          }
+        this.imageParentUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,`${this.message.parent_message_content}.png`)
       }
     }
-
+  }
   shouldDisplaySenderName(currentSenderName: string): boolean {
     const display = currentSenderName !== this.senderNameService.getPreviousSenderName();
     this.senderNameService.setPreviousSenderName(currentSenderName); 
@@ -180,7 +175,7 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
 
   viewImage(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
-    this.modalService.addDynamicComponent("viewImage",null,this.fileUrl)
+    this.modalService.addDynamicComponent("viewImage",null,this.appService.getMessageImageUrl(`user_${this.message.sender_id}`,this.message.content))
   }
   viewVideo(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
