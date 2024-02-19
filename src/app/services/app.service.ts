@@ -8,14 +8,19 @@ import { DatePipe } from '@angular/common';
 export class AppService {
 
   constructor(private datePipe:DatePipe) { }
-
+  
   HHMMFormatter(timestamp:string){
     const inputDate = new Date(timestamp);
     const options:any = { hour: '2-digit', minute: '2-digit' };
     const formatter = new Intl.DateTimeFormat('en-US', options);
     return formatter.format(inputDate);
   }
-
+  
+  extractDate(timestamp: string): string {
+    const date = new Date(timestamp);
+    return this.datePipe.transform(date, 'dd/MM/yy') || '';
+  }
+  
   DMonthYFormatter(timestamp:string){
     const date = new Date(timestamp);
     const options:any = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -27,10 +32,6 @@ export class AppService {
     return `${environment.BASE_API_URL}/image/view/${name}/${image}`
   }
 
-  extractDate(timestamp: string): string {
-    const date = new Date(timestamp);
-    return this.datePipe.transform(date, 'dd/MM/yy') || '';
-  }
 
   getMessageImageUrl(user:string|any,imageName:string|any):string{
     return `${environment.BASE_API_URL}/message/view/${user}/image/${imageName}`

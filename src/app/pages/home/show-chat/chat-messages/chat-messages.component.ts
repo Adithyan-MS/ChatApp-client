@@ -63,6 +63,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   scrollToBottomSucess:boolean = false
   scrollToMessageSucess:boolean = false
   sendFieldFocusSuccess:boolean = false
+  pageNumber:number= 0
+  isMessagesFull:boolean = false
   private destroy$ = new Subject<void>();
 
   
@@ -70,15 +72,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   
   ngOnInit(): void {
-    interval(3000)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(()=>{
-        if(this.currentChat.type==="user"){
-          this.getUserChatMessage()
-        }else{
-          this.getRoomChatMessage()
-        }
-      })
+    // interval(3000)
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe(()=>{
+    //     if(this.currentChat.type==="user"){
+    //       this.getUserChatMessage()
+    //     }else{
+    //       this.getRoomChatMessage()
+    //     }
+    //   })
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data=="openSearch")
         this.openSearch()
@@ -105,6 +107,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.pageNumber = 0
+    this.isMessagesFull = false
+    this.messageList = []
     this.isSearchOpened=false    
     this.showCheckBox=false
     this.scrollToBottomSucess=false
@@ -130,18 +135,41 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     }
   }
   getUserChatMessage(){
-    this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
-      this.messageList=data            
+    this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
+      if (data.length!=0) {
+        this.messageList = data.concat(this.messageList)   
+        console.log(this.myScrollContainer.nativeElement.scrollHeight);
+                 
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
+      }else{
+        this.isMessagesFull = true
+        // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
+        console.log(this.isMessagesFull);        
+      }
       },(error)=>console.log(error))      
     }
     getRoomChatMessage(){
-      this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
-        this.messageList=data
+      this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
+        this.messageList = data.concat(this.messageList)    
     },(error)=>console.log(error))
   }
 
   onScroll(){
     this.scrollToBottomSucess = true
+    console.log(this.myScrollContainer.nativeElement.scrollTop);
+    
+    if(this.myScrollContainer.nativeElement.scrollTop <= 100){
+      this.pageNumber++
+      if(this.currentChat.type==="user"){
+        this.getUserChatMessage()
+      }else{
+        this.getRoomChatMessage()
+      }      
+      // setTimeout(()=>{
+      //   if(!this.isMessagesFull)
+      //     this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
+      // }),2000
+    }
   }
 
   sendMessage(){
