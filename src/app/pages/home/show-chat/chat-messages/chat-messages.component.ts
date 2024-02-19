@@ -64,7 +64,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   scrollToMessageSucess:boolean = false
   sendFieldFocusSuccess:boolean = false
   pageNumber:number= 0
-  isMessagesFull:boolean = false
   private destroy$ = new Subject<void>();
 
   
@@ -98,17 +97,18 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   ngAfterViewChecked(): void {    
     if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
       this.setSendFieldFocus()
-    if(this.locateMessageId!=null){
-      if(this.scrollToMessageSucess==false)
-        this.scrollToMessage(this.locateMessageId)
-    }else if(this.scrollToBottomSucess==false){
-      this.scrollToBottom()
-    }
+    // if(this.locateMessageId!=null){
+    //   if(this.scrollToMessageSucess==false)
+    //     this.scrollToMessage(this.locateMessageId)
+    // }else if(this.scrollToBottomSucess==false){
+    //   this.scrollToBottom()
+    // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("chhsasngd");
+    
     this.pageNumber = 0
-    this.isMessagesFull = false
     this.messageList = []
     this.isSearchOpened=false    
     this.showCheckBox=false
@@ -126,49 +126,48 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.currentChat.type=="user" ? (this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE) : this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
     this.locateMessageId=this.messageService.getSelectedMessageId()
     if(this.currentChat.type==="user"){
-      this.getUserChatMessage();
+      // this.getUserChatMessage();
+      this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
+          this.messageList = data.concat(this.messageList)
+          setTimeout(()=>this.scrollToBottom()),1000
+      },(error)=>console.log(error))
     }else{
-      this.getRoomChatMessage();
+        // this.getRoomChatMessage();
+      this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
+        this.messageList = data.concat(this.messageList)
+        setTimeout(()=>this.scrollToBottom()),1000
+      },(error)=>console.log(error))
+
       this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/userList`).subscribe((data)=>{
         this.roomUsers = data.join(', ')
       },(error)=>console.log(error))
     }
   }
-  getUserChatMessage(){
+  getUserChatMessage(){    
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
       if (data.length!=0) {
-        this.messageList = data.concat(this.messageList)   
-        console.log(this.myScrollContainer.nativeElement.scrollHeight);
-                 
+        this.messageList = data.concat(this.messageList)
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
-      }else{
-        this.isMessagesFull = true
-        // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
-        console.log(this.isMessagesFull);        
       }
       },(error)=>console.log(error))      
     }
     getRoomChatMessage(){
       this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-        this.messageList = data.concat(this.messageList)    
+        if (data.length!=0) {
+          this.messageList = data.concat(this.messageList)   
+          this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
+        }
     },(error)=>console.log(error))
   }
 
   onScroll(){
-    this.scrollToBottomSucess = true
-    console.log(this.myScrollContainer.nativeElement.scrollTop);
-    
     if(this.myScrollContainer.nativeElement.scrollTop <= 100){
       this.pageNumber++
       if(this.currentChat.type==="user"){
         this.getUserChatMessage()
       }else{
         this.getRoomChatMessage()
-      }      
-      // setTimeout(()=>{
-      //   if(!this.isMessagesFull)
-      //     this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
-      // }),2000
+      }
     }
   }
 
