@@ -97,16 +97,16 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   ngAfterViewChecked(): void {    
     if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
       this.setSendFieldFocus()
-    // if(this.locateMessageId!=null){
-    //   if(this.scrollToMessageSucess==false)
-    //     this.scrollToMessage(this.locateMessageId)
-    // }else if(this.scrollToBottomSucess==false){
-    //   this.scrollToBottom()
-    // }
+    if(this.locateMessageId!=null){
+      if(this.scrollToMessageSucess==false)
+        this.scrollToMessage(this.locateMessageId)
+    }else if(this.scrollToBottomSucess==false){
+      this.scrollToBottom()
+    }
+    // this.scrollToBottom()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("chhsasngd");
     
     this.pageNumber = 0
     this.messageList = []
@@ -126,47 +126,53 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.currentChat.type=="user" ? (this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE) : this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
     this.locateMessageId=this.messageService.getSelectedMessageId()
     if(this.currentChat.type==="user"){
-      // this.getUserChatMessage();
-      this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-          this.messageList = data.concat(this.messageList)
-          setTimeout(()=>this.scrollToBottom()),1000
-      },(error)=>console.log(error))
+      this.getUserChatMessage();
     }else{
-        // this.getRoomChatMessage();
-      this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-        this.messageList = data.concat(this.messageList)
-        setTimeout(()=>this.scrollToBottom()),1000
-      },(error)=>console.log(error))
-
-      this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/userList`).subscribe((data)=>{
-        this.roomUsers = data.join(', ')
-      },(error)=>console.log(error))
+      this.getRoomChatMessage();
     }
   }
-  getUserChatMessage(){    
+  getUserChatMessage(){
+    this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
+      this.messageList = data
+      // setTimeout(()=>this.scrollToBottom()),1000
+    },(error)=>console.log(error))
+  }
+  getRoomChatMessage(){
+    this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
+      this.messageList = data
+      // setTimeout(()=>this.scrollToBottom()),1000
+    },(error)=>console.log(error))
+    this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/userList`).subscribe((data)=>{
+      this.roomUsers = data.join(', ')
+    },(error)=>console.log(error))
+  }
+  loadMoreUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
       if (data.length!=0) {
         this.messageList = data.concat(this.messageList)
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight - 250
       }
-      },(error)=>console.log(error))      
-    }
-    getRoomChatMessage(){
-      this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-        if (data.length!=0) {
-          this.messageList = data.concat(this.messageList)   
-          this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight
-        }
+    },(error)=>console.log(error))     
+  }
+  loadMoreRoomChatMessage(){
+    this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
+      if (data.length!=0) {
+        this.messageList = data.concat(this.messageList)   
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight - 250
+      }
     },(error)=>console.log(error))
   }
 
   onScroll(){
-    if(this.myScrollContainer.nativeElement.scrollTop <= 100){
+    this.scrollToBottomSucess = true
+    console.log(this.myScrollContainer.nativeElement.scrollTop);
+    
+    if(this.myScrollContainer.nativeElement.scrollTop <= 60){
       this.pageNumber++
       if(this.currentChat.type==="user"){
-        this.getUserChatMessage()
+        this.loadMoreUserChatMessage()
       }else{
-        this.getRoomChatMessage()
+        this.loadMoreRoomChatMessage()
       }
     }
   }
