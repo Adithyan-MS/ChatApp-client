@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.items{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.item{
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.item img{
+    height: 100%;
+}

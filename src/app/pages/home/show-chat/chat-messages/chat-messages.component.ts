@@ -19,11 +19,12 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
 import { ModalService } from '../../../../services/modal.service';
 import { Subject, interval, takeUntil } from 'rxjs';
+import { AudioRecordComponent } from './audio-record/audio-record.component';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,ClickOutsideDirective,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent,PickerComponent],
+  imports: [CommonModule,ReactiveFormsModule,ClickOutsideDirective,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent,PickerComponent,AudioRecordComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss',
   animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getPopupAnimation()]
@@ -63,6 +64,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   scrollToBottomSucess:boolean = false
   scrollToMessageSucess:boolean = false
   sendFieldFocusSuccess:boolean = false
+  isAudioOpened:boolean = false
   private destroy$ = new Subject<void>();
 
   
@@ -108,6 +110,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.isSearchOpened=false    
     this.showCheckBox=false
     this.scrollToBottomSucess=false
+    this.isAudioOpened = false
     this.scrollToMessageSucess=false
     this.isForwardOpened=false
     this.parentMessage = null
@@ -506,5 +509,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
 
   mobileBack(){
     this.dataService.notifyOther("mobile-back")
+  }
+  showAudioRecord(){
+    this.isAudioOpened = true
   }
 }

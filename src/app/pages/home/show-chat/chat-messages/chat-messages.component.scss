@@ -406,6 +406,10 @@ app-send-file{
   .fa-location-arrow:hover{
     color: white;
   }
+  .fa-microphone{
+    cursor: pointer;
+    font-size: calc(var(--fs-l) + 2px)
+  }
 
   app-message{
     position: relative;
