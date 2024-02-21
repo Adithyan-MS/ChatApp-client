@@ -75,10 +75,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     interval(3000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
-        if(this.currentChat.type==="user"){
-          this.getUserChatMessage()
-        }else{
-          this.getRoomChatMessage()
+        if(!this.isSearchOpened){
+          if(this.currentChat.type==="user"){          
+            this.getUserChatMessage()
+          }else{
+            this.getRoomChatMessage()
+          }
         }
       })
     this.dataService.notifyObservable$.subscribe((data)=>{
@@ -285,12 +287,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       queryParams = queryParams.append("value",searchContent);
       if(this.currentChat.type=="user"){
         this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/search`,{params:queryParams}).subscribe((data)=>{
-        this.messageList=data       
-        },(error)=>console.log(error))   
+          this.messageList=data
+        },(error)=>console.log(error))
       }else{
         this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/search`,{params:queryParams}).subscribe((data)=>{
           this.messageList=data       
-          },(error)=>console.log(error)) 
+        },(error)=>console.log(error)) 
       }
     }else{
       if(this.currentChat.type==="user"){
@@ -454,9 +456,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.showSendFilePreview=true
   }
   onCloseSendFileEvent(event:any){
-    if(event){
+    if(event){      
       this.showSendFilePreview=false
       this.images=[]
+      this.selectedFiles=[]
     }
   }
   onFileSendSuccess(event:any){

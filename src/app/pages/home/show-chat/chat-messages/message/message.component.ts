@@ -80,7 +80,7 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
         this.imageParentUrl =this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content)
       }
       else if(this.message.parent_message_type=="video"){
-        this.imageParentUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,`${this.message.parent_message_content}.png`)
+        this.imageParentUrl = this.appService.getThumbnailUrl(`user_${this.message.parent_message_sender_id}`,`${this.message.parent_message_content}.png`)
       }
     }
   }
