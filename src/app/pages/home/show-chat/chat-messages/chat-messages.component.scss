@@ -106,12 +106,25 @@
   justify-content: center;
   width: 100%;
   height: 50px;
+  position: relative;
 }
 .search-container .back-icon{
   width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.search-controls{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.search-controls i{
+  cursor: pointer;
+}
+.search-controls i:hover{
+  color: var(--dark-roof);
 }
 .back-icon i{
   font-size: var(--fs-l);  
@@ -121,7 +134,7 @@
   color: white;
 }
 .search-container input{
-  width: 90%;
+  width: 88%;
   padding-top: 10px;
   height: 60%;
   font-size: var(--fs-m);
@@ -131,7 +144,19 @@
 .search-container input:focus{
   outline: none;
 }
-
+.search-container .not-found{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  font-size: 13px;
+  padding: 5px;
+  right: 45%;
+  top: 50px;
+  border-radius: 10px;
+}
 
 .select-option-container{
   width: 100%;
@@ -480,6 +505,9 @@ app-send-file{
    .emoji-container emoji-mart{
     width: 50px;
    }
+   .search-container .not-found{
+    right: 40%;
+  }
   }
   @media screen and (max-width: 500px){
     .mobileBack{

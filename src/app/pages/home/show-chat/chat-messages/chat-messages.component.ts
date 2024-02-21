@@ -6,7 +6,7 @@ import { AppService } from '../../../../services/app.service';
 import { environment } from '../../../../../environments/environment.development';
 import { ApiService } from '../../../../services/api.service';
 import { MessageComponent } from './message/message.component';
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { DataService } from '../../../../services/data.service';
 import { ParentMessageComponent } from './parent-message/parent-message.component';
 import { EditMessageComponent } from './edit-message/edit-message.component';
@@ -65,23 +65,26 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   scrollToMessageSucess:boolean = false
   sendFieldFocusSuccess:boolean = false
   isAudioOpened:boolean = false
+  filteredMessages:message[]=[]
+  highlightedIndex:number
+  isSearchMessageNotFound:boolean = false
   private destroy$ = new Subject<void>();
+  searchContent:any = null
 
   
-  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){
+  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
     interval(3000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
-        if(!this.isSearchOpened){
-          if(this.currentChat.type==="user"){          
-            this.getUserChatMessage()
-          }else{
-            this.getRoomChatMessage()
-          }
+        if(this.currentChat.type==="user"){          
+          this.getUserChatMessage()
+        }else{
+          this.getRoomChatMessage()
         }
+        this.senderNameService.setPreviousSenderName("")
       })
     this.dataService.notifyObservable$.subscribe((data)=>{
       if(data=="openSearch")
@@ -123,6 +126,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.showSendFilePreview=false
     this.images=[]
     this.sendFieldFocusSuccess = false
+    this.filteredMessages=[]
+    this.highlightedIndex = -1
+    this.isSearchMessageNotFound = false
     this.currentChat.type=="user" ? (this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE) : this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
     this.locateMessageId=this.messageService.getSelectedMessageId()
     if(this.currentChat.type==="user"){
@@ -133,6 +139,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         this.roomUsers = data.join(', ')
       },(error)=>console.log(error))
     }
+    this.senderNameService.setPreviousSenderName("")
+    // setTimeout(()=>{
+    //   this.scrollToBottom()
+    // }),1000
   }
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
@@ -146,7 +156,17 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
 
   onScroll(){
-    this.scrollToBottomSucess = true
+    if(this.isScrollAtBottom()){
+      console.log(this.myScrollContainer.nativeElement.scrollHeight);      
+      this.scrollToBottomSucess = true
+    }
+  }
+
+  isScrollAtBottom(): boolean {
+    const scrollTop = this.myScrollContainer.nativeElement.scrollTop;
+    const scrollHeight = this.myScrollContainer.nativeElement.scrollHeight;
+    const containerHeight = this.myScrollContainer.nativeElement.clientHeight;
+    return scrollHeight - (scrollTop + containerHeight) < 10;
   }
 
   sendMessage(){
@@ -205,26 +225,28 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
 
   scrollToBottom() {
     if (this.myScrollContainer && this.myScrollContainer.nativeElement) 
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
   }
 
-  scrollToMessage(messageId: number|null): void {
+  scrollToMessage(messageId: number | null): void {
     const container: HTMLElement = this.myScrollContainer.nativeElement;
     const messageElement = container.querySelector(`#message-${messageId}`) as HTMLElement;
+  
     if (messageElement) {
-      const containerRect = container.getBoundingClientRect();
-      const messageRect = messageElement.getBoundingClientRect();
-      const scrollTo = messageRect.top - containerRect.top - containerRect.height / 2 + messageRect.height / 2;
+      const scrollTo = messageElement.offsetTop - container.offsetTop - container.clientHeight / 2 + messageElement.clientHeight / 2;
       messageElement.style.backgroundColor = 'rgba(171, 197, 207, 0.5)';
+      
       container.scrollTo({
         top: scrollTo,
         behavior: 'smooth',
       });
+  
       setTimeout(() => {
         messageElement.style.backgroundColor = '';
       }, 1000);
     }
-    this.scrollToMessageSucess = true
+  
+    this.scrollToMessageSucess = true;
   }
   setSendFieldFocus(){
     if(this.myMessageSendField){
@@ -283,24 +305,40 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   searchMessage(event:any){
     const searchContent = event.target.value
     if(searchContent != ''){
-      let queryParams = new HttpParams();
-      queryParams = queryParams.append("value",searchContent);
-      if(this.currentChat.type=="user"){
-        this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/search`,{params:queryParams}).subscribe((data)=>{
-          this.messageList=data
-        },(error)=>console.log(error))
-      }else{
-        this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/search`,{params:queryParams}).subscribe((data)=>{
-          this.messageList=data       
-        },(error)=>console.log(error)) 
-      }
-    }else{
-      if(this.currentChat.type==="user"){
-        this.getUserChatMessage();
-      }else{
-        this.getRoomChatMessage();
-      }
+      this.searchContent = searchContent
+      this.filteredMessages = this.messageList.filter((message) =>
+        message.content.toLowerCase().includes(this.searchContent.toLowerCase()) && message.type=="text"
+      );
+      this.highlightedIndex = this.filteredMessages.length != 0 ? this.filteredMessages.length - 1 : -1      
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
     }
+  }
+
+  upSearchControl(){
+    if(this.highlightedIndex > 0){
+      this.highlightedIndex--;
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
+    }else{
+      this.showNotFoundDialog(2)
+    }
+    console.log(this.highlightedIndex);
+    
+  }
+  downSearchControl(){
+    if(this.highlightedIndex < this.filteredMessages.length-1){
+      this.highlightedIndex++;
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
+    }else{
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
+    }
+    console.log(this.highlightedIndex);
+  }
+
+  showNotFoundDialog(seconds: number): void {
+    this.isSearchMessageNotFound = true;  
+    setTimeout(() => {
+      this.isSearchMessageNotFound = false;
+    },seconds * 1000);
   }
 
   isDifferentDay(messageIndex: number): boolean {

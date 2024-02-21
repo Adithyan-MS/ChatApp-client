@@ -6,6 +6,15 @@
                     <i class="fa-solid fa-arrow-left" (click)="backSearch()"></i>
                 </div>
                 <input type="text" placeholder="Search..." #searchInput (input)="searchMessage($event)">
+                <div class="search-controls">
+                    <i class="fa-solid fa-chevron-up" (click)="upSearchControl()"></i>
+                    <i class="fa-solid fa-chevron-down" (click)="downSearchControl()"></i>
+                </div>
+                @if (isSearchMessageNotFound) {
+                    <div class="not-found" [@dropdownAnimation]>
+                        <span>Not Found</span>
+                    </div>
+                }
             </div>
         }
         @case ("select") {
@@ -77,7 +86,7 @@
                     </div>
                 </div>
             }
-            <app-message [@popupAnimation] class="dropup"  [attr.id]="'message-' + message.id" [index]="$index" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message [@popupAnimation] class="dropup"  [attr.id]="'message-' + message.id" [index]="$index" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)" [searchContent]="searchContent"></app-message>
         }
     </div>
 </div>

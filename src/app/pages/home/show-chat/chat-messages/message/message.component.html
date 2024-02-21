@@ -47,7 +47,7 @@
             }
             <div class="username">
                 <div class="user-span">
-                    @if (shouldDisplaySenderName(message.sender_name)) {
+                    @if (shouldDisplaySenderName(message.sender_name,message.type)) {
                         <span>{{message.sender_name}}</span>
                     }
                 </div>
