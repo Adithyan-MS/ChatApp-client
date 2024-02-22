@@ -70,13 +70,12 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   isSearchMessageNotFound:boolean = false
   private destroy$ = new Subject<void>();
   searchContent:any = null
-
   
   constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
-    interval(3000)
+    interval(2000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
         if(this.currentChat.type==="user"){          
@@ -84,10 +83,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         }else{
           this.getRoomChatMessage()
         }
-        this.senderNameService.setPreviousSenderName("")
+        // this.senderNameService.setPreviousSenderName("")
       })
-    this.dataService.notifyObservable$.subscribe((data)=>{
-      if(data=="openSearch")
+      this.dataService.notifyObservable$.subscribe((data)=>{
+        if(data=="openSearch")
         this.openSearch()
     })
     this.messageForm = this.fb.group({
@@ -99,23 +98,24 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.destroy$.next()
     this.destroy$.complete()
   }
-
+  
   ngAfterViewChecked(): void {    
     if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
-      this.setSendFieldFocus()
-    if(this.locateMessageId!=null){
-      if(this.scrollToMessageSucess==false)
-        this.scrollToMessage(this.locateMessageId)
-    }else if(this.scrollToBottomSucess==false){
-      this.scrollToBottom()
-    }
-  }
+    this.setSendFieldFocus()
+  if(this.locateMessageId!=null){
+    if(this.scrollToMessageSucess==false)
+    this.scrollToMessage(this.locateMessageId)
+}else if(this.scrollToBottomSucess==false){
+  this.scrollToBottom()
+}
+}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.isSearchOpened=false    
-    this.showCheckBox=false
-    this.scrollToBottomSucess=false
-    this.isAudioOpened = false
+ngOnChanges(changes: SimpleChanges): void {
+  this.senderNameService.setPreviousSenderName("")
+  this.isSearchOpened=false
+  this.showCheckBox=false
+  this.scrollToBottomSucess=false
+  this.isAudioOpened = false
     this.scrollToMessageSucess=false
     this.isForwardOpened=false
     this.parentMessage = null
@@ -139,15 +139,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         this.roomUsers = data.join(', ')
       },(error)=>console.log(error))
     }
-    this.senderNameService.setPreviousSenderName("")
+    
     // setTimeout(()=>{
     //   this.scrollToBottom()
     // }),1000
   }
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
-      this.messageList=data            
-      },(error)=>console.log(error))      
+      this.messageList=data
+      },(error)=>console.log(error))
     }
     getRoomChatMessage(){
       this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
@@ -157,7 +157,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
 
   onScroll(){
     if(this.isScrollAtBottom()){
-      console.log(this.myScrollContainer.nativeElement.scrollHeight);      
       this.scrollToBottomSucess = true
     }
   }
@@ -320,9 +319,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
     }else{
       this.showNotFoundDialog(2)
-    }
-    console.log(this.highlightedIndex);
-    
+    }    
   }
   downSearchControl(){
     if(this.highlightedIndex < this.filteredMessages.length-1){
@@ -331,7 +328,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     }else{
       this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
     }
-    console.log(this.highlightedIndex);
   }
 
   showNotFoundDialog(seconds: number): void {
@@ -343,10 +339,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
 
   isDifferentDay(messageIndex: number): boolean {
     if (messageIndex === 0) return true;
-
     const d1 = new Date(this.messageList[messageIndex - 1].created_at);
     const d2 = new Date(this.messageList[messageIndex].created_at);
-
     return (
       d1.getFullYear() !== d2.getFullYear() ||
       d1.getMonth() !== d2.getMonth() ||
@@ -361,13 +355,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     let dateYesterday = longDateYesterday.toDateString();
     let today = dateToday.slice(0, dateToday.length - 5);
     let yesterday = dateYesterday.slice(0, dateToday.length - 5);
-
     const wholeDate = new Date(
       this.messageList[messageIndex].created_at
     ).toDateString();
-
     this.messageDateString = wholeDate.slice(0, wholeDate.length - 5);
-
     if (
       new Date(this.messageList[messageIndex].created_at).getFullYear() ===
       new Date().getFullYear()
@@ -428,6 +419,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   onForwardCancel(event:any){
     if(this.isForwardOpened){
       this.isForwardOpened=false
+      this.selectedList = []
     }
   }
   forwardMessages(){

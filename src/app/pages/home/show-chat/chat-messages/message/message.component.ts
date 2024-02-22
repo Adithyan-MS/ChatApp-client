@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component,ElementRef,EventEmitter,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component,ElementRef,EventEmitter,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  User, message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
@@ -16,13 +16,12 @@ import { VideoProcessingService } from '../../../../../services/video-processing
 @Component({
   selector: 'app-message',
   standalone: true,
-  changeDetection:ChangeDetectionStrategy.OnPush,
   imports: [CommonModule,ParentMessageComponent,ClickOutsideDirective],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
   animations:[AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getDropupAnimation()]
 })
-export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
+export class MessageComponent implements OnInit,OnChanges{
 
   @Input() message:message
   @Input() searchContent:any
@@ -52,10 +51,7 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
   messageContent:any
   thumbnailData: string;
 
-
   constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService,private videoService: VideoProcessingService){}
-  ngAfterViewChecked(): void {    
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
