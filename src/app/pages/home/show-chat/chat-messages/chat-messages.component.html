@@ -147,12 +147,12 @@
                     }                
                     <input [class.disabled]="showSendFilePreview" formControlName="content" type="text" placeholder="Type a message" #sendInput>
                 </div>                
-                <button [class.disabled]="showSendFilePreview" type="submit">
+                <!-- <button [class.disabled]="showSendFilePreview" type="submit">
                     <span class="material-symbols-outlined">
                         send
                     </span>
-                </button>
-                <!-- <i (click)="showAudioRecord()" class="fa-solid fa-microphone"></i> -->
+                </button> -->
+                <i (click)="showAudioRecord()" class="fa-solid fa-microphone"></i>
             </form>
         }@else{
             <app-audio-record></app-audio-record>

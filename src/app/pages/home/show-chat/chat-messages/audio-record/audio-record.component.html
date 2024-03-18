@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <div class="items">
         <div class="item">
             <i class="fa-solid fa-trash"></i>
@@ -6,11 +6,11 @@
         <div class="item">
             <span>00:00</span>
         </div>
+        <div class="item"> -->
+            <!-- <img src="/assets/audio-record.gif" alt=""> -->
+        <!-- </div>
         <div class="item">
-            <img src="/assets/audio-record.gif" alt="">
-        </div>
-        <div class="item">
-            <i class="fa-regular fa-circle-pause"></i>
+            <i class="fa-regular fa-circle-pause" (click)="stopRecording()"></i>
         </div>
         <div class="item">
             <button type="submit">
@@ -19,5 +19,13 @@
                 </span>
             </button>
         </div>
+        @if(url){
+            <div class="item">
+                <audio src="" controls>
+                    <source [src]="sanitize(url)" type="audio/wav">
+                </audio>
+            </div>
+        }
+        
     </div>
-</div>
+</div> -->
