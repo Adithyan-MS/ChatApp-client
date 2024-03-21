@@ -94,7 +94,7 @@
     <div class="send">
         @if (isCurrentUserPastParticipant) {
             <span>You can't send messages to this room because you're no longer a member.</span>            
-        }@else if(!isAudioOpened) {
+        }@else{
             <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                 <i class="fa-regular fa-face-smile" (click)="toggleEmoji()"></i>
                 @if (isEmojiOpened) {
@@ -152,13 +152,17 @@
                         send
                     </span>
                 </button> -->
-                <i (click)="showAudioRecord()" class="fa-solid fa-microphone"></i>
+                <div class="mic-container">
+                    <i (click)="showAudioRecord()" class="fa-solid fa-microphone"></i>
+                </div>
+                @if (isAudioOpened) {
+                    <app-audio-record [@dropupAnimation] (audioStatusEvent)="onAudioStatus($event)"></app-audio-record>
+
+                }
             </form>
-        }@else{
-            <app-audio-record></app-audio-record>
-        }     
+        }
     </div>
 </div>
 @if(isForwardOpened){
-    <app-forward-message (forwardSubmitEvent)="onForwardSumbit($event)" (forwardCancelEvent)="onForwardCancel($event)"></app-forward-message>
+    <app-forward-message  (forwardSubmitEvent)="onForwardSumbit($event)" (forwardCancelEvent)="onForwardCancel($event)"></app-forward-message>
 }

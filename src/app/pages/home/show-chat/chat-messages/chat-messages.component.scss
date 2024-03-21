@@ -258,6 +258,8 @@
     align-items: center;
     position: sticky;
     bottom: 0;
+    clip-path: inset(-10vw 0 0vw 0); 
+    
   }
   .send{
     width: 95%;
@@ -379,6 +381,7 @@ app-send-file{
 }
 
 
+
 .input{
     width: 100%;
     height: 100%;
@@ -387,6 +390,8 @@ app-send-file{
     display: flex;
     gap: 5px;
     padding-left: 10px;
+    position: relative;
+    clip-path: inset(-10vw 0 0vw 0); 
   }
   .form-input{
     width: 100%;
@@ -434,6 +439,24 @@ app-send-file{
   .fa-microphone{
     cursor: pointer;
     font-size: calc(var(--fs-l) + 2px)
+  }
+  .mic-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: 50px;
+    width: 100px;
+    height: 100px;
+    background-color: var(--mid-roof);
+    position: absolute;
+    right: -40px;    
+  }
+
+  app-audio-record{
+    right: -10px;
+    bottom: 35px;
+    position: absolute;
   }
 
   app-message{

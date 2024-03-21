@@ -8,13 +8,33 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
+    flex-direction: column;
 }
 .item{
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--mid-roof);
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    font-size: 15px;
 }
+button{
+    border: none;
+    border-radius: 20px;
+    background-color:var(--mid-roof);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -5px;
+  }
+  button span{
+    font-size: calc(var(--fs-l) + 5px);
+    color: black;
+    font-weight: 500;
+  }
 .item img{
     height: 100%;
 }

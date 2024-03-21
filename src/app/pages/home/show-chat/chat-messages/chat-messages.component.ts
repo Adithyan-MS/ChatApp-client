@@ -546,4 +546,14 @@ ngOnChanges(changes: SimpleChanges): void {
   showAudioRecord(){
     this.isAudioOpened = true
   }
+
+  onAudioStatus(event:any){
+    this.isAudioOpened = false
+    
+    if(event){
+
+    }else{
+      
+    }
+  }
 }
