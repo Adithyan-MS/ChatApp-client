@@ -1,19 +1,22 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioRecordingService } from './audio-recording.service';
+import { AnimationService } from '../../../../../services/animation.service';
 
 @Component({
   selector: 'app-audio-record',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './audio-record.component.html',
-  styleUrl: './audio-record.component.scss'
+  styleUrl: './audio-record.component.scss',
+  animations:[AnimationService.prototype.getDropupAnimation()]
 })
 export class AudioRecordComponent implements OnInit, OnDestroy{
 
   isRecording = false;
-  recordedTime:string
+  recordedTime:string = '00:00'
   audioURL: string | null = null;
+  blob:Blob
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
   @Output() audioStatusEvent = new EventEmitter<any>()
 
@@ -26,8 +29,7 @@ export class AudioRecordComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.audioRecordingService.audioBlob$.subscribe(blob => {
       this.audioURL = window.URL.createObjectURL(blob);
-      console.log(blob);
-      
+      this.blob = blob      
       this.audioPlayer.nativeElement.src = this.audioURL;
       this.cd.detectChanges();
     });
@@ -45,14 +47,14 @@ export class AudioRecordComponent implements OnInit, OnDestroy{
   stopRecording() {
     this.isRecording = false;
     this.audioRecordingService.stopRecording();
-    this.audioStatusEvent.emit(true)
+    this.audioStatusEvent.emit(this.blob)
   }
   
   abortRecording() {
     if (this.isRecording) {
       this.isRecording = false;
       this.audioRecordingService.abortRecording();
-      this.audioStatusEvent.emit(false)
+      this.audioStatusEvent.emit(null)
     }
   }
 

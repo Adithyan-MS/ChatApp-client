@@ -20,6 +20,8 @@ import { ClickOutsideDirective } from '../../../../directives/clickOutside/click
 import { ModalService } from '../../../../services/modal.service';
 import { Subject, interval, takeUntil } from 'rxjs';
 import { AudioRecordComponent } from './audio-record/audio-record.component';
+import { error } from 'console';
+import { blob } from 'stream/consumers';
 
 @Component({
   selector: 'app-chat-messages',
@@ -547,13 +549,33 @@ ngOnChanges(changes: SimpleChanges): void {
     this.isAudioOpened = true
   }
 
-  onAudioStatus(event:any){
+  onAudioStatus(blob:Blob){
     this.isAudioOpened = false
-    
-    if(event){
-
+    if(blob){
+      this.sendAudio(blob)
     }else{
       
     }
+  }
+  
+  sendAudio(blob:Blob){
+    const messageRequest = {
+      message:{
+        content:"file",
+        type:"audio",
+        parentMessage: this.parentMessage!=null ? this.parentMessage?.id : null
+      },
+      receiver:{
+        type:this.currentChat.type,
+        id:this.currentChat.id
+      }
+    }
+    let formData: FormData = new FormData();
+    formData.append('file', blob);
+    formData.append('messageData', JSON.stringify(messageRequest));
+    const headers = new HttpHeaders().set("ResponseType","text")
+    this.api.postReturn(`${environment.BASE_API_URL}/message/sendFile`, formData, {headers}).subscribe((data)=>{
+      console.log(data);
+    },(error)=>console.log(error))
   }
 }

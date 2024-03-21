@@ -1,37 +1,22 @@
 <div class="container">
     <div class="items">
-        @if(isRecording){
-            <div class="item">
-                <i class="fa-solid fa-trash" (click)="abortRecording()"></i>
-            </div>
-        }
-        <div class="item">
+        <div class="item circle" [@dropupAnimation]>
             <div *ngIf="isRecording"> {{recordedTime}} </div>
         </div>
-        <div class="item">
+        <div class="item circle" [@dropupAnimation]>
             <button type="submit" (click)="stopRecording()">
                 <span class="material-symbols-outlined">
                     send
                 </span>
             </button>
         </div>
-        <div>
+        <div class="item circle" [@dropupAnimation]>
+            <i class="fa-solid fa-trash" (click)="abortRecording()"></i>
+        </div>
+        <!-- <div>
             @if(!isRecording){
                 <audio #audioPlayer controls style="margin: 10px;"></audio>
             }
-        </div>
+        </div> -->
     </div>
 </div>
-<!-- <div class="content" role="main">
-    <div class="row justify-content-center pt-2 pb-2">
-      <button title="Click here to start recording action" class="btn-mic w-auto" (click)="startRecording()"
-        *ngIf="!isRecording" style="margin-right: 3px;">
-        <img src="../../assets/mic.png" />
-      </button>
-      <button title="Click here to stop recording" class="btn-stop w-auto" (click)="stopRecording()" *ngIf="isRecording"
-        style="margin-right: 3px;">
-        <img src="../../assets/stop.png" />
-      </button>
-    </div>
-    <audio #audioPlayer controls style="margin: 10px;"></audio>
-  </div> -->

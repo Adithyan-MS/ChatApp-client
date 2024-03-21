@@ -152,8 +152,8 @@
                         send
                     </span>
                 </button> -->
-                <div class="mic-container">
-                    <i (click)="showAudioRecord()" class="fa-solid fa-microphone"></i>
+                <div [class.mic-container]="isAudioOpened">
+                    <i (click)="showAudioRecord()" class="fa-solid fa-microphone" [class.animate-mic]="isAudioOpened"></i>
                 </div>
                 @if (isAudioOpened) {
                     <app-audio-record [@dropupAnimation] (audioStatusEvent)="onAudioStatus($event)"></app-audio-record>
