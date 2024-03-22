@@ -391,8 +391,7 @@ app-send-file{
     display: flex;
     gap: 5px;
     padding-left: 10px;
-    position: relative;
-    // clip-path: inset(-10vw 0 0vw 0); 
+    position: relative; 
   }
   .form-input{
     width: 100%;

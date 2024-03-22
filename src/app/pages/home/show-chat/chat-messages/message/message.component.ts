@@ -36,6 +36,7 @@ export class MessageComponent implements OnInit,OnChanges{
   @Output() notifyUnCheckedMssageEvent = new EventEmitter<any>()
   @Output() forwardMssageEvent = new EventEmitter<any>()
   @ViewChild('checkbox') private checkBoxInput: ElementRef;
+
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -50,6 +51,8 @@ export class MessageComponent implements OnInit,OnChanges{
   isOpened:boolean=false
   messageContent:any
   thumbnailData: string;
+  audioBlob:Blob
+  audioURL:string
 
   constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService,private videoService: VideoProcessingService){}
 
@@ -67,6 +70,8 @@ export class MessageComponent implements OnInit,OnChanges{
       this.fileUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,this.message.content)
     }else if(this.message.type=="video"){
       this.fileUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,`${this.message.content}.png`)
+    }else if(this.message.type == "audio"){
+      this.fileUrl = `${environment.BASE_API_URL}/message/view/user_${this.message.sender_id}/audio/${this.message.content}`     
     }else{
       this.fileUrl = null
     }

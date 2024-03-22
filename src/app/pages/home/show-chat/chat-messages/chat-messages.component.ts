@@ -22,6 +22,7 @@ import { Subject, interval, takeUntil } from 'rxjs';
 import { AudioRecordComponent } from './audio-record/audio-record.component';
 import { error } from 'console';
 import { blob } from 'stream/consumers';
+import { AudioRecordingService } from './audio-record/audio-recording.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -73,7 +74,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   private destroy$ = new Subject<void>();
   searchContent:any = null
   
-  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
+  constructor(private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
@@ -94,6 +95,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.messageForm = this.fb.group({
       content:['',[Validators.required]]
     })
+    this.audioRecordingService.audioBlob$.subscribe(blob => {
+      this.sendAudio(blob)
+    });
   }
 
   ngOnDestroy(): void {
@@ -141,10 +145,6 @@ ngOnChanges(changes: SimpleChanges): void {
         this.roomUsers = data.join(', ')
       },(error)=>console.log(error))
     }
-    
-    // setTimeout(()=>{
-    //   this.scrollToBottom()
-    // }),1000
   }
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
@@ -549,13 +549,8 @@ ngOnChanges(changes: SimpleChanges): void {
     this.isAudioOpened = true
   }
 
-  onAudioStatus(blob:Blob){
+  onAudioStatus(event:any){
     this.isAudioOpened = false
-    if(blob){
-      this.sendAudio(blob)
-    }else{
-      
-    }
   }
   
   sendAudio(blob:Blob){

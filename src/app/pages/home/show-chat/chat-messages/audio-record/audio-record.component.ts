@@ -17,7 +17,6 @@ export class AudioRecordComponent implements OnInit, OnDestroy{
   recordedTime:string = '00:00'
   audioURL: string | null = null;
   blob:Blob
-  @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
   @Output() audioStatusEvent = new EventEmitter<any>()
 
   constructor(private audioRecordingService: AudioRecordingService, private cd: ChangeDetectorRef) { }
@@ -29,8 +28,8 @@ export class AudioRecordComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.audioRecordingService.audioBlob$.subscribe(blob => {
       this.audioURL = window.URL.createObjectURL(blob);
-      this.blob = blob      
-      this.audioPlayer.nativeElement.src = this.audioURL;
+      this.blob = blob         
+      // this.audioStatusEvent.emit(blob)
       this.cd.detectChanges();
     });
     this.audioRecordingService.recordingTime$.subscribe(time => {
@@ -47,7 +46,7 @@ export class AudioRecordComponent implements OnInit, OnDestroy{
   stopRecording() {
     this.isRecording = false;
     this.audioRecordingService.stopRecording();
-    this.audioStatusEvent.emit(this.blob)
+    this.audioStatusEvent.emit(null)
   }
   
   abortRecording() {

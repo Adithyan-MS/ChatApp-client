@@ -146,12 +146,7 @@
                         <app-edit-message [@dropupAnimation] [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
                     }                
                     <input [class.disabled]="showSendFilePreview" formControlName="content" type="text" placeholder="Type a message" #sendInput>
-                </div>                
-                <!-- <button [class.disabled]="showSendFilePreview" type="submit">
-                    <span class="material-symbols-outlined">
-                        send
-                    </span>
-                </button> -->
+                </div>
                 <div [class.mic-container]="isAudioOpened">
                     <i (click)="showAudioRecord()" class="fa-solid fa-microphone" [class.animate-mic]="isAudioOpened"></i>
                 </div>

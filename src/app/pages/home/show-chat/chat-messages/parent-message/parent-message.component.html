@@ -13,6 +13,9 @@
                 }@else if (message.type == "video") {
                     <span><i class="fa-solid fa-video"></i> Video</span>
                 }
+                @else if(message.type == "audio"){
+                    <span><i class="fa-solid fa-microphone"></i> Voice Message</span>
+                }
                 @else {
                     <span class="parent-text-message">{{message.content}}</span>                   
                 }
