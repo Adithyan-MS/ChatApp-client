@@ -29,7 +29,6 @@ export class AudioRecordComponent implements OnInit, OnDestroy{
     this.audioRecordingService.audioBlob$.subscribe(blob => {
       this.audioURL = window.URL.createObjectURL(blob);
       this.blob = blob         
-      // this.audioStatusEvent.emit(blob)
       this.cd.detectChanges();
     });
     this.audioRecordingService.recordingTime$.subscribe(time => {
@@ -46,7 +45,6 @@ export class AudioRecordComponent implements OnInit, OnDestroy{
   stopRecording() {
     this.isRecording = false;
     this.audioRecordingService.stopRecording();
-    this.audioStatusEvent.emit(null)
   }
   
   abortRecording() {

@@ -147,13 +147,20 @@
                     }                
                     <input [class.disabled]="showSendFilePreview" formControlName="content" type="text" placeholder="Type a message" #sendInput>
                 </div>
-                <div [class.mic-container]="isAudioOpened">
-                    <i (click)="showAudioRecord()" class="fa-solid fa-microphone" [class.animate-mic]="isAudioOpened"></i>
+                <div class="audio-container"   appClickOutside (clickOutside)="clickedOutsideAudio()">
+                    @if (audioSendProgress==null) {
+                        <div [class.mic-container]="isAudioOpened">
+                            <i (click)="showAudioRecord()" class="fa-solid fa-microphone" [class.animate-mic]="isAudioOpened"></i>
+                        </div>
+                    }@else {
+                        <div class="progress">
+                            <div class="progress-bar" [style.width]="audioSendProgress + '%'">{{audioSendProgress}}%</div>
+                        </div>
+                    }
+                    @if (isAudioOpened) {
+                        <app-audio-record [@dropupAnimation] (audioStatusEvent)="onAudioStatus($event)"></app-audio-record>
+                    }
                 </div>
-                @if (isAudioOpened) {
-                    <app-audio-record [@dropupAnimation] (audioStatusEvent)="onAudioStatus($event)"></app-audio-record>
-
-                }
             </form>
         }
     </div>

@@ -181,6 +181,12 @@
     font-size: var(--fs-xxm);
     color: rgb(65, 65, 65);
 }
+
+.content audio {
+    width: 280px;
+    height: 50px;
+}
+
 .time{
     position: absolute;
     right: 4px;
@@ -204,7 +210,7 @@
     padding: 0px 3px 0px 3px;
     border-radius: 20px;
     display: flex;
-    z-index: 100;
+    // z-index: 100;
     align-items: center;
     justify-content: center;
     box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
@@ -299,7 +305,7 @@
     align-items: start;
 }
 .options{
-    z-index: 200;
+    // z-index: 200;
     position: absolute;
     bottom: 5px;
     left: -78px;
@@ -424,6 +430,10 @@
     .right  .options{
         left: -215px;
     }
+    .content audio {
+        width: 260px;
+        height: 48px;
+    }
   }
   @media only screen and (max-width: 700px) {
     .container{
@@ -435,5 +445,9 @@
     .roomInfo{
         line-break: anywhere;
         font-size: var(--fs-xs);
+    }
+    .content audio {
+        width: 240px;
+        height: 46px;
     }
   }

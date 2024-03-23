@@ -6,7 +6,7 @@ import { AppService } from '../../../../services/app.service';
 import { environment } from '../../../../../environments/environment.development';
 import { ApiService } from '../../../../services/api.service';
 import { MessageComponent } from './message/message.component';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { DataService } from '../../../../services/data.service';
 import { ParentMessageComponent } from './parent-message/parent-message.component';
 import { EditMessageComponent } from './edit-message/edit-message.component';
@@ -23,6 +23,7 @@ import { AudioRecordComponent } from './audio-record/audio-record.component';
 import { error } from 'console';
 import { blob } from 'stream/consumers';
 import { AudioRecordingService } from './audio-record/audio-recording.service';
+import { FileUploadService } from './send-file/file-upload.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -73,8 +74,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   isSearchMessageNotFound:boolean = false
   private destroy$ = new Subject<void>();
   searchContent:any = null
+  audioSendProgress:any = null
   
-  constructor(private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
+  constructor(private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
@@ -568,9 +570,24 @@ ngOnChanges(changes: SimpleChanges): void {
     let formData: FormData = new FormData();
     formData.append('file', blob);
     formData.append('messageData', JSON.stringify(messageRequest));
-    const headers = new HttpHeaders().set("ResponseType","text")
-    this.api.postReturn(`${environment.BASE_API_URL}/message/sendFile`, formData, {headers}).subscribe((data)=>{
-      console.log(data);
-    },(error)=>console.log(error))
+    this.fileUploadService.upload(formData).subscribe({
+      next: (event: any)=>{
+        if(event.type === HttpEventType.UploadProgress){
+          this.audioSendProgress = Math.round((100 * event.loaded) / event.total);
+        }else if(event instanceof HttpResponse){
+          this.audioSendProgress = null
+        }
+      },
+      error:(err: any) => {
+        this.audioSendProgress = null
+      },
+      complete: () => {
+        this.isAudioOpened = false
+      }
+    })
+  }
+  clickedOutsideAudio(){
+    this.isAudioOpened = false
+    this.audioRecordingService.abortRecording()
   }
 }

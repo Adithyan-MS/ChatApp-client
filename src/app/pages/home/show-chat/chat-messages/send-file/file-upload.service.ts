@@ -14,7 +14,7 @@ export class FileUploadService {
 
   upload(formData: FormData): Observable<HttpEvent<any>> {
     const headers = new HttpHeaders().set("ResponseType","text").set("Reportprogress","true").set("observe","events")
-    const req = new HttpRequest('POST', `${environment.BASE_API_URL}/message/sendFile`, formData, {headers});
+    const req = new HttpRequest('POST', `${environment.BASE_API_URL}/message/sendFile`, formData, {headers});   
     return this.http.request(req);
   }
 
