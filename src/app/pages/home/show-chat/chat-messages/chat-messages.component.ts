@@ -20,8 +20,6 @@ import { ClickOutsideDirective } from '../../../../directives/clickOutside/click
 import { ModalService } from '../../../../services/modal.service';
 import { Subject, interval, takeUntil } from 'rxjs';
 import { AudioRecordComponent } from './audio-record/audio-record.component';
-import { error } from 'console';
-import { blob } from 'stream/consumers';
 import { AudioRecordingService } from './audio-record/audio-recording.service';
 import { FileUploadService } from './send-file/file-upload.service';
 
@@ -93,7 +91,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       this.dataService.notifyObservable$.subscribe((data)=>{
         if(data=="openSearch")
         this.openSearch()
-    })
+      })
     this.messageForm = this.fb.group({
       content:['',[Validators.required]]
     })

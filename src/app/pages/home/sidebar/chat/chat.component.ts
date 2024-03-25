@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../environments/environment.development';
 import { userChats } from '../../../../models/data-types';
 import { AppService } from '../../../../services/app.service';
+import { NewMessagesService } from '../../../../services/new-messages.service';
 
 @Component({
   selector: 'app-chat',
@@ -22,12 +23,23 @@ export class ChatComponent implements OnInit,OnChanges{
   messageDateString:string
   isCurrentUserSender:boolean
 
-  constructor(private appService: AppService){}
+  constructor(private appService: AppService,private newMessageService: NewMessagesService){}
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
   }
 
   ngOnInit(): void { 
+    // if(this.chat.latest_message_id){
+    //   // console.log(this.newMessageService.getLatestMessage(this.chat.id));
+      
+    //   // if(this.newMessageService.getLatestMessage(this.chat.id) != this.chat.latest_message_id){
+    //   //   this.newMessageService.handleMessageReceived(this.chat.id)
+    //   // }else{
+    //   //   this.newMessageService.setLatestMessage(this.chat.id,this.chat.latest_message_id)
+    //   // }
+    //   // console.log(this.newMessageService.getLatestMessage(this.chat.id));
+      
+    // }
     if(this.chat.latest_message_sender_id === this.currentUserId)
       this.isCurrentUserSender = true
     else
