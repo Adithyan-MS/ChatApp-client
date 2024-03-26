@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="items">
+        @if (isRecording) {
+            <div class="item circle" [@dropupAnimation]>
+                <div> {{recordedTime}} </div>
+            </div>
+            <div class="item circle" [@dropupAnimation]>
+                <button type="submit" (click)="stopRecording()">
+                    <span class="material-symbols-outlined">
+                        send
+                    </span>
+                </button>
+            </div>
+            <div class="item circle" [@dropupAnimation]>
+                <i class="fa-solid fa-trash" (click)="abortRecording()"></i>
+            </div>
+        }
+    </div>
+</div>

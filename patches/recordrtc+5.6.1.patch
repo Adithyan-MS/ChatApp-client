@@ -1,0 +1,17 @@
+diff --git a/node_modules/recordrtc/RecordRTC.js b/node_modules/recordrtc/RecordRTC.js
+index be4c5a4..be76aeb 100644
+--- a/node_modules/recordrtc/RecordRTC.js
++++ b/node_modules/recordrtc/RecordRTC.js
+@@ -1730,7 +1730,11 @@ if (typeof AudioContext === 'undefined') {
+ }
+ 
+ /*jshint -W079 */
+-var URL = window.URL;
++function URL(url, base) {
++    this.url = url;
++    this.base = base;
++    return window.URL;
++}
+ 
+ if (typeof URL === 'undefined' && typeof webkitURL !== 'undefined') {
+     /*global URL:true */

@@ -50,6 +50,11 @@
     text-overflow: ellipsis;
     display: block;
   }
+  .chat-info{
+    display: flex;
+    justify-content: end;
+
+  }
   .last-message{
     font-size: var(--fs-xm);
     font-weight: 100;
@@ -57,8 +62,24 @@
     color: rgb(56, 55, 55);
     width: 100%;
     overflow: hidden;
-  }
   
+  }
+  .highlight{
+    color: rgb(70, 169, 70);
+  }
+
+  .new-messages{
+    background-color: rgb(70, 169, 70);
+    margin-top: -6px;
+    font-size: 13px;
+    color: white;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
   .last-message .lm-span{
     white-space: nowrap;
     width: 100%;

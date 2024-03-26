@@ -3,9 +3,11 @@
     height: 92%;
 }
 app-sidebar{
+    overflow: hidden;
     // border-right: 1px solid  var(--dark-roof);
 }
 app-show-chat{
     border-left: 1px solid  var(--dark-roof);
+    overflow: hidden;
     // width: 75%;
 }

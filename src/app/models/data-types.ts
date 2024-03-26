@@ -32,6 +32,15 @@ export interface userChats{
     max_modified_at:string
 }
 
+export interface ChatLatestMessageInfo {
+    latest_message_id: number;
+    newMessageCount: number;
+}
+
+export interface ChatInfo{
+    [key: string] : ChatLatestMessageInfo
+}
+
 export interface Room{
     id:number,
     name:string,

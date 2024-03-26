@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component,ElementRef,EventEmitter,HostListener,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component,ElementRef,EventEmitter,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  User, message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
@@ -11,9 +11,7 @@ import { DataService } from '../../../../../services/data.service';
 import { AnimationService } from '../../../../../services/animation.service';
 import { ModalService } from '../../../../../services/modal.service';
 import { ClickOutsideDirective } from '../../../../../directives/clickOutside/click-outside.directive';
-import { Subscription } from 'rxjs';
 import { VideoProcessingService } from '../../../../../services/video-processing.service';
-import { log } from 'console';
 
 @Component({
   selector: 'app-message',
@@ -23,9 +21,10 @@ import { log } from 'console';
   styleUrl: './message.component.scss',
   animations:[AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getDropupAnimation()]
 })
-export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
+export class MessageComponent implements OnInit,OnChanges{
 
   @Input() message:message
+  @Input() searchContent:any
   @Input() showCheckBox:boolean
   @Input() index:number
   @Input() isCurrentUserPastParticipant:boolean
@@ -37,6 +36,7 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
   @Output() notifyUnCheckedMssageEvent = new EventEmitter<any>()
   @Output() forwardMssageEvent = new EventEmitter<any>()
   @ViewChild('checkbox') private checkBoxInput: ElementRef;
+
   chatMessage:message
   currentUserId:number
   user:User|any
@@ -49,14 +49,12 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
   fileUrl:string | null
   imageParentUrl:string | null
   isOpened:boolean=false
+  messageContent:any
   thumbnailData: string;
-
+  audioBlob:Blob
+  audioURL:string
 
   constructor(private appService: AppService,private modalService: ModalService,private viewContainerRef: ViewContainerRef,private dataService:DataService,private elementRef: ElementRef,private api:ApiService,private senderNameService:SenderService,private videoService: VideoProcessingService){}
-  ngAfterViewChecked(): void {
-    // console.log(this.message.content);
-    
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
@@ -72,6 +70,8 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
       this.fileUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,this.message.content)
     }else if(this.message.type=="video"){
       this.fileUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,`${this.message.content}.png`)
+    }else if(this.message.type == "audio"){
+      this.fileUrl = `${environment.BASE_API_URL}/message/view/user_${this.message.sender_id}/audio/${this.message.content}`     
     }else{
       this.fileUrl = null
     }
@@ -80,16 +80,31 @@ export class MessageComponent implements OnInit,OnChanges,AfterViewChecked{
         this.imageParentUrl =this.appService.getMessageImageUrl(`user_${this.message.parent_message_sender_id}`,this.message.parent_message_content)
       }
       else if(this.message.parent_message_type=="video"){
-        this.imageParentUrl = this.appService.getThumbnailUrl(`user_${this.message.sender_id}`,`${this.message.parent_message_content}.png`)
+        this.imageParentUrl = this.appService.getThumbnailUrl(`user_${this.message.parent_message_sender_id}`,`${this.message.parent_message_content}.png`)
       }
     }
+    // if(this.searchContent){
+    //   this.messageContent = this.message.content.replace(
+    //     new RegExp(this.searchContent, 'gi'),
+    //     (match) => `<span class="highlight">${match}</span>`
+    //   );
+
+    //   // return highlightedContent;
+    // } else {
+    //   this.messageContent=  this.message.content;
+    // }
   }
-  shouldDisplaySenderName(currentSenderName: string): boolean {
-    const display = currentSenderName !== this.senderNameService.getPreviousSenderName();
-    this.senderNameService.setPreviousSenderName(currentSenderName); 
+  shouldDisplaySenderName(currentSenderName: string, messageType: string): boolean {
+    if (messageType === 'roomEvent') return false;
+    const previousSenderName = this.senderNameService.getPreviousSenderName();
+    if (previousSenderName === null || previousSenderName === undefined) {
+      this.senderNameService.setPreviousSenderName(currentSenderName);
+      return true;
+    }
+    const display = currentSenderName !== previousSenderName;
+    this.senderNameService.setPreviousSenderName(currentSenderName);
     return display;
   }
-
   likeMessage(){
     this.api.postReturn(`${environment.BASE_API_URL}/message/like/${this.message.id}`,null).subscribe((data:number)=>{
       this.message.like_count=data

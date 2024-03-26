@@ -6,7 +6,7 @@ import { AppService } from '../../../../services/app.service';
 import { environment } from '../../../../../environments/environment.development';
 import { ApiService } from '../../../../services/api.service';
 import { MessageComponent } from './message/message.component';
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { DataService } from '../../../../services/data.service';
 import { ParentMessageComponent } from './parent-message/parent-message.component';
 import { EditMessageComponent } from './edit-message/edit-message.component';
@@ -19,11 +19,15 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
 import { ModalService } from '../../../../services/modal.service';
 import { Subject, interval, takeUntil } from 'rxjs';
+import { AudioRecordComponent } from './audio-record/audio-record.component';
+import { AudioRecordingService } from './audio-record/audio-recording.service';
+import { FileUploadService } from './send-file/file-upload.service';
+import { NewMessagesService } from '../../../../services/new-messages.service';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,ClickOutsideDirective,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent,PickerComponent],
+  imports: [CommonModule,ReactiveFormsModule,ClickOutsideDirective,SendFileComponent,MessageComponent,ParentMessageComponent,EditMessageComponent,ForwardMessageComponent,PickerComponent,AudioRecordComponent],
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss',
   animations:[AnimationService.prototype.getDropupAnimation(),AnimationService.prototype.getDropdownAnimation(),AnimationService.prototype.getPopupAnimation()]
@@ -63,56 +67,62 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   scrollToBottomSucess:boolean = false
   scrollToMessageSucess:boolean = false
   sendFieldFocusSuccess:boolean = false
-  pageNumber:number= 0
+  isAudioOpened:boolean = false
+  filteredMessages:message[]=[]
+  highlightedIndex:number
+  isSearchMessageNotFound:boolean = false
   private destroy$ = new Subject<void>();
-
+  searchContent:any = null
+  audioSendProgress:any = null
   
-  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef){
+  constructor(private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
-    // interval(3000)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(()=>{
-    //     if(this.currentChat.type==="user"){
-    //       this.getUserChatMessage()
-    //     }else{
-    //       this.getRoomChatMessage()
-    //     }
-    //   })
-    this.dataService.notifyObservable$.subscribe((data)=>{
-      if(data=="openSearch")
+    interval(2000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(()=>{
+        if(this.currentChat.type==="user"){          
+          this.getUserChatMessage()
+        }else{
+          this.getRoomChatMessage()
+        }
+        // this.senderNameService.setPreviousSenderName("")
+      })
+      this.dataService.notifyObservable$.subscribe((data)=>{
+        if(data=="openSearch")
         this.openSearch()
-    })
+      })
     this.messageForm = this.fb.group({
       content:['',[Validators.required]]
     })
+    this.audioRecordingService.audioBlob$.subscribe(blob => {
+      this.sendAudio(blob)
+    });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
   }
-
+  
   ngAfterViewChecked(): void {    
     if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
-      this.setSendFieldFocus()
-    if(this.locateMessageId!=null){
-      if(this.scrollToMessageSucess==false)
-        this.scrollToMessage(this.locateMessageId)
-    }else if(this.scrollToBottomSucess==false){
-      this.scrollToBottom()
-    }
-    // this.scrollToBottom()
-  }
+    this.setSendFieldFocus()
+  if(this.locateMessageId!=null){
+    if(this.scrollToMessageSucess==false)
+    this.scrollToMessage(this.locateMessageId)
+}else if(this.scrollToBottomSucess==false){
+  this.scrollToBottom()
+}
+}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    
-    this.pageNumber = 0
-    this.messageList = []
-    this.isSearchOpened=false    
-    this.showCheckBox=false
-    this.scrollToBottomSucess=false
+ngOnChanges(changes: SimpleChanges): void {
+  this.senderNameService.setPreviousSenderName("")
+  this.isSearchOpened=false
+  this.showCheckBox=false
+  this.scrollToBottomSucess=false
+  this.isAudioOpened = false
     this.scrollToMessageSucess=false
     this.isForwardOpened=false
     this.parentMessage = null
@@ -123,8 +133,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.showSendFilePreview=false
     this.images=[]
     this.sendFieldFocusSuccess = false
+    this.filteredMessages=[]
+    this.highlightedIndex = -1
+    this.isSearchMessageNotFound = false
     this.currentChat.type=="user" ? (this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE) : this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
     this.locateMessageId=this.messageService.getSelectedMessageId()
+
+    this.newMessageService.setOpenedChat(this.currentChat.type+this.currentChat.id)
+    this.newMessageService.setMessageAsViewed(this.currentChat.type,this.currentChat.id)
+    
     if(this.currentChat.type==="user"){
       this.getUserChatMessage();
     }else{
@@ -132,49 +149,27 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     }
   }
   getUserChatMessage(){
-    this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-      this.messageList = data
-      // setTimeout(()=>this.scrollToBottom()),1000
-    },(error)=>console.log(error))
-  }
-  getRoomChatMessage(){
-    this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-      this.messageList = data
-      // setTimeout(()=>this.scrollToBottom()),1000
-    },(error)=>console.log(error))
-    this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/userList`).subscribe((data)=>{
-      this.roomUsers = data.join(', ')
-    },(error)=>console.log(error))
-  }
-  loadMoreUserChatMessage(){
-    this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-      if (data.length!=0) {
-        this.messageList = data.concat(this.messageList)
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight - 250
-      }
-    },(error)=>console.log(error))     
-  }
-  loadMoreRoomChatMessage(){
-    this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/page/${this.pageNumber}`).subscribe((data:message[])=>{
-      if (data.length!=0) {
-        this.messageList = data.concat(this.messageList)   
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight - 250
-      }
+    this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
+      this.messageList=data
+      },(error)=>console.log(error))
+    }
+    getRoomChatMessage(){
+      this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
+        this.messageList=data
     },(error)=>console.log(error))
   }
 
   onScroll(){
-    this.scrollToBottomSucess = true
-    console.log(this.myScrollContainer.nativeElement.scrollTop);
-    
-    if(this.myScrollContainer.nativeElement.scrollTop <= 60){
-      this.pageNumber++
-      if(this.currentChat.type==="user"){
-        this.loadMoreUserChatMessage()
-      }else{
-        this.loadMoreRoomChatMessage()
-      }
+    if(this.isScrollAtBottom()){
+      this.scrollToBottomSucess = true
     }
+  }
+
+  isScrollAtBottom(): boolean {
+    const scrollTop = this.myScrollContainer.nativeElement.scrollTop;
+    const scrollHeight = this.myScrollContainer.nativeElement.scrollHeight;
+    const containerHeight = this.myScrollContainer.nativeElement.clientHeight;
+    return scrollHeight - (scrollTop + containerHeight) < 10;
   }
 
   sendMessage(){
@@ -233,26 +228,28 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
 
   scrollToBottom() {
     if (this.myScrollContainer && this.myScrollContainer.nativeElement) 
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
   }
 
-  scrollToMessage(messageId: number|null): void {
+  scrollToMessage(messageId: number | null): void {
     const container: HTMLElement = this.myScrollContainer.nativeElement;
     const messageElement = container.querySelector(`#message-${messageId}`) as HTMLElement;
+  
     if (messageElement) {
-      const containerRect = container.getBoundingClientRect();
-      const messageRect = messageElement.getBoundingClientRect();
-      const scrollTo = messageRect.top - containerRect.top - containerRect.height / 2 + messageRect.height / 2;
+      const scrollTo = messageElement.offsetTop - container.offsetTop - container.clientHeight / 2 + messageElement.clientHeight / 2;
       messageElement.style.backgroundColor = 'rgba(171, 197, 207, 0.5)';
+      
       container.scrollTo({
         top: scrollTo,
         behavior: 'smooth',
       });
+  
       setTimeout(() => {
         messageElement.style.backgroundColor = '';
       }, 1000);
     }
-    this.scrollToMessageSucess = true
+  
+    this.scrollToMessageSucess = true;
   }
   setSendFieldFocus(){
     if(this.myMessageSendField){
@@ -311,32 +308,43 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   searchMessage(event:any){
     const searchContent = event.target.value
     if(searchContent != ''){
-      let queryParams = new HttpParams();
-      queryParams = queryParams.append("value",searchContent);
-      if(this.currentChat.type=="user"){
-        this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}/search`,{params:queryParams}).subscribe((data)=>{
-        this.messageList=data       
-        },(error)=>console.log(error))   
-      }else{
-        this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}/search`,{params:queryParams}).subscribe((data)=>{
-          this.messageList=data       
-          },(error)=>console.log(error)) 
-      }
-    }else{
-      if(this.currentChat.type==="user"){
-        this.getUserChatMessage();
-      }else{
-        this.getRoomChatMessage();
-      }
+      this.searchContent = searchContent
+      this.filteredMessages = this.messageList.filter((message) =>
+        message.content.toLowerCase().includes(this.searchContent.toLowerCase()) && message.type=="text"
+      );
+      this.highlightedIndex = this.filteredMessages.length != 0 ? this.filteredMessages.length - 1 : -1      
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
     }
+  }
+
+  upSearchControl(){
+    if(this.highlightedIndex > 0){
+      this.highlightedIndex--;
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
+    }else{
+      this.showNotFoundDialog(2)
+    }    
+  }
+  downSearchControl(){
+    if(this.highlightedIndex < this.filteredMessages.length-1){
+      this.highlightedIndex++;
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
+    }else{
+      this.scrollToMessage(this.filteredMessages[this.highlightedIndex].id)
+    }
+  }
+
+  showNotFoundDialog(seconds: number): void {
+    this.isSearchMessageNotFound = true;  
+    setTimeout(() => {
+      this.isSearchMessageNotFound = false;
+    },seconds * 1000);
   }
 
   isDifferentDay(messageIndex: number): boolean {
     if (messageIndex === 0) return true;
-
     const d1 = new Date(this.messageList[messageIndex - 1].created_at);
     const d2 = new Date(this.messageList[messageIndex].created_at);
-
     return (
       d1.getFullYear() !== d2.getFullYear() ||
       d1.getMonth() !== d2.getMonth() ||
@@ -351,13 +359,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     let dateYesterday = longDateYesterday.toDateString();
     let today = dateToday.slice(0, dateToday.length - 5);
     let yesterday = dateYesterday.slice(0, dateToday.length - 5);
-
     const wholeDate = new Date(
       this.messageList[messageIndex].created_at
     ).toDateString();
-
     this.messageDateString = wholeDate.slice(0, wholeDate.length - 5);
-
     if (
       new Date(this.messageList[messageIndex].created_at).getFullYear() ===
       new Date().getFullYear()
@@ -418,6 +423,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   onForwardCancel(event:any){
     if(this.isForwardOpened){
       this.isForwardOpened=false
+      this.selectedList = []
     }
   }
   forwardMessages(){
@@ -458,7 +464,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   onFilechange(event:any){
     const files: FileList = event.target.files;
-    console.log(files[0]);
     if(files[0].size > 30000000){
       this.modalService.setRootViewContainerRef(this.viewContainerRef)
       this.modalService.addDynamicComponent("alert","sendFile","Sorry, file size must be less than 30MB")
@@ -484,9 +489,10 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.showSendFilePreview=true
   }
   onCloseSendFileEvent(event:any){
-    if(event){
+    if(event){      
       this.showSendFilePreview=false
       this.images=[]
+      this.selectedFiles=[]
     }
   }
   onFileSendSuccess(event:any){
@@ -539,5 +545,48 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
 
   mobileBack(){
     this.dataService.notifyOther("mobile-back")
+  }
+  showAudioRecord(){
+    this.isAudioOpened = true
+  }
+
+  onAudioStatus(event:any){
+    this.isAudioOpened = false
+  }
+  
+  sendAudio(blob:Blob){
+    const messageRequest = {
+      message:{
+        content:"file",
+        type:"audio",
+        parentMessage: this.parentMessage!=null ? this.parentMessage?.id : null
+      },
+      receiver:{
+        type:this.currentChat.type,
+        id:this.currentChat.id
+      }
+    }
+    let formData: FormData = new FormData();
+    formData.append('file', blob);
+    formData.append('messageData', JSON.stringify(messageRequest));
+    this.fileUploadService.upload(formData).subscribe({
+      next: (event: any)=>{
+        if(event.type === HttpEventType.UploadProgress){
+          this.audioSendProgress = Math.round((100 * event.loaded) / event.total);
+        }else if(event instanceof HttpResponse){
+          this.audioSendProgress = null
+        }
+      },
+      error:(err: any) => {
+        this.audioSendProgress = null
+      },
+      complete: () => {
+        this.isAudioOpened = false
+      }
+    })
+  }
+  clickedOutsideAudio(){
+    this.isAudioOpened = false
+    this.audioRecordingService.abortRecording()
   }
 }

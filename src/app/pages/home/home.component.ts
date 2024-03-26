@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ShowChatComponent } from './show-chat/show-chat.component';
 import { DataService } from '../../services/data.service';
+import { NewMessagesService } from '../../services/new-messages.service';
 
 @Component({
     selector:"app-home",
@@ -14,7 +15,7 @@ import { DataService } from '../../services/data.service';
 
 export class HomeComponent implements OnInit{
 
-    constructor(private dataService:DataService){}
+    constructor(private dataService:DataService,private newMessageService: NewMessagesService){}
 
     ngOnInit(): void {
         this.mobileSize()
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit{
                 sidebar?.style.setProperty('display', 'flex')
                 sidebar?.style.setProperty('width', '100%')
                 show?.style.setProperty('display', 'none')
+                this.newMessageService.openedChat = null
             }
         })
     }
