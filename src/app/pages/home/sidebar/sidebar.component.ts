@@ -24,6 +24,7 @@ import { NewMessagesService } from '../../../services/new-messages.service';
 export class SidebarComponent implements OnInit,OnDestroy{
 
   chats:userChats[]
+  starredChats:userChats[]
   user:string|any
   userId:number
   clickedIndex?:number
@@ -41,7 +42,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
     interval(5000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
-        if(!this.isStarredMessageOpened && this.searchName ===""){
+        if(this.searchName ===""){
           this.getUserChats()
         }
       })
@@ -111,7 +112,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
           })          
         }else{
           this.api.getReturn(`${environment.BASE_API_URL}/user/starredMessages/search`,{params:queryParams}).subscribe((data)=>{
-            this.chats=data
+            this.starredChats=data
           },(error)=>{
           console.log(error);      
           })
@@ -139,7 +140,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
   }
   getStarredMessages(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/starredMessages`).subscribe((data)=>{
-      this.chats=data
+      this.starredChats=data
     },(error)=>console.log(error))
   }
 }

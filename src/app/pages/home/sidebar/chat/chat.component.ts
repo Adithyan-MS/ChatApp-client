@@ -18,6 +18,7 @@ export class ChatComponent implements OnInit,OnChanges{
   @Input() currentUserId:number
   @Input() clickedIndex?:number
   @Input() index:number
+  @Input() isStarredMessageOpened:boolean
   profilePic:string|null
   lastMessageTime:string|null
   messageDateString:string
@@ -30,8 +31,7 @@ export class ChatComponent implements OnInit,OnChanges{
   }
 
   ngOnInit(): void { 
-
-    if(this.chat.latest_message_id){      
+    if(this.chat.latest_message_id && !this.isStarredMessageOpened){
       if(this.newMessageService.getLatestMessage(this.chat.type,this.chat.id)){
         if((this.newMessageService.getLatestMessage(this.chat.type,this.chat.id).latest_message_id) != (this.chat.latest_message_id)){
           this.newMessageService.handleMessageReceived(this.chat.type,this.chat.id)
@@ -42,7 +42,7 @@ export class ChatComponent implements OnInit,OnChanges{
       }
       this.newMessageCount = this.newMessageService.getNewMessageCount(this.chat.type,this.chat.id) 
     }
-
+    
     if(this.chat.latest_message_sender_id === this.currentUserId)
       this.isCurrentUserSender = true
     else
