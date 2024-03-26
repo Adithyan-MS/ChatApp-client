@@ -4,41 +4,48 @@
         <div class="chat-name">
             <div class="right">
                 <span class="name name-space">{{chat.name}}</span>
-                <div class="time"><span>{{lastMessageTime}}</span></div>
+                <div class="time"><span [class.highlight]="newMessageCount > 0">{{lastMessageTime}}</span></div>
             </div>
-            <div class="last-message name-space">
-                <div class="lm-span">
-                    @if (chat.latest_message) {
-                        @if (chat.latest_message_type!="roomEvent") {
-                            @if(isCurrentUserSender){
-                                You:
-                            }@else{
-                                {{chat.latest_message_sender_name}}:
-                            }
-                            @if (chat.latest_message_type=="text") {
-                                <span>{{chat.latest_message}}</span>
-                            }
-                            @else if (chat.latest_message_type=="document") {
-                                <span><i class="fa-regular fa-file"></i> {{chat.latest_message}}</span>
-                            }@else if (chat.latest_message_type=="image"){
-                                <span><i class="fa-regular fa-image"></i> Photo</span>
-                            }@else if (chat.latest_message_type=="video"){
-                                <span><i class="fa-solid fa-video"></i> Video</span>
-                            }@else if(chat.latest_message_type=="audio"){
-                                <span><i class="fa-solid fa-headphones-simple"></i> Audio</span>
-                            }
-                        }@else{
-                            <div class="latest_roomEvent">
+            <div class="chat-info">
+                <div class="last-message name-space">
+                    <div class="lm-span">
+                        @if (chat.latest_message) {
+                            @if (chat.latest_message_type!="roomEvent") {
                                 @if(isCurrentUserSender){
-                                    You
+                                    You:
                                 }@else{
-                                    {{chat.latest_message_sender_name}}
+                                    {{chat.latest_message_sender_name}}:
                                 }
-                                <span>{{chat.latest_message}}</span>
-                            </div>
+                                @if (chat.latest_message_type=="text") {
+                                    <span>{{chat.latest_message}}</span>
+                                }
+                                @else if (chat.latest_message_type=="document") {
+                                    <span><i class="fa-regular fa-file"></i> {{chat.latest_message}}</span>
+                                }@else if (chat.latest_message_type=="image"){
+                                    <span><i class="fa-regular fa-image"></i> Photo</span>
+                                }@else if (chat.latest_message_type=="video"){
+                                    <span><i class="fa-solid fa-video"></i> Video</span>
+                                }@else if(chat.latest_message_type=="audio"){
+                                    <span><i class="fa-solid fa-headphones-simple"></i> Audio</span>
+                                }
+                            }@else{
+                                <div class="latest_roomEvent">
+                                    @if(isCurrentUserSender){
+                                        You
+                                    }@else{
+                                        {{chat.latest_message_sender_name}}
+                                    }
+                                    <span>{{chat.latest_message}}</span>
+                                </div>
+                            }
                         }
-                    }
+                    </div>
                 </div>
+                @if (newMessageCount > 0) {
+                    <div class="new-messages highlight">
+                        {{newMessageCount}}
+                    </div>
+                }
             </div>
         </div>
     </div>

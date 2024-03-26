@@ -22,6 +22,7 @@ import { Subject, interval, takeUntil } from 'rxjs';
 import { AudioRecordComponent } from './audio-record/audio-record.component';
 import { AudioRecordingService } from './audio-record/audio-recording.service';
 import { FileUploadService } from './send-file/file-upload.service';
+import { NewMessagesService } from '../../../../services/new-messages.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -74,7 +75,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   searchContent:any = null
   audioSendProgress:any = null
   
-  constructor(private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
+  constructor(private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
@@ -137,6 +138,10 @@ ngOnChanges(changes: SimpleChanges): void {
     this.isSearchMessageNotFound = false
     this.currentChat.type=="user" ? (this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`user_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.USER_IMAGE) : this.currentChatPic = this.currentChat.profile_pic ? this.appService.getImageUrl(`room_${this.currentChat.id}`,this.currentChat.profile_pic) : environment.ROOM_IMAGE
     this.locateMessageId=this.messageService.getSelectedMessageId()
+
+    this.newMessageService.setOpenedChat(this.currentChat.type+this.currentChat.id)
+    this.newMessageService.setMessageAsViewed(this.currentChat.type,this.currentChat.id)
+    
     if(this.currentChat.type==="user"){
       this.getUserChatMessage();
     }else{

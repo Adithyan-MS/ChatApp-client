@@ -7,30 +7,49 @@ import { ChatInfo, ChatLatestMessageInfo } from '../models/data-types';
 export class NewMessagesService {
 
   chatInfo:ChatInfo={}
+  openedChat:string
 
   constructor() { }
 
-  setLatestMessage(chatId:number,messageId:number){
+  setLatestMessage(chatType:string,chatId:number,messageId:number):void{
     const latestMessageInfo: ChatLatestMessageInfo = {
       latest_message_id: messageId,
-      newMessageCount: 1
+      newMessageCount: 0
     };
-    this.chatInfo[chatId] = latestMessageInfo
+    this.chatInfo[chatType+chatId] = latestMessageInfo
+  }
+  
+  changeLatestMessage(chatType:string,chatId:number,messageId:number){
+    this.chatInfo[chatType+chatId].latest_message_id = messageId
   }
 
-  getLatestMessage(chatId:number){
-    return this.chatInfo[chatId].latest_message_id ? this.chatInfo[chatId].latest_message_id : null
+  getLatestMessage(chatType:string,chatId:number):ChatLatestMessageInfo{
+    return this.chatInfo[chatType+chatId]
   }
 
-  handleMessageReceived(chatId: number) {
-    this.chatInfo[chatId].newMessageCount = this.chatInfo[chatId].newMessageCount + 1 
-    // if (this.isActiveRoom(chatId)) {
-      // this.unreadMessages[chatId] = 0;
-    // } else {
-      // this.unreadMessages[chatId] = (this.unreadMessages[chatId] || 0) + 1;
-      // this.unopenedChats[chatId] = true;
-    // }
+  getNewMessageCount(chatType:string, chatId:number):number{
+    return this.chatInfo[chatType+chatId].newMessageCount
   }
+
+
+  handleMessageReceived(chatType:string,chatId: number) {
+    console.log(this.isActiveChat(chatType+chatId));
+    
+    if (this.isActiveChat(chatType+chatId)) {
+      this.chatInfo[chatType+chatId].newMessageCount = 0;
+    } else {
+      this.chatInfo[chatType+chatId].newMessageCount = this.chatInfo[chatType+chatId].newMessageCount + 1 
+    }
+  }
+
+  setMessageAsViewed(chatType:string, chatId:number){
+    this.chatInfo[chatType+chatId].newMessageCount = 0
+  }
+
+  setOpenedChat(chat:string){
+    this.openedChat = chat
+  }
+
 
   // Method to mark chat as opened
   // markChatAsOpened(roomId: string) {
@@ -44,8 +63,10 @@ export class NewMessagesService {
   // }
 
   // Method to check if a room is active
-  isActiveRoom(roomId: string): boolean {
-    // Implement logic to check if roomId is the active room
-    return true; // Placeholder implementation
+  isActiveChat(chat: string): boolean {
+    if(this.openedChat == chat)
+      return true;
+    else
+      return false
   }
 }

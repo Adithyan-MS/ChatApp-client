@@ -38,7 +38,7 @@ export interface ChatLatestMessageInfo {
 }
 
 export interface ChatInfo{
-    [key: number] : ChatLatestMessageInfo
+    [key: string] : ChatLatestMessageInfo
 }
 
 export interface Room{

@@ -76,7 +76,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
   }
 
   showChat(chat:userChats){
-    this.messageService.setSelectedMessageId(chat.latest_message_id)
+    if(this.isStarredMessageOpened)
+      this.messageService.setSelectedMessageId(chat.latest_message_id)
     this.router.navigate([chat.name], {relativeTo:this.route});
     this.dataService.notifyOther({
       view:"chat",

@@ -22,6 +22,7 @@ export class ChatComponent implements OnInit,OnChanges{
   lastMessageTime:string|null
   messageDateString:string
   isCurrentUserSender:boolean
+  newMessageCount:number
 
   constructor(private appService: AppService,private newMessageService: NewMessagesService){}
   ngOnChanges(changes: SimpleChanges): void {
@@ -29,17 +30,22 @@ export class ChatComponent implements OnInit,OnChanges{
   }
 
   ngOnInit(): void { 
-    // if(this.chat.latest_message_id){
-    //   // console.log(this.newMessageService.getLatestMessage(this.chat.id));
-      
-    //   // if(this.newMessageService.getLatestMessage(this.chat.id) != this.chat.latest_message_id){
-    //   //   this.newMessageService.handleMessageReceived(this.chat.id)
-    //   // }else{
-    //   //   this.newMessageService.setLatestMessage(this.chat.id,this.chat.latest_message_id)
-    //   // }
-    //   // console.log(this.newMessageService.getLatestMessage(this.chat.id));
-      
-    // }
+
+    if(this.chat.latest_message_id){      
+      if(this.newMessageService.getLatestMessage(this.chat.type,this.chat.id)){
+        if((this.newMessageService.getLatestMessage(this.chat.type,this.chat.id).latest_message_id) != (this.chat.latest_message_id)){
+          this.newMessageService.handleMessageReceived(this.chat.type,this.chat.id)
+          console.log("handle");
+          
+          this.newMessageService.changeLatestMessage(this.chat.type,this.chat.id,this.chat.latest_message_id)          
+        }
+      }else{
+        this.newMessageService.setLatestMessage(this.chat.type,this.chat.id,this.chat.latest_message_id)
+      }
+      this.newMessageCount = this.newMessageService.getNewMessageCount(this.chat.type,this.chat.id)
+      console.log(this.chat.type+this.chat.id,this.newMessageCount);     
+    }
+
     if(this.chat.latest_message_sender_id === this.currentUserId)
       this.isCurrentUserSender = true
     else
