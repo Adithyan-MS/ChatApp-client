@@ -7,7 +7,7 @@ import { ChatInfo, ChatLatestMessageInfo } from '../models/data-types';
 export class NewMessagesService {
 
   chatInfo:ChatInfo={}
-  openedChat:string
+  openedChat:string|null
 
   constructor() { }
 
@@ -33,8 +33,6 @@ export class NewMessagesService {
 
 
   handleMessageReceived(chatType:string,chatId: number) {
-    console.log(this.isActiveChat(chatType+chatId));
-    
     if (this.isActiveChat(chatType+chatId)) {
       this.chatInfo[chatType+chatId].newMessageCount = 0;
     } else {
@@ -46,23 +44,10 @@ export class NewMessagesService {
     this.chatInfo[chatType+chatId].newMessageCount = 0
   }
 
-  setOpenedChat(chat:string){
+  setOpenedChat(chat:string|null){
     this.openedChat = chat
   }
-
-
-  // Method to mark chat as opened
-  // markChatAsOpened(roomId: string) {
-  //   this.unopenedChats[roomId] = false;
-  // }
-
-  // Method to mark all messages as read in a room
-  // markAsRead(roomId: string) {
-  //   this.unreadMessages[roomId] = 0;
-  //   // Call API to update server-side status of messages as read
-  // }
-
-  // Method to check if a room is active
+  
   isActiveChat(chat: string): boolean {
     if(this.openedChat == chat)
       return true;

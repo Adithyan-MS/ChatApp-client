@@ -35,15 +35,12 @@ export class ChatComponent implements OnInit,OnChanges{
       if(this.newMessageService.getLatestMessage(this.chat.type,this.chat.id)){
         if((this.newMessageService.getLatestMessage(this.chat.type,this.chat.id).latest_message_id) != (this.chat.latest_message_id)){
           this.newMessageService.handleMessageReceived(this.chat.type,this.chat.id)
-          console.log("handle");
-          
           this.newMessageService.changeLatestMessage(this.chat.type,this.chat.id,this.chat.latest_message_id)          
         }
       }else{
         this.newMessageService.setLatestMessage(this.chat.type,this.chat.id,this.chat.latest_message_id)
       }
-      this.newMessageCount = this.newMessageService.getNewMessageCount(this.chat.type,this.chat.id)
-      console.log(this.chat.type+this.chat.id,this.newMessageCount);     
+      this.newMessageCount = this.newMessageService.getNewMessageCount(this.chat.type,this.chat.id) 
     }
 
     if(this.chat.latest_message_sender_id === this.currentUserId)

@@ -467,7 +467,6 @@ ngOnChanges(changes: SimpleChanges): void {
   }
   onFilechange(event:any){
     const files: FileList = event.target.files;
-    console.log(files[0]);
     if(files[0].size > 30000000){
       this.modalService.setRootViewContainerRef(this.viewContainerRef)
       this.modalService.addDynamicComponent("alert","sendFile","Sorry, file size must be less than 30MB")
