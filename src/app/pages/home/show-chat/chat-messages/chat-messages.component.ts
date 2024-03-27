@@ -79,7 +79,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
   
   ngOnInit(): void {
-    interval(3000)
+    interval(2000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
         if(this.currentChat.type==="user"){
@@ -88,8 +88,8 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
           this.getRoomChatMessage()
         }
       })
-    this.dataService.notifyObservable$.subscribe((data)=>{
-      if(data=="openSearch")
+      this.dataService.notifyObservable$.subscribe((data)=>{
+        if(data=="openSearch")
         this.openSearch()
       })
     this.messageForm = this.fb.group({
@@ -107,19 +107,21 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   
   ngAfterViewChecked(): void {    
     if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
-      this.setSendFieldFocus()
-    if(this.locateMessageId!=null){
-      if(this.scrollToMessageSucess==false)
-        this.scrollToMessage(this.locateMessageId)
-    }else if(this.scrollToBottomSucess==false){
-      this.scrollToBottom()
-    }
-  }
+    this.setSendFieldFocus()
+  if(this.locateMessageId!=null){
+    if(this.scrollToMessageSucess==false)
+    this.scrollToMessage(this.locateMessageId)
+}else if(this.scrollToBottomSucess==false){
+  this.scrollToBottom()
+}
+}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.isSearchOpened=false    
-    this.showCheckBox=false
-    this.scrollToBottomSucess=false
+ngOnChanges(changes: SimpleChanges): void {
+  this.senderNameService.setPreviousSenderName("")
+  this.isSearchOpened=false
+  this.showCheckBox=false
+  this.scrollToBottomSucess=false
+  this.isAudioOpened = false
     this.scrollToMessageSucess=false
     this.isForwardOpened=false
     this.parentMessage = null
@@ -157,7 +159,16 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   }
 
   onScroll(){
-    this.scrollToBottomSucess = true
+    if(this.isScrollAtBottom()){
+      this.scrollToBottomSucess = true
+    }
+  }
+
+  isScrollAtBottom(): boolean {
+    const scrollTop = this.myScrollContainer.nativeElement.scrollTop;
+    const scrollHeight = this.myScrollContainer.nativeElement.scrollHeight;
+    const containerHeight = this.myScrollContainer.nativeElement.clientHeight;
+    return scrollHeight - (scrollTop + containerHeight) < 10;
   }
 
   sendMessage(){

@@ -83,16 +83,7 @@ export class MessageComponent implements OnInit,OnChanges{
         this.imageParentUrl = this.appService.getThumbnailUrl(`user_${this.message.parent_message_sender_id}`,`${this.message.parent_message_content}.png`)
       }
     }
-    // if(this.searchContent){
-    //   this.messageContent = this.message.content.replace(
-    //     new RegExp(this.searchContent, 'gi'),
-    //     (match) => `<span class="highlight">${match}</span>`
-    //   );
-
-    //   // return highlightedContent;
-    // } else {
-    //   this.messageContent=  this.message.content;
-    // }
+    
   }
   shouldDisplaySenderName(currentSenderName: string, messageType: string): boolean {
     if (messageType === 'roomEvent') return false;
