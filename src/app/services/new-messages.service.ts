@@ -32,8 +32,8 @@ export class NewMessagesService {
   }
 
 
-  handleMessageReceived(chatType:string,chatId: number) {
-    if (this.isActiveChat(chatType+chatId)) {
+  handleMessageReceived(chatType:string,chatId: number,isCurrentUserSender: boolean) {
+    if (this.isActiveChat(chatType+chatId) || isCurrentUserSender) {
       this.chatInfo[chatType+chatId].newMessageCount = 0;
     } else {
       this.chatInfo[chatType+chatId].newMessageCount = this.chatInfo[chatType+chatId].newMessageCount + 1 

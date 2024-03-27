@@ -34,7 +34,7 @@ export class ChatComponent implements OnInit,OnChanges{
     if(this.chat.latest_message_id && !this.isStarredMessageOpened){
       if(this.newMessageService.getLatestMessage(this.chat.type,this.chat.id)){
         if((this.newMessageService.getLatestMessage(this.chat.type,this.chat.id).latest_message_id) != (this.chat.latest_message_id)){
-          this.newMessageService.handleMessageReceived(this.chat.type,this.chat.id)
+          this.newMessageService.handleMessageReceived(this.chat.type,this.chat.id,this.isCurrentUserSender)
           this.newMessageService.changeLatestMessage(this.chat.type,this.chat.id,this.chat.latest_message_id)          
         }
       }else{
@@ -47,6 +47,7 @@ export class ChatComponent implements OnInit,OnChanges{
       this.isCurrentUserSender = true
     else
       this.isCurrentUserSender = false
+
     if(this.chat.max_modified_at){
       let dateToday = new Date().toDateString();
       let longDateYesterday = new Date();

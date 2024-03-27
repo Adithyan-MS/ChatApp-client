@@ -65,6 +65,7 @@
 }
 .info2{
     z-index: 1;
+    padding: 10px 0px 10px 0px;
 }
 .chat-basic{
     width: 100%;
@@ -490,10 +491,16 @@ app-common-group{
     .name span{ 
         max-width: 450px;
     }
+    .back{
+        left: 20px;
+    }
 }
 @media screen and (max-width: 900px) {
     .name span{ 
         max-width: 400px;
+    }
+    .back{
+        left: 10px;
     }
 }
 @media screen and (max-width: 850px) {
@@ -502,6 +509,10 @@ app-common-group{
     }
     .name span{ 
         max-width: 300px;
+    }
+    .back{
+        font-size: 25px;
+        left: 0px;
     }
 }
 @media screen and (max-width: 700px) {

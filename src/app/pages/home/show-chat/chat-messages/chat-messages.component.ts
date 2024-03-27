@@ -264,6 +264,9 @@ ngOnChanges(changes: SimpleChanges): void {
   onDeleteSuccess(event:any){
     if(event){
       this.ngOnChanges(event)
+      this.dataService.notifyOther({
+        view:"chat"
+      });
     }
   }
   onReplyMessage(message:message){
@@ -439,6 +442,9 @@ ngOnChanges(changes: SimpleChanges): void {
         this.api.postReturn(`${environment.BASE_API_URL}/message/deleteMessage`,reqBody,{headers}).subscribe((data)=>{
           this.selectedList = []
           this.ngOnChanges(data)
+          this.dataService.notifyOther({
+            view:"chat"
+          });
         },(error)=>{
           console.log(error);
         })

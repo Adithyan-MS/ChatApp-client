@@ -147,6 +147,9 @@ export class ChatProfileComponent implements OnInit{
           this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/removeMember`,reqBody,{headers}).subscribe((data)=>{
             this.getRoomParticipants()
             this.getRoomPastParticipants()
+            this.dataService.notifyOther({
+              view:"chat"
+            });
           },(error)=>console.log(error))
         }
       }
@@ -161,6 +164,9 @@ export class ChatProfileComponent implements OnInit{
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/makeRoomAdmin/${memberId}`,null,{headers}).subscribe((data)=>{
         this.getRoomParticipants()
+        this.dataService.notifyOther({
+          view:"chat"
+        });
       },(error)=>console.log(error))
     }
   }
@@ -171,6 +177,9 @@ export class ChatProfileComponent implements OnInit{
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/dismissRoomAdmin/${memberId}`,null,{headers}).subscribe((data)=>{
         this.getRoomParticipants()
+        this.dataService.notifyOther({
+          view:"chat"
+        });
       },(error)=>console.log(error))
     }
   }
@@ -186,6 +195,9 @@ export class ChatProfileComponent implements OnInit{
           this.isExitSuccess=true
           this.router.navigate([`${this.currentChat.name}`], {relativeTo:this.route});
           this.exitSuccessEvent.emit("success")
+          this.dataService.notifyOther({
+            view:"chat"
+          });
         },(error)=>{
           this.isExitSuccess=false
           this.modalService.setRootViewContainerRef(this.viewContainerRef)
@@ -339,6 +351,9 @@ export class ChatProfileComponent implements OnInit{
       const formData = this.bioEditForm.getRawValue()
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/change/desc`,formData,{headers}).subscribe((data)=>{
+        this.dataService.notifyOther({
+          view:"chat"
+        });
         this.ngOnInit()
       },(error)=>{
         console.log(error);
@@ -351,6 +366,9 @@ export class ChatProfileComponent implements OnInit{
       const formData = this.nameEditForm.getRawValue()
       const headers = new HttpHeaders().set("ResponseType","text")
       this.api.postReturn(`${environment.BASE_API_URL}/room/${this.chatDetails.id}/change/name`,formData,{headers}).subscribe((data)=>{
+        this.dataService.notifyOther({
+          view:"chat"
+        });
         this.ngOnInit()
       },(error)=>{
         console.log(error);      

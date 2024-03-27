@@ -37,7 +37,12 @@
             @for(chat of starredChats; track chat.name){
                 <app-chat [isStarredMessageOpened]="isStarredMessageOpened" (click)="showChat(chat)" [index]="$index" (click)="clickChat($index)" [clickedIndex]="clickedIndex" [currentUserId]="userId" class="chat" [chat]="chat"></app-chat>
             }
-        }@else {
+        }@else if (isSearching) {
+            @for(chat of searchedChats; track chat.name){
+                <app-chat [isStarredMessageOpened]="isStarredMessageOpened" (click)="showChat(chat)" [index]="$index" (click)="clickChat($index)" [clickedIndex]="clickedIndex" [currentUserId]="userId" class="chat" [chat]="chat"></app-chat>
+            }
+        }
+        @else {
             @for(chat of chats; track chat.name){
                 <app-chat [isStarredMessageOpened]="isStarredMessageOpened" (click)="showChat(chat)" [index]="$index" (click)="clickChat($index)" [clickedIndex]="clickedIndex" [currentUserId]="userId" class="chat" [chat]="chat"></app-chat>
             }

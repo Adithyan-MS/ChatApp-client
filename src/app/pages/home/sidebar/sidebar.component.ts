@@ -25,6 +25,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
 
   chats:userChats[]
   starredChats:userChats[]
+  searchedChats:userChats[]
   user:string|any
   userId:number
   clickedIndex?:number
@@ -42,9 +43,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
     interval(5000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(()=>{
-        if(this.searchName ===""){
           this.getUserChats()
-        }
       })
     if(typeof localStorage != undefined){
       this.user = localStorage.getItem("user");
@@ -52,6 +51,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
     }
     this.getUserChats()
     this.dataService.notifyObservable$.subscribe((data)=>{ 
+      console.log("hai");
+      
       if(data.length==0 || (data && !this.isStarredMessageOpened)){
         this.getUserChats()
       }else{
@@ -102,22 +103,20 @@ export class SidebarComponent implements OnInit,OnDestroy{
   onSearchChange(event:any){
       this.searchName = event.target.value
       if(this.searchName !==""){
+        this.isSearching = true
         let queryParams = new HttpParams();
         queryParams = queryParams.append("name",this.searchName);
         if (!this.isStarredMessageOpened) {
-          this.api.getReturn(`${environment.BASE_API_URL}/user/search`,{params:queryParams}).subscribe((data)=>{
-            this.chats=data
-          },(error)=>{
-          console.log(error);      
-          })          
+          this.searchedChats = this.chats.filter((chat)=>{
+            return chat.name.toLowerCase().includes(this.searchName.toLowerCase())
+          })      
         }else{
-          this.api.getReturn(`${environment.BASE_API_URL}/user/starredMessages/search`,{params:queryParams}).subscribe((data)=>{
-            this.starredChats=data
-          },(error)=>{
-          console.log(error);      
+          this.starredChats = this.starredChats.filter((chat)=>{
+            return chat.name.toLowerCase().includes(this.searchName.toLocaleLowerCase())
           })
         }
       }else{
+        this.isSearching = false
         if (!this.isStarredMessageOpened) {
           this.getUserChats()          
         } else {
