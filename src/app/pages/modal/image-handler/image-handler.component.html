@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="left">
+        <div class="left-top">
+            <image-cropper
+                [imageChangedEvent]="image"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="3 / 3"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded($event)"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+        </div>
+        <div class="left-bottom">
+            <div class="action"><i class="fa-solid fa-rotate-right"></i></div>
+            <div class="action"><i class="fa-solid fa-rotate-left"></i></div>
+            <div class="action"><i class="fa-solid fa-arrow-up"></i></div>
+            <div class="action"><i class="fa-solid fa-arrow-down"></i></div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="right-top">
+            <img [src]="croppedImage" alt="" srcset="">
+        </div>
+        <div class="right-bottom">
+            <div class="cancel" (click)="cancel()">Cancel</div>
+            <div class="done" (click)="done()">Done</div>
+        </div>
+    </div>
+</div>

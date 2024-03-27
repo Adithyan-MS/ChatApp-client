@@ -25,6 +25,9 @@
             @case ("alert") {
                 <app-alert-dialog [title]="modalTitle" [message]="modelContent" (closeEvent)="onCloseAlert($event)"></app-alert-dialog>
             }
+            @case ("handleImage") {
+                <app-image-handler [title]="modalTitle" [image]="modelContent" (doneEvent)="onDoneEvent($event)" (cancelEvent)="onCancelEvent($event)"></app-image-handler>
+            }
         }
 		<a class="modal--close-btn" (click)="close($event)" [class.hide]="removeCloseIcon">X</a>
 	</div>

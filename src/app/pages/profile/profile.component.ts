@@ -57,24 +57,30 @@ export class ProfileComponent implements OnInit{
   onFilechange(event:any){
     this.imageFile = event.target.files[0]
     if(this.imageFile){
-      let formParams = new FormData();
-      formParams.append('file',this.imageFile);
-      const headers = new HttpHeaders().set("ResponseType","text")
-      this.api.postReturn(`${environment.BASE_API_URL}/image/upload`,formParams,{headers}).subscribe((data)=>{
-        if(typeof localStorage != null){
-          this.newUserDetails = localStorage.getItem("user");
-          this.newUserDetails = JSON.parse(this.newUserDetails);
-          this.newUserDetails.profilePic = data
-          localStorage.removeItem("user")
-          localStorage.setItem("user",JSON.stringify(this.newUserDetails))       
-          this.ngOnInit()
-          this.router.navigate(['/profile'])           
-         }
-      },(error)=>{
-        console.log(error);        
-      })
-    }else{
-
+      this.modalService.setRootViewContainerRef(this.viewContainerRef)
+      this.modalService.addDynamicComponent('handleImage','Crop Image',event).then((value)=>{
+        if(value){
+          let formParams = new FormData();
+          formParams.append('file',value);
+          const headers = new HttpHeaders().set("ResponseType","text")
+          this.api.postReturn(`${environment.BASE_API_URL}/image/upload`,formParams,{headers}).subscribe((data)=>{
+            if(typeof localStorage != null){
+              this.newUserDetails = localStorage.getItem("user");
+              this.newUserDetails = JSON.parse(this.newUserDetails);
+              this.newUserDetails.profilePic = data
+              localStorage.removeItem("user")
+              localStorage.setItem("user",JSON.stringify(this.newUserDetails))       
+              this.ngOnInit()
+              this.router.navigate(['/profile'])           
+             }
+          },(error)=>{
+            console.log(error);        
+          })
+        }
+      }).catch((error)=>{
+        console.log(error);
+    });
+      
     }
   }
 
