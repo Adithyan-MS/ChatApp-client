@@ -66,6 +66,8 @@ export class RegisterComponent implements OnInit{
       email: formValues.email,
       phone_number: formValues.phonenumber
     }   
+    console.log(userData);
+    
     this.api.postReturn(`${environment.BASE_API_URL}/auth/register`,userData).subscribe((data:AuthResponse)=>{
       this.registerSuccess = true;
       this.registerForm.reset();

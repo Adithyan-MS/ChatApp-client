@@ -11,6 +11,7 @@ import { ModalService } from '../../../services/modal.service';
 import { SenderService } from '../show-chat/chat-messages/message-service/sender.service';
 import { AnimationService } from '../../../services/animation.service';
 import { Subject, interval, takeUntil } from 'rxjs';
+import { NewMessagesService } from '../../../services/new-messages.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,13 +38,13 @@ export class SidebarComponent implements OnInit,OnDestroy{
     ){}
 
   ngOnInit(): void {
-    // interval(2000)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(()=>{
-    //     if(!this.isStarredMessageOpened && this.searchName ===""){
-    //       this.getUserChats()
-    //     }
-    //   })
+    interval(5000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(()=>{
+        if(!this.isStarredMessageOpened && this.searchName ===""){
+          this.getUserChats()
+        }
+      })
     if(typeof localStorage != undefined){
       this.user = localStorage.getItem("user");
       this.userId = JSON.parse(this.user).id; 
@@ -75,7 +76,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
   }
 
   showChat(chat:userChats){
-    this.messageService.setSelectedMessageId(chat.latest_message_id)
+    if(this.isStarredMessageOpened)
+      this.messageService.setSelectedMessageId(chat.latest_message_id)
     this.router.navigate([chat.name], {relativeTo:this.route});
     this.dataService.notifyOther({
       view:"chat",

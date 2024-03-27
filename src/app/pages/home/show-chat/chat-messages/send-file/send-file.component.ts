@@ -86,13 +86,11 @@ export class SendFileComponent implements OnInit{
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.files[i].progress = Math.round((100 * event.loaded) / event.total);
-              console.log(this.files[i].progress,this.files[i].size);              
             } else if (event instanceof HttpResponse) {
               this.files[i].progress = null              
             }
           },
           error: (err: any) => {
-            console.log(err);  
             if (err.error && err.error.message) {
               this.message = err.error.message;
             } else {

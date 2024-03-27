@@ -29,6 +29,9 @@
                             }@else if (message.parent_message_type == "video") {
                                 <span><i class="fa-solid fa-video"></i> Video</span>
                             }
+                            @else if(message.parent_message_type == "audio"){
+                                <span><i class="fa-solid fa-microphone"></i> Voice Message</span>
+                            }
                             @else {
                                 <span>{{message.parent_message_content}}</span>
                             }
@@ -47,7 +50,7 @@
             }
             <div class="username">
                 <div class="user-span">
-                    @if (shouldDisplaySenderName(message.sender_name)) {
+                    @if (shouldDisplaySenderName(message.sender_name,message.type)) {
                         <span>{{message.sender_name}}</span>
                     }
                 </div>
@@ -94,11 +97,14 @@
                         </div>
                     </div>
                 }
+                @else if (message.type=="audio") {
+                    <audio #audioPlayer [src]="fileUrl" controls></audio>
+                }
                 @else{
                     <span>{{message.content}}</span>
                 }
             </div>
-            <div class="time">    
+            <div class="time">
                 @if(starredFlag){
                     <i class="fa-solid fa-star"></i>    
                 }

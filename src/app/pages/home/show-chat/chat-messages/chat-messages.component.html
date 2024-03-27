@@ -6,6 +6,15 @@
                     <i class="fa-solid fa-arrow-left" (click)="backSearch()"></i>
                 </div>
                 <input type="text" placeholder="Search..." #searchInput (input)="searchMessage($event)">
+                <div class="search-controls">
+                    <i class="fa-solid fa-chevron-up" (click)="upSearchControl()"></i>
+                    <i class="fa-solid fa-chevron-down" (click)="downSearchControl()"></i>
+                </div>
+                @if (isSearchMessageNotFound) {
+                    <div class="not-found" [@dropdownAnimation]>
+                        <span>Not Found</span>
+                    </div>
+                }
             </div>
         }
         @case ("select") {
@@ -77,7 +86,7 @@
                     </div>
                 </div>
             }
-            <app-message [@popupAnimation] class="dropup"  [attr.id]="'message-' + message.id" [index]="$index" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)"></app-message>
+            <app-message [@popupAnimation] class="dropup"  [attr.id]="'message-' + message.id" [index]="$index" [isCurrentUserPastParticipant]="isCurrentUserPastParticipant" [showCheckBox]="showCheckBox" (forwardMssageEvent)="onForwardMessageEvent($event)" (showCheckBoxEvent)="onShowCheckBox($event)" (notifyCheckedMssageEvent)="onMessageChecked($event)" (notifyUnCheckedMssageEvent)="onMessageUnChecked($event)" [message]="message" (deleteSuccessEvent)="onDeleteSuccess($event)" (replyMessageEvent)="onReplyMessage($event)" (editMessageEvent)="onEditMessage($event)" [searchContent]="searchContent"></app-message>
         }
     </div>
 </div>
@@ -85,7 +94,7 @@
     <div class="send">
         @if (isCurrentUserPastParticipant) {
             <span>You can't send messages to this room because you're no longer a member.</span>            
-        }@else {
+        }@else{
             <div class="emoji-container" appClickOutside (clickOutside)="clickedOutsideEmoji()">
                 <i class="fa-regular fa-face-smile" (click)="toggleEmoji()"></i>
                 @if (isEmojiOpened) {
@@ -137,16 +146,25 @@
                         <app-edit-message [@dropupAnimation] [message]="editMessage" (closeEvent)="onCloseEditEvent($event)"></app-edit-message>
                     }                
                     <input [class.disabled]="showSendFilePreview" formControlName="content" type="text" placeholder="Type a message" #sendInput>
-                </div>                
-                <button [class.disabled]="showSendFilePreview" type="submit">
-                    <span class="material-symbols-outlined">
-                        send
-                    </span>
-                </button>
+                </div>
+                <div class="audio-container"   appClickOutside (clickOutside)="clickedOutsideAudio()">
+                    @if (audioSendProgress==null) {
+                        <div [class.mic-container]="isAudioOpened">
+                            <i (click)="showAudioRecord()" class="fa-solid fa-microphone" [class.animate-mic]="isAudioOpened"></i>
+                        </div>
+                    }@else {
+                        <div class="progress">
+                            <div class="progress-bar" [style.width]="audioSendProgress + '%'">{{audioSendProgress}}%</div>
+                        </div>
+                    }
+                    @if (isAudioOpened) {
+                        <app-audio-record [@dropupAnimation] (audioStatusEvent)="onAudioStatus($event)"></app-audio-record>
+                    }
+                </div>
             </form>
-        }        
+        }
     </div>
 </div>
 @if(isForwardOpened){
-    <app-forward-message (forwardSubmitEvent)="onForwardSumbit($event)" (forwardCancelEvent)="onForwardCancel($event)"></app-forward-message>
+    <app-forward-message  (forwardSubmitEvent)="onForwardSumbit($event)" (forwardCancelEvent)="onForwardCancel($event)"></app-forward-message>
 }
