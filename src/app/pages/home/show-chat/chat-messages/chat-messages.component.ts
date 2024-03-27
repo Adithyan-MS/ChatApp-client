@@ -71,7 +71,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   filteredMessages:message[]=[]
   highlightedIndex:number
   isSearchMessageNotFound:boolean = false
-  pageNumber:number= 0
   private destroy$ = new Subject<void>();
   searchContent:any = null
   audioSendProgress:any = null
