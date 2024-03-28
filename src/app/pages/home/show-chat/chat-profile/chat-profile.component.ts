@@ -208,19 +208,30 @@ export class ChatProfileComponent implements OnInit{
       console.log(error);
     });
   }
+
   onFilechange(event:any){
     this.imageFile = event.target.files[0]
     if(this.imageFile){
-      let formParams = new FormData();
-      formParams.append('file',this.imageFile);
-      const headers = new HttpHeaders().set("ResponseType","text")
-      this.api.postReturn(`${environment.BASE_API_URL}/image/upload/${this.chatDetails.id}`,formParams,{headers}).subscribe((data)=>{
-        if(data){
-          this.chatDetails.room_pic = this.appService.getImageUrl(`room_${this.chatDetails.id}`,data);
-          this.ngOnInit()
+      console.log(this.imageFile);
+      
+      this.modalService.setRootViewContainerRef(this.viewContainerRef)
+      this.modalService.addDynamicComponent('handleImage','roomPic',event).then((value)=>{
+        if(value){
+          let formParams = new FormData();
+          formParams.append('file',value);
+          const headers = new HttpHeaders().set("ResponseType","text")
+          this.api.postReturn(`${environment.BASE_API_URL}/image/upload/${this.chatDetails.id}`,formParams,{headers}).subscribe((data)=>{
+            if(data){
+              this.dataService.notifyOther({
+                view:"chat"
+              });
+              this.ngOnInit()
+            }
+          },(error)=>console.log(error))
         }
-      },(error)=>console.log(error))
-    }else{
+      }).catch((error)=>{
+        console.log(error)
+      })
     }
   }
   searchMessage(){

@@ -63,7 +63,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   fileType:string=""
   isEmojiOpened:boolean = false
   roomUsers:string
-  roomUsersList:string[]
   scrollToBottomSucess:boolean = false
   scrollToMessageSucess:boolean = false
   sendFieldFocusSuccess:boolean = false
@@ -107,21 +106,21 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   
   ngAfterViewChecked(): void {    
     if(!this.isSearchOpened && !this.isForwardOpened && !this.sendFieldFocusSuccess)
-    this.setSendFieldFocus()
-  if(this.locateMessageId!=null){
-    if(this.scrollToMessageSucess==false)
-    this.scrollToMessage(this.locateMessageId)
-}else if(this.scrollToBottomSucess==false){
-  this.scrollToBottom()
-}
-}
+      this.setSendFieldFocus()
+    if(this.locateMessageId!=null){
+      if(this.scrollToMessageSucess==false)
+        this.scrollToMessage(this.locateMessageId)
+    }else if(this.scrollToBottomSucess==false){
+      this.scrollToBottom()
+    }
+  }
 
-ngOnChanges(changes: SimpleChanges): void {
-  this.senderNameService.setPreviousSenderName("")
-  this.isSearchOpened=false
-  this.showCheckBox=false
-  this.scrollToBottomSucess=false
-  this.isAudioOpened = false
+  ngOnChanges(changes: SimpleChanges): void {
+    this.senderNameService.setPreviousSenderName("")
+    this.isSearchOpened=false
+    this.showCheckBox=false
+    this.scrollToBottomSucess=false
+    this.isAudioOpened = false
     this.scrollToMessageSucess=false
     this.isForwardOpened=false
     this.parentMessage = null
@@ -145,16 +144,23 @@ ngOnChanges(changes: SimpleChanges): void {
       this.getUserChatMessage();
     }else{
       this.getRoomChatMessage();
+      this.getActiveUsers()
     }
   }
+
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
       this.messageList=data            
       },(error)=>console.log(error))      
-    }
-    getRoomChatMessage(){
+  }
+  getRoomChatMessage(){
       this.api.getReturn(`${environment.BASE_API_URL}/message/room/${this.currentChat.id}`).subscribe((data:message[])=>{
         this.messageList=data
+    },(error)=>console.log(error))
+  }
+  getActiveUsers(){
+    this.api.getReturn(`${environment.BASE_API_URL}/room/${this.currentChat.id}/userList`).subscribe((data:string[])=>{
+      this.roomUsers = data.join(', ')
     },(error)=>console.log(error))
   }
 

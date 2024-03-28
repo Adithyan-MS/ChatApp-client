@@ -58,7 +58,7 @@ export class ProfileComponent implements OnInit{
     this.imageFile = event.target.files[0]
     if(this.imageFile){
       this.modalService.setRootViewContainerRef(this.viewContainerRef)
-      this.modalService.addDynamicComponent('handleImage','Crop Image',event).then((value)=>{
+      this.modalService.addDynamicComponent('handleImage','profilePic',event).then((value)=>{
         if(value){
           let formParams = new FormData();
           formParams.append('file',value);

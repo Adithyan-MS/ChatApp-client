@@ -43,7 +43,6 @@
     background: rgba(30, 128, 95, 0.3);
 
 }
-
 .right{
     display: flex;
     align-items: center;
@@ -70,8 +69,6 @@
     gap: 30px;
     color: white;
 }
-
-
 .right-bottom .cancel{
     display: flex;
     align-items: center;
@@ -95,4 +92,22 @@
 }
 .right-bottom .done:hover{
     background: rgba(30, 128, 95, 0.3);
+}
+
+image-cropper{
+    --cropper-overlay-color: rgb(0 0 0);
+}
+
+@media only screen and (max-width: 1250px) {
+    .left{
+        height: 70%;
+    }
+    .right{
+        height: 60%;
+    }
+}
+@media only screen and (max-width: 770px) {
+    .right{
+        display: none;
+    }
 }

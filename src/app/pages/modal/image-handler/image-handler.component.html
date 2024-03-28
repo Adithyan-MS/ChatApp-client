@@ -5,6 +5,8 @@
                 [imageChangedEvent]="image"
                 [maintainAspectRatio]="true"
                 [aspectRatio]="3 / 3"
+                [canvasRotation]="canvasRotation"
+                [transform]="transform"
                 format="png"
                 (imageCropped)="imageCropped($event)"
                 (imageLoaded)="imageLoaded($event)"
@@ -13,10 +15,10 @@
             ></image-cropper>
         </div>
         <div class="left-bottom">
-            <div class="action"><i class="fa-solid fa-rotate-right"></i></div>
-            <div class="action"><i class="fa-solid fa-rotate-left"></i></div>
-            <div class="action"><i class="fa-solid fa-arrow-up"></i></div>
-            <div class="action"><i class="fa-solid fa-arrow-down"></i></div>
+            <div class="action" (click)="rotateRight()"><i class="fa-solid fa-rotate-right"></i></div>
+            <div class="action" (click)="rotateLeft()"><i class="fa-solid fa-rotate-left"></i></div>
+            <div class="action" (click)="flipHorizontal()"><i class="fa-solid fa-arrows-left-right"></i></div>
+            <div class="action" (click)="flipVertical()"><i class="fa-solid fa-arrows-up-down"></i></div>
         </div>
     </div>
     <div class="right">

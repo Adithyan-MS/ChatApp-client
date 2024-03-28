@@ -40,11 +40,11 @@ export class SidebarComponent implements OnInit,OnDestroy{
     ){}
 
   ngOnInit(): void {
-    interval(5000)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(()=>{
-          this.getUserChats()
-      })
+    // interval(5000)
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe(()=>{
+    //       this.getUserChats()
+    //   })
     if(typeof localStorage != undefined){
       this.user = localStorage.getItem("user");
       this.userId = JSON.parse(this.user).id; 

@@ -85,6 +85,21 @@ app-image-handler{
     width: 1200px;
     height: 600px;
 }
+@media screen  and (max-width : 1250px){
+    app-image-handler{
+        width: 1000px;
+    }    
+}
+@media screen  and (max-width : 1100px){
+    app-image-handler{
+        width: 900px;
+    }    
+}
+@media screen  and (max-width : 1000px){
+    app-image-handler{
+        width: 700px;
+    }    
+}
 @media only screen and (max-width: 770px) {
     // .modal--close-btn {
     //     display: none;

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Room, User, userSearch } from '../../../models/data-types';
@@ -38,7 +38,7 @@ export class CreateRoomComponent {
   isEmojiOpened:boolean = false
   @Input() title:string
 
-  constructor(private fb:FormBuilder,private dataService: DataService,private api: ApiService,private appService:AppService,private modalService: ModalService){}
+  constructor(private modalService:ModalService, private viewContainerRef : ViewContainerRef,private fb:FormBuilder,private dataService: DataService,private api: ApiService,private appService:AppService){}
 
   roomPic:string|null
 
@@ -113,9 +113,15 @@ export class CreateRoomComponent {
   onFileChange(event:any){
     this.imageFile = event.target.files[0]
     if(this.imageFile){
-      const reader = new FileReader();
-      reader.onload = e => this.imageSrc = reader.result;
-      reader.readAsDataURL(this.imageFile)
+      this.modalService.setRootViewContainerRef(this.viewContainerRef)
+      this.modalService.addDynamicComponent("handleImage","roomPic",event).then((value)=>{
+        if(value){
+          const reader = new FileReader();
+          reader.onload = e => this.imageSrc = reader.result;
+          reader.readAsDataURL(value)
+          this.imageFile = value
+        }
+      }).catch((error)=>console.log(error))      
     }
   }
   toggleEmoji(){
