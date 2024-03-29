@@ -39,6 +39,11 @@
     background: rgba(47, 50, 49, 0.3);
     cursor: pointer;
 }
+.mobileEvents{
+    display: none;
+    color: white;
+    gap: 20px;
+}
 .left-bottom .action:hover{
     background: rgba(30, 128, 95, 0.3);
 
@@ -69,7 +74,7 @@
     gap: 30px;
     color: white;
 }
-.right-bottom .cancel{
+.cancel{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,7 +83,7 @@
     background: rgba(47, 50, 49, 0.3);
     cursor: pointer;
 }
-.right-bottom .done{
+.done{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,14 +105,69 @@ image-cropper{
 
 @media only screen and (max-width: 1250px) {
     .left{
+        height: 80%;
+    }
+    .right{
+        height: 70%;
+    }
+}
+@media only screen and (max-width: 1100px) {
+    .left{
+        height: 75%;
+    }
+    .right{
+        height: 65%;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .left{
         height: 70%;
     }
     .right{
         height: 60%;
     }
+    .cancel{
+        width: 90px;
+        height: 30px;
+    }
+    .done{
+        width: 90px;
+        height: 30px;
+    }
+}
+@media only screen and (max-width: 850px) {
+    .left{
+        height: 65%;
+    }
+    .right{
+        height: 55%;
+    }
 }
 @media only screen and (max-width: 770px) {
     .right{
         display: none;
+        width: 0%;
+    }
+    .left{
+        width: 90%;
+        height: 63%;
+    }
+    .left-bottom .action{
+        width: 35px;
+        height: 35px;
+        font-size: 13px;
+    }
+    .mobileEvents{
+        display: flex;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .left{
+        height: 60%;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .left{
+        height: 55%;
     }
 }

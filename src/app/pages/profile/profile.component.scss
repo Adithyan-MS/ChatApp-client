@@ -308,10 +308,10 @@ app-profile-view-content{
         height: 17%;
     }
     .item-title {
-        font-size: var(--fs-xxm);
+        font-size: var(--fs-xm);
     }
     .item-content{
-        font-size: var(--fs-xxm);
+        font-size: var(--fs-xm);
         margin-top: -3px;
     }
     .item-icon{
@@ -330,38 +330,39 @@ app-profile-view-content{
     .right{
         flex-direction: column;
         max-width: 100%;
+        gap: 15px;
     }
     hr{
         height: 0px;
         width: 80%;
     }
     .items{
-        width: 85%;
+        width: 90%;
     }
     .details{
         width: 100%;
     }
     .container-items{
         width: 90%;
+        gap: 15px;
     }
     .back{
         left: 10px;
         top: 5px;
     }
     .image{
-        width: 140px;
-        height: 140px;
+        width: 170px;
+        height: 170px;
     }
     .item-title {
-        font-size: 8px;
+        font-size: 13px;
     }
     .item-content{
-        font-size: 10px;
-        margin-top: -3px;
+        font-size: 15px;
     }
     .item-icon{
-        width: 25px;
-        height: 25px;
+        width: 40px;
+        height: 40px;
     }
     app-profile-sidebar{
         flex: 1;

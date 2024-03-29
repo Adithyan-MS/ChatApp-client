@@ -97,13 +97,23 @@ app-image-handler{
 }
 @media screen  and (max-width : 1000px){
     app-image-handler{
-        width: 700px;
+        width: 800px;
+    }    
+}
+@media only screen and (max-width: 850px) {
+    app-image-handler{
+        width: 750px;
     }    
 }
 @media only screen and (max-width: 770px) {
-    // .modal--close-btn {
-    //     display: none;
-    // }
+    app-image-handler{
+        width: 600px;
+    }    
+}
+@media only screen and (max-width: 600px) {
+    app-image-handler{
+        width: 100%;
+    }    
 }
 @media only screen and (max-width: 426px) {
     .modal--close-btn {
@@ -121,6 +131,7 @@ app-image-handler{
     app-join-room{
         width: 100%;
     }
+    
     app-add-room-member{
         width: 100%;
     }

@@ -57,14 +57,14 @@
         gap: 5px;
    }
    .item i{
-        font-size: var(--fs-m);
+        font-size: var(--fs-l);
     }
     .item .icon{
         width: 30px;
         height: 30px;
     }
     .item span{
-        font-size: var(--fs-xxm);
+        font-size: var(--fs-xm);
     }
 }
 @media only screen and (max-width: 620px) {
@@ -72,13 +72,13 @@
     padding: 5px;
    }
    .item i{
-        font-size: var(--fs-xxm);
+        font-size: var(--fs-l);
     }
     .item .icon{
-        width: 25px;
-        height: 25px;
+        width: 40px;
+        height: 40px;
     }
     .item span{
-        font-size: var(--fs-s);
+        font-size: var(--fs-xm);
     }
 }
