@@ -23,6 +23,8 @@ import { AudioRecordComponent } from './audio-record/audio-record.component';
 import { AudioRecordingService } from './audio-record/audio-recording.service';
 import { FileUploadService } from './send-file/file-upload.service';
 import { NewMessagesService } from '../../../../services/new-messages.service';
+import {Stomp} from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
 @Component({
   selector: 'app-chat-messages',
@@ -73,20 +75,22 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   private destroy$ = new Subject<void>();
   searchContent:any = null
   audioSendProgress:any = null
-  
+
+  socket?:WebSocket
+  stompClient?: any 
   constructor(private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
     interval(2000)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(()=>{
-        if(this.currentChat.type==="user"){
-          this.getUserChatMessage()
-        }else{
-          this.getRoomChatMessage()
-        }
-      })
+      // .pipe(takeUntil(this.destroy$))
+      // .subscribe(()=>{
+      //   if(this.currentChat.type==="user"){
+      //     this.getUserChatMessage()
+      //   }else{
+      //     this.getRoomChatMessage()
+      //   }
+      // })
       this.dataService.notifyObservable$.subscribe((data)=>{
         if(data=="openSearch")
         this.openSearch()
@@ -97,6 +101,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     this.audioRecordingService.audioBlob$.subscribe(blob => {
       this.sendAudio(blob)
     });
+
+    this.socket = new SockJS(`http://localhost:8080/ws`);
+    this.stompClient = Stomp.over(this.socket);
+
+    this.stompClient.connect({}, (frame:any) => {
+      console.log('connected to: ' + frame);
+    },(error:any)=>console.log(error)
+    );
   }
 
   ngOnDestroy(): void {

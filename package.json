@@ -22,6 +22,8 @@
     "@angular/router": "^17.0.0",
     "@angular/ssr": "^17.0.0",
     "@ctrl/ngx-emoji-mart": "^9.2.0",
+    "@stomp/stompjs": "^7.0.0",
+    "@types/sockjs-client": "^1.5.4",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "moment": "^2.30.1",
@@ -30,6 +32,7 @@
     "ngx-image-cropper": "^7.2.1",
     "recordrtc": "^5.6.2",
     "rxjs": "~7.8.0",
+    "sockjs-client": "^1.6.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },
