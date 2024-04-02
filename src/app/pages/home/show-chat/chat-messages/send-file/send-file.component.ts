@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewContainerRef } from
 import { CommonModule } from '@angular/common';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { message, userChats } from '../../../../../models/data-types';
-import { ApiService } from '../../../../../services/api.service';
+import { ApiService } from '../../../../../services/api/api.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AppService } from '../../../../../services/app.service';
 import { FileUploadService } from './file-upload.service';
-import { ModalService } from '../../../../../services/modal.service';
+import { ModalService } from '../../../../../services/modal/modal.service';
 
 @Component({
   selector: 'app-send-file',

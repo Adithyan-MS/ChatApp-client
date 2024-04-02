@@ -4,20 +4,20 @@ import { message, receiver, sendMessage, userChats } from '../../../../models/da
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AppService } from '../../../../services/app.service';
 import { environment } from '../../../../../environments/environment.development';
-import { ApiService } from '../../../../services/api.service';
+import { ApiService } from '../../../../services/api/api.service';
 import { MessageComponent } from './message/message.component';
 import { HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { DataService } from '../../../../services/data.service';
+import { DataService } from '../../../../services/data-transfer/data.service';
 import { ParentMessageComponent } from './parent-message/parent-message.component';
 import { EditMessageComponent } from './edit-message/edit-message.component';
 import { ForwardMessageComponent } from './forward-message/forward-message.component';
 import { SenderService } from './message-service/sender.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnimationService } from '../../../../services/animation.service';
+import { AnimationService } from '../../../../services/animations/animation.service';
 import { SendFileComponent } from './send-file/send-file.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
-import { ModalService } from '../../../../services/modal.service';
+import { ModalService } from '../../../../services/modal/modal.service';
 import { Subject, interval, takeUntil } from 'rxjs';
 import { AudioRecordComponent } from './audio-record/audio-record.component';
 import { AudioRecordingService } from './audio-record/audio-recording.service';
@@ -25,6 +25,7 @@ import { FileUploadService } from './send-file/file-upload.service';
 import { NewMessagesService } from '../../../../services/new-messages.service';
 import {Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { StompService } from '../../../../services/stomp/stomp.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -76,13 +77,11 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   searchContent:any = null
   audioSendProgress:any = null
 
-  socket?:WebSocket
-  stompClient?: any 
-  constructor(private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
+  constructor(private stompService: StompService,private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
-    interval(2000)
+    // interval(2000)
       // .pipe(takeUntil(this.destroy$))
       // .subscribe(()=>{
       //   if(this.currentChat.type==="user"){
@@ -102,14 +101,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       this.sendAudio(blob)
     });
 
-    var sockJsProtocols = ["xhr-streaming", "xhr-polling"];
-    this.stompClient =  Stomp.over(function(){
-      return new SockJS(`http://localhost:8080/ws`, null, {transports: sockJsProtocols});
-    });
-    
-    this.stompClient.connect({}, (frame:any) => {
-      console.log('connected to: ' + frame);
-    })
   }
 
   ngOnDestroy(): void {
@@ -163,7 +154,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
 
   getUserChatMessage(){
     this.api.getReturn(`${environment.BASE_API_URL}/message/user/${this.currentChat.id}`).subscribe((data:message[])=>{
-      this.messageList=data            
+      this.messageList=data
       },(error)=>console.log(error))      
   }
   getRoomChatMessage(){
@@ -208,13 +199,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       }
       const headers = new HttpHeaders().set('ResponseType','text')
       this.api.postReturn(`${environment.BASE_API_URL}/message/sendMessage`,messageData,{headers}).subscribe((data)=>{
-        this.messageForm.reset()    
-            
+        this.messageForm.reset()         
         this.parentMessage = null
         this.ngOnChanges(data)
+        this.stompService.stompClient.send('/app/chat',{},JSON.stringify(this.currentChat.name));
         this.dataService.notifyOther({
           view:"chat"
         });
+        
       },(error)=>{
         console.log(error);
       })      
@@ -235,6 +227,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         console.log(error);
       })
     }
+    
   }
   viewProfile(){
     this.router.navigate([`${this.currentChat.name}/profile`],{relativeTo:this.route})

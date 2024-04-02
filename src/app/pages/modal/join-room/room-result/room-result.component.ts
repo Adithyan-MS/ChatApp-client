@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Room } from '../../../../models/data-types';
 import { environment } from '../../../../../environments/environment.development';
 import { AppService } from '../../../../services/app.service';
-import { ApiService } from '../../../../services/api.service';
-import { DataService } from '../../../../services/data.service';
+import { ApiService } from '../../../../services/api/api.service';
+import { DataService } from '../../../../services/data-transfer/data.service';
 import { HttpHeaders } from '@angular/common/http';
 
 @Component({

@@ -7,7 +7,7 @@ import { PersonalizationComponent } from './personalization/personalization.comp
 import { ChatsComponent } from './chats/chats.component';
 import { StorageComponent } from './storage/storage.component';
 import { HelpContentComponent } from './help-content/help-content.component';
-import { DataService } from '../../../services/data.service';
+import { DataService } from '../../../services/data-transfer/data.service';
 
 @Component({
   selector: 'app-profile-view-content',

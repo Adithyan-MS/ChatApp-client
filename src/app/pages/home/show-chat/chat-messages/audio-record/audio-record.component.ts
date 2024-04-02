@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioRecordingService } from './audio-recording.service';
-import { AnimationService } from '../../../../../services/animation.service';
+import { AnimationService } from '../../../../../services/animations/animation.service';
 
 @Component({
   selector: 'app-audio-record',

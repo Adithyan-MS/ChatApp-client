@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Participant, userSearch } from '../../../../models/data-types';
-import { ApiService } from '../../../../services/api.service';
+import { ApiService } from '../../../../services/api/api.service';
 import { HttpParams } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment.development';
 import { UserResultComponent } from './user-result/user-result.component';

@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchChatComponent } from './search-chat/search-chat.component';
-import { ApiService } from '../../../../../services/api.service';
+import { ApiService } from '../../../../../services/api/api.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { HttpParams } from '@angular/common/http';
 import { chatSearch, receiver } from '../../../../../models/data-types';

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchUsersComponent } from './search-users/search-users.component';
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../services/api/api.service';
 import { environment } from '../../../../environments/environment.development';
 import { userSearch } from '../../../models/data-types';
 import { HttpHeaders } from '@angular/common/http';
-import { DataService } from '../../../services/data.service';
+import { DataService } from '../../../services/data-transfer/data.service';
 
 @Component({
   selector: 'app-add-room-member',

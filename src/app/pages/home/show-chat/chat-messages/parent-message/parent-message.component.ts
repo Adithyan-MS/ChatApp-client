@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
-import { VideoProcessingService } from '../../../../../services/video-processing.service';
+import { VideoProcessingService } from '../../../../../services/video/video-processing.service';
 
 @Component({
   selector: 'app-parent-message',

@@ -2,16 +2,17 @@ import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, O
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from './chat/chat.component';
 import { environment } from '../../../../environments/environment.development';
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../services/api/api.service';
 import { userChats } from '../../../models/data-types';
-import { DataService } from '../../../services/data.service';
+import { DataService } from '../../../services/data-transfer/data.service';
 import { HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ModalService } from '../../../services/modal.service';
+import { ModalService } from '../../../services/modal/modal.service';
 import { SenderService } from '../show-chat/chat-messages/message-service/sender.service';
-import { AnimationService } from '../../../services/animation.service';
+import { AnimationService } from '../../../services/animations/animation.service';
 import { Subject, interval, takeUntil } from 'rxjs';
 import { NewMessagesService } from '../../../services/new-messages.service';
+import { StompService } from '../../../services/stomp/stomp.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,6 +29,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
   searchedChats:userChats[]
   user:string|any
   userId:number
+  userName:string
   clickedIndex?:number
   isStarredMessageOpened:boolean = false
   isSearching:boolean = false
@@ -36,28 +38,25 @@ export class SidebarComponent implements OnInit,OnDestroy{
   searchName:string=""
   private destroy$ = new Subject<void>();
 
-  constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
+  constructor(private stompService : StompService,private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
 
   ngOnInit(): void {
-    // interval(5000)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(()=>{
-    //       this.getUserChats()
-    //   })
+    this.getUserChats()
     if(typeof localStorage != undefined){
       this.user = localStorage.getItem("user");
       this.userId = JSON.parse(this.user).id; 
+      this.userName = JSON.parse(this.user).name; 
     }
-    this.getUserChats()
-    this.dataService.notifyObservable$.subscribe((data)=>{ 
-      console.log("hai");
-      
-      if(data.length==0 || (data && !this.isStarredMessageOpened)){
+    this.dataService.notifyObservable$.subscribe((data)=>{       
+      if(data.length==0 || (data == "chat" && !this.isStarredMessageOpened)){
         this.getUserChats()
       }else{
         this.getStarredMessages()
       }
+    })
+    this.stompService.subscibe(`/user/${this.userName}/queue/messages`,()=>{
+      this.getUserChats()            
     })
   }
 
@@ -69,6 +68,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
       this.chats=data
+      console.log(this.chats);
+      
     },(error)=>{
       console.log(error);      
     })

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/api/api.service';
 import { User } from '../../models/data-types';
 import { AppService } from '../../services/app.service';
 import { ProfileSidebarComponent } from './profile-sidebar/profile-sidebar.component';
@@ -9,10 +9,10 @@ import { environment } from '../../../environments/environment.development';
 import { Router, RouterModule } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ModalService } from '../../services/modal.service';
+import { ModalService } from '../../services/modal/modal.service';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../directives/clickOutside/click-outside.directive';
-import { AnimationService } from '../../services/animation.service';
+import { AnimationService } from '../../services/animations/animation.service';
 
 @Component({
   selector: 'app-profile',

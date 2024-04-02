@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataService } from '../../../services/data.service';
+import { DataService } from '../../../services/data-transfer/data.service';
 import {  userChats } from '../../../models/data-types';
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../services/api/api.service';
 import { AppService } from '../../../services/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatProfileComponent } from './chat-profile/chat-profile.component';

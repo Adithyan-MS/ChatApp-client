@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataService } from '../../../services/data.service';
+import { DataService } from '../../../services/data-transfer/data.service';
 
 @Component({
   selector: 'app-profile-sidebar',
