@@ -26,13 +26,11 @@ export class SidebarComponent implements OnInit,OnDestroy{
 
   chats:userChats[]
   starredChats:userChats[]
-  searchedChats:userChats[]
   user:string|any
   userId:number
   userName:string
-  clickedIndex?:number
+  clickedChat?:string
   isStarredMessageOpened:boolean = false
-  isSearching:boolean = false
   @Output() mobileViewEvent = new EventEmitter<any>()
   @ViewChild("searchChatField") searchChatField:ElementRef
   searchName:string=""
@@ -55,8 +53,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
         this.getStarredMessages()
       }
     })
-    this.stompService.subscibe(`/user/${this.userName}/queue/messages`,()=>{
-      this.getUserChats()            
+    this.stompService.subscibe(`/user/${this.userId}/queue/messages`,()=>{
+      this.getUserChats()
     })
   }
 
@@ -89,8 +87,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
     if(this.checkSize())
       this.mobileViewEvent.emit(true)
   }
-  clickChat(index:any){
-    this.clickedIndex=index
+  clickChat(chatId:string){
+    this.clickedChat=chatId
   }
   showCreateRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
@@ -104,20 +102,20 @@ export class SidebarComponent implements OnInit,OnDestroy{
   onSearchChange(event:any){
       this.searchName = event.target.value
       if(this.searchName !==""){
-        this.isSearching = true
         let queryParams = new HttpParams();
         queryParams = queryParams.append("name",this.searchName);
         if (!this.isStarredMessageOpened) {
-          this.searchedChats = this.chats.filter((chat)=>{
-            return chat.name.toLowerCase().includes(this.searchName.toLowerCase())
-          })      
+          this.api.getReturn(`${environment.BASE_API_URL}/user/search`,{params:queryParams}).subscribe((data)=>{
+            this.chats=data
+          },(error)=>{
+            console.log(error);
+          })
         }else{
           this.starredChats = this.starredChats.filter((chat)=>{
             return chat.name.toLowerCase().includes(this.searchName.toLocaleLowerCase())
           })
         }
       }else{
-        this.isSearching = false
         if (!this.isStarredMessageOpened) {
           this.getUserChats()          
         } else {
@@ -128,13 +126,13 @@ export class SidebarComponent implements OnInit,OnDestroy{
   showStarredMessage(){
     this.isStarredMessageOpened=true
     this.getStarredMessages()
-    this.clickedIndex=undefined
+    this.clickedChat=undefined
     this.router.navigate(['starredMessages'], {relativeTo:this.route});
   }
   closeStarredMessage(){
     this.isStarredMessageOpened=false
     this.getUserChats()
-    this.clickedIndex=undefined
+    this.clickedChat=undefined
     this.messageService.setSelectedMessageId(null)
     this.router.navigate(['/home']);
   }

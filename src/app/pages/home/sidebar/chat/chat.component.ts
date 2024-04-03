@@ -16,7 +16,7 @@ export class ChatComponent implements OnInit,OnChanges{
 
   @Input() chat:userChats
   @Input() currentUserId:number
-  @Input() clickedIndex?:number
+  @Input() clickedChat?:string
   @Input() index:number
   @Input() isStarredMessageOpened:boolean
   profilePic:string|null
@@ -30,7 +30,7 @@ export class ChatComponent implements OnInit,OnChanges{
     this.ngOnInit()
   }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {     
     if(this.chat.latest_message_id && !this.isStarredMessageOpened){
       if(this.newMessageService.getLatestMessage(this.chat.type,this.chat.id)){
         if((this.newMessageService.getLatestMessage(this.chat.type,this.chat.id).latest_message_id) != (this.chat.latest_message_id)){

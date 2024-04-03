@@ -1,4 +1,4 @@
-<div class="items" [ngClass]="{'clicked' : clickedIndex==index}">
+<div class="items" [ngClass]="{'clicked' : clickedChat==chat.type+chat.id}">
     <div class="left">
         <img [src]="profilePic ? profilePic : 'https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg'" class="chat-image">
         <div class="chat-name">
