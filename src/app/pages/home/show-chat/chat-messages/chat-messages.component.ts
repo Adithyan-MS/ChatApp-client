@@ -102,14 +102,14 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       this.sendAudio(blob)
     });
 
-    var sockJsProtocols = ["xhr-streaming", "xhr-polling"];
-    this.stompClient =  Stomp.over(function(){
-      return new SockJS(`http://localhost:8080/ws`, null, {transports: sockJsProtocols});
-    });
+    var sockJsProtocols = ["websocket", "xhr-streaming", "xhr-polling"];
+    var sockJsClient = new SockJS(`http://localhost:8080/ws`, null, { transports: sockJsProtocols });
+    this.stompClient = Stomp.over(sockJsClient);
     
     this.stompClient.connect({}, (frame:any) => {
       console.log('connected to: ' + frame);
-    })
+    });
+    
   }
 
   ngOnDestroy(): void {
