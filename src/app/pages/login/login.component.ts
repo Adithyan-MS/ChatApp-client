@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ApiService } from '../../services/api/api.service';
 import { environment } from '../../../environments/environment.development';
 import { AuthResponse, LoginData, User } from '../../models/data-types';
+import { AppService } from '../../services/app.service';
  
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit{
   loginSuccess:boolean;
   errorMessage:string;
   
-  constructor(private fb: FormBuilder,private api:ApiService,private router:Router){}
+  constructor(private appService: AppService, private fb: FormBuilder,private api:ApiService,private router:Router){}
  
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -47,13 +48,13 @@ export class LoginComponent implements OnInit{
     const apiUrl = "http://localhost:8080/chatApi/v1/auth/login"
    
     this.api.postReturn(apiUrl,userData).subscribe((data:AuthResponse)=>{
-      console.log(data);
       this.loginSuccess = true;
       this.loginForm.reset();
       const jwtToken:string = data.token;
       localStorage.setItem("token",jwtToken)
-      this.api.getReturn(`${environment.BASE_API_URL}/user/${userData.username}`).subscribe((data:User[])=>{
-        localStorage.setItem("user",JSON.stringify(data))        
+      this.api.getReturn(`${environment.BASE_API_URL}/user/${userData.username}`).subscribe((data:User)=>{
+        localStorage.setItem("user",JSON.stringify(data))  
+        this.appService.setCurrentUser(data)
         this.router.navigate(['home'])
       },(error)=>{
         this.errorMessage = error["error"].message;
