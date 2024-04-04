@@ -1,13 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VideoProcessingService {
 
-  constructor(
-  ) { }
+  constructor() { }
 
   generatePoster(videoUrl: string, timeOffset: number): Promise<string> {    
     return new Promise((resolve, reject) => {

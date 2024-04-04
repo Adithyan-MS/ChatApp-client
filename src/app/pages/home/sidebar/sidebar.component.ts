@@ -12,6 +12,7 @@ import { SenderService } from '../show-chat/chat-messages/message-service/sender
 import { AnimationService } from '../../../services/animations/animation.service';
 import { Subject, interval, takeUntil } from 'rxjs';
 import { NewMessagesService } from '../../../services/new-messages.service';
+import { WebsocketService } from '../../../services/web-socket/websocket.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -35,7 +36,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
   searchName:string=""
   private destroy$ = new Subject<void>();
 
-  constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
+  constructor(private webSocketService : WebsocketService,private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
 
   ngOnInit(): void {
@@ -52,10 +53,9 @@ export class SidebarComponent implements OnInit,OnDestroy{
         this.getStarredMessages()
       }
     })
-    // this.stompService.subscibe(`/user/${this.userId}/queue/messages`,()=>{
-
-    //   this.getUserChats()
-    // })
+    this.webSocketService.newMessage$.subscribe((data)=>{
+      this.getUserChats()      
+    })
   }
 
   ngOnDestroy(): void {
@@ -65,9 +65,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
 
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
-      this.chats=data
-      console.log(this.chats);
-      
+      this.chats=data      
     },(error)=>{
       console.log(error);      
     })

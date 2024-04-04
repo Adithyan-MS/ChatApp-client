@@ -23,6 +23,7 @@ import { AudioRecordComponent } from './audio-record/audio-record.component';
 import { AudioRecordingService } from './audio-record/audio-recording.service';
 import { FileUploadService } from './send-file/file-upload.service';
 import { NewMessagesService } from '../../../../services/new-messages.service';
+import { WebsocketService } from '../../../../services/web-socket/websocket.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -76,7 +77,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   user:any
   userId:any
 
-  constructor(private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
+  constructor(private webSocketService : WebsocketService,private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
@@ -84,15 +85,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       this.user = localStorage.getItem("user");
       this.userId = JSON.parse(this.user).id; 
     }
-    // interval(2000)
-      // .pipe(takeUntil(this.destroy$))
-      // .subscribe(()=>{
-      //   if(this.currentChat.type==="user"){
-      //     this.getUserChatMessage()
-      //   }else{
-      //     this.getRoomChatMessage()
-      //   }
-      // })
       this.dataService.notifyObservable$.subscribe((data)=>{
         if(data=="openSearch")
         this.openSearch()
@@ -104,10 +96,21 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       this.sendAudio(blob)
     });
 
-    // this.stompService.subscibe(`/user/${this.appService.getCurrentUser().id}/queue/messages`,(data:any)=>{     
-    //   console.log(JSON.parse(data));
-    //   this.ngOnInit()
-    // })
+    this.webSocketService.newMessage$.subscribe((response)=>{
+      var data = JSON.parse(response)      
+    
+      console.log(data.senderType,this.currentChat.type, data.senderId, this.currentChat.id);
+      
+      
+      if(data.senderType == this.currentChat.type && data.senderId == this.currentChat.id){
+        if(this.currentChat.type === "user"){
+          this.getUserChatMessage();
+        }else{
+          this.getRoomChatMessage();
+        }
+        this.scrollToBottom()
+      }
+    })
 
   }
 
@@ -215,7 +218,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
           receiverType : this.currentChat.type,
           receiverId : this.currentChat.id
         }
-        // this.stompService.stompClient.send('/app/chat',{},JSON.stringify(stompMessage));
+        this.webSocketService.sendMessage(JSON.stringify(stompMessage)) 
         this.dataService.notifyOther({
           view:"chat"
         });        
