@@ -12,7 +12,6 @@ import { SenderService } from '../show-chat/chat-messages/message-service/sender
 import { AnimationService } from '../../../services/animations/animation.service';
 import { Subject, interval, takeUntil } from 'rxjs';
 import { NewMessagesService } from '../../../services/new-messages.service';
-import { StompService } from '../../../services/stomp/stomp.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -36,7 +35,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
   searchName:string=""
   private destroy$ = new Subject<void>();
 
-  constructor(private stompService : StompService,private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
+  constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
 
   ngOnInit(): void {
@@ -53,9 +52,10 @@ export class SidebarComponent implements OnInit,OnDestroy{
         this.getStarredMessages()
       }
     })
-    this.stompService.subscibe(`/user/${this.userId}/queue/messages`,()=>{
-      this.getUserChats()
-    })
+    // this.stompService.subscibe(`/user/${this.userId}/queue/messages`,()=>{
+
+    //   this.getUserChats()
+    // })
   }
 
   ngOnDestroy(): void {

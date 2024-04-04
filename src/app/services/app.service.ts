@@ -1,13 +1,24 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { DatePipe } from '@angular/common';
+import { User } from '../models/data-types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
+  user:User
+
   constructor(private datePipe:DatePipe) { }
+
+  setCurrentUser(currentUser : User){
+    this.user = currentUser
+  }
+
+  getCurrentUser(){
+    return this.user
+  }
   
   HHMMFormatter(timestamp:string){
     const inputDate = new Date(timestamp);

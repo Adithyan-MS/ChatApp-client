@@ -23,7 +23,6 @@ import { AudioRecordComponent } from './audio-record/audio-record.component';
 import { AudioRecordingService } from './audio-record/audio-recording.service';
 import { FileUploadService } from './send-file/file-upload.service';
 import { NewMessagesService } from '../../../../services/new-messages.service';
-import { StompService } from '../../../../services/stomp/stomp.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -77,7 +76,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
   user:any
   userId:any
 
-  constructor(private stompService: StompService,private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
+  constructor(private newMessageService : NewMessagesService,private fileUploadService: FileUploadService ,private audioRecordingService: AudioRecordingService ,private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private renderer: Renderer2,private appService: AppService,private api:ApiService,private dataService:DataService,private messageService:SenderService,private elementRef: ElementRef,private modalService: ModalService,private viewContainerRef: ViewContainerRef, private senderNameService: SenderService){
   }
   
   ngOnInit(): void {
@@ -105,8 +104,9 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       this.sendAudio(blob)
     });
 
-    // this.stompService.subscibe(`/user/${this.userId}/queue/messages`,()=>{     
-
+    // this.stompService.subscibe(`/user/${this.appService.getCurrentUser().id}/queue/messages`,(data:any)=>{     
+    //   console.log(JSON.parse(data));
+    //   this.ngOnInit()
     // })
 
   }
@@ -215,7 +215,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
           receiverType : this.currentChat.type,
           receiverId : this.currentChat.id
         }
-        this.stompService.stompClient.send('/app/chat',{},JSON.stringify(stompMessage));
+        // this.stompService.stompClient.send('/app/chat',{},JSON.stringify(stompMessage));
         this.dataService.notifyOther({
           view:"chat"
         });        

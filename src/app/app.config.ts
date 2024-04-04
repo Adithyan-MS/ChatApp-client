@@ -7,8 +7,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { apiInterceptor } from './interceptors/api.interceptor';
 import { DatePipe } from '@angular/common';
 import {  provideAnimations } from '@angular/platform-browser/animations';
-import { StompService } from './services/stomp/stomp.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes,withViewTransitions()),provideAnimations(),DatePipe,provideHttpClient(withInterceptors([apiInterceptor]),withFetch()), provideClientHydration(),StompService]
+  providers: [provideRouter(routes,withViewTransitions()),provideAnimations(),DatePipe,provideHttpClient(withInterceptors([apiInterceptor]),withFetch()), provideClientHydration()]
 };
