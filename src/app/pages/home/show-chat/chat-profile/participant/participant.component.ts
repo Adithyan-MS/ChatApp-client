@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Participant } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
 import { environment } from '../../../../../../environments/environment.development';
-import { ApiService } from '../../../../../services/api.service';
-import { DataService } from '../../../../../services/data.service';
+import { ApiService } from '../../../../../services/api/api.service';
+import { DataService } from '../../../../../services/data-transfer/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnimationService } from '../../../../../services/animation.service';
+import { AnimationService } from '../../../../../services/animations/animation.service';
 
 @Component({
   selector: 'app-participant',

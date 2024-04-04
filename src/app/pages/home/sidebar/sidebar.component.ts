@@ -2,16 +2,17 @@ import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, O
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from './chat/chat.component';
 import { environment } from '../../../../environments/environment.development';
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../services/api/api.service';
 import { userChats } from '../../../models/data-types';
-import { DataService } from '../../../services/data.service';
+import { DataService } from '../../../services/data-transfer/data.service';
 import { HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ModalService } from '../../../services/modal.service';
+import { ModalService } from '../../../services/modal/modal.service';
 import { SenderService } from '../show-chat/chat-messages/message-service/sender.service';
-import { AnimationService } from '../../../services/animation.service';
+import { AnimationService } from '../../../services/animations/animation.service';
 import { Subject, interval, takeUntil } from 'rxjs';
 import { NewMessagesService } from '../../../services/new-messages.service';
+import { StompService } from '../../../services/stomp/stomp.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,39 +26,35 @@ export class SidebarComponent implements OnInit,OnDestroy{
 
   chats:userChats[]
   starredChats:userChats[]
-  searchedChats:userChats[]
   user:string|any
   userId:number
-  clickedIndex?:number
+  userName:string
+  clickedChat?:string
   isStarredMessageOpened:boolean = false
-  isSearching:boolean = false
   @Output() mobileViewEvent = new EventEmitter<any>()
   @ViewChild("searchChatField") searchChatField:ElementRef
   searchName:string=""
   private destroy$ = new Subject<void>();
 
-  constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
+  constructor(private stompService : StompService,private api:ApiService,private router:Router,private route:ActivatedRoute,private dataService : DataService,private messageService:SenderService,private modalService: ModalService,private viewContainerRef: ViewContainerRef
     ){}
 
   ngOnInit(): void {
-    // interval(5000)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(()=>{
-    //       this.getUserChats()
-    //   })
+    this.getUserChats()
     if(typeof localStorage != undefined){
       this.user = localStorage.getItem("user");
       this.userId = JSON.parse(this.user).id; 
+      this.userName = JSON.parse(this.user).name; 
     }
-    this.getUserChats()
-    this.dataService.notifyObservable$.subscribe((data)=>{ 
-      console.log("hai");
-      
-      if(data.length==0 || (data && !this.isStarredMessageOpened)){
+    this.dataService.notifyObservable$.subscribe((data)=>{       
+      if(data.length==0 || (data == "chat" && !this.isStarredMessageOpened)){
         this.getUserChats()
       }else{
         this.getStarredMessages()
       }
+    })
+    this.stompService.subscibe(`/user/${this.userId}/queue/messages`,()=>{
+      this.getUserChats()
     })
   }
 
@@ -69,6 +66,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
   getUserChats(){
     this.api.getReturn(`${environment.BASE_API_URL}/user/chats`).subscribe((data:userChats[])=>{
       this.chats=data
+      console.log(this.chats);
+      
     },(error)=>{
       console.log(error);      
     })
@@ -88,8 +87,8 @@ export class SidebarComponent implements OnInit,OnDestroy{
     if(this.checkSize())
       this.mobileViewEvent.emit(true)
   }
-  clickChat(index:any){
-    this.clickedIndex=index
+  clickChat(chatId:string){
+    this.clickedChat=chatId
   }
   showCreateRoom(){
     this.modalService.setRootViewContainerRef(this.viewContainerRef)
@@ -103,20 +102,20 @@ export class SidebarComponent implements OnInit,OnDestroy{
   onSearchChange(event:any){
       this.searchName = event.target.value
       if(this.searchName !==""){
-        this.isSearching = true
         let queryParams = new HttpParams();
         queryParams = queryParams.append("name",this.searchName);
         if (!this.isStarredMessageOpened) {
-          this.searchedChats = this.chats.filter((chat)=>{
-            return chat.name.toLowerCase().includes(this.searchName.toLowerCase())
-          })      
+          this.api.getReturn(`${environment.BASE_API_URL}/user/search`,{params:queryParams}).subscribe((data)=>{
+            this.chats=data
+          },(error)=>{
+            console.log(error);
+          })
         }else{
           this.starredChats = this.starredChats.filter((chat)=>{
             return chat.name.toLowerCase().includes(this.searchName.toLocaleLowerCase())
           })
         }
       }else{
-        this.isSearching = false
         if (!this.isStarredMessageOpened) {
           this.getUserChats()          
         } else {
@@ -127,13 +126,13 @@ export class SidebarComponent implements OnInit,OnDestroy{
   showStarredMessage(){
     this.isStarredMessageOpened=true
     this.getStarredMessages()
-    this.clickedIndex=undefined
+    this.clickedChat=undefined
     this.router.navigate(['starredMessages'], {relativeTo:this.route});
   }
   closeStarredMessage(){
     this.isStarredMessageOpened=false
     this.getUserChats()
-    this.clickedIndex=undefined
+    this.clickedChat=undefined
     this.messageService.setSelectedMessageId(null)
     this.router.navigate(['/home']);
   }

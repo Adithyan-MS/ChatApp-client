@@ -1,18 +1,18 @@
 import { Component,ElementRef,EventEmitter,Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Participant, Room, User, userChats } from '../../../../models/data-types';
-import { ApiService } from '../../../../services/api.service';
+import { ApiService } from '../../../../services/api/api.service';
 import { environment } from '../../../../../environments/environment.development';
 import { AppService } from '../../../../services/app.service';
 import { ParticipantComponent } from './participant/participant.component';
 import { CommonGroupComponent } from './common-group/common-group.component';
-import { ModalService } from '../../../../services/modal.service';
-import { DataService } from '../../../../services/data.service';
+import { ModalService } from '../../../../services/modal/modal.service';
+import { DataService } from '../../../../services/data-transfer/data.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClickOutsideDirective } from '../../../../directives/clickOutside/click-outside.directive';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
-import { AnimationService } from '../../../../services/animation.service';
+import { AnimationService } from '../../../../services/animations/animation.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { error } from 'console';
 

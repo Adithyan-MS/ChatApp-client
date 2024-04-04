@@ -2,16 +2,16 @@ import { Component,ElementRef,EventEmitter,Input, OnChanges, OnInit, Output, Sim
 import { CommonModule } from '@angular/common';
 import {  User, message } from '../../../../../models/data-types';
 import { AppService } from '../../../../../services/app.service';
-import { ApiService } from '../../../../../services/api.service';
+import { ApiService } from '../../../../../services/api/api.service';
 import { environment } from '../../../../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
 import { ParentMessageComponent } from '../parent-message/parent-message.component';
 import { SenderService } from '../message-service/sender.service';
-import { DataService } from '../../../../../services/data.service';
-import { AnimationService } from '../../../../../services/animation.service';
-import { ModalService } from '../../../../../services/modal.service';
+import { DataService } from '../../../../../services/data-transfer/data.service';
+import { AnimationService } from '../../../../../services/animations/animation.service';
+import { ModalService } from '../../../../../services/modal/modal.service';
 import { ClickOutsideDirective } from '../../../../../directives/clickOutside/click-outside.directive';
-import { VideoProcessingService } from '../../../../../services/video-processing.service';
+import { VideoProcessingService } from '../../../../../services/video/video-processing.service';
 
 @Component({
   selector: 'app-message',

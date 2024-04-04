@@ -2,7 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ShowChatComponent } from './show-chat/show-chat.component';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../services/data-transfer/data.service';
 import { NewMessagesService } from '../../services/new-messages.service';
 
 @Component({

@@ -1,13 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/api/api.service';
 import { environment } from '../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
 import { User } from '../../models/data-types';
 import { AppService } from '../../services/app.service';
 import { ClickOutsideDirective } from '../../directives/clickOutside/click-outside.directive';
-import { AnimationService } from '../../services/animation.service';
+import { AnimationService } from '../../services/animations/animation.service';
  
 @Component({
   selector: 'app-navbar',

@@ -1,9 +1,8 @@
-import { Component} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./components/navbar/navbar.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ClickOutsideDirective } from './directives/clickOutside/click-outside.directive';
+import { StompService } from './services/stomp/stomp.service';
 
 @Component({
     selector: 'app-root',
@@ -12,6 +11,8 @@ import { ClickOutsideDirective } from './directives/clickOutside/click-outside.d
     styleUrls: ['./app.component.scss'],
     imports: [CommonModule, RouterOutlet, NavbarComponent]
 })
-export class AppComponent{
+export class AppComponent {
+   
+    
   
 }

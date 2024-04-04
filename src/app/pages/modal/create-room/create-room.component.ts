@@ -2,15 +2,15 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewCont
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Room, User, userSearch } from '../../../models/data-types';
-import { DataService } from '../../../services/data.service';
-import { ApiService } from '../../../services/api.service';
+import { DataService } from '../../../services/data-transfer/data.service';
+import { ApiService } from '../../../services/api/api.service';
 import { AppService } from '../../../services/app.service';
-import { ModalService } from '../../../services/modal.service';
+import { ModalService } from '../../../services/modal/modal.service';
 import { environment } from '../../../../environments/environment.development';
 import { HttpHeaders } from '@angular/common/http';
 import { SearchUsersComponent } from './search-users/search-users.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
-import { AnimationService } from '../../../services/animation.service';
+import { AnimationService } from '../../../services/animations/animation.service';
 import { ClickOutsideDirective } from '../../../directives/clickOutside/click-outside.directive';
 
 @Component({
