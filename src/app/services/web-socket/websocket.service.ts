@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CompatClient, Stomp, StompSubscription } from '@stomp/stompjs';
+import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { AppService } from '../app.service';
-import { User } from '../../models/data-types';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -42,5 +40,4 @@ export class WebsocketService {
   sendMessage(message:string) {
     this.stompClient.send('/app/chat' ,{}, message);
   }
-  
 }

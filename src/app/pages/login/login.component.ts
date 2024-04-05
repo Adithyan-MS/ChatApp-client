@@ -45,9 +45,7 @@ export class LoginComponent implements OnInit{
       password:formValues.password
     }
    
-    const apiUrl = "http://localhost:8080/chatApi/v1/auth/login"
-   
-    this.api.postReturn(apiUrl,userData).subscribe((data:AuthResponse)=>{
+    this.api.postReturn(`${environment.BASE_API_URL}/auth/login`,userData).subscribe((data:AuthResponse)=>{
       this.loginSuccess = true;
       this.loginForm.reset();
       const jwtToken:string = data.token;

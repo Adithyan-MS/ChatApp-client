@@ -196,6 +196,11 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
     const formValue = this.messageForm.getRawValue();
     if(formValue.content=='')
         return
+    const stompMessage = {
+      senderId : this.userId,
+      receiverType : this.currentChat.type,
+      receiverId : this.currentChat.id
+    }
     if (!this.editMessage) {
       const messageData: sendMessage={
         message:{
@@ -213,11 +218,6 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         this.messageForm.reset()        
         this.parentMessage = null
         this.ngOnChanges(data)
-        const stompMessage = {
-          senderId : this.userId,
-          receiverType : this.currentChat.type,
-          receiverId : this.currentChat.id
-        }
         this.webSocketService.sendMessage(JSON.stringify(stompMessage)) 
         this.dataService.notifyOther({
           view:"chat"
@@ -235,6 +235,7 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
         this.messageForm.reset()
         this.editMessage = null
         this.ngOnChanges(data)
+        this.webSocketService.sendMessage(JSON.stringify(stompMessage)) 
         this.dataService.notifyOther({
           view:"chat"
         });
@@ -439,10 +440,15 @@ export class ChatMessagesComponent implements OnInit,OnChanges,OnDestroy,AfterVi
       messageIds:this.selectedList,
       receivers:receiversList
     }
+    // const stompMessage = {
+    //   senderId : this.userId,
+    //   receivers : receiversList
+    // }
     const headers = new HttpHeaders().set("ResponseType","text")
     this.api.postReturn(`${environment.BASE_API_URL}/message/forwardMessage`,reqBody,{headers}).subscribe((data)=>{
       this.isForwardOpened = false
       this.ngOnChanges(data)
+      // this.webSocketService.sendMessage(JSON.stringify(stompMessage)) 
       this.dataService.notifyOther({
         view:"chat"
       });
