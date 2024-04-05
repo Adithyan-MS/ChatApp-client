@@ -28,11 +28,21 @@ export class WebsocketService {
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
-    this.stompClient.connect({}, (frame:any) => {      
+    this.stompClient.connect({}, (frame:any) => { 
+      const stompMessage = {
+        userId:userId
+      }
+      that.stompClient.send('/app/activateUser',{},JSON.stringify(stompMessage))     
       that.stompClient.subscribe(`/user/${userId}/queue/messages`, (message:any) => {
         if (message.body) {
           this.newMessageSubject.next(message.body)
         }
+      });
+      that.stompClient.subscribe(`/topic/news`, (message:any) => {
+        // if (message.body) {
+          // this.newMessageSubject.next(message.body)
+          console.log("new");    
+        // }
       });
     });
   }
